@@ -1,2 +1,2 @@
-# frontend
-Fackend repository for Tabi-memo
+# Frontend repository for Tabi-memo
+
