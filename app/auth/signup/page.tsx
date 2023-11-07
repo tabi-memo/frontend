@@ -1,5 +1,5 @@
-import { Heading } from '@chakra-ui/react';
+import { Heading } from '@chakra-ui/react'
 
 export default function SignUp() {
-  return <Heading>SignUp Page</Heading>;
+  return <Heading>SignUp Page</Heading>
 }

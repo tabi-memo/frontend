@@ -1,16 +1,16 @@
-'use client';
+'use client'
 
-import { CacheProvider } from '@chakra-ui/next-js';
-import { ChakraProvider } from '@chakra-ui/react';
-import { Roboto } from 'next/font/google';
-import { customTheme } from '@/theme';
+import { CacheProvider } from '@chakra-ui/next-js'
+import { ChakraProvider } from '@chakra-ui/react'
+import { Roboto } from 'next/font/google'
+import { customTheme } from '@/theme'
 
 const roboto = Roboto({
   weight: ['400', '500', '700'],
   style: ['normal', 'italic'],
   subsets: ['latin'],
-  display: 'swap',
-});
+  display: 'swap'
+})
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -26,5 +26,5 @@ export function Providers({ children }: { children: React.ReactNode }) {
         <ChakraProvider theme={customTheme}>{children}</ChakraProvider>
       </CacheProvider>
     </>
-  );
+  )
 }
