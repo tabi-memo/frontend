@@ -1,10 +1,21 @@
-import { extendTheme } from '@chakra-ui/react'
+import { extendTheme, withDefaultColorScheme } from '@chakra-ui/react'
 import { customColors } from '@/theme/color'
 
-export const customTheme = extendTheme({
-  fonts: {
-    heading: 'var(--font-rubik)',
-    body: 'var(--font-rubik)'
+export const customTheme = extendTheme(
+  {
+    fonts: {
+      heading: 'var(--font-rubik)',
+      body: 'var(--font-rubik)'
+    },
+    colors: customColors,
+    sizes: {
+      container: {
+        sm: '648px',
+        md: '710px',
+        lg: '1024px',
+        xl: '1200px'
+      }
+    }
   },
-  colors: customColors
-})
+  withDefaultColorScheme({ colorScheme: 'primary' })
+)

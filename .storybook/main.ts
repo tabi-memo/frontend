@@ -10,6 +10,9 @@ module.exports = {
     '@storybook/addon-interactions',
     '@chakra-ui/storybook-addon'
   ],
+  features: {
+    emotionAlias: false
+  },
   framework: {
     name: '@storybook/nextjs',
     options: {}
@@ -27,11 +30,9 @@ module.exports = {
         ...config.resolve,
         alias: {
           ...config.resolve.alias,
-          // '@emotion/core': toPath('node_modules/@emotion/react'),
-          // 'emotion-theming': toPath('node_modules/@emotion/react'),
           '@': path.resolve(__dirname, '../app')
         }
       }
     }
-  },
+  }
 }
