@@ -44,6 +44,7 @@ export const Header = () => {
                 w={{ base: '26px', md: '40px' }}
                 h={{ base: '26px', md: '40px' }}
               />
+              {/* TODO Change Link and Add Logout logic */}
               <MenuList fontSize={{ base: 'md', md: 'lg' }} bgColor="white">
                 <MenuItem bgColor="white" _hover={{ bgColor: 'gray.100' }}>
                   Account Info
