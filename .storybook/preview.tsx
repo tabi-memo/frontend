@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { ChakraProvider, useColorMode } from '@chakra-ui/react'
-import { Story } from '@storybook/react'
+import { StoryFn } from '@storybook/react'
 import { customTheme } from '../app/theme'
 
 type ColorModeProps = {
@@ -18,15 +18,13 @@ function ColorMode(props: ColorModeProps) {
   return props.children
 }
 
-const withChakra = (Story: Story, context) => {
-  return (
-    <ChakraProvider theme={customTheme}>
-      <ColorMode colorMode={context.globals.colorMode}>
-        <Story />
-      </ColorMode>
-    </ChakraProvider>
-  )
-}
+const withChakra = (StoryFn: StoryFn, context) => (
+  <ChakraProvider theme={customTheme}>
+    <ColorMode colorMode={context.globals.colorMode}>
+      <StoryFn />
+    </ColorMode>
+  </ChakraProvider>
+)
 
 export const decorators = [withChakra]
 
