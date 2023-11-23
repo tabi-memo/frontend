@@ -10,9 +10,11 @@
     "lint:fix": "next lint --fix",
     "format": "prettier --write --ignore-path .gitignore './**/*.{js,jsx,ts,tsx,json,css}'",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "codegen": "graphql-codegen --require dotenv/config --config graphql-codegen/codegen.ts"
   },
   "dependencies": {
+    "@apollo/client": "^3.8.7",
     "@chakra-ui/next-js": "^2.1.5",
     "@chakra-ui/react": "^2.8.1",
     "@emotion/react": "^11.11.1",
@@ -24,6 +26,10 @@
   },
   "devDependencies": {
     "@chakra-ui/storybook-addon": "^5.0.1",
+    "@graphql-codegen/cli": "^5.0.0",
+    "@graphql-codegen/client-preset": "^4.1.0",
+    "@graphql-codegen/typescript-react-apollo": "^4.1.0",
+    "@graphql-typed-document-node/core": "^3.2.0",
     "@storybook/addon-essentials": "^7.5.3",
     "@storybook/addon-interactions": "^7.5.3",
     "@storybook/addon-links": "^7.5.3",
@@ -47,6 +53,7 @@
     "prettier": "^3.0.3",
     "sb": "^7.5.3",
     "storybook": "^7.5.3",
+    "ts-node": "^10.9.1",
     "typescript": "^5"
   }
 }
