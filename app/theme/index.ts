@@ -1,6 +1,5 @@
 import { extendTheme, withDefaultColorScheme } from '@chakra-ui/react'
 import { customColors } from '@/theme/color'
-
 export const customTheme = extendTheme(
   {
     fonts: {
@@ -9,11 +8,12 @@ export const customTheme = extendTheme(
     },
     colors: customColors,
     sizes: {
+      // Use with padding (ex: Container component)
       container: {
         sm: '648px',
         md: '710px',
         lg: '1024px',
-        xl: '1200px'
+        xl: '1232px'
       }
     }
   },
