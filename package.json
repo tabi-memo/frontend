@@ -15,11 +15,14 @@
   },
   "dependencies": {
     "@apollo/client": "^3.8.7",
+    "@apollo/experimental-nextjs-app-support": "^0.5.1",
     "@chakra-ui/next-js": "^2.1.5",
     "@chakra-ui/react": "^2.8.1",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@graphql-codegen/client-preset": "^4.1.0",
     "framer-motion": "^10.16.4",
+    "graphql": "^16.8.1",
     "next": "14.0.1",
     "react": "^18",
     "react-dom": "^18"
@@ -27,9 +30,9 @@
   "devDependencies": {
     "@chakra-ui/storybook-addon": "^5.0.1",
     "@graphql-codegen/cli": "^5.0.0",
-    "@graphql-codegen/client-preset": "^4.1.0",
     "@graphql-codegen/typescript-react-apollo": "^4.1.0",
     "@graphql-typed-document-node/core": "^3.2.0",
+    "@parcel/watcher": "^2.3.0",
     "@storybook/addon-essentials": "^7.5.3",
     "@storybook/addon-interactions": "^7.5.3",
     "@storybook/addon-links": "^7.5.3",
@@ -55,5 +58,8 @@
     "storybook": "^7.5.3",
     "ts-node": "^10.9.1",
     "typescript": "^5"
+  },
+  "peerDependencies": {
+    "@parcel/watcher": "^2.3.0"
   }
 }

@@ -1,10 +1,58 @@
 'use client'
+
+import { useSuspenseQuery, gql, TypedDocumentNode } from '@apollo/client'
 import { Link } from '@chakra-ui/next-js'
 import { Heading, VStack, Box, useColorMode } from '@chakra-ui/react'
 import { PrimaryButton } from '@/components/button'
+import {
+  TripsCollectionQuery,
+  TripsCollectionQueryVariables
+} from '../graphql-codegen/generated/graphql'
 
 export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode()
+
+  // DEBUG: test graphql query
+  const tripsCollectionQuery: TypedDocumentNode<
+    TripsCollectionQuery,
+    TripsCollectionQueryVariables
+  > = gql`
+    query tripsCollection($user_id: BigInt!) {
+      tripsCollection(filter: { user_id: { eq: $user_id } }) {
+        edges {
+          node {
+            id
+            uuid
+            title
+            date_from
+            date_to
+            invitationsCollection {
+              edges {
+                node {
+                  users {
+                    id
+                    name
+                  }
+                }
+              }
+            }
+            activityCollection {
+              edges {
+                node {
+                  id
+                  title
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  `
+  const { data } = useSuspenseQuery(tripsCollectionQuery, {
+    variables: { user_id: 1 }
+  })
+  console.log({ tripData: data.tripsCollection?.edges[0].node })
 
   return (
     <>
