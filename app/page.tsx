@@ -1,16 +1,17 @@
 'use client'
 
 import { useSuspenseQuery, gql, TypedDocumentNode } from '@apollo/client'
-import { Link } from '@chakra-ui/next-js'
-import { Heading, VStack, Box, useColorMode } from '@chakra-ui/react'
+import { Heading, Box, Container, useColorModeValue } from '@chakra-ui/react'
 import { PrimaryButton } from '@/components/button'
+import { Header, Footer } from '@/components/navigation'
 import {
   TripsCollectionQuery,
   TripsCollectionQueryVariables
 } from '../graphql-codegen/generated/graphql'
 
-export default function Home() {
-  const { colorMode, toggleColorMode } = useColorMode()
+export default function Top() {
+  const bg = useColorModeValue('white', 'gray.800')
+  const color = useColorModeValue('black', 'gray.300')
 
   // DEBUG: test graphql query
   const tripsCollectionQuery: TypedDocumentNode<
@@ -56,42 +57,18 @@ export default function Home() {
 
   return (
     <>
-      <Heading>Home</Heading>
-      <Link
-        href="/auth/login"
-        color="primary.700"
-        _hover={{ color: 'primary.900' }}
-      >
-        Login
-      </Link>
-      <br />
-      <Link
-        href="/auth/signup"
-        color="primary.700"
-        _hover={{ color: 'primary.900' }}
-      >
-        SignUp
-      </Link>
-
-      <Box>
-        <PrimaryButton onClick={toggleColorMode} variant="outline">
-          {colorMode === 'light' ? 'To Dark' : 'To Light'}
-        </PrimaryButton>
+      <Header />
+      <Box as="main" minH="100vh" bg={bg} color={color}>
+        <Container
+          maxW={{ base: '100%', lg: 'container.xl' }}
+          pt={{ base: '20px', md: '30px' }}
+          pb={{ base: '40px', md: '80px' }}
+        >
+          <Heading>Top Page</Heading>
+          <PrimaryButton>Button</PrimaryButton>
+        </Container>
       </Box>
-
-      <VStack>
-        <Box>Button List (only primary)</Box>
-        <PrimaryButton>Button</PrimaryButton>
-        <PrimaryButton isActive>Button</PrimaryButton>
-        <PrimaryButton isDisabled>Button</PrimaryButton>
-        <PrimaryButton variant={'outline'}>Button</PrimaryButton>
-        <PrimaryButton isActive variant={'outline'}>
-          Button
-        </PrimaryButton>
-        <PrimaryButton isDisabled variant={'outline'}>
-          Button
-        </PrimaryButton>
-      </VStack>
+      <Footer />
     </>
   )
 }
