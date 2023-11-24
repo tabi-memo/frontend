@@ -2,46 +2,30 @@ import { addTypenameSelectionDocumentTransform } from '@graphql-codegen/client-p
 import type { CodegenConfig } from '@graphql-codegen/cli'
 
 const config: CodegenConfig = {
+  schema: 'http://127.0.0.1:54321/graphql/v1',
   overwrite: true,
-  schema: {
-    [process.env.GRAPHQL_ENDPOINT as string]: {
-      headers: {
-        apiKey: process.env.API_KEY as string
-      }
-    }
-  },
-  documents: ['app/graphql/**/*.graphql'],
+  watch: true,
+  documents: ['app/**/*.{ts,tsx}'],
   generates: {
     'graphql-codegen/generated/': {
       preset: 'client',
       presetConfig: {
-        persistedDocuments: true
-      },
-      plugins: [
-        'typescript',
-        'typescript-operations',
-        'typescript-react-apollo',
-      ],
-      // ref: https://the-guild.dev/graphql/codegen/plugins/typescript/typescript-react-apollo
-      config: {
-        withComponent: false,
-        withHOC: false,
-        withHooks: true,
-        withMutationFn: true,
-        withRefetchFn: true,
+        persistedDocuments: true,
+        apolloClientVersion: 3,
       },
       documentTransforms: [addTypenameSelectionDocumentTransform],
     }
   },
   ignoreNoDocuments: true,
   config: {
+    useTypeImports: true,
     scalars: {
       UUID: 'string',
       Date: 'string',
       Time: 'string',
       Datetime: 'string',
       JSON: 'string',
-      BigInt: 'bigint',
+      BigInt: 'number',
       BigFloat: 'number',
       Opaque: 'any'
     }
