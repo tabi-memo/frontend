@@ -1,14 +1,14 @@
 'use client'
 
 import React from 'react'
+import Slider from 'react-slick'
 import {
   Box,
   IconButton,
   useBreakpointValue,
-  useColorModeValue
 } from '@chakra-ui/react'
 import { BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi'
-import Slider from 'react-slick'
+
 
 const settings = {
   dots: true,
@@ -23,7 +23,6 @@ const settings = {
 }
 
 export const Carousel = () => {
-  const color = useColorModeValue('white', 'gray.300')
   const [slider, setSlider] = React.useState<Slider | null>(null)
 
   const top = useBreakpointValue({ base: '90%', md: '50%' })
