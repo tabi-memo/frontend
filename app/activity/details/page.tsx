@@ -12,12 +12,11 @@ import {
   FormControl,
   FormLabel
 } from '@chakra-ui/react'
-
 import { FiChevronLeft, FiClock, FiMapPin, FiLink2 } from 'react-icons/fi'
+import { Carousel } from '@/components/carousel'
 import { Link } from '@/components/link'
 import { Header, Footer } from '@/components/navigation'
 import { TrashIcon, EditIcon } from '@/icons'
-import { Carousel } from '../../components/carousel'
 import { customColors } from '@/theme/color'
 
 export default function ActivityDetails() {
