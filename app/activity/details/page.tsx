@@ -13,11 +13,12 @@ import {
   FormLabel
 } from '@chakra-ui/react'
 import { FiChevronLeft, FiClock, FiMapPin, FiLink2 } from 'react-icons/fi'
+import { customColors } from '@/theme/color'
 import { Carousel } from '@/components/carousel'
 import { Link } from '@/components/link'
 import { Header, Footer } from '@/components/navigation'
 import { TrashIcon, EditIcon } from '@/icons'
-import { customColors } from '@/theme/color'
+
 
 export default function ActivityDetails() {
   const bg = useColorModeValue('white', 'gray.800')

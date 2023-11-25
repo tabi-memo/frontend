@@ -6,7 +6,6 @@ import {
   Box,
   IconButton,
   useBreakpointValue,
-  useColorModeValue
 } from '@chakra-ui/react'
 import { BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi'
 
@@ -24,7 +23,6 @@ const settings = {
 }
 
 export const Carousel = () => {
-  const color = useColorModeValue('white', 'gray.300')
   const [slider, setSlider] = React.useState<Slider | null>(null)
 
   const top = useBreakpointValue({ base: '90%', md: '50%' })
