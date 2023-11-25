@@ -1,7 +1,6 @@
 'use client'
 
 import React from 'react'
-import Slider from 'react-slick'
 import {
   Box,
   IconButton,
@@ -9,7 +8,7 @@ import {
   useColorModeValue
 } from '@chakra-ui/react'
 import { BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi'
-
+import Slider from 'react-slick'
 
 const settings = {
   dots: true,
