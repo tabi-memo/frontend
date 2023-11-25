@@ -1,47 +1,34 @@
-'use client'
-import { startTransition } from 'react'
-import { useForm } from 'react-hook-form'
-import { Flex, Heading } from '@chakra-ui/react'
-import * as z from 'zod'
-import { PrimaryButton } from '@/components/button'
-import { signUp } from './action'
-
-const signUpSchema = z.object({
-  email: z.string().email(),
-  password: z.string()
-})
-export type SignUpSchema = z.infer<typeof signUpSchema>
+import { Heading, List, ListItem } from '@chakra-ui/react'
+import Link from 'next/link'
+import { SecondaryButton } from '@/components/button'
 
 export default function SignUp() {
-  const { register, handleSubmit } = useForm()
   return (
     <>
-      <Heading>SignUp Page</Heading>
-      <form
-        onSubmit={handleSubmit((data) => {
-          const result = signUpSchema.safeParse(data)
-          if (!result.success) {
-            console.error(result.error)
-            return
-          }
-          startTransition(() => {
-            signUp(result.data).catch(console.error)
-          })
-        })}
-      >
-        <Flex flexDirection={'column'}>
-          <label htmlFor="email">Email</label>
-          <input type="email" id="email" required {...register('email')} />
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            required
-            {...register('password')}
-          />
-          <PrimaryButton type={'submit'}>Sign Up</PrimaryButton>
-        </Flex>
-      </form>
+      <Heading>Welcome!</Heading>
+      <Heading>Create an Account</Heading>
+      <List spacing={3}>
+        <ListItem>
+          <Link href="/auth/signup/email">
+            <SecondaryButton>Sign up with Email</SecondaryButton>
+          </Link>
+        </ListItem>
+        <ListItem>
+          <Link href="/auth/signup/google">
+            <SecondaryButton>Sign up with Google</SecondaryButton>
+          </Link>
+        </ListItem>
+        <ListItem>
+          <Link href="/auth/signup/facebook">
+            <SecondaryButton>Sign up with Facebook</SecondaryButton>
+          </Link>
+        </ListItem>
+        <ListItem>
+          <Link href="/auth/signup/apple">
+            <SecondaryButton>Sign up with Apple</SecondaryButton>
+          </Link>
+        </ListItem>
+      </List>
     </>
   )
 }

@@ -1,7 +1,7 @@
 'use server'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { createClient } from '../supabase'
+import { createClient } from '../../supabase'
 import type { SignUpSchema } from './page'
 
 export const signUp = async ({
