@@ -1,5 +1,5 @@
-/* eslint-disable */
-import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core'
+import { gql } from '@apollo/client'
+import * as Apollo from '@apollo/client'
 export type Maybe<T> = T | null
 export type InputMaybe<T> = Maybe<T>
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -20,6 +20,7 @@ export type Incremental<T> =
   | {
       [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never
     }
+const defaultOptions = {} as const
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string }
@@ -27,23 +28,14 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean }
   Int: { input: number; output: number }
   Float: { input: number; output: number }
-  /** A high precision floating point value represented as a string */
   BigFloat: { input: number; output: number }
-  /** An arbitrary size integer represented as a string */
   BigInt: { input: number; output: number }
-  /** An opaque string using for tracking a position in results during pagination */
   Cursor: { input: any; output: any }
-  /** A date wihout time information */
   Date: { input: string; output: string }
-  /** A date and time */
   Datetime: { input: string; output: string }
-  /** A Javascript Object Notation value serialized as a string */
   JSON: { input: string; output: string }
-  /** Any type not handled by the type system */
   Opaque: { input: any; output: any }
-  /** A time without date information */
   Time: { input: string; output: string }
-  /** A universally unique identifier */
   UUID: { input: string; output: string }
 }
 
@@ -1128,394 +1120,191 @@ export type TripsCollectionQuery = {
   } | null
 }
 
-export const CreateTripDocument = {
-  __meta__: { hash: 'ae7e985f5065f62c8403435db7da34690de39dbe' },
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'mutation',
-      name: { kind: 'Name', value: 'createTrip' },
-      variableDefinitions: [
+export const CreateTripDocument = gql`
+  mutation createTrip(
+    $user_id: BigInt!
+    $title: String!
+    $date_from: Date
+    $date_to: Date
+  ) {
+    __typename
+    insertIntotripsCollection(
+      objects: [
         {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'user_id' }
-          },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'BigInt' } }
-          }
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'title' }
-          },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-          }
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'date_from' }
-          },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Date' } }
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'date_to' }
-          },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Date' } }
+          user_id: $user_id
+          title: $title
+          date_from: $date_from
+          date_to: $date_to
         }
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'insertIntotripsCollection' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'objects' },
-                value: {
-                  kind: 'ListValue',
-                  values: [
-                    {
-                      kind: 'ObjectValue',
-                      fields: [
-                        {
-                          kind: 'ObjectField',
-                          name: { kind: 'Name', value: 'user_id' },
-                          value: {
-                            kind: 'Variable',
-                            name: { kind: 'Name', value: 'user_id' }
-                          }
-                        },
-                        {
-                          kind: 'ObjectField',
-                          name: { kind: 'Name', value: 'title' },
-                          value: {
-                            kind: 'Variable',
-                            name: { kind: 'Name', value: 'title' }
-                          }
-                        },
-                        {
-                          kind: 'ObjectField',
-                          name: { kind: 'Name', value: 'date_from' },
-                          value: {
-                            kind: 'Variable',
-                            name: { kind: 'Name', value: 'date_from' }
-                          }
-                        },
-                        {
-                          kind: 'ObjectField',
-                          name: { kind: 'Name', value: 'date_to' },
-                          value: {
-                            kind: 'Variable',
-                            name: { kind: 'Name', value: 'date_to' }
-                          }
-                        }
-                      ]
-                    }
-                  ]
-                }
-              }
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'records' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: '__typename' }
-                      },
-                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'uuid' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'title' } }
-                    ]
-                  }
-                }
-              ]
-            }
-          }
-        ]
+      ]
+    ) {
+      __typename
+      records {
+        __typename
+        id
+        uuid
+        title
       }
     }
-  ]
-} as unknown as DocumentNode<CreateTripMutation, CreateTripMutationVariables>
-export const TripsCollectionDocument = {
-  __meta__: { hash: '182f9fea975a5ffe35ff7925da14842a7fa60bd0' },
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'tripsCollection' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'user_id' }
-          },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'BigInt' } }
-          }
-        }
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'tripsCollection' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'filter' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'user_id' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: 'eq' },
-                            value: {
-                              kind: 'Variable',
-                              name: { kind: 'Name', value: 'user_id' }
-                            }
-                          }
-                        ]
-                      }
-                    }
-                  ]
+  }
+`
+export type CreateTripMutationFn = Apollo.MutationFunction<
+  CreateTripMutation,
+  CreateTripMutationVariables
+>
+
+/**
+ * __useCreateTripMutation__
+ *
+ * To run a mutation, you first call `useCreateTripMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateTripMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createTripMutation, { data, loading, error }] = useCreateTripMutation({
+ *   variables: {
+ *      user_id: // value for 'user_id'
+ *      title: // value for 'title'
+ *      date_from: // value for 'date_from'
+ *      date_to: // value for 'date_to'
+ *   },
+ * });
+ */
+export function useCreateTripMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateTripMutation,
+    CreateTripMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<CreateTripMutation, CreateTripMutationVariables>(
+    CreateTripDocument,
+    options
+  )
+}
+export type CreateTripMutationHookResult = ReturnType<
+  typeof useCreateTripMutation
+>
+export type CreateTripMutationResult = Apollo.MutationResult<CreateTripMutation>
+export type CreateTripMutationOptions = Apollo.BaseMutationOptions<
+  CreateTripMutation,
+  CreateTripMutationVariables
+>
+export const TripsCollectionDocument = gql`
+  query tripsCollection($user_id: BigInt!) {
+    __typename
+    tripsCollection(filter: { user_id: { eq: $user_id } }) {
+      __typename
+      edges {
+        __typename
+        node {
+          __typename
+          id
+          uuid
+          title
+          date_from
+          date_to
+          invitationsCollection {
+            __typename
+            edges {
+              __typename
+              node {
+                __typename
+                users {
+                  __typename
+                  id
+                  name
                 }
               }
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'edges' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: '__typename' }
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'node' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: '__typename' }
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'id' }
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'uuid' }
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'title' }
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'date_from' }
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'date_to' }
-                            },
-                            {
-                              kind: 'Field',
-                              name: {
-                                kind: 'Name',
-                                value: 'invitationsCollection'
-                              },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: '__typename' }
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'edges' },
-                                    selectionSet: {
-                                      kind: 'SelectionSet',
-                                      selections: [
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: '__typename'
-                                          }
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: { kind: 'Name', value: 'node' },
-                                          selectionSet: {
-                                            kind: 'SelectionSet',
-                                            selections: [
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: '__typename'
-                                                }
-                                              },
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'users'
-                                                },
-                                                selectionSet: {
-                                                  kind: 'SelectionSet',
-                                                  selections: [
-                                                    {
-                                                      kind: 'Field',
-                                                      name: {
-                                                        kind: 'Name',
-                                                        value: '__typename'
-                                                      }
-                                                    },
-                                                    {
-                                                      kind: 'Field',
-                                                      name: {
-                                                        kind: 'Name',
-                                                        value: 'id'
-                                                      }
-                                                    },
-                                                    {
-                                                      kind: 'Field',
-                                                      name: {
-                                                        kind: 'Name',
-                                                        value: 'name'
-                                                      }
-                                                    }
-                                                  ]
-                                                }
-                                              }
-                                            ]
-                                          }
-                                        }
-                                      ]
-                                    }
-                                  }
-                                ]
-                              }
-                            },
-                            {
-                              kind: 'Field',
-                              name: {
-                                kind: 'Name',
-                                value: 'activityCollection'
-                              },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: '__typename' }
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'edges' },
-                                    selectionSet: {
-                                      kind: 'SelectionSet',
-                                      selections: [
-                                        {
-                                          kind: 'Field',
-                                          name: {
-                                            kind: 'Name',
-                                            value: '__typename'
-                                          }
-                                        },
-                                        {
-                                          kind: 'Field',
-                                          name: { kind: 'Name', value: 'node' },
-                                          selectionSet: {
-                                            kind: 'SelectionSet',
-                                            selections: [
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: '__typename'
-                                                }
-                                              },
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'id'
-                                                }
-                                              },
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'title'
-                                                }
-                                              }
-                                            ]
-                                          }
-                                        }
-                                      ]
-                                    }
-                                  }
-                                ]
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    ]
-                  }
-                }
-              ]
             }
           }
-        ]
+          activityCollection {
+            __typename
+            edges {
+              __typename
+              node {
+                __typename
+                id
+                title
+              }
+            }
+          }
+        }
       }
     }
-  ]
-} as unknown as DocumentNode<
+  }
+`
+
+/**
+ * __useTripsCollectionQuery__
+ *
+ * To run a query within a React component, call `useTripsCollectionQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTripsCollectionQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTripsCollectionQuery({
+ *   variables: {
+ *      user_id: // value for 'user_id'
+ *   },
+ * });
+ */
+export function useTripsCollectionQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    TripsCollectionQuery,
+    TripsCollectionQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<TripsCollectionQuery, TripsCollectionQueryVariables>(
+    TripsCollectionDocument,
+    options
+  )
+}
+export function useTripsCollectionLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    TripsCollectionQuery,
+    TripsCollectionQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<
+    TripsCollectionQuery,
+    TripsCollectionQueryVariables
+  >(TripsCollectionDocument, options)
+}
+export function useTripsCollectionSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    TripsCollectionQuery,
+    TripsCollectionQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<
+    TripsCollectionQuery,
+    TripsCollectionQueryVariables
+  >(TripsCollectionDocument, options)
+}
+export type TripsCollectionQueryHookResult = ReturnType<
+  typeof useTripsCollectionQuery
+>
+export type TripsCollectionLazyQueryHookResult = ReturnType<
+  typeof useTripsCollectionLazyQuery
+>
+export type TripsCollectionSuspenseQueryHookResult = ReturnType<
+  typeof useTripsCollectionSuspenseQuery
+>
+export type TripsCollectionQueryResult = Apollo.QueryResult<
   TripsCollectionQuery,
   TripsCollectionQueryVariables
 >
+export function refetchTripsCollectionQuery(
+  variables: TripsCollectionQueryVariables
+) {
+  return { query: TripsCollectionDocument, variables: variables }
+}

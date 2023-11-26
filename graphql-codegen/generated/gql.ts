@@ -1,6 +1,6 @@
 /* eslint-disable */
-import * as types from './graphql';
-import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
+import * as types from './graphql'
+import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core'
 
 /**
  * Map of all GraphQL operations in the project.
@@ -13,8 +13,11 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "\n    query tripsCollection($user_id: BigInt!) {\n      tripsCollection(filter: { user_id: { eq: $user_id } }) {\n        edges {\n          node {\n            id\n            uuid\n            title\n            date_from\n            date_to\n            invitationsCollection {\n              edges {\n                node {\n                  users {\n                    id\n                    name\n                  }\n                }\n              }\n            }\n            activityCollection {\n              edges {\n                node {\n                  id\n                  title\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  ": types.TripsCollectionDocument,
-};
+  'mutation createTrip($user_id: BigInt!, $title: String!, $date_from: Date, $date_to: Date) {\n  insertIntotripsCollection(\n    objects: [{user_id: $user_id, title: $title, date_from: $date_from, date_to: $date_to}]\n  ) {\n    records {\n      __typename\n      id\n      uuid\n      title\n    }\n  }\n}':
+    types.CreateTripDocument,
+  'query tripsCollection($user_id: BigInt!) {\n  tripsCollection(filter: {user_id: {eq: $user_id}}) {\n    edges {\n      node {\n        id\n        uuid\n        title\n        date_from\n        date_to\n        invitationsCollection {\n          edges {\n            node {\n              users {\n                id\n                name\n              }\n            }\n          }\n        }\n        activityCollection {\n          edges {\n            node {\n              id\n              title\n            }\n          }\n        }\n      }\n    }\n  }\n}':
+    types.TripsCollectionDocument
+}
 
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -28,15 +31,24 @@ const documents = {
  * The query argument is unknown!
  * Please regenerate the types.
  */
-export function graphql(source: string): unknown;
+export function graphql(source: string): unknown
 
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n    query tripsCollection($user_id: BigInt!) {\n      tripsCollection(filter: { user_id: { eq: $user_id } }) {\n        edges {\n          node {\n            id\n            uuid\n            title\n            date_from\n            date_to\n            invitationsCollection {\n              edges {\n                node {\n                  users {\n                    id\n                    name\n                  }\n                }\n              }\n            }\n            activityCollection {\n              edges {\n                node {\n                  id\n                  title\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  "): (typeof documents)["\n    query tripsCollection($user_id: BigInt!) {\n      tripsCollection(filter: { user_id: { eq: $user_id } }) {\n        edges {\n          node {\n            id\n            uuid\n            title\n            date_from\n            date_to\n            invitationsCollection {\n              edges {\n                node {\n                  users {\n                    id\n                    name\n                  }\n                }\n              }\n            }\n            activityCollection {\n              edges {\n                node {\n                  id\n                  title\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  "];
+export function graphql(
+  source: 'mutation createTrip($user_id: BigInt!, $title: String!, $date_from: Date, $date_to: Date) {\n  insertIntotripsCollection(\n    objects: [{user_id: $user_id, title: $title, date_from: $date_from, date_to: $date_to}]\n  ) {\n    records {\n      __typename\n      id\n      uuid\n      title\n    }\n  }\n}'
+): (typeof documents)['mutation createTrip($user_id: BigInt!, $title: String!, $date_from: Date, $date_to: Date) {\n  insertIntotripsCollection(\n    objects: [{user_id: $user_id, title: $title, date_from: $date_from, date_to: $date_to}]\n  ) {\n    records {\n      __typename\n      id\n      uuid\n      title\n    }\n  }\n}']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: 'query tripsCollection($user_id: BigInt!) {\n  tripsCollection(filter: {user_id: {eq: $user_id}}) {\n    edges {\n      node {\n        id\n        uuid\n        title\n        date_from\n        date_to\n        invitationsCollection {\n          edges {\n            node {\n              users {\n                id\n                name\n              }\n            }\n          }\n        }\n        activityCollection {\n          edges {\n            node {\n              id\n              title\n            }\n          }\n        }\n      }\n    }\n  }\n}'
+): (typeof documents)['query tripsCollection($user_id: BigInt!) {\n  tripsCollection(filter: {user_id: {eq: $user_id}}) {\n    edges {\n      node {\n        id\n        uuid\n        title\n        date_from\n        date_to\n        invitationsCollection {\n          edges {\n            node {\n              users {\n                id\n                name\n              }\n            }\n          }\n        }\n        activityCollection {\n          edges {\n            node {\n              id\n              title\n            }\n          }\n        }\n      }\n    }\n  }\n}']
 
 export function graphql(source: string) {
-  return (documents as any)[source] ?? {};
+  return (documents as any)[source] ?? {}
 }
 
-export type DocumentType<TDocumentNode extends DocumentNode<any, any>> = TDocumentNode extends DocumentNode<  infer TType,  any>  ? TType  : never;
+export type DocumentType<TDocumentNode extends DocumentNode<any, any>> =
+  TDocumentNode extends DocumentNode<infer TType, any> ? TType : never

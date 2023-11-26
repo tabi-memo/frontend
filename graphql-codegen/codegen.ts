@@ -5,7 +5,7 @@ const config: CodegenConfig = {
   schema: 'http://127.0.0.1:54321/graphql/v1',
   overwrite: true,
   watch: true,
-  documents: ['app/**/*.{ts,tsx}'],
+  documents: ['app/**/*.{ts,tsx,graphql}'],
   generates: {
     'graphql-codegen/generated/': {
       preset: 'client',
@@ -14,7 +14,21 @@ const config: CodegenConfig = {
         apolloClientVersion: 3,
       },
       documentTransforms: [addTypenameSelectionDocumentTransform],
-    }
+    },
+    // NOTE: api.ts generates automatically custom hooks for each query/mutation
+    'graphql-codegen/generated/api.ts': {
+      overwrite: true,
+      plugins: ['typescript', 'typescript-operations', 'typescript-react-apollo'],
+      config: {
+        // NOTE: https://the-guild.dev/graphql/codegen/plugins/typescript/typescript-react-apollo
+        useTypeImports: true,
+        withComponent: false,
+        withHOC: false,
+        withHooks: true,
+        withRefetchFn: true,
+      },
+      documentTransforms: [addTypenameSelectionDocumentTransform],
+    },
   },
   ignoreNoDocuments: true,
   config: {
@@ -29,7 +43,10 @@ const config: CodegenConfig = {
       BigFloat: 'number',
       Opaque: 'any'
     }
-  }
+  },
+  hooks: {
+    afterAllFileWrite: ["prettier --write"],
+  },
 }
 
 export default config
