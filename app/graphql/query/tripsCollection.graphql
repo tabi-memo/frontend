@@ -1,0 +1,31 @@
+query tripsCollection($user_id: BigInt!) {
+  tripsCollection(filter: { user_id: { eq: $user_id } }) {
+    edges {
+      node {
+        id
+        uuid
+        title
+        date_from
+        date_to
+        invitationsCollection {
+          edges {
+            node {
+              users {
+                id
+                name
+              }
+            }
+          }
+        }
+        activityCollection {
+          edges {
+            node {
+              id
+              title
+            }
+          }
+        }
+      }
+    }
+  }
+}
