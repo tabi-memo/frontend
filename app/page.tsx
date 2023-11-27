@@ -5,11 +5,39 @@ import {
   Container,
   Grid,
   GridItem,
+  Flex,
   useColorModeValue
 } from '@chakra-ui/react'
 import { PrimaryButton } from '@/components/button'
 import { Header, Footer } from '@/components/navigation'
-import { TripSearch, TripSort } from '@/trip/components'
+import { TripSearch, TripSort, TripCard } from '@/trip/components'
+
+const dummy = [
+  {
+    id: 1,
+    title: 'Tokyo',
+    date_from: 'Oct 10, 2023',
+    date_to: 'Nov 10, 2023',
+    image_storage_object_id:
+      'https://placehold.jp/6381f8/ffffff/366x277.png?text=Picture',
+    share: [
+      { id: '', image: '' },
+      { id: '', image: '' }
+    ]
+  },
+  {
+    id: 2,
+    title: 'Kyoto',
+    date_from: 'Oct 10, 2023',
+    date_to: 'Nov 10, 2023',
+    image_storage_object_id:
+      'https://placehold.jp/6381f8/ffffff/366x277.png?text=Picture',
+    share: [
+      { id: '', image: '' },
+      { id: '', image: '' }
+    ]
+  }
+]
 
 export default function Top() {
   const bg = useColorModeValue('white', 'gray.800')
@@ -36,7 +64,9 @@ export default function Top() {
               justifyContent="space-between"
               colSpan={{ base: 2, lg: 1 }}
             >
-              <Heading fontSize={{ base: '2xl', md: '4xl' }}>My Trips</Heading>
+              <Heading as={'h1'} fontSize={{ base: '2xl', md: '4xl' }}>
+                My Trips
+              </Heading>
               <PrimaryButton w="9.5rem">Add New Trip</PrimaryButton>
             </GridItem>
             <GridItem ml={{ base: '', lg: 'auto' }}>
@@ -46,6 +76,18 @@ export default function Top() {
               <TripSort />
             </GridItem>
           </Grid>
+          <Flex
+            gap={{ base: '20px', md: '60px' }}
+            mt={{ base: '38px', md: '40px' }}
+            flexWrap={'wrap'}
+          >
+            {dummy.map((trip) => (
+              <TripCard key={trip.id} data={trip} />
+            ))}
+          </Flex>
+          <Box textAlign="center" mt={{ base: '40px', md: '60px' }}>
+            <PrimaryButton variant="outline">Load More</PrimaryButton>
+          </Box>
         </Container>
       </Box>
       <Footer />
