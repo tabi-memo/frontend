@@ -1,7 +1,15 @@
 'use client'
-import { Heading, Box, Container, useColorModeValue } from '@chakra-ui/react'
+import {
+  Heading,
+  Box,
+  Container,
+  Grid,
+  GridItem,
+  useColorModeValue
+} from '@chakra-ui/react'
 import { PrimaryButton } from '@/components/button'
 import { Header, Footer } from '@/components/navigation'
+import { TripSearch, TripSort } from '@/trip/components'
 
 export default function Top() {
   const bg = useColorModeValue('white', 'gray.800')
@@ -16,8 +24,28 @@ export default function Top() {
           pt={{ base: '20px', md: '30px' }}
           pb={{ base: '40px', md: '80px' }}
         >
-          <Heading>Top Page</Heading>
-          <PrimaryButton>Button</PrimaryButton>
+          <Grid
+            templateRows={'repeat(2, 1fr)'}
+            gridTemplateColumns={{ base: '1fr', lg: '342px 1fr' }}
+            alignItems="center"
+            gap={{ base: '12px', lg: '40px' }}
+          >
+            <GridItem
+              display="flex"
+              alignItems="center"
+              justifyContent="space-between"
+              colSpan={{ base: 2, lg: 1 }}
+            >
+              <Heading fontSize={{ base: '2xl', md: '4xl' }}>My Trips</Heading>
+              <PrimaryButton w="9.5rem">Add New Trip</PrimaryButton>
+            </GridItem>
+            <GridItem ml={{ base: '', lg: 'auto' }}>
+              <TripSearch />
+            </GridItem>
+            <GridItem>
+              <TripSort />
+            </GridItem>
+          </Grid>
         </Container>
       </Box>
       <Footer />
