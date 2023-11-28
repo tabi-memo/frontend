@@ -2,7 +2,14 @@ import { addTypenameSelectionDocumentTransform } from '@graphql-codegen/client-p
 import type { CodegenConfig } from '@graphql-codegen/cli'
 
 const config: CodegenConfig = {
-  schema: 'http://127.0.0.1:54321/graphql/v1',
+  // schema: 'http://127.0.0.1:54321/graphql/v1',
+  schema: {
+    [process.env.GRAPHQL_ENDPOINT as string || 'http://127.0.0.1:54321/graphql/v1']: {
+      headers: {
+        apiKey: process.env.API_KEY as string,
+      },
+    },
+  },
   overwrite: true,
   watch: true,
   documents: ['app/**/*.{ts,tsx,graphql}'],
