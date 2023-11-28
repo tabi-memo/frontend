@@ -1,5 +1,6 @@
 import { Roboto } from 'next/font/google'
 import './globals.css'
+import { ApolloWrapper } from '@/apollo-provider'
 import { Providers } from '@/Providers'
 import type { Metadata } from 'next'
 
@@ -23,7 +24,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={roboto.className}>
       <body>
-        <Providers>{children}</Providers>
+        <ApolloWrapper>
+          <Providers>{children}</Providers>
+        </ApolloWrapper>
       </body>
     </html>
   )

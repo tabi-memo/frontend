@@ -1,4 +1,5 @@
 'use client'
+
 import { Heading, Box, Container, useColorModeValue } from '@chakra-ui/react'
 import { PrimaryButton } from '@/components/button'
 import { Header, Footer } from '@/components/navigation'
