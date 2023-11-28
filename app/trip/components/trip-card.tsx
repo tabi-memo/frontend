@@ -31,7 +31,7 @@ export const TripCard = ({ data }: TripCardProps) => {
       as={NextLink}
       href={`/trip/${data.id}`}
       role={'group'}
-      maxW={{ base: '100%', lg: '360px' }}
+      maxW={{ base: '100%', md: 'calc(100% / 2 - 10px)', lg: '360px' }}
       pb={{ base: '12px', md: '0px' }}
       flexDir={{ base: 'row', md: 'column' }}
       gap={{ base: '14px', md: '0px' }}

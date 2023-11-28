@@ -77,7 +77,7 @@ export default function Top() {
             </GridItem>
           </Grid>
           <Flex
-            gap={{ base: '20px', md: '60px' }}
+            gap={{ base: '20px', lg: '60px' }}
             mt={{ base: '38px', md: '40px' }}
             flexWrap={'wrap'}
           >
