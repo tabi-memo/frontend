@@ -8,6 +8,15 @@ Run development
 pnpm dev
 ```
 
+Run Supabase local
+
+- move to backend repository, and then run `supabase start`
+
+```bash
+supabase start
+supabase stop
+```
+
 Install dependencies
 
 ```bash
@@ -30,6 +39,12 @@ Run storybook
 
 ```bash
 pnpm storybook
+```
+
+Run graphql-codegen
+
+```bash
+pnpm codegen
 ```
 
 

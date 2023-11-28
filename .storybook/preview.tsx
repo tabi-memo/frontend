@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { ChakraProvider, useColorMode } from '@chakra-ui/react'
 import { StoryFn } from '@storybook/react'
 import { customTheme } from '../app/theme'
+import { MockedProvider } from '@apollo/client/testing'
 
 type ColorModeProps = {
   colorMode: 'light' | 'dark'
@@ -52,5 +53,8 @@ export const parameters = {
   },
   chakra: {
     theme: customTheme
+  },
+  apolloClient: {
+    MockedProvider
   }
 }
