@@ -1,44 +1,34 @@
 'use client'
-import { startTransition } from 'react'
+import { startTransition, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Flex, Heading } from '@chakra-ui/react'
-import * as z from 'zod'
 import { PrimaryButton } from '@/components/button'
 import { signUp } from './action'
-
-const signUpSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
-  confirmationPassword: z.string().min(8)
-})
-export type SignUpSchema = z.infer<typeof signUpSchema>
+import { useFormResolver, SignUpSchema } from './schema'
 
 export default function SignUp() {
+  const [errorMsg, setErrorMsg] = useState<undefined | string>()
+
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors }
-  } = useForm<SignUpSchema>()
+  } = useForm<SignUpSchema>({
+    resolver: useFormResolver
+  })
+
   return (
     <>
+      {errorMsg ? <Heading>{errorMsg}</Heading> : <></>}
       <Heading>Welcome!</Heading>
       <Heading>Create an Account</Heading>
       <form
         onSubmit={handleSubmit((data) => {
-          const result = signUpSchema.safeParse(data)
-          if (!result.success) {
-            console.error(result.error)
-            return
-          }
-
-          if (result.data.password !== result.data.confirmationPassword) {
-            setError('confirmationPassword', {
-              message: 'Your password and confirmation password must match'
-            })
-          }
           startTransition(() => {
-            signUp(result.data).catch(console.error)
+            signUp(data).catch((error) => {
+              console.error(error)
+              setErrorMsg("We're sorry, but you failed to sign up.")
+            })
           })
         })}
       >
