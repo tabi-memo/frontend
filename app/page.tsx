@@ -3,15 +3,10 @@
 import { Heading, Box, Container, useColorModeValue } from '@chakra-ui/react'
 import { PrimaryButton } from '@/components/button'
 import { Header, Footer } from '@/components/navigation'
-import { useTripsCollectionSuspenseQuery } from '@generated/api'
 
 export default function Top() {
   const bg = useColorModeValue('white', 'gray.800')
   const color = useColorModeValue('black', 'gray.300')
-  const { data } = useTripsCollectionSuspenseQuery({
-    variables: { user_id: 1 }
-  })
-  console.log({ data: data.tripsCollection?.edges[0].node })
 
   return (
     <>
