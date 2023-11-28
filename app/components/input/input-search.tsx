@@ -4,20 +4,26 @@ import {
   InputGroup,
   InputRightElement,
   IconButton,
-  forwardRef
+  forwardRef,
+  useColorModeValue
 } from '@chakra-ui/react'
 import { FiSearch } from 'react-icons/fi'
 
 export const InputSearch = forwardRef<ChakraInputProps, 'input'>(
   ({ ...props }, ref) => {
+    const bgColor = useColorModeValue('white', 'gray.700')
+    const borderColor = useColorModeValue('primary.700', 'gray.500')
+
     return (
       <InputGroup minW={{ base: '100%', md: '23.75rem' }}>
         <ChakraInput
           ref={ref}
           {...props}
-          borderColor="primary.700"
+          borderColor={borderColor}
           placeholder="places, dates, tags..."
           focusBorderColor={'primary.600'}
+          bgColor={bgColor}
+          _placeholder={{ color: 'gray.400' }}
         />
         <InputRightElement>
           <IconButton

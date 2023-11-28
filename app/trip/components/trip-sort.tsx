@@ -10,8 +10,7 @@ export const TripSort = () => {
       <MenuButton
         borderWidth={{ base: 'none', md: '1px' }}
         borderColor="gray.300"
-        px={{ base: '0px', md: '10px' }}
-        py={{ base: '0px', md: '8px' }}
+        p={{ base: '0px', md: '8px' }}
       >
         {isMobile ? (
           <Flex as="span" color="primary.700">

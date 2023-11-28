@@ -1,4 +1,13 @@
-import { Card, CardBody, Heading, Flex, Image, Box } from '@chakra-ui/react'
+import { Link as NextLink } from '@chakra-ui/next-js'
+import {
+  Card,
+  CardBody,
+  Heading,
+  Flex,
+  Image,
+  Box,
+  useColorModeValue
+} from '@chakra-ui/react'
 import { MdAccountCircle } from 'react-icons/md'
 
 type TripCardProps = {
@@ -13,8 +22,15 @@ type TripCardProps = {
 }
 
 export const TripCard = ({ data }: TripCardProps) => {
+  const bgColorSp = useColorModeValue('white', 'gray.800')
+  const bgColorPc = useColorModeValue('white', 'gray.700')
+  const borderColor = useColorModeValue('gray.200', 'gray.600')
+
   return (
     <Card
+      as={NextLink}
+      href={`/trip/${data.id}`}
+      role={'group'}
       maxW={{ base: '100%', lg: '360px' }}
       pb={{ base: '12px', md: '0px' }}
       flexDir={{ base: 'row', md: 'column' }}
@@ -24,16 +40,26 @@ export const TripCard = ({ data }: TripCardProps) => {
       borderRadius={{ base: 'none', md: 'lg' }}
       boxShadow={{ base: 'none', md: 'base' }}
       borderBottom={{ base: '1px', md: 'none' }}
-      borderColor={{ base: 'gray.200', md: 'none' }}
+      borderColor={{ base: borderColor, md: 'none' }}
+      bgColor={{ base: bgColorSp, md: bgColorPc }}
       align="center"
+      _hover={{
+        textDecoration: 'none'
+      }}
     >
-      <Image
-        src={data.image_storage_object_id}
-        alt={`Picture of ${data.title}`}
-        w={{ base: '150px', md: '100%' }}
-        h={{ base: '100px', md: '240px' }}
-        objectFit={'cover'}
-      />
+      <Box overflow="hidden" w={{ base: '', md: '100%' }}>
+        <Image
+          src={data.image_storage_object_id}
+          alt={`Picture of ${data.title}`}
+          w={{ base: '150px', md: '100%' }}
+          h={{ base: '100px', md: '240px' }}
+          objectFit="cover"
+          _groupHover={{
+            transform: 'scale(1.1)',
+            transition: 'all 0.3s'
+          }}
+        />
+      </Box>
       <CardBody
         display="flex"
         flexDir="column"
@@ -53,10 +79,19 @@ export const TripCard = ({ data }: TripCardProps) => {
             WebkitBoxOrient: 'vertical',
             WebkitLineClamp: '2'
           }}
+          _groupHover={{
+            color: 'primary.600'
+          }}
         >
           {data.title}
         </Heading>
         <Flex gap="8px" color="gray.400">
+          <Box
+            w={{ base: '26px', md: '38px' }}
+            h={{ base: '26px', md: '38px' }}
+          >
+            <MdAccountCircle size="100%" />
+          </Box>
           <Box
             w={{ base: '26px', md: '38px' }}
             h={{ base: '26px', md: '38px' }}
