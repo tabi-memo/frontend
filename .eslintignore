@@ -12,3 +12,6 @@ bin/
 obj/
 out/
 .next/
+
+# graphgl-codegen
+graphql-codegen/generated/
