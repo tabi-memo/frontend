@@ -1,8 +1,8 @@
 'use server'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { createClient } from '../../supabase'
-import type { SignUpSchema } from './page'
+import { createClient } from '@/auth/supabase'
+import type { SignUpSchema } from './schema'
 
 export const signUp = async ({
   email,
@@ -15,7 +15,7 @@ export const signUp = async ({
     password
   })
   if (error) {
-    console.error(error)
+    throw error
   } else {
     return redirect('/')
   }

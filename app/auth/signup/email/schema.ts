@@ -12,5 +12,4 @@ const signUpSchema = z
   }, 'Your password and confirmation password must match')
 
 export type SignUpSchema = z.infer<typeof signUpSchema>
-export const safeParse = (data: unknown) => signUpSchema.safeParse(data)
 export const useFormResolver = zodResolver(signUpSchema)

@@ -13,21 +13,6 @@ export default function SignUp() {
             <SecondaryButton>Sign up with Email</SecondaryButton>
           </Link>
         </ListItem>
-        <ListItem>
-          <Link href="/auth/signup/google">
-            <SecondaryButton>Sign up with Google</SecondaryButton>
-          </Link>
-        </ListItem>
-        <ListItem>
-          <Link href="/auth/signup/facebook">
-            <SecondaryButton>Sign up with Facebook</SecondaryButton>
-          </Link>
-        </ListItem>
-        <ListItem>
-          <Link href="/auth/signup/apple">
-            <SecondaryButton>Sign up with Apple</SecondaryButton>
-          </Link>
-        </ListItem>
       </List>
     </>
   )

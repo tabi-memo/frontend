@@ -1,13 +1,24 @@
 'use client'
-import { startTransition, useState } from 'react'
+import { useRef } from 'react'
 import { useForm } from 'react-hook-form'
-import { Flex, Heading } from '@chakra-ui/react'
+import {
+  Box,
+  Flex,
+  FormLabel,
+  FormErrorMessage,
+  FormControl,
+  Input,
+  Heading,
+  useToast
+} from '@chakra-ui/react'
 import { PrimaryButton } from '@/components/button'
 import { signUp } from './action'
 import { useFormResolver, SignUpSchema } from './schema'
 
 export default function SignUp() {
-  const [errorMsg, setErrorMsg] = useState<undefined | string>()
+  const toast = useToast()
+  const isLoading = useRef(false)
+  const toastId = useRef<ReturnType<typeof toast> | undefined>(undefined)
 
   const {
     register,
@@ -19,55 +30,84 @@ export default function SignUp() {
 
   return (
     <>
-      {errorMsg ? <Heading>{errorMsg}</Heading> : <></>}
       <Heading>Welcome!</Heading>
       <Heading>Create an Account</Heading>
-      <form
+      <Box
+        as="form"
         onSubmit={handleSubmit((data) => {
-          startTransition(() => {
-            signUp(data).catch((error) => {
-              console.error(error)
-              setErrorMsg("We're sorry, but you failed to sign up.")
+          isLoading.current = true
+          signUp(data)
+            .catch((error) => {
+              if (!toastId.current) {
+                toastId.current = toast({
+                  title: "We're sorry, but you failed to sign up.",
+                  description: error.message,
+                  status: 'error',
+                  duration: 5000,
+                  isClosable: true,
+                  position: 'top',
+                  onCloseComplete() {
+                    toastId.current = undefined
+                  }
+                })
+              }
             })
-          })
+            .finally(() => {
+              isLoading.current = false
+            })
         })}
       >
         <Flex flexDirection={'column'}>
-          <label htmlFor="email">Email address</label>
-          <input type="email" id="email" required {...register('email')} />
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            required
-            {...register('password', {
-              minLength: {
-                value: 8,
-                message: 'min length is 8'
-              }
-            })}
-          />
-          {errors.password && (
-            <span role="alert">{errors.password.message}</span>
-          )}
-          <label htmlFor="re-type-password">Confirmation Password</label>
-          <input
-            type="password"
-            id="re-type-password"
-            required
-            {...register('confirmationPassword', {
-              minLength: {
-                value: 8,
-                message: 'min length is 8'
-              }
-            })}
-          />
-          {errors.confirmationPassword && (
-            <span role="alert">{errors.confirmationPassword.message}</span>
-          )}
-          <PrimaryButton type={'submit'}>Sign Up</PrimaryButton>
+          <FormControl isInvalid={!!errors.email} isRequired>
+            <FormLabel htmlFor="email">Email address</FormLabel>
+            <Input type="email" id="email" required {...register('email')} />
+            {errors.email && (
+              <FormErrorMessage>{errors.email.message}</FormErrorMessage>
+            )}
+          </FormControl>
+          <FormControl isInvalid={!!errors.password} isRequired>
+            <FormLabel htmlFor="password">Password</FormLabel>
+            <Input
+              type="password"
+              id="password"
+              required
+              {...register('password', {
+                minLength: {
+                  value: 8,
+                  message: 'min length is 8'
+                }
+              })}
+            />
+            {errors.password && (
+              <FormErrorMessage>{errors.password.message}</FormErrorMessage>
+            )}
+          </FormControl>
+          <FormControl isInvalid={!!errors.confirmationPassword} isRequired>
+            <FormLabel htmlFor="confirmationPassword">
+              Confirmation Password
+            </FormLabel>
+            <Input
+              type="password"
+              id="confirmationPassword"
+              required
+              {...register('confirmationPassword', {
+                minLength: {
+                  value: 8,
+                  message: 'min length is 8'
+                }
+              })}
+            />
+            {errors.confirmationPassword && (
+              <FormErrorMessage>
+                {errors.confirmationPassword.message}
+              </FormErrorMessage>
+            )}
+          </FormControl>
+          <PrimaryButton isLoading={isLoading.current} type={'submit'}>
+            Sign Up
+          </PrimaryButton>
         </Flex>
-      </form>
+      </Box>
     </>
   )
 }
