@@ -1,0 +1,12 @@
+query activityCollection($user_id: BigInt!) {
+  activityCollection(filter: { id: { eq: $user_id } }) {
+    edges {
+      node {
+        id
+        uuid
+        trip_id
+        title
+      }
+    }
+  }
+}

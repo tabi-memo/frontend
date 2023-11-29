@@ -19,7 +19,7 @@ import { Header, Footer } from '@/components/navigation'
 import { TrashIcon, EditIcon } from '@/icons'
 import { customColors } from '@/theme/color'
 
-export default function ActivityDetails() {
+export default function ActivityDetails({ params }: { params: { title: string } }) {
   const bg = useColorModeValue('white', 'gray.800')
   const color = useColorModeValue('black', 'gray.300')
   return (
@@ -33,7 +33,7 @@ export default function ActivityDetails() {
         >
           <Flex pb={{ base: '30px', md: '40px' }}>
             <Heading fontSize={{ base: 'xl', md: '2xl' }}>
-              Asakusa Temple
+             {params.title} Asakusa Temple
             </Heading>
             <Spacer />
             <TrashIcon />
