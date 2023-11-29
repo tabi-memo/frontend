@@ -1,5 +1,5 @@
 'use client'
-import { useRef } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
   Box,
@@ -9,101 +9,82 @@ import {
   FormControl,
   Input,
   Heading,
-  useToast
+  useToast,
+  useBoolean
 } from '@chakra-ui/react'
+import { signUp } from '@/auth/signup/email/action'
+import { signUpResolver, SignUpSchema } from '@/auth/signup/email/schema'
 import { PrimaryButton } from '@/components/button'
-import { signUp } from './action'
-import { useFormResolver, SignUpSchema } from './schema'
 
 export default function SignUp() {
   const toast = useToast()
-  const isLoading = useRef(false)
-  const toastId = useRef<ReturnType<typeof toast> | undefined>(undefined)
+  const [isLoading, setIsLoading] = useBoolean()
+  const [toastId, setToastId] = useState<ReturnType<typeof toast> | undefined>(
+    undefined
+  )
 
   const {
     register,
     handleSubmit,
     formState: { errors }
   } = useForm<SignUpSchema>({
-    resolver: useFormResolver
+    resolver: signUpResolver
+  })
+
+  const signUpHandler = handleSubmit(async (data: SignUpSchema) => {
+    try {
+      setIsLoading.on()
+      await signUp(data)
+    } catch (error) {
+      if (!toastId) {
+        const res = toast({
+          title: "We're sorry, but you failed to sign up.",
+          description: error instanceof Error ? error.message : 'unknown error',
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+          position: 'top',
+          onCloseComplete() {
+            setToastId(undefined)
+          }
+        })
+        setToastId(res)
+      }
+    } finally {
+      setIsLoading.off()
+    }
   })
 
   return (
     <>
       <Heading>Welcome!</Heading>
       <Heading>Create an Account</Heading>
-      <Box
-        as="form"
-        onSubmit={handleSubmit((data) => {
-          isLoading.current = true
-          signUp(data)
-            .catch((error) => {
-              if (!toastId.current) {
-                toastId.current = toast({
-                  title: "We're sorry, but you failed to sign up.",
-                  description: error.message,
-                  status: 'error',
-                  duration: 5000,
-                  isClosable: true,
-                  position: 'top',
-                  onCloseComplete() {
-                    toastId.current = undefined
-                  }
-                })
-              }
-            })
-            .finally(() => {
-              isLoading.current = false
-            })
-        })}
-      >
+      <Box as="form" onSubmit={signUpHandler}>
         <Flex flexDirection={'column'}>
-          <FormControl isInvalid={!!errors.email} isRequired>
-            <FormLabel htmlFor="email">Email address</FormLabel>
-            <Input type="email" id="email" required {...register('email')} />
+          <FormControl isInvalid={!!errors.email}>
+            <FormLabel>Email address</FormLabel>
+            <Input {...register('email')} />
             {errors.email && (
               <FormErrorMessage>{errors.email.message}</FormErrorMessage>
             )}
           </FormControl>
-          <FormControl isInvalid={!!errors.password} isRequired>
-            <FormLabel htmlFor="password">Password</FormLabel>
-            <Input
-              type="password"
-              id="password"
-              required
-              {...register('password', {
-                minLength: {
-                  value: 8,
-                  message: 'min length is 8'
-                }
-              })}
-            />
+          <FormControl isInvalid={!!errors.password}>
+            <FormLabel>Password</FormLabel>
+            <Input type="password" {...register('password')} />
             {errors.password && (
               <FormErrorMessage>{errors.password.message}</FormErrorMessage>
             )}
           </FormControl>
-          <FormControl isInvalid={!!errors.confirmationPassword} isRequired>
-            <FormLabel htmlFor="confirmationPassword">
-              Confirmation Password
-            </FormLabel>
-            <Input
-              type="password"
-              id="confirmationPassword"
-              required
-              {...register('confirmationPassword', {
-                minLength: {
-                  value: 8,
-                  message: 'min length is 8'
-                }
-              })}
-            />
+          <FormControl isInvalid={!!errors.confirmationPassword}>
+            <FormLabel>Confirmation Password</FormLabel>
+            <Input type="password" {...register('confirmationPassword')} />
             {errors.confirmationPassword && (
               <FormErrorMessage>
                 {errors.confirmationPassword.message}
               </FormErrorMessage>
             )}
           </FormControl>
-          <PrimaryButton isLoading={isLoading.current} type={'submit'}>
+          <PrimaryButton isLoading={isLoading} type={'submit'}>
             Sign Up
           </PrimaryButton>
         </Flex>

@@ -3,13 +3,18 @@ import * as z from 'zod'
 
 const signUpSchema = z
   .object({
-    email: z.string().email(),
-    password: z.string().min(8),
-    confirmationPassword: z.string().min(8)
+    email: z.string().email('This is not valid email address'),
+    password: z
+      .string()
+      .min(8, { message: 'Password must contain at least 8 character(s)' }),
+    confirmationPassword: z.string().min(8, {
+      message: 'Password must contain at least 8 character(s)'
+    })
   })
-  .refine((schema) => {
-    return !(schema.password !== schema.confirmationPassword)
-  }, 'Your password and confirmation password must match')
+  .refine((schema) => schema.password === schema.confirmationPassword, {
+    path: ['confirmationPassword'],
+    message: 'Your password and confirmation password must match'
+  })
 
 export type SignUpSchema = z.infer<typeof signUpSchema>
-export const useFormResolver = zodResolver(signUpSchema)
+export const signUpResolver = zodResolver(signUpSchema)
