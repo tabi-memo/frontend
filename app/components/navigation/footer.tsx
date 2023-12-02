@@ -24,15 +24,9 @@ export const Footer = () => {
             gap={{ base: '14px', md: '60px' }}
           >
             {/* TODO Change Link URL */}
-            <Link href="/" hasUnderLine>
-              Home
-            </Link>
-            <Link href="/" hasUnderLine>
-              Terms of Service
-            </Link>
-            <Link href="/" hasUnderLine>
-              Privacy Policy
-            </Link>
+            <Link href="/">Home</Link>
+            <Link href="/">Terms of Service</Link>
+            <Link href="/">Privacy Policy</Link>
           </Flex>
           <Text as="span" fontSize={{ base: '2xs', md: 'xs' }}>
             Copyright © 2023 Tabi Memo
