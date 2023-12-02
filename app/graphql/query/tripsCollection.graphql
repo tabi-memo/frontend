@@ -1,5 +1,15 @@
-query tripsCollection($user_id: BigInt!) {
-  tripsCollection(filter: { user_id: { eq: $user_id } }) {
+query tripsCollection(
+  $user_id: BigInt!
+  $orderBy: [tripsOrderBy!]
+  $first: Int!
+  $after: Cursor
+) {
+  tripsCollection(
+    filter: { user_id: { eq: $user_id } }
+    first: $first
+    after: $after
+    orderBy: $orderBy
+  ) {
     edges {
       node {
         id
@@ -7,12 +17,13 @@ query tripsCollection($user_id: BigInt!) {
         title
         date_from
         date_to
+        image_storage_object_id
         invitationsCollection {
           edges {
             node {
               users {
                 id
-                name
+                profile_picture_url
               }
             }
           }
@@ -21,11 +32,16 @@ query tripsCollection($user_id: BigInt!) {
           edges {
             node {
               id
-              title
             }
           }
         }
       }
+    }
+    pageInfo {
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
     }
   }
 }

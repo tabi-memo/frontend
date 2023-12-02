@@ -9,12 +9,12 @@ import {
 } from '@apollo/experimental-nextjs-app-support/ssr'
 
 function apiEndpoint(): { uri: string; headers?: Record<string, string> } {
-   return {
-      uri: process.env.GRAPHQL_ENDPOINT as string,
-      headers: {
-        apiKey: process.env.API_KEY as string
-      }
+  return {
+    uri: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT as string,
+    headers: {
+      apiKey: process.env.NEXT_PUBLIC_API_KEY as string
     }
+  }
 }
 
 function makeClient() {
@@ -30,7 +30,8 @@ function makeClient() {
             }),
             httpLink
           ])
-        : httpLink
+        : httpLink,
+    connectToDevTools: true
   })
 }
 

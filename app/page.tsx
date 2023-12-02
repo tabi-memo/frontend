@@ -8,40 +8,35 @@ import {
   Flex,
   useColorModeValue
 } from '@chakra-ui/react'
+import { useRouter } from 'next/navigation'
 import { PrimaryButton } from '@/components/button'
+import { Loading } from '@/components/loading'
 import { Header, Footer } from '@/components/navigation'
 import { TripSearch, TripSort, TripCard } from '@/trip/components'
+import { OrderByDirection, useTripsCollectionQuery } from '@generated/api'
 
-const dummy = [
-  {
-    id: 1,
-    title: 'Tokyo',
-    date_from: 'Oct 10, 2023',
-    date_to: 'Nov 10, 2023',
-    image_storage_object_id:
-      'https://placehold.jp/6381f8/ffffff/366x277.png?text=Picture',
-    share: [
-      { id: '', image: '' },
-      { id: '', image: '' }
-    ]
-  },
-  {
-    id: 2,
-    title: 'Kyoto',
-    date_from: 'Oct 10, 2023',
-    date_to: 'Nov 10, 2023',
-    image_storage_object_id:
-      'https://placehold.jp/6381f8/ffffff/366x277.png?text=Picture',
-    share: [
-      { id: '', image: '' },
-      { id: '', image: '' }
-    ]
-  }
-]
-
-export default function Top() {
+export default function Top({
+  searchParams
+}: {
+  searchParams: { offset: string }
+}) {
+  const router = useRouter()
   const bg = useColorModeValue('white', 'gray.800')
   const color = useColorModeValue('black', 'gray.300')
+
+  // TODO change to 6
+  const offset = searchParams.offset ? Number(searchParams.offset) : 2
+
+  const { data, loading } = useTripsCollectionQuery({
+    variables: {
+      user_id: 1,
+      orderBy: [{ date_from: OrderByDirection.DescNullsFirst }],
+      first: offset,
+      after: null
+    }
+  })
+
+  console.log('data', data)
 
   return (
     <>
@@ -67,7 +62,12 @@ export default function Top() {
               <Heading as={'h1'} fontSize={{ base: '2xl', md: '4xl' }}>
                 My Trips
               </Heading>
-              <PrimaryButton w="9.5rem">Add New Trip</PrimaryButton>
+              <PrimaryButton
+                w="9.5rem"
+                onClick={() => router.push('/trip/create')}
+              >
+                Add New Trip
+              </PrimaryButton>
             </GridItem>
             <GridItem ml={{ base: '', lg: 'auto' }}>
               <TripSearch />
@@ -76,18 +76,29 @@ export default function Top() {
               <TripSort />
             </GridItem>
           </Grid>
-          <Flex
-            gap={{ base: '20px', lg: '60px' }}
-            mt={{ base: '38px', md: '40px' }}
-            flexWrap={'wrap'}
-          >
-            {dummy.map((trip) => (
-              <TripCard key={trip.id} data={trip} />
-            ))}
-          </Flex>
-          <Box textAlign="center" mt={{ base: '40px', md: '60px' }}>
-            <PrimaryButton variant="outline">Load More</PrimaryButton>
-          </Box>
+          {loading || !data?.tripsCollection ? (
+            <Loading />
+          ) : (
+            <>
+              <Flex
+                gap={{ base: '20px', lg: '60px' }}
+                mt={{ base: '38px', md: '40px' }}
+                flexWrap={'wrap'}
+              >
+                {data.tripsCollection.edges.map((trip) => (
+                  <TripCard key={trip.node.id} data={trip} />
+                ))}
+              </Flex>
+              <Box textAlign="center" mt={{ base: '40px', md: '60px' }}>
+                <PrimaryButton
+                  variant="outline"
+                  onClick={() => router.push(`/?offset=${offset + 2}`)}
+                >
+                  Load More
+                </PrimaryButton>
+              </Box>
+            </>
+          )}
         </Container>
       </Box>
       <Footer />
