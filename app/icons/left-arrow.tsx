@@ -1,4 +1,4 @@
-import { Box, BoxProps } from '@chakra-ui/react'
+import { Box } from '@chakra-ui/react'
 
  export const LeftArrow= () => {
   return (
@@ -7,7 +7,6 @@ import { Box, BoxProps } from '@chakra-ui/react'
       h={{ base: '25px', md: '30px' }}
       _hover={{ opacity: 0.8 }}
       mx={1}
-      {...props}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
