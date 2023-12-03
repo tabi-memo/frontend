@@ -54,7 +54,12 @@ export const Header = () => {
               />
               {/* TODO Change Link and Add Logout logic */}
               <MenuList fontSize={{ base: 'md', md: 'lg' }} bgColor="white">
-                <MenuItem bgColor="white" _hover={{ bgColor: 'gray.100' }}>
+                <MenuItem
+                  bgColor="white"
+                  _hover={{ bgColor: 'gray.100' }}
+                  as={Link}
+                  href="/account"
+                >
                   Account Info
                 </MenuItem>
                 <MenuItem
