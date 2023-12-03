@@ -1,0 +1,12 @@
+query getUser($uuid: UUID!) {
+  usersCollection(filter: { uuid: { eq: $uuid } }) {
+    edges {
+      node {
+        uuid
+        email
+        name
+        profile_picture_url
+      }
+    }
+  }
+}

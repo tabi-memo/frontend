@@ -1,3 +1,4 @@
+import { Link } from '@chakra-ui/next-js'
 import {
   Container,
   Flex,
@@ -32,7 +33,15 @@ export const Header = () => {
         py={{ base: '8px', md: '12px' }}
       >
         <Flex justifyContent="space-between" align="center">
-          <Image src="/logo/logo.png" width={144} height={40} alt="Tabi Memo" />
+          <Link href="/">
+            <Image
+              src="/logo/logo.png"
+              width={144}
+              height={40}
+              objectFit="contain"
+              alt="Tabi Memo"
+            />
+          </Link>
           <Flex gap={{ base: '20px', md: '28px' }}>
             <Menu>
               <MenuButton
@@ -46,7 +55,12 @@ export const Header = () => {
               />
               {/* TODO Change Link and Add Logout logic */}
               <MenuList fontSize={{ base: 'md', md: 'lg' }} bgColor="white">
-                <MenuItem bgColor="white" _hover={{ bgColor: 'gray.100' }}>
+                <MenuItem
+                  bgColor="white"
+                  _hover={{ bgColor: 'gray.100' }}
+                  as={Link}
+                  href="/account"
+                >
                   Account Info
                 </MenuItem>
                 <MenuItem

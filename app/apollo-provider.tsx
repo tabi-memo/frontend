@@ -9,12 +9,14 @@ import {
 } from '@apollo/experimental-nextjs-app-support/ssr'
 
 function apiEndpoint(): { uri: string; headers?: Record<string, string> } {
-   return {
-      uri: process.env.GRAPHQL_ENDPOINT as string,
-      headers: {
-        apiKey: process.env.API_KEY as string
-      }
+  return {
+    uri:
+      (process.env.GRAPHQL_ENDPOINT as string) ||
+      'http://127.0.0.1:54321/graphql/v1',
+    headers: {
+      apiKey: process.env.API_KEY as string
     }
+  }
 }
 
 function makeClient() {
