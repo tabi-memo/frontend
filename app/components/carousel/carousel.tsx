@@ -13,25 +13,25 @@ const settings = {
   arrows: false,
   fade: true,
   infinite: true,
-  autoplay: true,
+  autoplay: false,
   speed: 500,
   autoplaySpeed: 5000,
   slidesToShow: 1,
-  slidesToScroll: 1
+  slidesToScroll: 1,
 }
 
 export const Carousel = ({ urls }: CarouselProps) => {
   const [slider, setSlider] = React.useState<Slider | null>(null)
 
-  const top = useBreakpointValue({ base: '90%', md: '50%' })
-  const side = useBreakpointValue({ base: '30%', md: '10px' })
+  const top = useBreakpointValue({ base: '50%', md: '50%' })
+  const side = useBreakpointValue({ base: '-20px', md: '-30px' })
 
   return (
     <Box
       position={'relative'}
-      height={'400px'}
-      width={'full'}
-      overflow={'hidden'}
+      width={{ base: '80%', md: '80%', lg: '100%' }}
+      height={{ base: '215px', md: '320px' }}
+      margin={'auto'}
     >
       <link
         rel="stylesheet"
@@ -79,7 +79,9 @@ export const Carousel = ({ urls }: CarouselProps) => {
         {urls.map((url, index) => (
           <Box
             key={index}
-            height={'2xl'}
+            width={{ base: '80%', md: '80%', lg: '100%' }}
+            margin={'auto'}
+            height={{ base: '215px', md: '320px' }}
             position="relative"
             backgroundPosition="center"
             backgroundRepeat="no-repeat"
