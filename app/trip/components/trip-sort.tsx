@@ -1,8 +1,12 @@
 import { Menu, MenuButton, MenuList, MenuItem, Flex } from '@chakra-ui/react'
 import { MdOutlineSort, MdArrowDropDown } from 'react-icons/md'
 import { useIsMobile } from '@/hooks'
+import { OrderByDirection, TripsOrderBy } from '@generated/api'
 
-export const TripSort = () => {
+type TripSortProps = {
+  sortBy: (arg: TripsOrderBy) => void
+}
+export const TripSort = ({ sortBy }: TripSortProps) => {
   const { isMobile } = useIsMobile()
 
   return (
@@ -38,9 +42,22 @@ export const TripSort = () => {
       </MenuButton>
 
       <MenuList>
-        <MenuItem>Date</MenuItem>
-        <MenuItem>Created</MenuItem>
-        <MenuItem>Title</MenuItem>
+        <MenuItem
+          onClick={() => sortBy({ date_from: OrderByDirection.DescNullsLast })}
+        >
+          Date From
+        </MenuItem>
+
+        <MenuItem
+          onClick={() => sortBy({ id: OrderByDirection.DescNullsLast })}
+        >
+          Created Date
+        </MenuItem>
+        <MenuItem
+          onClick={() => sortBy({ title: OrderByDirection.AscNullsLast })}
+        >
+          Title
+        </MenuItem>
       </MenuList>
     </Menu>
   )

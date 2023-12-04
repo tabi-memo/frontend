@@ -13,25 +13,26 @@ import { PrimaryButton } from '@/components/button'
 import { Loading } from '@/components/loading'
 import { Header, Footer } from '@/components/navigation'
 import { TripSearch, TripSort, TripCard } from '@/trip/components'
-import { OrderByDirection, useTripsCollectionQuery } from '@generated/api'
+import { useTripsCollectionQuery, TripsOrderBy } from '@generated/api'
 
-export default function Top({
-  searchParams
-}: {
-  searchParams: { offset: string }
-}) {
+export default function Top({ searchParams }: { searchParams: { q: string } }) {
   const router = useRouter()
   const bg = useColorModeValue('white', 'gray.800')
   const color = useColorModeValue('black', 'gray.300')
 
-  const { data, loading, fetchMore } = useTripsCollectionQuery({
+  const { data, loading, fetchMore, refetch } = useTripsCollectionQuery({
     variables: {
       user_id: 1,
-      orderBy: [{ date_from: OrderByDirection.DescNullsFirst }],
-      first: 6,
+      first: 2,
       after: null
     }
   })
+
+  const handleSortBy = (sortObj: TripsOrderBy) => {
+    refetch({
+      orderBy: sortObj
+    })
+  }
 
   const handleLoadMore = () => {
     fetchMore({
@@ -55,7 +56,7 @@ export default function Top({
       }
     })
   }
-
+  console.log('searchParams', searchParams)
   console.log('data', data)
 
   return (
@@ -93,7 +94,7 @@ export default function Top({
               <TripSearch />
             </GridItem>
             <GridItem>
-              <TripSort />
+              <TripSort sortBy={handleSortBy} />
             </GridItem>
           </Grid>
           {loading || !data?.tripsCollection ? (
