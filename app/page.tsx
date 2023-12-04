@@ -24,17 +24,37 @@ export default function Top({
   const bg = useColorModeValue('white', 'gray.800')
   const color = useColorModeValue('black', 'gray.300')
 
-  // TODO change to 6
-  const offset = searchParams.offset ? Number(searchParams.offset) : 2
-
-  const { data, loading } = useTripsCollectionQuery({
+  const { data, loading, fetchMore } = useTripsCollectionQuery({
     variables: {
       user_id: 1,
       orderBy: [{ date_from: OrderByDirection.DescNullsFirst }],
-      first: offset,
+      first: 6,
       after: null
     }
   })
+
+  const handleLoadMore = () => {
+    fetchMore({
+      variables: {
+        after: data?.tripsCollection?.pageInfo.endCursor
+      },
+      updateQuery: (previousQueryResult, { fetchMoreResult }) => {
+        const newEdges = fetchMoreResult?.tripsCollection?.edges
+        const pageInfo = fetchMoreResult?.tripsCollection?.pageInfo
+        const previousCollection = previousQueryResult?.tripsCollection
+        return newEdges && newEdges.length && pageInfo && previousCollection
+          ? {
+              tripsCollection: {
+                __typename: previousCollection.__typename,
+                edges: [...previousCollection.edges, ...newEdges],
+                pageInfo
+              },
+              __typename: previousQueryResult.__typename
+            }
+          : previousQueryResult
+      }
+    })
+  }
 
   console.log('data', data)
 
@@ -89,14 +109,13 @@ export default function Top({
                   <TripCard key={trip.node.id} data={trip} />
                 ))}
               </Flex>
-              <Box textAlign="center" mt={{ base: '40px', md: '60px' }}>
-                <PrimaryButton
-                  variant="outline"
-                  onClick={() => router.push(`/?offset=${offset + 2}`)}
-                >
-                  Load More
-                </PrimaryButton>
-              </Box>
+              {data.tripsCollection.pageInfo.hasNextPage && (
+                <Box textAlign="center" mt={{ base: '40px', md: '60px' }}>
+                  <PrimaryButton variant="outline" onClick={handleLoadMore}>
+                    Load More
+                  </PrimaryButton>
+                </Box>
+              )}
             </>
           )}
         </Container>
