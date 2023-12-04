@@ -1153,7 +1153,7 @@ export type CreateTripMutation = {
 }
 
 export type TripsCollectionQueryVariables = Exact<{
-  user_id: Scalars['BigInt']['input']
+  filter?: InputMaybe<TripsFilter>
   orderBy?: InputMaybe<Array<TripsOrderBy> | TripsOrderBy>
   first: Scalars['Int']['input']
   after?: InputMaybe<Scalars['Cursor']['input']>
@@ -1338,7 +1338,7 @@ export const CreateTripDocument = {
   ]
 } as unknown as DocumentNode<CreateTripMutation, CreateTripMutationVariables>
 export const TripsCollectionDocument = {
-  __meta__: { hash: '64d5ac3210de8a259e3ba42ca835689c9ec0e35c' },
+  __meta__: { hash: '912b67cce9af1fa50487d06bd924062ebe1b8806' },
   kind: 'Document',
   definitions: [
     {
@@ -1350,11 +1350,11 @@ export const TripsCollectionDocument = {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'user_id' }
+            name: { kind: 'Name', value: 'filter' }
           },
           type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'BigInt' } }
+            kind: 'NamedType',
+            name: { kind: 'Name', value: 'tripsFilter' }
           }
         },
         {
@@ -1406,26 +1406,8 @@ export const TripsCollectionDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'filter' },
                 value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'user_id' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: 'eq' },
-                            value: {
-                              kind: 'Variable',
-                              name: { kind: 'Name', value: 'user_id' }
-                            }
-                          }
-                        ]
-                      }
-                    }
-                  ]
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'filter' }
                 }
               },
               {

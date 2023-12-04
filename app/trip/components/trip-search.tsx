@@ -12,14 +12,14 @@ export const TripSearch = () => {
     if (e.key === 'Enter') {
       e.preventDefault()
       const useInput = inputRef?.current?.value
-      if (useInput) router.push(`/?q=${inputRef?.current?.value}`)
+      router.push(`/?q=${useInput}`)
     }
   }
 
   const submitHandler = (e: FormEvent<HTMLInputElement>) => {
     e.preventDefault()
     const useInput = inputRef?.current?.value
-    if (useInput) router.push(`/?q=${inputRef?.current?.value}`)
+    router.push(`/?q=${useInput}`)
   }
 
   return (
@@ -27,8 +27,8 @@ export const TripSearch = () => {
       <InputSearch
         type={'text'}
         name={'searchWord'}
-        placeholder={'places, dates, tag'}
-        ariaLabel={'Search Trips'}
+        placeholder={'Search trips by title'}
+        ariaLabel={'Search trips by title'}
         onKeyDown={(e) => submitByEnter(e)}
         ref={inputRef}
       />

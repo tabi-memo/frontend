@@ -26,7 +26,6 @@ export const InputSearch = forwardRef<
         ref={ref}
         {...props}
         borderColor={borderColor}
-        placeholder="places, dates, tags..."
         focusBorderColor={'primary.600'}
         bgColor={bgColor}
         _placeholder={{ color: 'gray.400' }}

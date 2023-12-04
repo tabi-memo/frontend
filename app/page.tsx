@@ -6,6 +6,7 @@ import {
   Grid,
   GridItem,
   Flex,
+  Text,
   useColorModeValue
 } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
@@ -20,10 +21,16 @@ export default function Top({ searchParams }: { searchParams: { q: string } }) {
   const bg = useColorModeValue('white', 'gray.800')
   const color = useColorModeValue('black', 'gray.300')
 
+  const searchWord = searchParams.q
+
   const { data, loading, fetchMore, refetch } = useTripsCollectionQuery({
     variables: {
-      user_id: 1,
-      first: 2,
+      filter: {
+        user_id: { eq: 1 },
+        ...(searchWord &&
+          searchWord.length && { title: { like: `%${searchWord}%` } })
+      },
+      first: 6,
       after: null
     }
   })
@@ -56,8 +63,6 @@ export default function Top({ searchParams }: { searchParams: { q: string } }) {
       }
     })
   }
-  console.log('searchParams', searchParams)
-  console.log('data', data)
 
   return (
     <>
@@ -106,6 +111,9 @@ export default function Top({ searchParams }: { searchParams: { q: string } }) {
                 mt={{ base: '38px', md: '40px' }}
                 flexWrap={'wrap'}
               >
+                {data.tripsCollection.edges.length === 0 && (
+                  <Text>We couldn&apos;t find any results</Text>
+                )}
                 {data.tripsCollection.edges.map((trip) => (
                   <TripCard key={trip.node.id} data={trip} />
                 ))}

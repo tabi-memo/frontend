@@ -1,11 +1,11 @@
 query tripsCollection(
-  $user_id: BigInt!
+  $filter: tripsFilter
   $orderBy: [tripsOrderBy!]
   $first: Int!
   $after: Cursor
 ) {
   tripsCollection(
-    filter: { user_id: { eq: $user_id } }
+    filter: $filter
     first: $first
     after: $after
     orderBy: $orderBy

@@ -1145,7 +1145,7 @@ export type CreateTripMutation = {
 }
 
 export type TripsCollectionQueryVariables = Exact<{
-  user_id: Scalars['BigInt']['input']
+  filter?: InputMaybe<TripsFilter>
   orderBy?: InputMaybe<Array<TripsOrderBy> | TripsOrderBy>
   first: Scalars['Int']['input']
   after?: InputMaybe<Scalars['Cursor']['input']>
@@ -1273,14 +1273,14 @@ export type CreateTripMutationOptions = Apollo.BaseMutationOptions<
 >
 export const TripsCollectionDocument = gql`
   query tripsCollection(
-    $user_id: BigInt!
+    $filter: tripsFilter
     $orderBy: [tripsOrderBy!]
     $first: Int!
     $after: Cursor
   ) {
     __typename
     tripsCollection(
-      filter: { user_id: { eq: $user_id } }
+      filter: $filter
       first: $first
       after: $after
       orderBy: $orderBy
@@ -1345,7 +1345,7 @@ export const TripsCollectionDocument = gql`
  * @example
  * const { data, loading, error } = useTripsCollectionQuery({
  *   variables: {
- *      user_id: // value for 'user_id'
+ *      filter: // value for 'filter'
  *      orderBy: // value for 'orderBy'
  *      first: // value for 'first'
  *      after: // value for 'after'
