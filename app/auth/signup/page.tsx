@@ -14,6 +14,10 @@ export default function SignUp() {
           </Link>
         </ListItem>
       </List>
+      <Heading>Already have an account?</Heading>
+      <Link href="/auth/login/email">
+        <SecondaryButton>Sign in to your account?</SecondaryButton>
+      </Link>
     </>
   )
 }
