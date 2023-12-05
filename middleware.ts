@@ -1,6 +1,19 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { createClient } from '@/(auth)/supabase/middleware'
 
+export const config = {
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     */
+    '/((?!api|_next/static|_next/image|favicon.ico).*)'
+  ]
+}
+
 export async function middleware(request: NextRequest) {
   const { supabase, response } = createClient(request)
 
@@ -13,7 +26,10 @@ export async function middleware(request: NextRequest) {
 
   const signinUri = '/signin'
 
-  if (request.nextUrl.pathname.startsWith(signinUri)) {
+  if (
+    request.nextUrl.pathname.startsWith(signinUri) ||
+    request.nextUrl.pathname.startsWith('/signup')
+  ) {
     return response
   }
   if (error || !session) {

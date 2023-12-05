@@ -12,6 +12,7 @@ import {
   useToast,
   useBoolean
 } from '@chakra-ui/react'
+import Link from 'next/link'
 import { signIn } from '@/(auth)/signin/action'
 import { signInResolver, SignInSchema } from '@/(auth)/signin/schema'
 import { PrimaryButton } from '@/components/button'
@@ -78,6 +79,8 @@ export default function SignIn() {
           <PrimaryButton isLoading={isLoading} type={'submit'}>
             Sign In
           </PrimaryButton>
+          <Heading>{"Don't"} have an account yet?</Heading>
+          <Link href="/signup/email">Sign Up</Link>
         </Flex>
       </Box>
     </>
