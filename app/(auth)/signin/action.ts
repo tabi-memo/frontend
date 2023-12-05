@@ -1,16 +1,16 @@
 'use server'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import type { SignUpSchema } from '@/auth/signup/email/schema'
-import { createClient } from '@/auth/supabase/server'
+import type { SignInSchema } from '@/(auth)/signin/schema'
+import { createClient } from '@/(auth)/supabase/server'
 
-export const signUp = async ({
+export const signIn = async ({
   email,
   password
-}: SignUpSchema): Promise<void> => {
+}: SignInSchema): Promise<void> => {
   const supabase = createClient(cookies())
 
-  const { error } = await supabase.auth.signUp({
+  const { error } = await supabase.auth.signInWithPassword({
     email,
     password
   })
