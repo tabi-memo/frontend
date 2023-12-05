@@ -49,7 +49,7 @@ export const TripSort = ({ sortBy }: TripSortProps) => {
         </MenuItem>
 
         <MenuItem
-          onClick={() => sortBy({ id: OrderByDirection.DescNullsLast })}
+          onClick={() => sortBy({ created_at: OrderByDirection.DescNullsLast })}
         >
           Created Date
         </MenuItem>

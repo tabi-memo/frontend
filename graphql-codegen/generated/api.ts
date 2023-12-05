@@ -901,6 +901,7 @@ export type Trips = Node & {
   __typename?: 'trips'
   activityCollection?: Maybe<ActivityConnection>
   cost?: Maybe<Scalars['BigFloat']['output']>
+  created_at: Scalars['Datetime']['output']
   date_from?: Maybe<Scalars['Date']['output']>
   date_to?: Maybe<Scalars['Date']['output']>
   description?: Maybe<Scalars['String']['output']>
@@ -965,6 +966,7 @@ export type TripsEdge = {
 
 export type TripsFilter = {
   cost?: InputMaybe<BigFloatFilter>
+  created_at?: InputMaybe<DatetimeFilter>
   date_from?: InputMaybe<DateFilter>
   date_to?: InputMaybe<DateFilter>
   description?: InputMaybe<StringFilter>
@@ -978,6 +980,7 @@ export type TripsFilter = {
 
 export type TripsInsertInput = {
   cost?: InputMaybe<Scalars['BigFloat']['input']>
+  created_at?: InputMaybe<Scalars['Datetime']['input']>
   date_from?: InputMaybe<Scalars['Date']['input']>
   date_to?: InputMaybe<Scalars['Date']['input']>
   description?: InputMaybe<Scalars['String']['input']>
@@ -997,6 +1000,7 @@ export type TripsInsertResponse = {
 
 export type TripsOrderBy = {
   cost?: InputMaybe<OrderByDirection>
+  created_at?: InputMaybe<OrderByDirection>
   date_from?: InputMaybe<OrderByDirection>
   date_to?: InputMaybe<OrderByDirection>
   description?: InputMaybe<OrderByDirection>
@@ -1009,6 +1013,7 @@ export type TripsOrderBy = {
 
 export type TripsUpdateInput = {
   cost?: InputMaybe<Scalars['BigFloat']['input']>
+  created_at?: InputMaybe<Scalars['Datetime']['input']>
   date_from?: InputMaybe<Scalars['Date']['input']>
   date_to?: InputMaybe<Scalars['Date']['input']>
   description?: InputMaybe<Scalars['String']['input']>
@@ -1165,6 +1170,7 @@ export type TripsCollectionQuery = {
         date_from?: string | null
         date_to?: string | null
         image_storage_object_id?: string | null
+        created_at: string
         invitationsCollection?: {
           __typename: 'invitationsConnection'
           edges: Array<{
@@ -1296,6 +1302,7 @@ export const TripsCollectionDocument = gql`
           date_from
           date_to
           image_storage_object_id
+          created_at
           invitationsCollection {
             __typename
             edges {

@@ -909,6 +909,7 @@ export type Trips = Node & {
   __typename?: 'trips'
   activityCollection?: Maybe<ActivityConnection>
   cost?: Maybe<Scalars['BigFloat']['output']>
+  created_at: Scalars['Datetime']['output']
   date_from?: Maybe<Scalars['Date']['output']>
   date_to?: Maybe<Scalars['Date']['output']>
   description?: Maybe<Scalars['String']['output']>
@@ -973,6 +974,7 @@ export type TripsEdge = {
 
 export type TripsFilter = {
   cost?: InputMaybe<BigFloatFilter>
+  created_at?: InputMaybe<DatetimeFilter>
   date_from?: InputMaybe<DateFilter>
   date_to?: InputMaybe<DateFilter>
   description?: InputMaybe<StringFilter>
@@ -986,6 +988,7 @@ export type TripsFilter = {
 
 export type TripsInsertInput = {
   cost?: InputMaybe<Scalars['BigFloat']['input']>
+  created_at?: InputMaybe<Scalars['Datetime']['input']>
   date_from?: InputMaybe<Scalars['Date']['input']>
   date_to?: InputMaybe<Scalars['Date']['input']>
   description?: InputMaybe<Scalars['String']['input']>
@@ -1005,6 +1008,7 @@ export type TripsInsertResponse = {
 
 export type TripsOrderBy = {
   cost?: InputMaybe<OrderByDirection>
+  created_at?: InputMaybe<OrderByDirection>
   date_from?: InputMaybe<OrderByDirection>
   date_to?: InputMaybe<OrderByDirection>
   description?: InputMaybe<OrderByDirection>
@@ -1017,6 +1021,7 @@ export type TripsOrderBy = {
 
 export type TripsUpdateInput = {
   cost?: InputMaybe<Scalars['BigFloat']['input']>
+  created_at?: InputMaybe<Scalars['Datetime']['input']>
   date_from?: InputMaybe<Scalars['Date']['input']>
   date_to?: InputMaybe<Scalars['Date']['input']>
   description?: InputMaybe<Scalars['String']['input']>
@@ -1173,6 +1178,7 @@ export type TripsCollectionQuery = {
         date_from?: string | null
         date_to?: string | null
         image_storage_object_id?: string | null
+        created_at: string
         invitationsCollection?: {
           __typename: 'invitationsConnection'
           edges: Array<{
@@ -1338,7 +1344,7 @@ export const CreateTripDocument = {
   ]
 } as unknown as DocumentNode<CreateTripMutation, CreateTripMutationVariables>
 export const TripsCollectionDocument = {
-  __meta__: { hash: '912b67cce9af1fa50487d06bd924062ebe1b8806' },
+  __meta__: { hash: '8401c03d2c5f85ba0f977c1ea136bdd035c7d049' },
   kind: 'Document',
   definitions: [
     {
@@ -1485,6 +1491,10 @@ export const TripsCollectionDocument = {
                                 kind: 'Name',
                                 value: 'image_storage_object_id'
                               }
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'created_at' }
                             },
                             {
                               kind: 'Field',
