@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import React from 'react'
 import Slider from 'react-slick'
 import {
   Box,
@@ -18,7 +18,7 @@ export const Carousel = ({ urls }: CarouselProps) => {
   const [slider, setSlider] = React.useState<Slider | null>(null)
   const dotColor = useColorModeValue('gray.400', 'gray.500')
   const activeDotColor = useColorModeValue('black', 'gray.100')
-  const [currentSlide, setCurrentSlide] = useState(0)
+  const [currentSlide, setCurrentSlide] = React.useState(0)
 
   const settings = {
     dots: true,
