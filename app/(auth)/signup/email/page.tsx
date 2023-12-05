@@ -12,11 +12,11 @@ import {
   useToast,
   useBoolean
 } from '@chakra-ui/react'
-import { signIn } from '@/auth/login/action'
-import { signInResolver, SignInSchema } from '@/auth/login/schema'
+import { signUp } from '@/(auth)/signup/email/action'
+import { signUpResolver, SignUpSchema } from '@/(auth)/signup/email/schema'
 import { PrimaryButton } from '@/components/button'
 
-export default function SignIn() {
+export default function SignUp() {
   const toast = useToast()
   const [isLoading, setIsLoading] = useBoolean()
   const [toastId, setToastId] = useState<ReturnType<typeof toast> | undefined>(
@@ -27,18 +27,18 @@ export default function SignIn() {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<SignInSchema>({
-    resolver: signInResolver
+  } = useForm<SignUpSchema>({
+    resolver: signUpResolver
   })
 
-  const signInHandler = handleSubmit(async (data: SignInSchema) => {
+  const signUpHandler = handleSubmit(async (data: SignUpSchema) => {
     try {
       setIsLoading.on()
-      await signIn(data)
+      await signUp(data)
     } catch (error) {
       if (!toastId) {
         const res = toast({
-          title: "We're sorry, but you failed to sign in.",
+          title: "We're sorry, but you failed to sign up.",
           description: error instanceof Error ? error.message : 'unknown error',
           status: 'error',
           duration: 5000,
@@ -57,9 +57,9 @@ export default function SignIn() {
 
   return (
     <>
-      <Heading>Welcome Back!</Heading>
-      <Heading>Sign In</Heading>
-      <Box as="form" onSubmit={signInHandler}>
+      <Heading>Welcome!</Heading>
+      <Heading>Create an Account</Heading>
+      <Box as="form" onSubmit={signUpHandler}>
         <Flex flexDirection={'column'}>
           <FormControl isInvalid={!!errors.email}>
             <FormLabel>Email address</FormLabel>
@@ -75,8 +75,17 @@ export default function SignIn() {
               <FormErrorMessage>{errors.password.message}</FormErrorMessage>
             )}
           </FormControl>
+          <FormControl isInvalid={!!errors.confirmationPassword}>
+            <FormLabel>Confirmation Password</FormLabel>
+            <Input type="password" {...register('confirmationPassword')} />
+            {errors.confirmationPassword && (
+              <FormErrorMessage>
+                {errors.confirmationPassword.message}
+              </FormErrorMessage>
+            )}
+          </FormControl>
           <PrimaryButton isLoading={isLoading} type={'submit'}>
-            Sign In
+            Sign Up
           </PrimaryButton>
         </Flex>
       </Box>
