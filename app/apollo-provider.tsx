@@ -31,7 +31,7 @@ function makeClient() {
             httpLink
           ])
         : httpLink,
-    connectToDevTools: true
+    connectToDevTools: false
   })
 }
 

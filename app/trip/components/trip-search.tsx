@@ -11,15 +11,29 @@ export const TripSearch = () => {
   const submitByEnter = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault()
-      const useInput = inputRef?.current?.value
-      router.push(`/?q=${useInput}`)
+      const userInput = inputRef?.current?.value
+      console.log('userInput', userInput)
+
+      if (userInput) {
+        const encodedInput = encodeURIComponent(userInput)
+        router.push(`/?q=${encodedInput}`)
+        return
+      }
+
+      router.push('/')
     }
   }
 
   const submitHandler = (e: FormEvent<HTMLInputElement>) => {
     e.preventDefault()
-    const useInput = inputRef?.current?.value
-    router.push(`/?q=${useInput}`)
+    const userInput = inputRef?.current?.value
+    if (userInput) {
+      const encodedInput = encodeURIComponent(userInput)
+      router.push(`/?q=${encodedInput}`)
+      return
+    }
+
+    router.push('/')
   }
 
   return (
