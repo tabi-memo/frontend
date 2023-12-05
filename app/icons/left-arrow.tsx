@@ -1,17 +1,15 @@
-import { Box } from '@chakra-ui/react'
+import {useBreakpointValue} from '@chakra-ui/react'
 
  export const LeftArrow= () => {
+  const width = useBreakpointValue({ base: '25px', md: '30px' })
+  const height = useBreakpointValue({ base: '25px', md: '30px' })
+
   return (
-    <Box
-      w={{ base: '25px', md: '30px' }}
-      h={{ base: '25px', md: '30px' }}
-      _hover={{ opacity: 0.8 }}
-      mx={1}
-    >
+
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="30"
-        height="30"
+        width={width}
+        height={height}
         fill="none"
         viewBox="0 0 30 30"
       >
@@ -28,8 +26,7 @@ import { Box } from '@chakra-ui/react'
           </clipPath>
         </defs>
       </svg>
-    </Box>
   )
 }
 
-export default LeftArrow
+

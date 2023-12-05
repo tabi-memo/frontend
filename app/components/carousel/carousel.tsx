@@ -24,7 +24,7 @@ export const Carousel = ({ urls }: CarouselProps) => {
   const [slider, setSlider] = React.useState<Slider | null>(null)
 
   const top = useBreakpointValue({ base: '50%', md: '50%' })
-  const side = useBreakpointValue({ base: '-20px', md: '-30px' })
+  const side = useBreakpointValue({ base: '-45px', md: '-60px' })
 
   return (
     <Box
@@ -46,7 +46,6 @@ export const Carousel = ({ urls }: CarouselProps) => {
       {/* Left Icon */}
       <IconButton
         aria-label="left-arrow"
-        bgColor="gray.400"
         colorScheme="white"
         borderRadius="full"
         position="absolute"
@@ -54,14 +53,14 @@ export const Carousel = ({ urls }: CarouselProps) => {
         top={top}
         transform={'translate(0%, -50%)'}
         zIndex={2}
+        opacity={0.8}
         onClick={() => slider?.slickPrev()}
-        _hover={{ opacity: 0.8 }}
+        _hover={{ opacity: 1 }}
       >
         <LeftArrow />
       </IconButton>
       <IconButton
         aria-label="right-arrow"
-        bgColor="gray.400"
         colorScheme="white"
         borderRadius="full"
         position="absolute"
@@ -69,8 +68,9 @@ export const Carousel = ({ urls }: CarouselProps) => {
         top={top}
         transform={'translate(0%, -50%)'}
         zIndex={2}
+        opacity={0.8}
         onClick={() => slider?.slickNext()}
-        _hover={{ opacity: 0.8 }}
+        _hover={{ opacity: 1 }}
       >
         <RightArrow />
       </IconButton>
@@ -79,9 +79,9 @@ export const Carousel = ({ urls }: CarouselProps) => {
         {urls.map((url, index) => (
           <Box
             key={index}
-            width={{ base: '80%', md: '80%', lg: '100%' }}
+            width={{ base: '320px', md: '480px' }}
             margin={'auto'}
-            height={{ base: '215px', md: '320px' }}
+            height={{ base: '210px', md: '320px' }}
             position="relative"
             backgroundPosition="center"
             backgroundRepeat="no-repeat"
