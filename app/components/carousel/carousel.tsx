@@ -1,27 +1,50 @@
 'use client'
 import React from 'react'
+import { useState } from 'react'
 import Slider from 'react-slick'
-import { Box, IconButton, useBreakpointValue } from '@chakra-ui/react'
+import {
+  Box,
+  IconButton,
+  useBreakpointValue,
+  useColorModeValue
+} from '@chakra-ui/react'
 import { LeftArrow, RightArrow } from '@/icons'
 
 type CarouselProps = {
   urls: string[]
 }
 
-const settings = {
-  dots: true,
-  arrows: false,
-  fade: true,
-  infinite: true,
-  autoplay: false,
-  speed: 500,
-  autoplaySpeed: 5000,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-}
-
 export const Carousel = ({ urls }: CarouselProps) => {
   const [slider, setSlider] = React.useState<Slider | null>(null)
+  const dotColor = useColorModeValue('gray.400', 'gray.500')
+  const activeDotColor = useColorModeValue('black', 'gray.100')
+  const [currentSlide, setCurrentSlide] = useState(0)
+
+  const settings = {
+    dots: true,
+    customPaging: (i: number) => (
+      <Box
+        className={`custom-dot ${i == currentSlide ? 'active' : ''}`}
+        bg={i === currentSlide ? activeDotColor : dotColor}
+        width="6px"
+        height="6px"
+        borderRadius="50%"
+        marginRight="6px"
+        marginTop="10px"
+      />
+    ),
+    afterChange: (index: number) => {
+      setCurrentSlide(index)
+    },
+    arrows: false,
+    fade: true,
+    infinite: true,
+    autoplay: false,
+    speed: 500,
+    autoplaySpeed: 5000,
+    slidesToShow: 1,
+    slidesToScroll: 1
+  }
 
   const top = useBreakpointValue({ base: '50%', md: '50%' })
   const side = useBreakpointValue({ base: '-45px', md: '-60px' })
