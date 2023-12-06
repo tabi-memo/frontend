@@ -1,10 +1,12 @@
 import React, { useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
+import { useForm } from 'react-hook-form'
 import {
   Box,
   Container,
   FormControl,
   FormLabel,
+  FormErrorMessage,
   Input,
   Button,
   Textarea,
@@ -14,8 +16,8 @@ import {
   Flex
 } from '@chakra-ui/react'
 
-
 import { PrimaryButton } from '@/components/button'
+import { createActivitySchema, createActivityResolver } from './schema'
 
 export const Form = () => {
   const [selectedImages, setSelectedImages] = useState<File[]>([])
@@ -32,60 +34,84 @@ export const Form = () => {
     })
   }
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<createActivitySchema>({
+    resolver: createActivityResolver
+  })
 
-    const formData = new FormData(event.currentTarget)
-    const title = formData.get('title') as string
-    const timeFrom = formData.get('timeFrom') as string
-    const timeTo = formData.get('timeTo') as string
-    const address = formData.get('address') as string
-    const url = formData.get('url') as string
-    const memo = formData.get('memo') as string
-    const cost = formData.get('cost') as string
-
-    console.log({
-      title,
-      timeFrom,
-      timeTo,
-      address,
-      url,
-      selectedImages,
-      memo,
-      cost,
-    })
-  }
-
+  const createHandler = handleSubmit(async (data: createActivitySchema) => {
+    // append images to formData and send to backend
+    console.log('formData', data)
+  })
 
   return (
     <Container
       pt={{ base: '40px', md: '40px' }}
       pb={{ base: '40px', md: '80px' }}
     >
-      <form onSubmit={handleSubmit}>
-        <FormControl isRequired>
+      <Box as="form" onSubmit={createHandler}>
+        <FormControl isRequired isInvalid={!!errors.title}>
           <FormLabel>Title</FormLabel>
-          <Input name="title" type="text" placeholder="Asakusa Temple" />
+          <Input
+            type="text"
+            placeholder="Asakusa Temple"
+            {...register('title')}
+          />
+          {errors.title && (
+            <FormErrorMessage>{errors.title.message}</FormErrorMessage>
+          )}
         </FormControl>
 
-        <FormControl mt={{ base: '30px', md: '40px' }}>
+        <FormControl
+          mt={{ base: '30px', md: '40px' }}
+          isInvalid={!!errors.timeFrom}
+        >
           <FormLabel>Time From</FormLabel>
-          <Input name="timeFrom" type="time" />
+          <Input {...register('timeFrom')} type="time" />
+          {errors.timeFrom && (
+            <FormErrorMessage>{errors.timeFrom.message}</FormErrorMessage>
+          )}
         </FormControl>
 
-        <FormControl mt={{ base: '30px', md: '40px' }}>
+        <FormControl
+          mt={{ base: '30px', md: '40px' }}
+          isInvalid={!!errors.timeTo}
+        >
           <FormLabel>Time To</FormLabel>
-          <Input name="timeTo" type="time"  />
+          <Input {...register('timeTo')} type="time" />
+          {errors.timeTo && (
+            <FormErrorMessage>{errors.timeTo.message}</FormErrorMessage>
+          )}
         </FormControl>
 
-        <FormControl mt={{ base: '30px', md: '40px' }}>
+        <FormControl
+          mt={{ base: '30px', md: '40px' }}
+          isInvalid={!!errors.address}
+        >
           <FormLabel>Address</FormLabel>
-          <Input name="address" type="text" placeholder="10-10 Shibuya, Tokyo, Japan" />
+          <Input
+            {...register('address')}
+            type="text"
+            placeholder="10-10 Shibuya, Tokyo, Japan"
+          />
+          {errors.address && (
+            <FormErrorMessage>{errors.address.message}</FormErrorMessage>
+          )}
         </FormControl>
 
-        <FormControl mt={{ base: '30px', md: '40px' }}>
+        <FormControl isInvalid={!!errors.url} mt={{ base: '30px', md: '40px' }}>
           <FormLabel>URL</FormLabel>
-          <Input name="url" type="url" placeholder="https://www.google.com" />
+          <Input
+            {...register('url')}
+            type="url"
+            placeholder="https://www.google.com"
+          />
+          {errors.url && (
+            <FormErrorMessage>{errors.url.message}</FormErrorMessage>
+          )}
         </FormControl>
 
         <Text mt={{ base: '30px', md: '40px' }} fontWeight="medium">
@@ -121,14 +147,30 @@ export const Form = () => {
           </PrimaryButton>
         </Box>
 
-        <FormControl mt={{ base: '30px', md: '40px' }}>
+        <FormControl
+          isInvalid={!!errors.memo}
+          mt={{ base: '30px', md: '40px' }}
+        >
           <FormLabel>Memo</FormLabel>
-          <Textarea name="memo" placeholder="Type test here..." />
+          <Textarea
+            {...register('memo')}
+            name="memo"
+            placeholder="Type test here..."
+          />
+          {errors.memo && (
+            <FormErrorMessage>{errors.memo.message}</FormErrorMessage>
+          )}
         </FormControl>
 
-        <FormControl mt={{ base: '30px', md: '40px' }}>
+        <FormControl
+          isInvalid={!!errors.cost}
+          mt={{ base: '30px', md: '40px' }}
+        >
           <FormLabel>Cost</FormLabel>
-          <Input name="cost" type="number" placeholder="$200" />
+          <Input {...register('cost')} type="text" placeholder="$200" />
+          {errors.cost && (
+            <FormErrorMessage>{errors.cost.message}</FormErrorMessage>
+          )}
         </FormControl>
 
         <Flex justifyContent="center" mt={{ base: '30px', md: '40px' }}>
@@ -136,7 +178,7 @@ export const Form = () => {
             Create Activity
           </Button>
         </Flex>
-      </form>
+      </Box>
     </Container>
   )
 }
