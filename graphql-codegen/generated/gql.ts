@@ -13,6 +13,8 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+  'query activityCollection($id: BigInt!) {\n  activityCollection(filter: {id: {eq: $id}}) {\n    edges {\n      node {\n        id\n        uuid\n        trip_id\n        title\n        time_from\n        time_to\n        address\n        url\n        memo\n        cost\n        image_storage_object_id\n        trips {\n          id\n          uuid\n          user_id\n          title\n        }\n      }\n    }\n  }\n}':
+    types.ActivityCollectionDocument,
   'mutation createTrip($user_id: BigInt!, $title: String!, $date_from: Date, $date_to: Date) {\n  insertIntotripsCollection(\n    objects: [{user_id: $user_id, title: $title, date_from: $date_from, date_to: $date_to}]\n  ) {\n    records {\n      __typename\n      id\n      uuid\n      title\n    }\n  }\n}':
     types.CreateTripDocument,
   'query tripsCollection($filter: tripsFilter, $orderBy: [tripsOrderBy!], $first: Int!, $after: Cursor) {\n  tripsCollection(\n    filter: $filter\n    first: $first\n    after: $after\n    orderBy: $orderBy\n  ) {\n    edges {\n      node {\n        id\n        uuid\n        title\n        date_from\n        date_to\n        image_storage_object_id\n        created_at\n        invitationsCollection {\n          edges {\n            node {\n              users {\n                id\n                profile_picture_url\n              }\n            }\n          }\n        }\n        activityCollection {\n          edges {\n            node {\n              id\n            }\n          }\n        }\n      }\n    }\n    pageInfo {\n      startCursor\n      endCursor\n      hasPreviousPage\n      hasNextPage\n    }\n  }\n}':
@@ -33,6 +35,12 @@ const documents = {
  */
 export function graphql(source: string): unknown
 
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: 'query activityCollection($id: BigInt!) {\n  activityCollection(filter: {id: {eq: $id}}) {\n    edges {\n      node {\n        id\n        uuid\n        trip_id\n        title\n        time_from\n        time_to\n        address\n        url\n        memo\n        cost\n        image_storage_object_id\n        trips {\n          id\n          uuid\n          user_id\n          title\n        }\n      }\n    }\n  }\n}'
+): (typeof documents)['query activityCollection($id: BigInt!) {\n  activityCollection(filter: {id: {eq: $id}}) {\n    edges {\n      node {\n        id\n        uuid\n        trip_id\n        title\n        time_from\n        time_to\n        address\n        url\n        memo\n        cost\n        image_storage_object_id\n        trips {\n          id\n          uuid\n          user_id\n          title\n        }\n      }\n    }\n  }\n}']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

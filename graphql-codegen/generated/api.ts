@@ -831,7 +831,6 @@ export type Trip_Tags = Node & {
   tags?: Maybe<Tags>
   trip_id?: Maybe<Scalars['BigInt']['output']>
   trips?: Maybe<Trips>
-  uuid: Scalars['UUID']['output']
 }
 
 export type Trip_TagsConnection = {
@@ -859,13 +858,11 @@ export type Trip_TagsFilter = {
   nodeId?: InputMaybe<IdFilter>
   tag_id?: InputMaybe<BigIntFilter>
   trip_id?: InputMaybe<BigIntFilter>
-  uuid?: InputMaybe<UuidFilter>
 }
 
 export type Trip_TagsInsertInput = {
   tag_id?: InputMaybe<Scalars['BigInt']['input']>
   trip_id?: InputMaybe<Scalars['BigInt']['input']>
-  uuid?: InputMaybe<Scalars['UUID']['input']>
 }
 
 export type Trip_TagsInsertResponse = {
@@ -880,13 +877,11 @@ export type Trip_TagsOrderBy = {
   id?: InputMaybe<OrderByDirection>
   tag_id?: InputMaybe<OrderByDirection>
   trip_id?: InputMaybe<OrderByDirection>
-  uuid?: InputMaybe<OrderByDirection>
 }
 
 export type Trip_TagsUpdateInput = {
   tag_id?: InputMaybe<Scalars['BigInt']['input']>
   trip_id?: InputMaybe<Scalars['BigInt']['input']>
-  uuid?: InputMaybe<Scalars['UUID']['input']>
 }
 
 export type Trip_TagsUpdateResponse = {
@@ -1129,6 +1124,41 @@ export type UsersUpdateResponse = {
   records: Array<Users>
 }
 
+export type ActivityCollectionQueryVariables = Exact<{
+  id: Scalars['BigInt']['input']
+}>
+
+export type ActivityCollectionQuery = {
+  __typename: 'Query'
+  activityCollection?: {
+    __typename: 'activityConnection'
+    edges: Array<{
+      __typename: 'activityEdge'
+      node: {
+        __typename: 'activity'
+        id: number
+        uuid: string
+        trip_id?: number | null
+        title: string
+        time_from?: string | null
+        time_to?: string | null
+        address?: string | null
+        url?: string | null
+        memo?: string | null
+        cost?: number | null
+        image_storage_object_id?: string | null
+        trips?: {
+          __typename: 'trips'
+          id: number
+          uuid: string
+          user_id?: number | null
+          title: string
+        } | null
+      }
+    }>
+  } | null
+}
+
 export type CreateTripMutationVariables = Exact<{
   user_id: Scalars['BigInt']['input']
   title: Scalars['String']['input']
@@ -1204,6 +1234,109 @@ export type TripsCollectionQuery = {
   } | null
 }
 
+export const ActivityCollectionDocument = gql`
+  query activityCollection($id: BigInt!) {
+    __typename
+    activityCollection(filter: { id: { eq: $id } }) {
+      __typename
+      edges {
+        __typename
+        node {
+          __typename
+          id
+          uuid
+          trip_id
+          title
+          time_from
+          time_to
+          address
+          url
+          memo
+          cost
+          image_storage_object_id
+          trips {
+            __typename
+            id
+            uuid
+            user_id
+            title
+          }
+        }
+      }
+    }
+  }
+`
+
+/**
+ * __useActivityCollectionQuery__
+ *
+ * To run a query within a React component, call `useActivityCollectionQuery` and pass it any options that fit your needs.
+ * When your component renders, `useActivityCollectionQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useActivityCollectionQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useActivityCollectionQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    ActivityCollectionQuery,
+    ActivityCollectionQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<
+    ActivityCollectionQuery,
+    ActivityCollectionQueryVariables
+  >(ActivityCollectionDocument, options)
+}
+export function useActivityCollectionLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    ActivityCollectionQuery,
+    ActivityCollectionQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<
+    ActivityCollectionQuery,
+    ActivityCollectionQueryVariables
+  >(ActivityCollectionDocument, options)
+}
+export function useActivityCollectionSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    ActivityCollectionQuery,
+    ActivityCollectionQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<
+    ActivityCollectionQuery,
+    ActivityCollectionQueryVariables
+  >(ActivityCollectionDocument, options)
+}
+export type ActivityCollectionQueryHookResult = ReturnType<
+  typeof useActivityCollectionQuery
+>
+export type ActivityCollectionLazyQueryHookResult = ReturnType<
+  typeof useActivityCollectionLazyQuery
+>
+export type ActivityCollectionSuspenseQueryHookResult = ReturnType<
+  typeof useActivityCollectionSuspenseQuery
+>
+export type ActivityCollectionQueryResult = Apollo.QueryResult<
+  ActivityCollectionQuery,
+  ActivityCollectionQueryVariables
+>
+export function refetchActivityCollectionQuery(
+  variables: ActivityCollectionQueryVariables
+) {
+  return { query: ActivityCollectionDocument, variables: variables }
+}
 export const CreateTripDocument = gql`
   mutation createTrip(
     $user_id: BigInt!
