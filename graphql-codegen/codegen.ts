@@ -3,11 +3,12 @@ import type { CodegenConfig } from '@graphql-codegen/cli'
 
 const config: CodegenConfig = {
   schema: {
-    [process.env.GRAPHQL_ENDPOINT as string || 'http://127.0.0.1:54321/graphql/v1']: {
+    [(process.env.GRAPHQL_ENDPOINT as string) ||
+    'http://127.0.0.1:54321/graphql/v1']: {
       headers: {
-        apiKey: process.env.API_KEY as string,
-      },
-    },
+        apiKey: process.env.API_KEY as string
+      }
+    }
   },
   overwrite: true,
   watch: true,
@@ -17,24 +18,28 @@ const config: CodegenConfig = {
       preset: 'client',
       presetConfig: {
         persistedDocuments: true,
-        apolloClientVersion: 3,
+        apolloClientVersion: 3
       },
-      documentTransforms: [addTypenameSelectionDocumentTransform],
+      documentTransforms: [addTypenameSelectionDocumentTransform]
     },
     // NOTE: api.ts generates automatically custom hooks for each query/mutation
     'graphql-codegen/generated/api.ts': {
       overwrite: true,
-      plugins: ['typescript', 'typescript-operations', 'typescript-react-apollo'],
+      plugins: [
+        'typescript',
+        'typescript-operations',
+        'typescript-react-apollo'
+      ],
       config: {
         // NOTE: https://the-guild.dev/graphql/codegen/plugins/typescript/typescript-react-apollo
         useTypeImports: true,
         withComponent: false,
         withHOC: false,
         withHooks: true,
-        withRefetchFn: true,
+        withRefetchFn: true
       },
-      documentTransforms: [addTypenameSelectionDocumentTransform],
-    },
+      documentTransforms: [addTypenameSelectionDocumentTransform]
+    }
   },
   ignoreNoDocuments: true,
   config: {
@@ -51,8 +56,8 @@ const config: CodegenConfig = {
     }
   },
   hooks: {
-    afterAllFileWrite: ["prettier --write"],
-  },
+    afterAllFileWrite: ['prettier --write']
+  }
 }
 
 export default config
