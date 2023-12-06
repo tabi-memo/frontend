@@ -9,27 +9,25 @@ import {
   useColorModeValue
 } from '@chakra-ui/react'
 import { MdAccountCircle } from 'react-icons/md'
+import { TripsCollectionQuery } from '@generated/api'
 
 type TripCardProps = {
-  data: {
-    id: number
-    title: string
-    image_storage_object_id: string
-    date_from: string
-    date_to: string
-    share: { id: string; image: string }[]
-  }
+  data: NonNullable<TripsCollectionQuery['tripsCollection']>['edges'][number]
 }
 
 export const TripCard = ({ data }: TripCardProps) => {
   const bgColorSp = useColorModeValue('white', 'gray.800')
   const bgColorPc = useColorModeValue('white', 'gray.700')
   const borderColor = useColorModeValue('gray.200', 'gray.600')
+  const imageSrc = useColorModeValue(
+    '/images/no_image_light.jpg',
+    '/images/no_image_dark.jpg'
+  )
 
   return (
     <Card
       as={NextLink}
-      href={`/trip/${data.id}`}
+      href={`/trip/${data.node.id}`}
       role={'group'}
       maxW={{ base: '100%', md: 'calc(100% / 2 - 10px)', lg: '360px' }}
       pb={{ base: '12px', md: '0px' }}
@@ -42,15 +40,14 @@ export const TripCard = ({ data }: TripCardProps) => {
       borderBottom={{ base: '1px', md: 'none' }}
       borderColor={{ base: borderColor, md: 'none' }}
       bgColor={{ base: bgColorSp, md: bgColorPc }}
-      align="center"
       _hover={{
         textDecoration: 'none'
       }}
     >
       <Box overflow="hidden" w={{ base: '', md: '100%' }}>
         <Image
-          src={data.image_storage_object_id}
-          alt={`Picture of ${data.title}`}
+          src={data.node.image_storage_object_id || imageSrc}
+          alt={`Picture of ${data.node.title}`}
           w={{ base: '150px', md: '100%' }}
           h={{ base: '100px', md: '240px' }}
           objectFit="cover"
@@ -63,11 +60,11 @@ export const TripCard = ({ data }: TripCardProps) => {
       <CardBody
         display="flex"
         flexDir="column"
-        justifyContent="space-between"
+        justifyContent={{ base: 'flex-start', md: 'space-between' }}
         overflow="hidden"
         w="100%"
         gap="8px"
-        py={{ base: '0', md: '12px' }}
+        py={{ base: '8px', md: '12px' }}
         px={{ base: '0', md: '8px' }}
       >
         <Heading
@@ -83,24 +80,33 @@ export const TripCard = ({ data }: TripCardProps) => {
             color: 'primary.600'
           }}
         >
-          {data.title}
+          {data.node.title}
         </Heading>
-        <Flex gap="8px" color="gray.400">
-          <Box
-            w={{ base: '26px', md: '38px' }}
-            h={{ base: '26px', md: '38px' }}
-          >
-            <MdAccountCircle size="100%" />
-          </Box>
-          <Box
-            w={{ base: '26px', md: '38px' }}
-            h={{ base: '26px', md: '38px' }}
-          >
-            <MdAccountCircle size="100%" />
-          </Box>
-        </Flex>
+        {data.node.invitationsCollection?.edges &&
+          data.node.invitationsCollection.edges.length > 0 && (
+            <Flex gap="8px" color="gray.400">
+              {data.node.invitationsCollection?.edges.map((invitation) => (
+                <Box
+                  key={invitation.node.users?.id}
+                  w={{ base: '26px', md: '38px' }}
+                  h={{ base: '26px', md: '38px' }}
+                >
+                  {invitation.node.users?.profile_picture_url ? (
+                    <Image
+                      src={invitation.node.users?.profile_picture_url}
+                      alt=""
+                      borderRadius="full"
+                      objectFit="cover"
+                    />
+                  ) : (
+                    <MdAccountCircle size="100%" />
+                  )}
+                </Box>
+              ))}
+            </Flex>
+          )}
         <Flex fontSize={{ base: 'sm', md: 'md' }}>
-          {data.date_from} - {data.date_to}
+          {data.node.date_from} - {data.node.date_to}
         </Flex>
       </CardBody>
     </Card>
