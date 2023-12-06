@@ -21,7 +21,6 @@ import { createActivitySchema, createActivityResolver } from './schema'
 
 export const Form = () => {
   const [selectedImages, setSelectedImages] = useState<File[]>([])
-
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setSelectedImages((prevImages) => [...prevImages, ...acceptedFiles])
   }, [])
@@ -43,7 +42,7 @@ export const Form = () => {
   })
 
   const createHandler = handleSubmit(async (data: createActivitySchema) => {
-    // append images to formData and send to backend
+    // TODO append images to formData and send to backend
     console.log('formData', data)
   })
 
