@@ -30,6 +30,9 @@ export async function middleware(request: NextRequest) {
     request.nextUrl.pathname.startsWith(signinUri) ||
     request.nextUrl.pathname.startsWith('/signup')
   ) {
+    if (session) {
+      return NextResponse.redirect(new URL('/', request.url))
+    }
     return response
   }
   if (error || !session) {
