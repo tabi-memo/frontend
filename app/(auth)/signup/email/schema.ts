@@ -9,6 +9,9 @@ const signUpSchema = z
       .min(8, { message: 'Password must contain at least 8 character(s)' }),
     confirmationPassword: z.string().min(8, {
       message: 'Password must contain at least 8 character(s)'
+    }),
+    userName: z.string().min(1, {
+      message: 'user name is required'
     })
   })
   .refine((schema) => schema.password === schema.confirmationPassword, {
