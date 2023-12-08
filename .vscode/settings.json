@@ -12,7 +12,7 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "npm.packageManager": "pnpm",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "[typescript][javascript][typescriptreact][javascriptreact][json][jsonl]": {
+  "[typescript][javascript][typescriptreact][javascriptreact][json][jsonl][yaml]": {
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": true
     },

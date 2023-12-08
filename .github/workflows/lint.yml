@@ -27,6 +27,10 @@ jobs:
           pnpm lint
           pnpm format
 
+      - name: Next.js build
+        run: |
+          pnpm build
+
       - name: Use reviewdog eslint
         uses: reviewdog/action-eslint@v1
         with:
