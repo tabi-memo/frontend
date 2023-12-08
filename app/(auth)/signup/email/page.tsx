@@ -12,8 +12,8 @@ import {
   useToast,
   useBoolean
 } from '@chakra-ui/react'
-import { signUp } from '@/auth/signup/email/action'
-import { signUpResolver, SignUpSchema } from '@/auth/signup/email/schema'
+import { signUp } from '@/(auth)/signup/email/action'
+import { signUpResolver, SignUpSchema } from '@/(auth)/signup/email/schema'
 import { PrimaryButton } from '@/components/button'
 
 export default function SignUp() {

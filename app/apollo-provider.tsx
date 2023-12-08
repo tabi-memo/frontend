@@ -11,10 +11,10 @@ import {
 function apiEndpoint(): { uri: string; headers?: Record<string, string> } {
   return {
     uri:
-      (process.env.GRAPHQL_ENDPOINT as string) ||
+      (process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT as string) ||
       'http://127.0.0.1:54321/graphql/v1',
     headers: {
-      apiKey: process.env.API_KEY as string
+      apiKey: process.env.NEXT_PUBLIC_API_KEY as string
     }
   }
 }
@@ -32,7 +32,8 @@ function makeClient() {
             }),
             httpLink
           ])
-        : httpLink
+        : httpLink,
+    connectToDevTools: false
   })
 }
 

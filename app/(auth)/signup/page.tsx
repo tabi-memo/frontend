@@ -9,11 +9,15 @@ export default function SignUp() {
       <Heading>Create an Account</Heading>
       <List spacing={3}>
         <ListItem>
-          <Link href="/auth/signup/email">
+          <Link href="/signup/email">
             <SecondaryButton>Sign up with Email</SecondaryButton>
           </Link>
         </ListItem>
       </List>
+      <Heading>Already have an account?</Heading>
+      <Link href="/signin/email">
+        <SecondaryButton>Sign in to your account?</SecondaryButton>
+      </Link>
     </>
   )
 }

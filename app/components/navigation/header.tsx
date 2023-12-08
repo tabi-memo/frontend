@@ -38,7 +38,6 @@ export const Header = () => {
               src="/logo/logo.png"
               width={144}
               height={40}
-              objectFit="contain"
               alt="Tabi Memo"
             />
           </Link>

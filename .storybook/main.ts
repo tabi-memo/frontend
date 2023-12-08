@@ -9,7 +9,7 @@ module.exports = {
     '@storybook/addon-onboarding',
     '@storybook/addon-interactions',
     '@chakra-ui/storybook-addon',
-    'storybook-addon-apollo-client',
+    'storybook-addon-apollo-client'
   ],
   features: {
     emotionAlias: false

@@ -6,42 +6,63 @@ import {
   Grid,
   GridItem,
   Flex,
+  Text,
   useColorModeValue
 } from '@chakra-ui/react'
+import { useRouter } from 'next/navigation'
 import { PrimaryButton } from '@/components/button'
+import { Loading } from '@/components/loading'
 import { Header, Footer } from '@/components/navigation'
 import { TripSearch, TripSort, TripCard } from '@/trip/components'
+import { useTripsCollectionQuery, TripsOrderBy } from '@generated/api'
 
-const dummy = [
-  {
-    id: 1,
-    title: 'Tokyo',
-    date_from: 'Oct 10, 2023',
-    date_to: 'Nov 10, 2023',
-    image_storage_object_id:
-      'https://placehold.jp/6381f8/ffffff/366x277.png?text=Picture',
-    share: [
-      { id: '', image: '' },
-      { id: '', image: '' }
-    ]
-  },
-  {
-    id: 2,
-    title: 'Kyoto',
-    date_from: 'Oct 10, 2023',
-    date_to: 'Nov 10, 2023',
-    image_storage_object_id:
-      'https://placehold.jp/6381f8/ffffff/366x277.png?text=Picture',
-    share: [
-      { id: '', image: '' },
-      { id: '', image: '' }
-    ]
-  }
-]
-
-export default function Top() {
+export default function Top({ searchParams }: { searchParams: { q: string } }) {
+  const router = useRouter()
   const bg = useColorModeValue('white', 'gray.800')
   const color = useColorModeValue('black', 'gray.300')
+
+  const searchWord = searchParams.q
+
+  const { data, loading, fetchMore, refetch } = useTripsCollectionQuery({
+    variables: {
+      filter: {
+        user_id: { eq: 1 }, // TODO replace with actual user id
+        ...(searchWord &&
+          searchWord.length && { title: { like: `%${searchWord}%` } })
+      },
+      first: 6,
+      after: null
+    }
+  })
+
+  const handleSortBy = (sortObj: TripsOrderBy) => {
+    refetch({
+      orderBy: sortObj
+    })
+  }
+
+  const handleLoadMore = () => {
+    fetchMore({
+      variables: {
+        after: data?.tripsCollection?.pageInfo.endCursor
+      },
+      updateQuery: (previousQueryResult, { fetchMoreResult }) => {
+        const newEdges = fetchMoreResult?.tripsCollection?.edges
+        const pageInfo = fetchMoreResult?.tripsCollection?.pageInfo
+        const previousCollection = previousQueryResult?.tripsCollection
+        return newEdges && newEdges.length && pageInfo && previousCollection
+          ? {
+              tripsCollection: {
+                __typename: previousCollection.__typename,
+                edges: [...previousCollection.edges, ...newEdges],
+                pageInfo
+              },
+              __typename: previousQueryResult.__typename
+            }
+          : previousQueryResult
+      }
+    })
+  }
 
   return (
     <>
@@ -67,27 +88,45 @@ export default function Top() {
               <Heading as={'h1'} fontSize={{ base: '2xl', md: '4xl' }}>
                 My Trips
               </Heading>
-              <PrimaryButton w="9.5rem">Add New Trip</PrimaryButton>
+              <PrimaryButton
+                w="9.5rem"
+                onClick={() => router.push('/trip/create')}
+              >
+                Add New Trip
+              </PrimaryButton>
             </GridItem>
             <GridItem ml={{ base: '', lg: 'auto' }}>
               <TripSearch />
             </GridItem>
             <GridItem>
-              <TripSort />
+              <TripSort sortBy={handleSortBy} />
             </GridItem>
           </Grid>
-          <Flex
-            gap={{ base: '20px', lg: '60px' }}
-            mt={{ base: '38px', md: '40px' }}
-            flexWrap={'wrap'}
-          >
-            {dummy.map((trip) => (
-              <TripCard key={trip.id} data={trip} />
-            ))}
-          </Flex>
-          <Box textAlign="center" mt={{ base: '40px', md: '60px' }}>
-            <PrimaryButton variant="outline">Load More</PrimaryButton>
-          </Box>
+          {loading || !data?.tripsCollection ? (
+            <Loading />
+          ) : (
+            <>
+              <Flex
+                gap={{ base: '20px', lg: '60px' }}
+                mt={{ base: '38px', md: '40px' }}
+                flexWrap={'wrap'}
+              >
+                {data.tripsCollection.edges.length === 0 && (
+                  <Text>We couldn&apos;t find any results</Text>
+                )}
+                {data.tripsCollection.edges.map((trip) => (
+                  <TripCard key={trip.node.id} data={trip} />
+                ))}
+              </Flex>
+              {data.tripsCollection.pageInfo.hasNextPage && (
+                <Box textAlign="center" mt={{ base: '40px', md: '60px' }}>
+                  <PrimaryButton variant="outline" onClick={handleLoadMore}>
+                    Load More
+                  </PrimaryButton>
+                </Box>
+              )}
+            </>
+          )}
         </Container>
       </Box>
       <Footer />

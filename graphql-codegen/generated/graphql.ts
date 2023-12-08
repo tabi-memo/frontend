@@ -144,6 +144,8 @@ export type Mutation = {
   deleteFrominvitationsCollection: InvitationsDeleteResponse
   /** Deletes zero or more records from the `tags` collection */
   deleteFromtagsCollection: TagsDeleteResponse
+  /** Deletes zero or more records from the `test_tenant` collection */
+  deleteFromtest_tenantCollection: Test_TenantDeleteResponse
   /** Deletes zero or more records from the `trip_tags` collection */
   deleteFromtrip_tagsCollection: Trip_TagsDeleteResponse
   /** Deletes zero or more records from the `trips` collection */
@@ -156,6 +158,8 @@ export type Mutation = {
   insertIntoinvitationsCollection?: Maybe<InvitationsInsertResponse>
   /** Adds one or more `tags` records to the collection */
   insertIntotagsCollection?: Maybe<TagsInsertResponse>
+  /** Adds one or more `test_tenant` records to the collection */
+  insertIntotest_tenantCollection?: Maybe<Test_TenantInsertResponse>
   /** Adds one or more `trip_tags` records to the collection */
   insertIntotrip_tagsCollection?: Maybe<Trip_TagsInsertResponse>
   /** Adds one or more `trips` records to the collection */
@@ -168,6 +172,8 @@ export type Mutation = {
   updateinvitationsCollection: InvitationsUpdateResponse
   /** Updates zero or more records in the `tags` collection */
   updatetagsCollection: TagsUpdateResponse
+  /** Updates zero or more records in the `test_tenant` collection */
+  updatetest_tenantCollection: Test_TenantUpdateResponse
   /** Updates zero or more records in the `trip_tags` collection */
   updatetrip_tagsCollection: Trip_TagsUpdateResponse
   /** Updates zero or more records in the `trips` collection */
@@ -192,6 +198,12 @@ export type MutationDeleteFrominvitationsCollectionArgs = {
 export type MutationDeleteFromtagsCollectionArgs = {
   atMost?: Scalars['Int']['input']
   filter?: InputMaybe<TagsFilter>
+}
+
+/** The root type for creating and mutating data */
+export type MutationDeleteFromtest_TenantCollectionArgs = {
+  atMost?: Scalars['Int']['input']
+  filter?: InputMaybe<Test_TenantFilter>
 }
 
 /** The root type for creating and mutating data */
@@ -228,6 +240,11 @@ export type MutationInsertIntotagsCollectionArgs = {
 }
 
 /** The root type for creating and mutating data */
+export type MutationInsertIntotest_TenantCollectionArgs = {
+  objects: Array<Test_TenantInsertInput>
+}
+
+/** The root type for creating and mutating data */
 export type MutationInsertIntotrip_TagsCollectionArgs = {
   objects: Array<Trip_TagsInsertInput>
 }
@@ -261,6 +278,13 @@ export type MutationUpdatetagsCollectionArgs = {
   atMost?: Scalars['Int']['input']
   filter?: InputMaybe<TagsFilter>
   set: TagsUpdateInput
+}
+
+/** The root type for creating and mutating data */
+export type MutationUpdatetest_TenantCollectionArgs = {
+  atMost?: Scalars['Int']['input']
+  filter?: InputMaybe<Test_TenantFilter>
+  set: Test_TenantUpdateInput
 }
 
 /** The root type for creating and mutating data */
@@ -326,6 +350,8 @@ export type Query = {
   node?: Maybe<Node>
   /** A pagable collection of type `tags` */
   tagsCollection?: Maybe<TagsConnection>
+  /** A pagable collection of type `test_tenant` */
+  test_tenantCollection?: Maybe<Test_TenantConnection>
   /** A pagable collection of type `trip_tags` */
   trip_tagsCollection?: Maybe<Trip_TagsConnection>
   /** A pagable collection of type `trips` */
@@ -367,6 +393,16 @@ export type QueryTagsCollectionArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   orderBy?: InputMaybe<Array<TagsOrderBy>>
+}
+
+/** The root type for querying data */
+export type QueryTest_TenantCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  filter?: InputMaybe<Test_TenantFilter>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<Test_TenantOrderBy>>
 }
 
 /** The root type for querying data */
@@ -476,17 +512,11 @@ export type ActivityEdge = {
 
 export type ActivityFilter = {
   address?: InputMaybe<StringFilter>
-  /** Returns true only if all its inner filters are true, otherwise returns false */
-  and?: InputMaybe<Array<ActivityFilter>>
   cost?: InputMaybe<BigFloatFilter>
   id?: InputMaybe<BigIntFilter>
   image_storage_object_id?: InputMaybe<UuidFilter>
   memo?: InputMaybe<StringFilter>
   nodeId?: InputMaybe<IdFilter>
-  /** Negates a filter */
-  not?: InputMaybe<ActivityFilter>
-  /** Returns true if at least one of its inner filters is true, otherwise returns false */
-  or?: InputMaybe<Array<ActivityFilter>>
   time_from?: InputMaybe<DatetimeFilter>
   time_to?: InputMaybe<DatetimeFilter>
   title?: InputMaybe<StringFilter>
@@ -588,18 +618,12 @@ export type InvitationsEdge = {
 }
 
 export type InvitationsFilter = {
-  /** Returns true only if all its inner filters are true, otherwise returns false */
-  and?: InputMaybe<Array<InvitationsFilter>>
   email?: InputMaybe<StringFilter>
   id?: InputMaybe<BigIntFilter>
   invitation_url?: InputMaybe<StringFilter>
   invited_by_user_id?: InputMaybe<BigIntFilter>
   invitee_user_id?: InputMaybe<BigIntFilter>
   nodeId?: InputMaybe<IdFilter>
-  /** Negates a filter */
-  not?: InputMaybe<InvitationsFilter>
-  /** Returns true if at least one of its inner filters is true, otherwise returns false */
-  or?: InputMaybe<Array<InvitationsFilter>>
   permission_level?: InputMaybe<Permission_Level_EnumFilter>
   trip_id?: InputMaybe<BigIntFilter>
   uuid?: InputMaybe<UuidFilter>
@@ -705,15 +729,9 @@ export type TagsEdge = {
 }
 
 export type TagsFilter = {
-  /** Returns true only if all its inner filters are true, otherwise returns false */
-  and?: InputMaybe<Array<TagsFilter>>
   id?: InputMaybe<BigIntFilter>
   name?: InputMaybe<StringFilter>
   nodeId?: InputMaybe<IdFilter>
-  /** Negates a filter */
-  not?: InputMaybe<TagsFilter>
-  /** Returns true if at least one of its inner filters is true, otherwise returns false */
-  or?: InputMaybe<Array<TagsFilter>>
   uuid?: InputMaybe<UuidFilter>
 }
 
@@ -749,6 +767,69 @@ export type TagsUpdateResponse = {
   records: Array<Tags>
 }
 
+export type Test_Tenant = Node & {
+  __typename?: 'test_tenant'
+  details?: Maybe<Scalars['String']['output']>
+  id: Scalars['Int']['output']
+  /** Globally Unique Record Identifier */
+  nodeId: Scalars['ID']['output']
+}
+
+export type Test_TenantConnection = {
+  __typename?: 'test_tenantConnection'
+  edges: Array<Test_TenantEdge>
+  pageInfo: PageInfo
+}
+
+export type Test_TenantDeleteResponse = {
+  __typename?: 'test_tenantDeleteResponse'
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output']
+  /** Array of records impacted by the mutation */
+  records: Array<Test_Tenant>
+}
+
+export type Test_TenantEdge = {
+  __typename?: 'test_tenantEdge'
+  cursor: Scalars['String']['output']
+  node: Test_Tenant
+}
+
+export type Test_TenantFilter = {
+  details?: InputMaybe<StringFilter>
+  id?: InputMaybe<IntFilter>
+  nodeId?: InputMaybe<IdFilter>
+}
+
+export type Test_TenantInsertInput = {
+  details?: InputMaybe<Scalars['String']['input']>
+}
+
+export type Test_TenantInsertResponse = {
+  __typename?: 'test_tenantInsertResponse'
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output']
+  /** Array of records impacted by the mutation */
+  records: Array<Test_Tenant>
+}
+
+export type Test_TenantOrderBy = {
+  details?: InputMaybe<OrderByDirection>
+  id?: InputMaybe<OrderByDirection>
+}
+
+export type Test_TenantUpdateInput = {
+  details?: InputMaybe<Scalars['String']['input']>
+}
+
+export type Test_TenantUpdateResponse = {
+  __typename?: 'test_tenantUpdateResponse'
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output']
+  /** Array of records impacted by the mutation */
+  records: Array<Test_Tenant>
+}
+
 export type Trip_Tags = Node & {
   __typename?: 'trip_tags'
   id: Scalars['BigInt']['output']
@@ -782,14 +863,8 @@ export type Trip_TagsEdge = {
 }
 
 export type Trip_TagsFilter = {
-  /** Returns true only if all its inner filters are true, otherwise returns false */
-  and?: InputMaybe<Array<Trip_TagsFilter>>
   id?: InputMaybe<BigIntFilter>
   nodeId?: InputMaybe<IdFilter>
-  /** Negates a filter */
-  not?: InputMaybe<Trip_TagsFilter>
-  /** Returns true if at least one of its inner filters is true, otherwise returns false */
-  or?: InputMaybe<Array<Trip_TagsFilter>>
   tag_id?: InputMaybe<BigIntFilter>
   trip_id?: InputMaybe<BigIntFilter>
   uuid?: InputMaybe<UuidFilter>
@@ -834,6 +909,7 @@ export type Trips = Node & {
   __typename?: 'trips'
   activityCollection?: Maybe<ActivityConnection>
   cost?: Maybe<Scalars['BigFloat']['output']>
+  created_at: Scalars['Datetime']['output']
   date_from?: Maybe<Scalars['Date']['output']>
   date_to?: Maybe<Scalars['Date']['output']>
   description?: Maybe<Scalars['String']['output']>
@@ -897,19 +973,14 @@ export type TripsEdge = {
 }
 
 export type TripsFilter = {
-  /** Returns true only if all its inner filters are true, otherwise returns false */
-  and?: InputMaybe<Array<TripsFilter>>
   cost?: InputMaybe<BigFloatFilter>
+  created_at?: InputMaybe<DatetimeFilter>
   date_from?: InputMaybe<DateFilter>
   date_to?: InputMaybe<DateFilter>
   description?: InputMaybe<StringFilter>
   id?: InputMaybe<BigIntFilter>
   image_storage_object_id?: InputMaybe<UuidFilter>
   nodeId?: InputMaybe<IdFilter>
-  /** Negates a filter */
-  not?: InputMaybe<TripsFilter>
-  /** Returns true if at least one of its inner filters is true, otherwise returns false */
-  or?: InputMaybe<Array<TripsFilter>>
   title?: InputMaybe<StringFilter>
   user_id?: InputMaybe<BigIntFilter>
   uuid?: InputMaybe<UuidFilter>
@@ -917,6 +988,7 @@ export type TripsFilter = {
 
 export type TripsInsertInput = {
   cost?: InputMaybe<Scalars['BigFloat']['input']>
+  created_at?: InputMaybe<Scalars['Datetime']['input']>
   date_from?: InputMaybe<Scalars['Date']['input']>
   date_to?: InputMaybe<Scalars['Date']['input']>
   description?: InputMaybe<Scalars['String']['input']>
@@ -936,6 +1008,7 @@ export type TripsInsertResponse = {
 
 export type TripsOrderBy = {
   cost?: InputMaybe<OrderByDirection>
+  created_at?: InputMaybe<OrderByDirection>
   date_from?: InputMaybe<OrderByDirection>
   date_to?: InputMaybe<OrderByDirection>
   description?: InputMaybe<OrderByDirection>
@@ -948,6 +1021,7 @@ export type TripsOrderBy = {
 
 export type TripsUpdateInput = {
   cost?: InputMaybe<Scalars['BigFloat']['input']>
+  created_at?: InputMaybe<Scalars['Datetime']['input']>
   date_from?: InputMaybe<Scalars['Date']['input']>
   date_to?: InputMaybe<Scalars['Date']['input']>
   description?: InputMaybe<Scalars['String']['input']>
@@ -1017,16 +1091,10 @@ export type UsersEdge = {
 }
 
 export type UsersFilter = {
-  /** Returns true only if all its inner filters are true, otherwise returns false */
-  and?: InputMaybe<Array<UsersFilter>>
   email?: InputMaybe<StringFilter>
   id?: InputMaybe<BigIntFilter>
   name?: InputMaybe<StringFilter>
   nodeId?: InputMaybe<IdFilter>
-  /** Negates a filter */
-  not?: InputMaybe<UsersFilter>
-  /** Returns true if at least one of its inner filters is true, otherwise returns false */
-  or?: InputMaybe<Array<UsersFilter>>
   profile_picture_url?: InputMaybe<StringFilter>
   uuid?: InputMaybe<UuidFilter>
 }
@@ -1111,7 +1179,10 @@ export type CreateTripMutation = {
 }
 
 export type TripsCollectionQueryVariables = Exact<{
-  user_id: Scalars['BigInt']['input']
+  filter?: InputMaybe<TripsFilter>
+  orderBy?: InputMaybe<Array<TripsOrderBy> | TripsOrderBy>
+  first: Scalars['Int']['input']
+  after?: InputMaybe<Scalars['Cursor']['input']>
 }>
 
 export type TripsCollectionQuery = {
@@ -1127,13 +1198,19 @@ export type TripsCollectionQuery = {
         title: string
         date_from?: string | null
         date_to?: string | null
+        image_storage_object_id?: string | null
+        created_at: string
         invitationsCollection?: {
           __typename: 'invitationsConnection'
           edges: Array<{
             __typename: 'invitationsEdge'
             node: {
               __typename: 'invitations'
-              users?: { __typename: 'users'; id: number; name: string } | null
+              users?: {
+                __typename: 'users'
+                id: number
+                profile_picture_url?: string | null
+              } | null
             }
           }>
         } | null
@@ -1141,11 +1218,18 @@ export type TripsCollectionQuery = {
           __typename: 'activityConnection'
           edges: Array<{
             __typename: 'activityEdge'
-            node: { __typename: 'activity'; id: number; title: string }
+            node: { __typename: 'activity'; id: number }
           }>
         } | null
       }
     }>
+    pageInfo: {
+      __typename: 'PageInfo'
+      startCursor?: string | null
+      endCursor?: string | null
+      hasPreviousPage: boolean
+      hasNextPage: boolean
+    }
   } | null
 }
 
@@ -1391,7 +1475,7 @@ export const CreateTripDocument = {
   ]
 } as unknown as DocumentNode<CreateTripMutation, CreateTripMutationVariables>
 export const TripsCollectionDocument = {
-  __meta__: { hash: '182f9fea975a5ffe35ff7925da14842a7fa60bd0' },
+  __meta__: { hash: '8401c03d2c5f85ba0f977c1ea136bdd035c7d049' },
   kind: 'Document',
   definitions: [
     {
@@ -1403,12 +1487,48 @@ export const TripsCollectionDocument = {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'user_id' }
+            name: { kind: 'Name', value: 'filter' }
+          },
+          type: {
+            kind: 'NamedType',
+            name: { kind: 'Name', value: 'tripsFilter' }
+          }
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'orderBy' }
+          },
+          type: {
+            kind: 'ListType',
+            type: {
+              kind: 'NonNullType',
+              type: {
+                kind: 'NamedType',
+                name: { kind: 'Name', value: 'tripsOrderBy' }
+              }
+            }
+          }
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'first' }
           },
           type: {
             kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'BigInt' } }
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } }
           }
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'after' }
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Cursor' } }
         }
       ],
       selectionSet: {
@@ -1423,26 +1543,32 @@ export const TripsCollectionDocument = {
                 kind: 'Argument',
                 name: { kind: 'Name', value: 'filter' },
                 value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'user_id' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: 'eq' },
-                            value: {
-                              kind: 'Variable',
-                              name: { kind: 'Name', value: 'user_id' }
-                            }
-                          }
-                        ]
-                      }
-                    }
-                  ]
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'filter' }
+                }
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'first' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'first' }
+                }
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'after' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'after' }
+                }
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'orderBy' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'orderBy' }
                 }
               }
             ],
@@ -1489,6 +1615,17 @@ export const TripsCollectionDocument = {
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'date_to' }
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'image_storage_object_id'
+                              }
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'created_at' }
                             },
                             {
                               kind: 'Field',
@@ -1556,7 +1693,8 @@ export const TripsCollectionDocument = {
                                                       kind: 'Field',
                                                       name: {
                                                         kind: 'Name',
-                                                        value: 'name'
+                                                        value:
+                                                          'profile_picture_url'
                                                       }
                                                     }
                                                   ]
@@ -1616,13 +1754,6 @@ export const TripsCollectionDocument = {
                                                   kind: 'Name',
                                                   value: 'id'
                                                 }
-                                              },
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'title'
-                                                }
                                               }
                                             ]
                                           }
@@ -1635,6 +1766,35 @@ export const TripsCollectionDocument = {
                             }
                           ]
                         }
+                      }
+                    ]
+                  }
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'pageInfo' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: '__typename' }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'startCursor' }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'endCursor' }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasPreviousPage' }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hasNextPage' }
                       }
                     ]
                   }
