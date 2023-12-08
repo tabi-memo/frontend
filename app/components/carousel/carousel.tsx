@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react'
 import { LeftArrow, RightArrow } from '@/icons'
 
-type CarouselProps = {
+export type CarouselProps = {
   urls: string[]
 }
 
