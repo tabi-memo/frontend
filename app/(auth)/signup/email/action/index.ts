@@ -1,8 +1,8 @@
 'use server'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import type { SignUpSchema } from '@/auth/signup/email/schema'
-import { createClient } from '@/auth/supabase'
+import type { SignUpSchema } from '@/(auth)/signup/email/schema'
+import { createClient } from '@/(auth)/supabase/server'
 
 export const signUp = async ({
   email,
