@@ -15,7 +15,7 @@ export default function ActivityDetails({ params }: { params: { id: number } }) 
   const color = useColorModeValue('black', 'gray.300')
 
 
-  const { data, loading } = useActivityCollectionQuery({
+  const { data } = useActivityCollectionQuery({
     variables: {
       id: params.id
     }
