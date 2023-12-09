@@ -20,7 +20,6 @@ export const ActivityCard: React.FC<ActivityInfoProps> = ({ activityData }) => {
   const timeFrom = data.time_from?.split('T')[0]
   const timeTo = data.time_to?.split('T')[0]
 
-  console.log('activityData', activityData)
   return (
     <>
       <Flex pb={{ base: '30px', md: '40px' }}>
