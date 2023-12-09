@@ -71,6 +71,7 @@ export const Carousel = ({ urls }: CarouselProps) => {
         aria-label="left-arrow"
         colorScheme="white"
         borderRadius="full"
+        bg="white"
         position="absolute"
         left={side}
         top={top}
@@ -86,6 +87,7 @@ export const Carousel = ({ urls }: CarouselProps) => {
         aria-label="right-arrow"
         colorScheme="white"
         borderRadius="full"
+        bg="white"
         position="absolute"
         right={side}
         top={top}

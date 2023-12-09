@@ -5,25 +5,26 @@ import { FiClock, FiMapPin, FiLink2 } from 'react-icons/fi'
 import { Link } from '@/components/link'
 import { TrashIcon, EditIcon } from '@/icons'
 import { customColors } from '@/theme/color'
+import { ActivityCollectionQuery } from '@generated/api'
 
-type ActivityData = {
-  title: string
-  time_from: string
-  address: string
-  url: string
+type ActivityInfoProps = {
+  activityData: ActivityCollectionQuery | undefined
 }
 
-type ActivityCardProps = {
-  dummyActivityData: ActivityData
-}
+export const ActivityCard: React.FC<ActivityInfoProps> = ({ activityData }) => {
+  if (!activityData || !activityData.activityCollection) {
+    return null
+  }
 
-export const ActivityCard = ({ dummyActivityData }: ActivityCardProps) => {
+  const data = activityData?.activityCollection?.edges[0]?.node
+  const timeFrom = data.time_from?.split('T')[0]
+  const timeTo = data.time_to?.split('T')[0]
+
+  console.log('activityData', activityData)
   return (
     <>
       <Flex pb={{ base: '30px', md: '40px' }}>
-        <Heading fontSize={{ base: 'xl', md: '2xl' }}>
-          {dummyActivityData.title}
-        </Heading>
+        <Heading fontSize={{ base: 'xl', md: '2xl' }}>{data.title}</Heading>
         <Spacer />
         <EditIcon />
         <TrashIcon />
@@ -36,7 +37,7 @@ export const ActivityCard = ({ dummyActivityData }: ActivityCardProps) => {
             fontWeight="semibold"
             mx={2}
           >
-            {dummyActivityData.time_from}
+            {timeFrom} - {timeTo}
           </Text>
         </Box>
         <Box display="flex" alignItems="center" my={1}>
@@ -46,7 +47,7 @@ export const ActivityCard = ({ dummyActivityData }: ActivityCardProps) => {
             fontWeight="semibold"
             mx={2}
           >
-            {dummyActivityData.address}
+            {data.address}
           </Text>
         </Box>
         <Box display="flex" alignItems="center" my={1}>
@@ -58,7 +59,7 @@ export const ActivityCard = ({ dummyActivityData }: ActivityCardProps) => {
             color="primary.700"
             fontSize={{ base: 'md', md: 'lg' }}
           >
-            {dummyActivityData.url}
+            {data.url}
           </Link>
         </Box>
       </Flex>
