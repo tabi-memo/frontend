@@ -1,9 +1,9 @@
 'use client'
-import { Box, Container, useColorModeValue } from '@chakra-ui/react'
+import { Box, Flex, Container, useColorModeValue } from '@chakra-ui/react'
 import { FiChevronLeft } from 'react-icons/fi'
 import { Carousel } from '@/components/carousel'
 import { Link } from '@/components/link'
-import { Header, Footer } from '@/components/navigation'
+import { Loading } from '@/components/loading'
 import { ActivityCard, ActivityInfo } from './components'
 import {
   useActivityCollectionQuery
@@ -15,7 +15,7 @@ export default function ActivityDetails({ params }: { params: { id: number } }) 
   const color = useColorModeValue('black', 'gray.300')
 
 
-  const { data } = useActivityCollectionQuery({
+  const { data, loading } = useActivityCollectionQuery({
     variables: {
       id: params.id
     }
@@ -31,25 +31,29 @@ export default function ActivityDetails({ params }: { params: { id: number } }) 
 
   return (
     <>
-      <Header />
-      <Box as="main" minH="100vh" bg={bg} color={color}>
-        <Container
-          maxW={{ base: '100%', md: '742px' }}
-          pt={{ base: '20px', md: '30px' }}
-          pb={{ base: '40px', md: '80px' }}
-        >
-          <ActivityCard activityData={data} />
-          <Carousel urls={dummyUrls} />
-          <ActivityInfo activityData={data} />
-          <Box mt="60px" display="flex" alignItems="center">
-            <FiChevronLeft />
-            <Link ml="2%" href="/">
-              Got back to Trip Details
-            </Link>
-          </Box>
-        </Container>
-      </Box>
-      <Footer />
+      {loading || !data?.activityCollection ? (
+        <Flex minH="84vh" align="center" justify="center" >
+          <Loading />
+        </Flex>
+      ) : (
+        <Box minHeight="100vh" as="main" bg={bg} color={color}>
+          <Container
+            maxW={{ base: '100%', md: '742px' }}
+            pt={{ base: '20px', md: '30px' }}
+            pb={{ base: '40px', md: '80px' }}
+          >
+            <ActivityCard activityData={data} />
+            <Carousel urls={dummyUrls} />
+            <ActivityInfo activityData={data} />
+            <Box mt="60px" display="flex" alignItems="center">
+              <FiChevronLeft />
+              <Link ml="2%" href="/">
+                Got back to Trip Details
+              </Link>
+            </Box>
+          </Container>
+        </Box>
+      )}
     </>
   )
 }
