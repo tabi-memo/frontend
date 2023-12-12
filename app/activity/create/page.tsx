@@ -1,17 +1,10 @@
 'use client'
 
-import {
-  Box,
-  Container,
-  Heading,
-  useColorModeValue
-} from '@chakra-ui/react'
+import { Box, Container, Heading, useColorModeValue } from '@chakra-ui/react'
 import { Header, Footer } from '@/components/navigation'
-import {Form} from "./components"
+import { FormActivity } from './components'
 
-
-export default function Create() {
-
+export default function CreateActivityPage() {
   const bg = useColorModeValue('white', 'gray.800')
   const color = useColorModeValue('black', 'gray.300')
 
@@ -20,17 +13,13 @@ export default function Create() {
       <Box as="main" minH="100vh" bg={bg} color={color}>
         <Header />
         <Container
-          maxW={{ base: '100%', md: 'container.md' }}
-          pt={{ base: '20px', md: '30px' }}
-          pb={{ base: '40px', md: '80px' }}
-          margin="auto"
+          pt={{ base: '20px', md: '40px' }}
+          pb={{ base: '40px', md: '70px' }}
         >
-          <Container>
-            <Heading as={'h1'} fontSize={{ base: '2xl', md: '4xl' }}>
-              Create Activity
-            </Heading>
-          </Container>
-          <Form />
+          <Heading as={'h1'} fontSize={{ base: '2xl', md: '4xl' }}>
+            Create Activity
+          </Heading>
+          <FormActivity />
         </Container>
         <Footer />
       </Box>
