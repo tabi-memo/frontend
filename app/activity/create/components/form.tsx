@@ -3,7 +3,6 @@ import { useDropzone } from 'react-dropzone'
 import { useForm } from 'react-hook-form'
 import {
   Box,
-  Container,
   FormControl,
   FormLabel,
   FormErrorMessage,
@@ -40,6 +39,7 @@ export const FormActivity = () => {
   })
 
   const createHandler = handleSubmit(async (data: createActivitySchema) => {
+    console.log(data)
     // TODO append images to formData and send to backend
   })
 
