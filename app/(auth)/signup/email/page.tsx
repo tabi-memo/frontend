@@ -61,6 +61,13 @@ export default function SignUp() {
       <Heading>Create an Account</Heading>
       <Box as="form" onSubmit={signUpHandler}>
         <Flex flexDirection={'column'}>
+          <FormControl isInvalid={!!errors.name}>
+            <FormLabel>Name</FormLabel>
+            <Input {...register('name')} />
+            {errors.name && (
+              <FormErrorMessage>{errors.name.message}</FormErrorMessage>
+            )}
+          </FormControl>
           <FormControl isInvalid={!!errors.email}>
             <FormLabel>Email address</FormLabel>
             <Input {...register('email')} />
