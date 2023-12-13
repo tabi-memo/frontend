@@ -10,7 +10,7 @@ const signUpSchema = z
     confirmationPassword: z.string().min(8, {
       message: 'Password must contain at least 8 character(s)'
     }),
-    userName: z.string().min(1, {
+    name: z.string().min(1, {
       message: 'user name is required'
     })
   })

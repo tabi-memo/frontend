@@ -7,7 +7,7 @@ import { createClient } from '@/(auth)/supabase/server'
 export const signUp = async ({
   email,
   password,
-  userName
+  name
 }: SignUpSchema): Promise<void> => {
   const supabase = createClient(cookies())
 
@@ -16,7 +16,7 @@ export const signUp = async ({
     password,
     options: {
       data: {
-        name: userName
+        name
       }
     }
   })
