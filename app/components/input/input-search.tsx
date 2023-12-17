@@ -3,11 +3,11 @@ import {
   InputProps as ChakraInputProps,
   InputGroup,
   InputRightElement,
+  IconButton,
   forwardRef,
   useColorModeValue
 } from '@chakra-ui/react'
 import { FiSearch } from 'react-icons/fi'
-import { IconButton } from '@/components/button'
 
 type InputSearchProps = {
   ariaLabel: string
@@ -33,11 +33,12 @@ export const InputSearch = forwardRef<
       <InputRightElement>
         <IconButton
           aria-label={ariaLabel}
+          variant="unstyled"
           type="submit"
-          icon={FiSearch}
-          w={'24px'}
-          h={'24px'}
-        />
+          color="primary.700"
+        >
+          <FiSearch size="24px" />
+        </IconButton>
       </InputRightElement>
     </InputGroup>
   )

@@ -7,13 +7,13 @@ import {
   Flex,
   useColorModeValue,
   Image as ChakraImage,
-  Link
+  Link,
+  IconButton
 } from '@chakra-ui/react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { FiEdit3, FiShare2, FiTrash2 } from 'react-icons/fi'
 import { MdManageAccounts, MdAccountCircle } from 'react-icons/md'
-import { IconButton } from '@/components/button'
 
 type TripDetailsHeaderProps = {
   id: number
@@ -97,31 +97,32 @@ export const TripDetailsHeader = ({
           </Box>
 
           <Flex gap={{ base: '10px', md: '28px' }}>
-            {/* TODO Change URL or modal */}
+            {/* TODO Change to modal */}
             <IconButton
               aria-label="Share this trip"
-              icon={FiShare2}
               onClick={() => {}}
-              w={{ base: '24px', md: '38px' }}
-              h={{ base: '24px', md: '38px' }}
-              color={{ base: 'gray.100', md: 'primary.700' }}
-            />
+              variant="roundIcon"
+              p={{ base: '6px', md: '10px' }}
+            >
+              <FiShare2 size="100%" />
+            </IconButton>
             <IconButton
               aria-label="Edit this trip"
-              icon={FiEdit3}
               onClick={() => router.push(`/trip/${id}/edit`)}
-              w={{ base: '24px', md: '38px' }}
-              h={{ base: '24px', md: '38px' }}
-              color={{ base: 'gray.100', md: 'primary.700' }}
-            />
+              variant="roundIcon"
+              p={{ base: '6px', md: '10px' }}
+            >
+              <FiEdit3 size="100%" />
+            </IconButton>
+            {/* TODO Change to modal */}
             <IconButton
               aria-label="Delete this trip"
-              icon={FiTrash2}
               onClick={() => {}}
-              w={{ base: '24px', md: '38px' }}
-              h={{ base: '24px', md: '38px' }}
-              color={{ base: 'gray.100', md: 'primary.700' }}
-            />
+              variant="roundIcon"
+              p={{ base: '6px', md: '10px' }}
+            >
+              <FiTrash2 size="100%" />
+            </IconButton>
           </Flex>
         </Flex>
 
