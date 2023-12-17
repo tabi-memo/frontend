@@ -1,0 +1,12 @@
+query tripTagsCollection($trip_id: BigInt!) {
+  trip_tagsCollection(filter: { trip_id: { eq: $trip_id } }) {
+    edges {
+      node {
+        tags {
+          id
+          name
+        }
+      }
+    }
+  }
+}
