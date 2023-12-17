@@ -15,6 +15,10 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
 const documents = {
   'mutation createTrip($user_id: BigInt!, $title: String!, $date_from: Date, $date_to: Date) {\n  insertIntotripsCollection(\n    objects: [{user_id: $user_id, title: $title, date_from: $date_from, date_to: $date_to}]\n  ) {\n    records {\n      __typename\n      id\n      uuid\n      title\n    }\n  }\n}':
     types.CreateTripDocument,
+  'query tripDetails($id: BigInt!) {\n  tripsCollection(filter: {id: {eq: $id}}) {\n    edges {\n      node {\n        id\n        title\n        date_from\n        date_to\n        image_storage_object_id\n        invitationsCollection {\n          edges {\n            node {\n              users {\n                id\n                profile_picture_url\n              }\n            }\n          }\n        }\n        activityCollection {\n          edges {\n            node {\n              id\n              title\n              time_from\n              time_to\n              address\n            }\n          }\n        }\n        trip_tagsCollection {\n          edges {\n            node {\n              id\n              tag_id\n            }\n          }\n        }\n      }\n    }\n  }\n}':
+    types.TripDetailsDocument,
+  'query tripTagsCollection($trip_id: BigInt!) {\n  trip_tagsCollection(filter: {trip_id: {eq: $trip_id}}) {\n    edges {\n      node {\n        tags {\n          id\n          name\n        }\n      }\n    }\n  }\n}':
+    types.TripTagsCollectionDocument,
   'query tripsCollection($filter: tripsFilter, $orderBy: [tripsOrderBy!], $first: Int!, $after: Cursor) {\n  tripsCollection(\n    filter: $filter\n    first: $first\n    after: $after\n    orderBy: $orderBy\n  ) {\n    edges {\n      node {\n        id\n        uuid\n        title\n        date_from\n        date_to\n        image_storage_object_id\n        created_at\n        invitationsCollection {\n          edges {\n            node {\n              users {\n                id\n                profile_picture_url\n              }\n            }\n          }\n        }\n        activityCollection {\n          edges {\n            node {\n              id\n            }\n          }\n        }\n      }\n    }\n    pageInfo {\n      startCursor\n      endCursor\n      hasPreviousPage\n      hasNextPage\n    }\n  }\n}':
     types.TripsCollectionDocument
 }
@@ -39,6 +43,18 @@ export function graphql(source: string): unknown
 export function graphql(
   source: 'mutation createTrip($user_id: BigInt!, $title: String!, $date_from: Date, $date_to: Date) {\n  insertIntotripsCollection(\n    objects: [{user_id: $user_id, title: $title, date_from: $date_from, date_to: $date_to}]\n  ) {\n    records {\n      __typename\n      id\n      uuid\n      title\n    }\n  }\n}'
 ): (typeof documents)['mutation createTrip($user_id: BigInt!, $title: String!, $date_from: Date, $date_to: Date) {\n  insertIntotripsCollection(\n    objects: [{user_id: $user_id, title: $title, date_from: $date_from, date_to: $date_to}]\n  ) {\n    records {\n      __typename\n      id\n      uuid\n      title\n    }\n  }\n}']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: 'query tripDetails($id: BigInt!) {\n  tripsCollection(filter: {id: {eq: $id}}) {\n    edges {\n      node {\n        id\n        title\n        date_from\n        date_to\n        image_storage_object_id\n        invitationsCollection {\n          edges {\n            node {\n              users {\n                id\n                profile_picture_url\n              }\n            }\n          }\n        }\n        activityCollection {\n          edges {\n            node {\n              id\n              title\n              time_from\n              time_to\n              address\n            }\n          }\n        }\n        trip_tagsCollection {\n          edges {\n            node {\n              id\n              tag_id\n            }\n          }\n        }\n      }\n    }\n  }\n}'
+): (typeof documents)['query tripDetails($id: BigInt!) {\n  tripsCollection(filter: {id: {eq: $id}}) {\n    edges {\n      node {\n        id\n        title\n        date_from\n        date_to\n        image_storage_object_id\n        invitationsCollection {\n          edges {\n            node {\n              users {\n                id\n                profile_picture_url\n              }\n            }\n          }\n        }\n        activityCollection {\n          edges {\n            node {\n              id\n              title\n              time_from\n              time_to\n              address\n            }\n          }\n        }\n        trip_tagsCollection {\n          edges {\n            node {\n              id\n              tag_id\n            }\n          }\n        }\n      }\n    }\n  }\n}']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: 'query tripTagsCollection($trip_id: BigInt!) {\n  trip_tagsCollection(filter: {trip_id: {eq: $trip_id}}) {\n    edges {\n      node {\n        tags {\n          id\n          name\n        }\n      }\n    }\n  }\n}'
+): (typeof documents)['query tripTagsCollection($trip_id: BigInt!) {\n  trip_tagsCollection(filter: {trip_id: {eq: $trip_id}}) {\n    edges {\n      node {\n        tags {\n          id\n          name\n        }\n      }\n    }\n  }\n}']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
