@@ -2,6 +2,8 @@ import { Roboto } from 'next/font/google'
 import './globals.css'
 import { ApolloWrapper } from '@/apollo-provider'
 import { Providers } from '@/Providers'
+import { getUuid } from './(auth)/uuid'
+import { SessionProvider } from './session-provider'
 import type { Metadata } from 'next'
 
 const roboto = Roboto({
@@ -21,12 +23,15 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const uuid = getUuid()
   return (
     <html lang="en" className={roboto.className}>
       <body>
-        <ApolloWrapper>
-          <Providers>{children}</Providers>
-        </ApolloWrapper>
+        <SessionProvider uuid={uuid}>
+          <ApolloWrapper>
+            <Providers>{children}</Providers>
+          </ApolloWrapper>
+        </SessionProvider>
       </body>
     </html>
   )
