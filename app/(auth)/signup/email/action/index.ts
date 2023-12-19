@@ -6,13 +6,19 @@ import { createClient } from '@/(auth)/supabase/server'
 
 export const signUp = async ({
   email,
-  password
+  password,
+  name
 }: SignUpSchema): Promise<void> => {
   const supabase = createClient(cookies())
 
   const { error } = await supabase.auth.signUp({
     email,
-    password
+    password,
+    options: {
+      data: {
+        name
+      }
+    }
   })
   if (error) {
     throw error
