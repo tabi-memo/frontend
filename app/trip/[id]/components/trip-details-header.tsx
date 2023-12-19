@@ -177,7 +177,6 @@ export const TripDetailsHeader = ({
               <Tag
                 key={tag.id}
                 variant="solid"
-                // bgColor="primary.700"
                 bgColor={tagBgColor}
                 borderRadius="full"
                 px={'20px'}
