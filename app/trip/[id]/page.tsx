@@ -1,9 +1,11 @@
 'use client'
 
 import { Box, Container, useColorModeValue } from '@chakra-ui/react'
+import { useRouter } from 'next/navigation'
+import { PrimaryButton } from '@/components/button'
 import { Loading } from '@/components/loading'
 import { Header, Footer } from '@/components/navigation'
-import { TripDetailsHeader } from './components'
+import { TripDetailsHeader, TripDetailsTabs } from './components'
 import { useTripDetailsQuery, useTripTagsCollectionQuery } from '@generated/api'
 
 export default function TripDetailsPage({
@@ -11,6 +13,11 @@ export default function TripDetailsPage({
 }: {
   params: { id: string }
 }) {
+  const bg = useColorModeValue('white', 'gray.800')
+  const color = useColorModeValue('black', 'gray.300')
+
+  const router = useRouter()
+
   const { data: tripData, loading: tripLoading } = useTripDetailsQuery({
     variables: {
       id: Number(params.id)
@@ -29,11 +36,6 @@ export default function TripDetailsPage({
   const isLoading =
     !tripDataCollection || tripLoading || !tagDataCollection || tagsLoading
 
-  const bg = useColorModeValue('white', 'gray.800')
-  const color = useColorModeValue('black', 'gray.300')
-
-  console.log({ tripData })
-
   return (
     <>
       <Header />
@@ -51,8 +53,8 @@ export default function TripDetailsPage({
                 id={tripDataCollection.edges[0].node.id}
                 image={tripDataCollection.edges[0].node.image_storage_object_id}
                 title={tripDataCollection.edges[0].node.title}
-                date_from={tripDataCollection.edges[0].node.date_from}
-                date_to={tripDataCollection.edges[0].node.date_to}
+                dateFrom={tripDataCollection.edges[0].node.date_from}
+                dateTo={tripDataCollection.edges[0].node.date_to}
                 users={
                   tripDataCollection.edges[0].node.invitationsCollection?.edges.map(
                     (invitation) => ({
@@ -70,7 +72,27 @@ export default function TripDetailsPage({
                 )}
               />
 
-              <Box>下の部分</Box>
+              <TripDetailsTabs
+                activities={
+                  tripDataCollection.edges[0].node.activityCollection?.edges.map(
+                    (activity) => ({
+                      id: activity.node.id,
+                      timeFrom: activity.node.time_from,
+                      timeTo: activity.node.time_to,
+                      title: activity.node.title,
+                      address: activity.node.address
+                    })
+                  ) || []
+                }
+              />
+              <Box textAlign="center" mt="60px">
+                <PrimaryButton
+                  size="lg"
+                  onClick={() => router.push('/activity/create')}
+                >
+                  Add Activity
+                </PrimaryButton>
+              </Box>
             </>
           )}
         </Container>

@@ -12,7 +12,6 @@ export const TripSearch = () => {
     if (e.key === 'Enter') {
       e.preventDefault()
       const userInput = inputRef?.current?.value
-      console.log('userInput', userInput)
 
       if (userInput) {
         const encodedInput = encodeURIComponent(userInput)
