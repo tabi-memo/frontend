@@ -1,9 +1,9 @@
 import { Roboto } from 'next/font/google'
 import './globals.css'
-import { ApolloWrapper } from '@/apollo-provider'
-import { Providers } from '@/Providers'
-import { getUuid } from './(auth)/uuid'
-import { SessionProvider } from './session-provider'
+import { getUuid } from '@/(auth)/uuid'
+import { ApolloWrapper } from '@/providers/apollo-provider'
+import { Providers } from '@/providers/chakra-providers'
+import { SessionProvider } from '@/providers/session-provider'
 import type { Metadata } from 'next'
 
 const roboto = Roboto({
