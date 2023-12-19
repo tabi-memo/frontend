@@ -1,5 +1,3 @@
-'use client'
-
 import {
   Heading,
   Tag,
@@ -14,13 +12,14 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { FiEdit3, FiShare2, FiTrash2 } from 'react-icons/fi'
 import { MdManageAccounts, MdAccountCircle } from 'react-icons/md'
+import { formatDateToDayMonthYear } from '@/libs/utils'
 
 type TripDetailsHeaderProps = {
   id: number
   image: string | null | undefined
   title: string
-  date_from: string | null | undefined
-  date_to: string | null | undefined
+  dateFrom: string | null | undefined
+  dateTo: string | null | undefined
   users: {
     id: number | undefined
     image: string | null | undefined
@@ -33,8 +32,8 @@ export const TripDetailsHeader = ({
   id,
   image,
   title,
-  date_from,
-  date_to,
+  dateFrom,
+  dateTo,
   tags,
   users
 }: TripDetailsHeaderProps) => {
@@ -59,10 +58,9 @@ export const TripDetailsHeader = ({
       >
         <Image
           src={image || imageSrc}
-          // src={image || '/images/test.jpg'}
           alt={`image of ${title}`}
-          objectFit="cover"
-          layout="fill"
+          fill
+          style={{ objectFit: 'cover' }}
         />
         <Box
           position={{ base: 'absolute', md: 'relative' }}
@@ -92,7 +90,8 @@ export const TripDetailsHeader = ({
               fontSize={{ base: 'sm', md: 'md' }}
               color={{ base: 'gray.100', md: color }}
             >
-              {date_from} - {date_to}
+              {formatDateToDayMonthYear(dateFrom)} -{' '}
+              {formatDateToDayMonthYear(dateTo)}
             </Box>
           </Box>
 
