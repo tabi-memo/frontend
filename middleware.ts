@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { createClient } from '@/(auth)/supabase/middleware'
+import { setUuid } from '@/(auth)/uuid'
 
 export const config = {
   matcher: [
@@ -31,13 +32,12 @@ export async function middleware(request: NextRequest) {
     request.nextUrl.pathname.startsWith('/signup')
   ) {
     if (session) {
-      return NextResponse.redirect(new URL('/', request.url))
+      return setUuid(NextResponse.redirect(new URL('/', request.url)), session)
     }
     return response
   }
   if (error || !session) {
     return NextResponse.redirect(new URL(signinUri, request.url))
   }
-
-  return response
+  return setUuid(response, session)
 }
