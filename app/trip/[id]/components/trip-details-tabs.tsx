@@ -14,7 +14,7 @@ import { formatDateToDayMonthWeek } from '@/libs/utils'
 import { ActivityCard } from '../components'
 
 export type ActivityType = {
-  id: number
+  id: string
   timeFrom: string | null | undefined
   timeTo: string | null | undefined
   title: string

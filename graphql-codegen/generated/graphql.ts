@@ -1188,7 +1188,7 @@ export type CreateTripMutation = {
 }
 
 export type TripDetailsQueryVariables = Exact<{
-  id: Scalars['BigInt']['input']
+  uuid: Scalars['UUID']['input']
 }>
 
 export type TripDetailsQuery = {
@@ -1199,7 +1199,7 @@ export type TripDetailsQuery = {
       __typename: 'tripsEdge'
       node: {
         __typename: 'trips'
-        id: number
+        uuid: string
         title: string
         date_from?: string | null
         date_to?: string | null
@@ -1224,7 +1224,7 @@ export type TripDetailsQuery = {
             __typename: 'activityEdge'
             node: {
               __typename: 'activity'
-              id: number
+              uuid: string
               title: string
               time_from?: string | null
               time_to?: string | null
@@ -1238,29 +1238,10 @@ export type TripDetailsQuery = {
             __typename: 'trip_tagsEdge'
             node: {
               __typename: 'trip_tags'
-              id: number
-              tag_id?: number | null
+              tags?: { __typename: 'tags'; id: number; name: string } | null
             }
           }>
         } | null
-      }
-    }>
-  } | null
-}
-
-export type TripTagsCollectionQueryVariables = Exact<{
-  trip_id: Scalars['BigInt']['input']
-}>
-
-export type TripTagsCollectionQuery = {
-  __typename: 'Query'
-  trip_tagsCollection?: {
-    __typename: 'trip_tagsConnection'
-    edges: Array<{
-      __typename: 'trip_tagsEdge'
-      node: {
-        __typename: 'trip_tags'
-        tags?: { __typename: 'tags'; id: number; name: string } | null
       }
     }>
   } | null
@@ -1623,7 +1604,7 @@ export const CreateTripDocument = {
   ]
 } as unknown as DocumentNode<CreateTripMutation, CreateTripMutationVariables>
 export const TripDetailsDocument = {
-  __meta__: { hash: 'aee87234034f7c1aba0b14b1dd031384228a8ba0' },
+  __meta__: { hash: '7e95f12b53566f26e8c51c53348a8f00d13c1d7c' },
   kind: 'Document',
   definitions: [
     {
@@ -1633,10 +1614,10 @@ export const TripDetailsDocument = {
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'uuid' } },
           type: {
             kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'BigInt' } }
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } }
           }
         }
       ],
@@ -1656,7 +1637,7 @@ export const TripDetailsDocument = {
                   fields: [
                     {
                       kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'id' },
+                      name: { kind: 'Name', value: 'uuid' },
                       value: {
                         kind: 'ObjectValue',
                         fields: [
@@ -1665,7 +1646,7 @@ export const TripDetailsDocument = {
                             name: { kind: 'Name', value: 'eq' },
                             value: {
                               kind: 'Variable',
-                              name: { kind: 'Name', value: 'id' }
+                              name: { kind: 'Name', value: 'uuid' }
                             }
                           }
                         ]
@@ -1701,7 +1682,7 @@ export const TripDetailsDocument = {
                             },
                             {
                               kind: 'Field',
-                              name: { kind: 'Name', value: 'id' }
+                              name: { kind: 'Name', value: 'uuid' }
                             },
                             {
                               kind: 'Field',
@@ -1847,7 +1828,7 @@ export const TripDetailsDocument = {
                                                 kind: 'Field',
                                                 name: {
                                                   kind: 'Name',
-                                                  value: 'id'
+                                                  value: 'uuid'
                                                 }
                                               },
                                               {
@@ -1930,14 +1911,33 @@ export const TripDetailsDocument = {
                                                 kind: 'Field',
                                                 name: {
                                                   kind: 'Name',
-                                                  value: 'id'
-                                                }
-                                              },
-                                              {
-                                                kind: 'Field',
-                                                name: {
-                                                  kind: 'Name',
-                                                  value: 'tag_id'
+                                                  value: 'tags'
+                                                },
+                                                selectionSet: {
+                                                  kind: 'SelectionSet',
+                                                  selections: [
+                                                    {
+                                                      kind: 'Field',
+                                                      name: {
+                                                        kind: 'Name',
+                                                        value: '__typename'
+                                                      }
+                                                    },
+                                                    {
+                                                      kind: 'Field',
+                                                      name: {
+                                                        kind: 'Name',
+                                                        value: 'id'
+                                                      }
+                                                    },
+                                                    {
+                                                      kind: 'Field',
+                                                      name: {
+                                                        kind: 'Name',
+                                                        value: 'name'
+                                                      }
+                                                    }
+                                                  ]
                                                 }
                                               }
                                             ]
@@ -1963,124 +1963,6 @@ export const TripDetailsDocument = {
     }
   ]
 } as unknown as DocumentNode<TripDetailsQuery, TripDetailsQueryVariables>
-export const TripTagsCollectionDocument = {
-  __meta__: { hash: 'ef4d3272c01b197bc9a5eaf2f92cd8550877b7a0' },
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'tripTagsCollection' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'trip_id' }
-          },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'BigInt' } }
-          }
-        }
-      ],
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'trip_tagsCollection' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'filter' },
-                value: {
-                  kind: 'ObjectValue',
-                  fields: [
-                    {
-                      kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'trip_id' },
-                      value: {
-                        kind: 'ObjectValue',
-                        fields: [
-                          {
-                            kind: 'ObjectField',
-                            name: { kind: 'Name', value: 'eq' },
-                            value: {
-                              kind: 'Variable',
-                              name: { kind: 'Name', value: 'trip_id' }
-                            }
-                          }
-                        ]
-                      }
-                    }
-                  ]
-                }
-              }
-            ],
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
-                {
-                  kind: 'Field',
-                  name: { kind: 'Name', value: 'edges' },
-                  selectionSet: {
-                    kind: 'SelectionSet',
-                    selections: [
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: '__typename' }
-                      },
-                      {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'node' },
-                        selectionSet: {
-                          kind: 'SelectionSet',
-                          selections: [
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: '__typename' }
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'tags' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: '__typename' }
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'id' }
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'name' }
-                                  }
-                                ]
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    ]
-                  }
-                }
-              ]
-            }
-          }
-        ]
-      }
-    }
-  ]
-} as unknown as DocumentNode<
-  TripTagsCollectionQuery,
-  TripTagsCollectionQueryVariables
->
 export const TripsCollectionDocument = {
   __meta__: { hash: '8401c03d2c5f85ba0f977c1ea136bdd035c7d049' },
   kind: 'Document',

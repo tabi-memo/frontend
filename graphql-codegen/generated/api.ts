@@ -1180,7 +1180,7 @@ export type CreateTripMutation = {
 }
 
 export type TripDetailsQueryVariables = Exact<{
-  id: Scalars['BigInt']['input']
+  uuid: Scalars['UUID']['input']
 }>
 
 export type TripDetailsQuery = {
@@ -1191,7 +1191,7 @@ export type TripDetailsQuery = {
       __typename: 'tripsEdge'
       node: {
         __typename: 'trips'
-        id: number
+        uuid: string
         title: string
         date_from?: string | null
         date_to?: string | null
@@ -1216,7 +1216,7 @@ export type TripDetailsQuery = {
             __typename: 'activityEdge'
             node: {
               __typename: 'activity'
-              id: number
+              uuid: string
               title: string
               time_from?: string | null
               time_to?: string | null
@@ -1230,29 +1230,10 @@ export type TripDetailsQuery = {
             __typename: 'trip_tagsEdge'
             node: {
               __typename: 'trip_tags'
-              id: number
-              tag_id?: number | null
+              tags?: { __typename: 'tags'; id: number; name: string } | null
             }
           }>
         } | null
-      }
-    }>
-  } | null
-}
-
-export type TripTagsCollectionQueryVariables = Exact<{
-  trip_id: Scalars['BigInt']['input']
-}>
-
-export type TripTagsCollectionQuery = {
-  __typename: 'Query'
-  trip_tagsCollection?: {
-    __typename: 'trip_tagsConnection'
-    edges: Array<{
-      __typename: 'trip_tagsEdge'
-      node: {
-        __typename: 'trip_tags'
-        tags?: { __typename: 'tags'; id: number; name: string } | null
       }
     }>
   } | null
@@ -1490,15 +1471,15 @@ export type CreateTripMutationOptions = Apollo.BaseMutationOptions<
   CreateTripMutationVariables
 >
 export const TripDetailsDocument = gql`
-  query tripDetails($id: BigInt!) {
+  query tripDetails($uuid: UUID!) {
     __typename
-    tripsCollection(filter: { id: { eq: $id } }) {
+    tripsCollection(filter: { uuid: { eq: $uuid } }) {
       __typename
       edges {
         __typename
         node {
           __typename
-          id
+          uuid
           title
           date_from
           date_to
@@ -1523,7 +1504,7 @@ export const TripDetailsDocument = gql`
               __typename
               node {
                 __typename
-                id
+                uuid
                 title
                 time_from
                 time_to
@@ -1537,8 +1518,11 @@ export const TripDetailsDocument = gql`
               __typename
               node {
                 __typename
-                id
-                tag_id
+                tags {
+                  __typename
+                  id
+                  name
+                }
               }
             }
           }
@@ -1560,7 +1544,7 @@ export const TripDetailsDocument = gql`
  * @example
  * const { data, loading, error } = useTripDetailsQuery({
  *   variables: {
- *      id: // value for 'id'
+ *      uuid: // value for 'uuid'
  *   },
  * });
  */
@@ -1613,96 +1597,6 @@ export type TripDetailsQueryResult = Apollo.QueryResult<
 >
 export function refetchTripDetailsQuery(variables: TripDetailsQueryVariables) {
   return { query: TripDetailsDocument, variables: variables }
-}
-export const TripTagsCollectionDocument = gql`
-  query tripTagsCollection($trip_id: BigInt!) {
-    __typename
-    trip_tagsCollection(filter: { trip_id: { eq: $trip_id } }) {
-      __typename
-      edges {
-        __typename
-        node {
-          __typename
-          tags {
-            __typename
-            id
-            name
-          }
-        }
-      }
-    }
-  }
-`
-
-/**
- * __useTripTagsCollectionQuery__
- *
- * To run a query within a React component, call `useTripTagsCollectionQuery` and pass it any options that fit your needs.
- * When your component renders, `useTripTagsCollectionQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useTripTagsCollectionQuery({
- *   variables: {
- *      trip_id: // value for 'trip_id'
- *   },
- * });
- */
-export function useTripTagsCollectionQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    TripTagsCollectionQuery,
-    TripTagsCollectionQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useQuery<
-    TripTagsCollectionQuery,
-    TripTagsCollectionQueryVariables
-  >(TripTagsCollectionDocument, options)
-}
-export function useTripTagsCollectionLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    TripTagsCollectionQuery,
-    TripTagsCollectionQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useLazyQuery<
-    TripTagsCollectionQuery,
-    TripTagsCollectionQueryVariables
-  >(TripTagsCollectionDocument, options)
-}
-export function useTripTagsCollectionSuspenseQuery(
-  baseOptions?: Apollo.SuspenseQueryHookOptions<
-    TripTagsCollectionQuery,
-    TripTagsCollectionQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useSuspenseQuery<
-    TripTagsCollectionQuery,
-    TripTagsCollectionQueryVariables
-  >(TripTagsCollectionDocument, options)
-}
-export type TripTagsCollectionQueryHookResult = ReturnType<
-  typeof useTripTagsCollectionQuery
->
-export type TripTagsCollectionLazyQueryHookResult = ReturnType<
-  typeof useTripTagsCollectionLazyQuery
->
-export type TripTagsCollectionSuspenseQueryHookResult = ReturnType<
-  typeof useTripTagsCollectionSuspenseQuery
->
-export type TripTagsCollectionQueryResult = Apollo.QueryResult<
-  TripTagsCollectionQuery,
-  TripTagsCollectionQueryVariables
->
-export function refetchTripTagsCollectionQuery(
-  variables: TripTagsCollectionQueryVariables
-) {
-  return { query: TripTagsCollectionDocument, variables: variables }
 }
 export const TripsCollectionDocument = gql`
   query tripsCollection(

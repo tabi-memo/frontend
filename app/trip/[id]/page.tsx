@@ -6,7 +6,7 @@ import { PrimaryButton } from '@/components/button'
 import { Loading } from '@/components/loading'
 import { Header, Footer } from '@/components/navigation'
 import { TripDetailsHeader, TripDetailsTabs } from './components'
-import { useTripDetailsQuery, useTripTagsCollectionQuery } from '@generated/api'
+import { useTripDetailsQuery } from '@generated/api'
 
 export default function TripDetailsPage({
   params
@@ -20,21 +20,11 @@ export default function TripDetailsPage({
 
   const { data: tripData, loading: tripLoading } = useTripDetailsQuery({
     variables: {
-      id: Number(params.id)
-    }
-  })
-
-  const { data: tagsData, loading: tagsLoading } = useTripTagsCollectionQuery({
-    variables: {
-      trip_id: Number(params.id)
+      uuid: params.id
     }
   })
 
   const tripDataCollection = tripData?.tripsCollection
-  const tagDataCollection = tagsData?.trip_tagsCollection
-
-  const isLoading =
-    !tripDataCollection || tripLoading || !tagDataCollection || tagsLoading
 
   return (
     <>
@@ -45,12 +35,12 @@ export default function TripDetailsPage({
           pt={{ base: '0px', md: '30px' }}
           pb={{ base: '40px', md: '80px' }}
         >
-          {isLoading ? (
+          {!tripDataCollection || tripLoading ? (
             <Loading />
           ) : (
             <>
               <TripDetailsHeader
-                id={tripDataCollection.edges[0].node.id}
+                id={tripDataCollection.edges[0].node.uuid}
                 image={tripDataCollection.edges[0].node.image_storage_object_id}
                 title={tripDataCollection.edges[0].node.title}
                 dateFrom={tripDataCollection.edges[0].node.date_from}
@@ -63,20 +53,21 @@ export default function TripDetailsPage({
                     })
                   ) || []
                 }
-                tags={tagDataCollection.edges.map(
-                  (tag) =>
-                    ({
+                tags={
+                  tripDataCollection.edges[0].node.trip_tagsCollection?.edges.map(
+                    (tag) => ({
                       id: tag.node.tags?.id,
                       name: tag.node.tags?.name
-                    }) || []
-                )}
+                    })
+                  ) || []
+                }
               />
 
               <TripDetailsTabs
                 activities={
                   tripDataCollection.edges[0].node.activityCollection?.edges.map(
                     (activity) => ({
-                      id: activity.node.id,
+                      id: activity.node.uuid,
                       timeFrom: activity.node.time_from,
                       timeTo: activity.node.time_to,
                       title: activity.node.title,

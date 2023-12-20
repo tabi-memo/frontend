@@ -15,7 +15,7 @@ import { MdManageAccounts, MdAccountCircle } from 'react-icons/md'
 import { formatDateToDayMonthYear } from '@/libs/utils'
 
 type TripDetailsHeaderProps = {
-  id: number
+  id: string
   image: string | null | undefined
   title: string
   dateFrom: string | null | undefined
