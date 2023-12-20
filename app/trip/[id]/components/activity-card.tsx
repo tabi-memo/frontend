@@ -109,7 +109,7 @@ export const ActivityCard = ({ activity }: ActivityCardProps) => {
             <MenuItem
               display="flex"
               gap="10px"
-              onClick={() => router.push(`/activity${activity.id}/edit`)}
+              onClick={() => router.push(`/activity/${activity.id}/edit`)}
             >
               <FiEdit3 />
               Edit
