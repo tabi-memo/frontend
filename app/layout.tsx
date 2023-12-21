@@ -2,7 +2,7 @@ import { Roboto } from 'next/font/google'
 import './globals.css'
 import { getUuid } from '@/(auth)/uuid'
 import { ApolloWrapper } from '@/providers/apollo-provider'
-import { Providers } from '@/providers/chakra-providers'
+import { ChakraProvider } from '@/providers/chakra-provider'
 import { SessionProvider } from '@/providers/session-provider'
 import type { Metadata } from 'next'
 
@@ -27,11 +27,15 @@ export default function RootLayout({
   return (
     <html lang="en" className={roboto.className}>
       <body>
-        <SessionProvider uuid={uuid}>
+        <ChakraProvider>
           <ApolloWrapper>
-            <Providers>{children}</Providers>
+            {uuid ? (
+              <SessionProvider uuid={uuid}>{children}</SessionProvider>
+            ) : (
+              children
+            )}
           </ApolloWrapper>
-        </SessionProvider>
+        </ChakraProvider>
       </body>
     </html>
   )
