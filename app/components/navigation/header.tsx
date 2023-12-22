@@ -57,7 +57,8 @@ export const Header = () => {
                 <MenuItem
                   bgColor={bg}
                   _hover={{
-                    bgColor: useColorModeValue('gray.100', 'gray.700')
+                    bgColor: useColorModeValue('gray.100', 'gray.700'),
+                    textDecoration: 'none'
                   }}
                   as={Link}
                   href="/account"
