@@ -2,17 +2,20 @@
 
 import {
   Heading,
+  Flex,
   Box,
   Container,
-  Divider,
   VStack,
-  HStack,
   Image,
   Text,
-  useColorModeValue
+  useColorModeValue,
+  Spacer
 } from '@chakra-ui/react'
+import { CiEdit } from 'react-icons/ci'
+import { FaRegTrashAlt } from 'react-icons/fa'
 import { MdAccountCircle } from 'react-icons/md'
 import { PrimaryButton, AlertButton } from '@/components/button'
+import { Link } from '@/components/link'
 import { Loading } from '@/components/loading'
 import { useGetUserQuery } from '@generated/api'
 
@@ -20,7 +23,7 @@ export default function AccountPage() {
   const bg = useColorModeValue('white', 'gray.800')
   const color = useColorModeValue('black', 'gray.300')
   // TODO: Remove this line after implementing login
-  const tmpUuid = 'b24ac573-e895-47b5-866e-0cf904e5eec5'
+  const tmpUuid = 'a1f4509d-39f6-4de7-921d-201ec3d4578f'
   const { data, loading, error } = useGetUserQuery({
     variables: { uuid: tmpUuid }
   })
@@ -38,11 +41,24 @@ export default function AccountPage() {
       {loading || !data?.usersCollection ? (
         <Loading />
       ) : (
-        <Box as="main" minH="100vh" bg={bg} color={color}>
-          <Container maxW={{ base: '100%', lg: 'container.xl' }}>
-            <VStack
+        <Box
+          as="main"
+          minH={{ base: '86vh', lg: '78vh' }}
+          bg={bg}
+          color={color}
+        >
+          <Container
+            minW={{ base: '100%', lg: 'container.sm' }}
+            display="flex"
+            flexDirection="column"
+            alignItems={{ base: 'space-around', lg: 'flex-start' }}
+            gap={{ base: '40px', lg: '60px' }}
+            mt={{ base: '20px', md: '40px' }}
+          >
+            <Flex
+              direction="column"
+              align="center"
               gap={{ base: '40px', lg: '60px' }}
-              mt={{ base: '20px', md: '30px' }}
             >
               <Heading
                 as="h1"
@@ -52,45 +68,73 @@ export default function AccountPage() {
               >
                 Account
               </Heading>
-              <Divider />
-              <VStack align="start" spacing={4}>
-                <HStack spacing="48px">
-                  <Heading fontSize="bold">Email</Heading>
-                  <Text>{user?.email}</Text>
-                </HStack>
-                <HStack spacing="48px">
-                  <Heading fontSize="bold">Name</Heading>
-                  <Text>{user?.name}</Text>
-                </HStack>
-                <HStack spacing="48px">
-                  <Heading fontSize="bold">Image</Heading>
-                  {user?.profile_picture_url ? (
-                    <Image
-                      borderRadius="full"
-                      boxSize="150px"
-                      src={user.profile_picture_url}
-                      alt="Profile Picture"
-                    />
-                  ) : (
-                    <MdAccountCircle size="50%" />
-                  )}
-                </HStack>
-                <HStack spacing="24px">
-                  <Heading fontSize="bold">Password</Heading>
-                  <PrimaryButton variant="outline">
-                    Change your password
-                  </PrimaryButton>
-                </HStack>
-              </VStack>
-              <VStack justifyContent="center">
-                <PrimaryButton variant="solid">Edit Profile</PrimaryButton>
-              </VStack>
-              <Divider />
-              <VStack gap="30px">
-                <PrimaryButton variant="outline">Logout</PrimaryButton>
-                <AlertButton>Delete your account</AlertButton>
-              </VStack>
-            </VStack>
+              <Flex
+                minW={{ base: '100%', lg: '480px' }}
+                gap={{ base: '20px', lg: '30px' }}
+                padding="18px"
+                borderWidth="1px"
+                direction="column"
+                align="space-between"
+              >
+                <Flex direction="column" gap="20px" mb="30px">
+                  <VStack align="start">
+                    <Heading fontSize="bold">Email</Heading>
+                    <Text>{user?.email}</Text>
+                  </VStack>
+                  <VStack align="start">
+                    <Heading fontSize="bold">Name</Heading>
+                    <Text>{user?.name}</Text>
+                  </VStack>
+                  <VStack align="start">
+                    <Heading fontSize="bold">Image</Heading>
+                    {user?.profile_picture_url ? (
+                      <Image
+                        borderRadius="full"
+                        boxSize="30px"
+                        src={user.profile_picture_url}
+                        alt="Profile Picture"
+                      />
+                    ) : (
+                      <MdAccountCircle size="30px" />
+                    )}
+                  </VStack>
+                  <VStack align="start">
+                    <Heading fontSize="bold">Password</Heading>
+                    <Link
+                      href="/"
+                      hasUnderLine
+                      color="primary.700"
+                      fontSize={{ base: 'md', md: 'lg' }}
+                    >
+                      Change your password
+                    </Link>
+                  </VStack>
+                </Flex>
+                <Flex direction="column" align="center">
+                  <VStack justifyContent="center">
+                    <Link href="/account/edit">
+                      <PrimaryButton
+                        variant="solid"
+                        leftIcon={<CiEdit size="16px" />}
+                      >
+                        Edit Profile
+                      </PrimaryButton>
+                    </Link>
+                  </VStack>
+                </Flex>
+              </Flex>
+            </Flex>
+            <Flex direction="row" justify="center">
+              <AlertButton
+                variant="outline"
+                color="red"
+                _hover={{ bg: 'red.500', color: 'white' }}
+                leftIcon={<FaRegTrashAlt size="14px" />}
+              >
+                Delete your account
+              </AlertButton>
+              <Spacer />
+            </Flex>
           </Container>
         </Box>
       )}
