@@ -8,7 +8,7 @@ const SessionContext = createContext<string | undefined>(undefined)
 export const useUserUuid = (): string => {
   const uuid = useContext(SessionContext)
   if (typeof uuid !== 'string') {
-    redirect('/')
+    redirect('/signin')
   }
   return uuid
 }

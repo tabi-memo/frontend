@@ -1,6 +1,7 @@
 import { Roboto } from 'next/font/google'
 import './globals.css'
-import { getUuid } from '@/(auth)/uuid'
+import { cookies } from 'next/headers'
+import { cookieName } from '@/(auth)/uuid'
 import { ApolloWrapper } from '@/providers/apollo-provider'
 import { ChakraProvider } from '@/providers/chakra-provider'
 import { SessionProvider } from '@/providers/session-provider'
@@ -23,7 +24,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const uuid = getUuid()
+  const uuid = cookies().get(cookieName)?.value ?? undefined
   return (
     <html lang="en" className={roboto.className}>
       <body>
