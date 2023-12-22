@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from 'next/server'
 import { createClient } from '@/(auth)/supabase/middleware'
-import { setUuidWithHeaders } from '@/(auth)/uuid'
+import { cookieName } from '@/(auth)/uuid'
 
 export const config = {
   matcher: [
@@ -40,7 +40,22 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL(signinUri, request.url))
   }
 
+  const headers = new Headers(request.headers)
+  if (!request.cookies.has(cookieName)) {
+    headers.append(
+      'set-cookie',
+      NextResponse.next()
+        .cookies.set(cookieName, session.user.id, {
+          httpOnly: true,
+          sameSite: 'lax',
+          maxAge: 60 * 60 * 24, // 24 hours
+          path: '/'
+        })
+        .toString()
+    )
+  }
+
   return NextResponse.next({
-    headers: setUuidWithHeaders(new Headers(request.headers), session)
+    headers
   })
 }
