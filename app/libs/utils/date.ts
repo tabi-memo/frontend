@@ -1,5 +1,6 @@
 import { format, parseISO } from 'date-fns'
 
+// TODO Might need to fix to show correct date and time not depending on Locale
 /**
  * @param date - ISO date string
  * @returns - Formatted date string e.g. 'Jan 1, 2023'
@@ -11,6 +12,7 @@ export const formatDateToDayMonthYear = (date: string | undefined | null) => {
   return formattedDate
 }
 
+// TODO Might need to fix to show correct date and time not depending on Locale
 /**
  * @param date - ISO date string
  * @returns - Formatted date string e.g. 'Jan 1'
@@ -33,6 +35,7 @@ export const formatDateToDayMonthWeek = (date: string | undefined | null) => {
   return formattedDate
 }
 
+// TODO Might need to fix to show correct date and time not depending on Locale
 /**
  * @param date - ISO date string
  * @returns - Formatted time string e.g. '13:00'
