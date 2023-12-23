@@ -14,7 +14,7 @@ import { useRouter } from 'next/navigation'
 import { FiTrash2, FiMapPin, FiMoreHorizontal, FiEdit3 } from 'react-icons/fi'
 import { Link } from '@/components/link'
 import { ConfirmModal } from '@/components/modal'
-import { formatDateToTime } from '@/libs/utils'
+import { extractTimeFromDate } from '@/libs/utils'
 import { ActivityType } from '../components'
 
 type ActivityCardProps = {
@@ -44,11 +44,11 @@ export const ActivityCard = ({ activity }: ActivityCardProps) => {
           gap={{ base: '20px', md: '40px' }}
         >
           <VStack fontSize={{ base: 'xs', md: 'sm' }}>
-            <Text as="span">{formatDateToTime(activity.timeFrom)}</Text>
+            <Text as="span">{extractTimeFromDate(activity.timeFrom)}</Text>
             <Box color="gray.600" w={{ base: '20px', md: '28px' }}>
               <FiMapPin size="100%" />
             </Box>
-            <Text as="span">{formatDateToTime(activity.timeTo)}</Text>
+            <Text as="span">{extractTimeFromDate(activity.timeTo)}</Text>
           </VStack>
           <Box
             borderWidth="1px"

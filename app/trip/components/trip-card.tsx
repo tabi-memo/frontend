@@ -9,7 +9,7 @@ import {
   useColorModeValue
 } from '@chakra-ui/react'
 import { MdAccountCircle } from 'react-icons/md'
-import { formatDateToDayMonthYear } from '@/libs/utils'
+import { formatDateToSlash } from '@/libs/utils'
 import { TripsCollectionQuery } from '@generated/api'
 
 type TripCardProps = {
@@ -107,8 +107,8 @@ export const TripCard = ({ data }: TripCardProps) => {
             </Flex>
           )}
         <Flex fontSize={{ base: 'sm', md: 'md' }}>
-          {formatDateToDayMonthYear(data.node.date_from)} -{' '}
-          {formatDateToDayMonthYear(data.node.date_to)}
+          {formatDateToSlash(data.node.date_from, 'dayMonthYear')} -{' '}
+          {formatDateToSlash(data.node.date_to, 'dayMonthYear')}
         </Flex>
       </CardBody>
     </Card>
