@@ -24,6 +24,8 @@ export default function TripDetailsPage({
     }
   })
 
+  if (!tripData && !tripLoading) throw new Error('No trip data found')
+
   const tripDataCollection = tripData?.tripsCollection
 
   return (
