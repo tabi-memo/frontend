@@ -10,7 +10,7 @@ import {
   VStack,
   Heading
 } from '@chakra-ui/react'
-import { formatDateToDayMonthWeek, formatDbDate } from '@/libs/utils'
+import { formatDbDate, formatDateToSlash } from '@/libs/utils'
 import { ActivityCard } from '../components'
 
 export type ActivityType = {
@@ -85,7 +85,7 @@ export const TripDetailsTabs = ({ activities }: TripDetailsTabsProps) => {
           {Object.keys(activitiesByDate).map((date) => (
             <TabPanel key={date} py="10px" px="0">
               <Heading as="h2" fontWeight={'normal'} fontSize="md">
-                {formatDateToDayMonthWeek(date)}
+                {formatDateToSlash(date, 'dayMonth')}
               </Heading>
               <VStack
                 gap="14px"
