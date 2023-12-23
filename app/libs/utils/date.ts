@@ -37,7 +37,7 @@ export const formatDateToDayMonthWeek = (date: string | undefined | null) => {
  * @param date - ISO date string
  * @returns - Formatted time string e.g. '13:00'
  */
-export const formatDateToTime = (date: string) => {
+export const formatDateToTime = (date: string | undefined | null) => {
   if (!date) return ''
   const parsedDate = parseISO(date)
   const formattedTime = format(parsedDate, 'HH:mm')
