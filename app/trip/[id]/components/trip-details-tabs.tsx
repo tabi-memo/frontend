@@ -10,12 +10,12 @@ import {
   VStack,
   Heading
 } from '@chakra-ui/react'
-import { formatDateToDayMonthWeek } from '@/libs/utils'
+import { formatDateToDayMonthWeek, formatDbDate } from '@/libs/utils'
 import { ActivityCard } from '../components'
 
 export type ActivityType = {
   id: string
-  timeFrom: string | null | undefined
+  timeFrom: string
   timeTo: string | null | undefined
   title: string
   address: string | null | undefined
@@ -30,16 +30,8 @@ export const TripDetailsTabs = ({ activities }: TripDetailsTabsProps) => {
 
   // Sorting by date Time
   const sortedActivities = activities.sort((a, b) => {
-    const dateA = a.timeFrom
-      ? new Date(a.timeFrom).getTime()
-      : a.timeTo
-      ? new Date(a.timeTo).getTime()
-      : 0
-    const dateB = b.timeFrom
-      ? new Date(b.timeFrom).getTime()
-      : b.timeTo
-      ? new Date(b.timeTo).getTime()
-      : 0
+    const dateA = new Date(a.timeFrom).getTime()
+    const dateB = new Date(b.timeFrom).getTime()
 
     return dateA - dateB
   })
@@ -47,16 +39,36 @@ export const TripDetailsTabs = ({ activities }: TripDetailsTabsProps) => {
   // Grouping by date
   const activitiesByDate: { [date: string]: ActivityType[] } = {}
 
-  sortedActivities.forEach((activity) => {
-    const date = activity.timeFrom?.split('T')[0]
+  if (sortedActivities.length === 1) {
+    const dateKey = formatDbDate(sortedActivities[0].timeFrom)
 
-    if (date) {
-      if (!activitiesByDate[date]) {
-        activitiesByDate[date] = []
-      }
-      activitiesByDate[date].push(activity)
+    if (dateKey) {
+      activitiesByDate[dateKey] = sortedActivities
     }
-  })
+  } else {
+    const startDate = new Date(sortedActivities[0].timeFrom)
+    const endDate = new Date(
+      sortedActivities[sortedActivities.length - 1].timeFrom
+    )
+
+    const currentDate = startDate
+
+    while (currentDate <= endDate) {
+      const dateKey = formatDbDate(currentDate.toISOString())
+
+      const activitiesForDate = sortedActivities.filter(
+        (activity) => formatDbDate(activity.timeFrom) === dateKey
+      )
+
+      if (activitiesForDate.length) {
+        activitiesByDate[dateKey] = activitiesForDate
+      } else {
+        activitiesByDate[dateKey] = []
+      }
+
+      currentDate.setDate(currentDate.getDate() + 1)
+    }
+  }
 
   return (
     <Box mt="20px">

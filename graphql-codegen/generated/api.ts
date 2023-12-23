@@ -1163,7 +1163,7 @@ export type TripDetailsQuery = {
         __typename: 'trips'
         uuid: string
         title: string
-        date_from?: string | null
+        date_from: string
         date_to?: string | null
         image_storage_object_id?: string | null
         invitationsCollection?: {
@@ -1188,7 +1188,7 @@ export type TripDetailsQuery = {
               __typename: 'activity'
               uuid: string
               title: string
-              time_from?: string | null
+              time_from: string
               time_to?: string | null
               address?: string | null
             }
