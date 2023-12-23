@@ -37,9 +37,18 @@ export const formatDateToDayMonthWeek = (date: string | undefined | null) => {
  * @param date - ISO date string
  * @returns - Formatted time string e.g. '13:00'
  */
-export const formatDateToTime = (date: string | undefined | null) => {
+export const formatDateToTime = (date: string) => {
   if (!date) return ''
   const parsedDate = parseISO(date)
   const formattedTime = format(parsedDate, 'HH:mm')
   return formattedTime
+}
+
+/**
+ * @param date  - ISO date string
+ * @returns - Formatted date string e.g. '2023-01-01'
+ */
+export const formatDbDate = (date: string) => {
+  const formattedDate = date.split('T')[0]
+  return formattedDate
 }

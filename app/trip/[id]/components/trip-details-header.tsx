@@ -40,8 +40,8 @@ export const TripDetailsHeader = ({
   const router = useRouter()
 
   const imageSrc = useColorModeValue(
-    '/images/no_image_light.jpg',
-    '/images/no_image_dark.jpg'
+    '/images/small_no_image_light.jpg',
+    '/images/small_no_image_dark.jpg'
   )
 
   const color = useColorModeValue('black', 'gray.300')
