@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useMemo } from 'react'
 import {
   Box,
   useColorModeValue,
@@ -10,7 +10,7 @@ import {
   VStack,
   Heading
 } from '@chakra-ui/react'
-import { formatDbDate, formatDateToSlash } from '@/libs/utils'
+import { formatDbTimeToDate, formatDateToSlash } from '@/libs/utils'
 import { ActivityCard } from '../components'
 
 export type ActivityType = {
@@ -28,51 +28,58 @@ type TripDetailsTabsProps = {
 export const TripDetailsTabs = ({ activities }: TripDetailsTabsProps) => {
   const borderColor = useColorModeValue('gray.300', 'gray.600')
 
-  // Sorting by date Time
-  const sortedActivities = activities.sort((a, b) => {
-    const dateA = new Date(a.timeFrom).getTime()
-    const dateB = new Date(b.timeFrom).getTime()
+  const sortedActivities = useMemo(() => {
+    return activities.sort((a, b) => {
+      const dateA = new Date(a.timeFrom).getTime()
+      const dateB = new Date(b.timeFrom).getTime()
 
-    return dateA - dateB
-  })
+      return dateA - dateB
+    })
+  }, [activities])
 
   // Grouping by date
-  const activitiesByDate: { [date: string]: ActivityType[] } = {}
+  const activitiesByDate = useMemo(() => {
+    const result: { [date: string]: ActivityType[] } = {}
 
-  if (sortedActivities.length === 1) {
-    const dateKey = formatDbDate(sortedActivities[0].timeFrom)
+    if (sortedActivities.length === 1) {
+      const dateKey = formatDbTimeToDate(sortedActivities[0].timeFrom)
 
-    if (dateKey) {
-      activitiesByDate[dateKey] = sortedActivities
+      result[dateKey] = sortedActivities
+    } else {
+      sortedActivities.forEach((activity) => {
+        const dateKey = formatDbTimeToDate(activity.timeFrom)
+
+        const activitiesForDate = sortedActivities.filter(
+          (activity) =>
+            formatDbTimeToDate(activity.timeFrom) === dateKey ||
+            formatDbTimeToDate(activity.timeTo) === dateKey
+        )
+
+        if (!activitiesForDate.length) {
+          return (result[dateKey] = [])
+        }
+
+        return (result[dateKey] = activitiesForDate)
+      })
     }
-  } else {
-    const startDate = new Date(sortedActivities[0].timeFrom)
-    const endDate = new Date(
-      sortedActivities[sortedActivities.length - 1].timeFrom
-    )
 
-    const currentDate = startDate
+    return result
+  }, [sortedActivities])
 
-    while (currentDate <= endDate) {
-      const dateKey = formatDbDate(currentDate.toISOString())
+  const [tabIndex, setTabIndex] = useState(0)
 
-      const activitiesForDate = sortedActivities.filter(
-        (activity) => formatDbDate(activity.timeFrom) === dateKey
-      )
+  const [selectedDate, setSelectedDate] = useState(
+    Object.keys(activitiesByDate)[0]
+  )
 
-      if (activitiesForDate.length) {
-        activitiesByDate[dateKey] = activitiesForDate
-      } else {
-        activitiesByDate[dateKey] = []
-      }
-
-      currentDate.setDate(currentDate.getDate() + 1)
-    }
+  const handleTabsChange = (index: number) => {
+    setTabIndex(index)
+    setSelectedDate(Object.keys(activitiesByDate)[index])
   }
 
   return (
     <Box mt="20px">
-      <Tabs>
+      <Tabs index={tabIndex} onChange={handleTabsChange}>
         <TabList>
           {Object.keys(activitiesByDate).map((date, index) => (
             <Tab key={`${date}_${index}`} fontWeight={'semibold'}>
@@ -95,14 +102,17 @@ export const TripDetailsTabs = ({ activities }: TripDetailsTabsProps) => {
               >
                 {activitiesByDate[date].map((activity, index) => (
                   <React.Fragment key={activity.id}>
-                    <ActivityCard activity={activity} />
+                    <ActivityCard
+                      activity={activity}
+                      selectedDate={selectedDate}
+                    />
                     {index !== activitiesByDate[date].length - 1 && (
                       <Box
                         h="30px"
                         w="1px"
                         bgColor={borderColor}
                         alignSelf="flex-start"
-                        ml="17px"
+                        ml="21px"
                       />
                     )}
                   </React.Fragment>

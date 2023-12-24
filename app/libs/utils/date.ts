@@ -35,7 +35,8 @@ export const extractTimeFromDate = (date: string | undefined | null) => {
  * @param date  - ISO date string
  * @returns - Formatted date string e.g. '2023-01-01'
  */
-export const formatDbDate = (date: string) => {
+export const formatDbTimeToDate = (date: string | null | undefined) => {
+  if (!date) return ''
   const formattedDate = date.split('T')[0]
   return formattedDate
 }
