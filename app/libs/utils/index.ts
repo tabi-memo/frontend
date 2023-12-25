@@ -1,1 +1,5 @@
-export { formatDateToSlash, extractTimeFromDate, formatDbTimeToDate } from './date'
+export {
+  formatDateToSlash,
+  extractTimeFromDate,
+  formatDbTimeToDate
+} from './date'
