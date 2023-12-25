@@ -46,20 +46,33 @@ export const TripDetailsTabs = ({ activities }: TripDetailsTabsProps) => {
 
       result[dateKey] = sortedActivities
     } else {
+      // Array list for all dates
+      const allDates: string[] = []
       sortedActivities.forEach((activity) => {
-        const dateKey = formatDbTimeToDate(activity.timeFrom)
+        const startDate = new Date(formatDbTimeToDate(activity.timeFrom))
+        const endDate = new Date(formatDbTimeToDate(activity.timeTo))
 
+        const currentDate = startDate
+
+        while (currentDate <= endDate) {
+          const formattedDate = currentDate.toISOString().split('T')[0] // Format to yyyy-mm-dd
+          if (!allDates.includes(formattedDate)) {
+            allDates.push(formattedDate)
+          }
+
+          // Move to the next day
+          currentDate.setDate(currentDate.getDate() + 1)
+        }
+      })
+
+      allDates.forEach((dateKey) => {
         const activitiesForDate = sortedActivities.filter(
           (activity) =>
             formatDbTimeToDate(activity.timeFrom) === dateKey ||
             formatDbTimeToDate(activity.timeTo) === dateKey
         )
 
-        if (!activitiesForDate.length) {
-          return (result[dateKey] = [])
-        }
-
-        return (result[dateKey] = activitiesForDate)
+        result[dateKey] = activitiesForDate
       })
     }
 

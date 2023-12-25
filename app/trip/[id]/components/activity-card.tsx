@@ -95,7 +95,7 @@ export const ActivityCard = ({ activity, selectedDate }: ActivityCardProps) => {
           <VStack fontSize={{ base: 'xs', md: 'sm' }} w="42px" flexShrink={0}>
             <VStack spacing="0">
               {differentDate('timeFrom') && (
-                <Text as="span" fontSize="xs">
+                <Text as="span" fontSize="xs" data-testid="timeFromDate">
                   ({differentDate('timeFrom')})
                 </Text>
               )}
@@ -109,7 +109,7 @@ export const ActivityCard = ({ activity, selectedDate }: ActivityCardProps) => {
               <Text as="span">{extractTimeFromDate(activity.timeTo)}</Text>
 
               {differentDate('timeTo') && (
-                <Text as="span" fontSize="xs">
+                <Text as="span" fontSize="xs" data-testid="timeToDate">
                   ({differentDate('timeTo')})
                 </Text>
               )}
