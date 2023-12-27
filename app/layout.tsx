@@ -1,7 +1,10 @@
 import { Roboto } from 'next/font/google'
 import './globals.css'
-import { ApolloWrapper } from '@/apollo-provider'
-import { Providers } from '@/Providers'
+import { cookies } from 'next/headers'
+import { cookieName } from '@/(auth)/uuid'
+import { ApolloWrapper } from '@/providers/apollo-provider'
+import { ChakraProvider } from '@/providers/chakra-provider'
+import { SessionProvider } from '@/providers/session-provider'
 import type { Metadata } from 'next'
 
 const roboto = Roboto({
@@ -21,12 +24,19 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const uuid = cookies().get(cookieName)?.value ?? undefined
   return (
     <html lang="en" className={roboto.className}>
       <body>
-        <ApolloWrapper>
-          <Providers>{children}</Providers>
-        </ApolloWrapper>
+        <ChakraProvider>
+          <ApolloWrapper>
+            {uuid ? (
+              <SessionProvider uuid={uuid}>{children}</SessionProvider>
+            ) : (
+              children
+            )}
+          </ApolloWrapper>
+        </ChakraProvider>
       </body>
     </html>
   )

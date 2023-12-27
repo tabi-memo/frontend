@@ -17,5 +17,7 @@
       "source.fixAll.eslint": true
     },
     "editor.formatOnSave": true
-  }
+  },
+  "cSpell.enabled": true,
+  "cSpell.words": ["Chakra", "supabase"]
 }
