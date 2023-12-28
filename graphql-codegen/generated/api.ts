@@ -473,7 +473,7 @@ export type Activity = Node & {
   memo?: Maybe<Scalars['String']['output']>
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output']
-  time_from?: Maybe<Scalars['Datetime']['output']>
+  time_from: Scalars['Datetime']['output']
   time_to?: Maybe<Scalars['Datetime']['output']>
   title: Scalars['String']['output']
   trip_id?: Maybe<Scalars['BigInt']['output']>
@@ -902,7 +902,7 @@ export type Trips = Node & {
   activityCollection?: Maybe<ActivityConnection>
   cost?: Maybe<Scalars['BigFloat']['output']>
   created_at: Scalars['Datetime']['output']
-  date_from?: Maybe<Scalars['Date']['output']>
+  date_from: Scalars['Date']['output']
   date_to?: Maybe<Scalars['Date']['output']>
   description?: Maybe<Scalars['String']['output']>
   id: Scalars['BigInt']['output']
@@ -1149,6 +1149,66 @@ export type CreateTripMutation = {
   } | null
 }
 
+export type TripDetailsQueryVariables = Exact<{
+  uuid: Scalars['UUID']['input']
+}>
+
+export type TripDetailsQuery = {
+  __typename: 'Query'
+  tripsCollection?: {
+    __typename: 'tripsConnection'
+    edges: Array<{
+      __typename: 'tripsEdge'
+      node: {
+        __typename: 'trips'
+        uuid: string
+        title: string
+        date_from: string
+        date_to?: string | null
+        image_storage_object_id?: string | null
+        invitationsCollection?: {
+          __typename: 'invitationsConnection'
+          edges: Array<{
+            __typename: 'invitationsEdge'
+            node: {
+              __typename: 'invitations'
+              users?: {
+                __typename: 'users'
+                id: number
+                profile_picture_url?: string | null
+              } | null
+            }
+          }>
+        } | null
+        activityCollection?: {
+          __typename: 'activityConnection'
+          edges: Array<{
+            __typename: 'activityEdge'
+            node: {
+              __typename: 'activity'
+              uuid: string
+              title: string
+              time_from: string
+              time_to?: string | null
+              address?: string | null
+            }
+          }>
+        } | null
+        trip_tagsCollection?: {
+          __typename: 'trip_tagsConnection'
+          edges: Array<{
+            __typename: 'trip_tagsEdge'
+            node: {
+              __typename: 'trip_tags'
+              tags?: { __typename: 'tags'; id: number; name: string } | null
+            }
+          }>
+        } | null
+      }
+    }>
+  } | null
+}
+
 export type TripsCollectionQueryVariables = Exact<{
   filter?: InputMaybe<TripsFilter>
   orderBy?: InputMaybe<Array<TripsOrderBy> | TripsOrderBy>
@@ -1167,7 +1227,7 @@ export type TripsCollectionQuery = {
         id: number
         uuid: string
         title: string
-        date_from?: string | null
+        date_from: string
         date_to?: string | null
         image_storage_object_id?: string | null
         created_at: string
@@ -1277,6 +1337,134 @@ export type CreateTripMutationOptions = Apollo.BaseMutationOptions<
   CreateTripMutation,
   CreateTripMutationVariables
 >
+export const TripDetailsDocument = gql`
+  query tripDetails($uuid: UUID!) {
+    __typename
+    tripsCollection(filter: { uuid: { eq: $uuid } }) {
+      __typename
+      edges {
+        __typename
+        node {
+          __typename
+          uuid
+          title
+          date_from
+          date_to
+          image_storage_object_id
+          invitationsCollection {
+            __typename
+            edges {
+              __typename
+              node {
+                __typename
+                users {
+                  __typename
+                  id
+                  profile_picture_url
+                }
+              }
+            }
+          }
+          activityCollection {
+            __typename
+            edges {
+              __typename
+              node {
+                __typename
+                uuid
+                title
+                time_from
+                time_to
+                address
+              }
+            }
+          }
+          trip_tagsCollection {
+            __typename
+            edges {
+              __typename
+              node {
+                __typename
+                tags {
+                  __typename
+                  id
+                  name
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`
+
+/**
+ * __useTripDetailsQuery__
+ *
+ * To run a query within a React component, call `useTripDetailsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTripDetailsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTripDetailsQuery({
+ *   variables: {
+ *      uuid: // value for 'uuid'
+ *   },
+ * });
+ */
+export function useTripDetailsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    TripDetailsQuery,
+    TripDetailsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<TripDetailsQuery, TripDetailsQueryVariables>(
+    TripDetailsDocument,
+    options
+  )
+}
+export function useTripDetailsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    TripDetailsQuery,
+    TripDetailsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<TripDetailsQuery, TripDetailsQueryVariables>(
+    TripDetailsDocument,
+    options
+  )
+}
+export function useTripDetailsSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    TripDetailsQuery,
+    TripDetailsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<TripDetailsQuery, TripDetailsQueryVariables>(
+    TripDetailsDocument,
+    options
+  )
+}
+export type TripDetailsQueryHookResult = ReturnType<typeof useTripDetailsQuery>
+export type TripDetailsLazyQueryHookResult = ReturnType<
+  typeof useTripDetailsLazyQuery
+>
+export type TripDetailsSuspenseQueryHookResult = ReturnType<
+  typeof useTripDetailsSuspenseQuery
+>
+export type TripDetailsQueryResult = Apollo.QueryResult<
+  TripDetailsQuery,
+  TripDetailsQueryVariables
+>
+export function refetchTripDetailsQuery(variables: TripDetailsQueryVariables) {
+  return { query: TripDetailsDocument, variables: variables }
+}
 export const TripsCollectionDocument = gql`
   query tripsCollection(
     $filter: tripsFilter
