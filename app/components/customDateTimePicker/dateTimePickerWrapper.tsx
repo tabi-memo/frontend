@@ -83,9 +83,18 @@ export const DateTimePickerWrapper = ({
           background-color: ${colorMode === 'dark' ? '#CBD5E0' : '#EDF2F7'};
         }
 
-        .react-datetime-picker__calendar react-datetime-picker__calendar--open{
-          inset: 100% auto auto 0px
+        .react-datetime-picker__wrapper{
+          position:relative;
         }
+
+        .react-datetime-picker__calendar--open {
+          inset:0 !important;
+        }
+
+        .react-datetime-picker__inputGroup{
+          padding:0 16px;
+        }
+
       `}</style>
 
       <div style={{ position: 'relative' }}>
