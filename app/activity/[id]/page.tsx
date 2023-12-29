@@ -10,14 +10,14 @@ import { useActivityCollectionQuery } from '@generated/api'
 export default function ActivityDetails({
   params
 }: {
-  params: { uuid: string }
+  params: { id: string }
 }) {
   const bg = useColorModeValue('white', 'gray.800')
   const color = useColorModeValue('black', 'gray.300')
 
   const { data, loading } = useActivityCollectionQuery({
     variables: {
-      uuid: params.uuid
+      uuid: params.id
     }
   })
 
