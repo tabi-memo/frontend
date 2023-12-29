@@ -473,7 +473,7 @@ export type Activity = Node & {
   memo?: Maybe<Scalars['String']['output']>
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output']
-  time_from?: Maybe<Scalars['Datetime']['output']>
+  time_from: Scalars['Datetime']['output']
   time_to?: Maybe<Scalars['Datetime']['output']>
   title: Scalars['String']['output']
   trip_id?: Maybe<Scalars['BigInt']['output']>
@@ -902,7 +902,7 @@ export type Trips = Node & {
   activityCollection?: Maybe<ActivityConnection>
   cost?: Maybe<Scalars['BigFloat']['output']>
   created_at: Scalars['Datetime']['output']
-  date_from?: Maybe<Scalars['Date']['output']>
+  date_from: Scalars['Date']['output']
   date_to?: Maybe<Scalars['Date']['output']>
   description?: Maybe<Scalars['String']['output']>
   id: Scalars['BigInt']['output']
@@ -1145,7 +1145,7 @@ export type ActivityCollectionQuery = {
         uuid: string
         trip_id?: number | null
         title: string
-        time_from?: string | null
+        time_from: string
         time_to?: string | null
         address?: string | null
         url?: string | null
@@ -1198,7 +1198,7 @@ export type TripDetailsQuery = {
         __typename: 'trips'
         uuid: string
         title: string
-        date_from?: string | null
+        date_from: string
         date_to?: string | null
         image_storage_object_id?: string | null
         invitationsCollection?: {
@@ -1223,7 +1223,7 @@ export type TripDetailsQuery = {
               __typename: 'activity'
               uuid: string
               title: string
-              time_from?: string | null
+              time_from: string
               time_to?: string | null
               address?: string | null
             }
@@ -1262,7 +1262,7 @@ export type TripsCollectionQuery = {
         id: number
         uuid: string
         title: string
-        date_from?: string | null
+        date_from: string
         date_to?: string | null
         image_storage_object_id?: string | null
         created_at: string
