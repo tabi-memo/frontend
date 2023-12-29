@@ -2,14 +2,18 @@
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/(auth)/supabase/server'
+import { USER_UUID_COOKIE_NAME } from '../uuid'
 
 export const signOut = async (): Promise<void> => {
-  const supabase = createClient(cookies())
+  const c = cookies()
+  const supabase = createClient(c)
 
   const { error } = await supabase.auth.signOut({ scope: 'global' })
+
   if (error) {
     throw error
-  } else {
-    redirect('/signin')
   }
+
+  c.delete(USER_UUID_COOKIE_NAME)
+  redirect('/signin')
 }
