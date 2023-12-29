@@ -473,7 +473,7 @@ export type Activity = Node & {
   memo?: Maybe<Scalars['String']['output']>
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output']
-  time_from: Scalars['Datetime']['output']
+  time_from?: Maybe<Scalars['Datetime']['output']>
   time_to?: Maybe<Scalars['Datetime']['output']>
   title: Scalars['String']['output']
   trip_id?: Maybe<Scalars['BigInt']['output']>
@@ -831,6 +831,7 @@ export type Trip_Tags = Node & {
   tags?: Maybe<Tags>
   trip_id?: Maybe<Scalars['BigInt']['output']>
   trips?: Maybe<Trips>
+  uuid: Scalars['UUID']['output']
 }
 
 export type Trip_TagsConnection = {
@@ -858,11 +859,13 @@ export type Trip_TagsFilter = {
   nodeId?: InputMaybe<IdFilter>
   tag_id?: InputMaybe<BigIntFilter>
   trip_id?: InputMaybe<BigIntFilter>
+  uuid?: InputMaybe<UuidFilter>
 }
 
 export type Trip_TagsInsertInput = {
   tag_id?: InputMaybe<Scalars['BigInt']['input']>
   trip_id?: InputMaybe<Scalars['BigInt']['input']>
+  uuid?: InputMaybe<Scalars['UUID']['input']>
 }
 
 export type Trip_TagsInsertResponse = {
@@ -877,11 +880,13 @@ export type Trip_TagsOrderBy = {
   id?: InputMaybe<OrderByDirection>
   tag_id?: InputMaybe<OrderByDirection>
   trip_id?: InputMaybe<OrderByDirection>
+  uuid?: InputMaybe<OrderByDirection>
 }
 
 export type Trip_TagsUpdateInput = {
   tag_id?: InputMaybe<Scalars['BigInt']['input']>
   trip_id?: InputMaybe<Scalars['BigInt']['input']>
+  uuid?: InputMaybe<Scalars['UUID']['input']>
 }
 
 export type Trip_TagsUpdateResponse = {
@@ -897,7 +902,7 @@ export type Trips = Node & {
   activityCollection?: Maybe<ActivityConnection>
   cost?: Maybe<Scalars['BigFloat']['output']>
   created_at: Scalars['Datetime']['output']
-  date_from: Scalars['Date']['output']
+  date_from?: Maybe<Scalars['Date']['output']>
   date_to?: Maybe<Scalars['Date']['output']>
   description?: Maybe<Scalars['String']['output']>
   id: Scalars['BigInt']['output']
@@ -1125,7 +1130,7 @@ export type UsersUpdateResponse = {
 }
 
 export type ActivityCollectionQueryVariables = Exact<{
-  id: Scalars['BigInt']['input']
+  uuid: Scalars['UUID']['input']
 }>
 
 export type ActivityCollectionQuery = {
@@ -1193,7 +1198,7 @@ export type TripDetailsQuery = {
         __typename: 'trips'
         uuid: string
         title: string
-        date_from: string
+        date_from?: string | null
         date_to?: string | null
         image_storage_object_id?: string | null
         invitationsCollection?: {
@@ -1218,7 +1223,7 @@ export type TripDetailsQuery = {
               __typename: 'activity'
               uuid: string
               title: string
-              time_from: string
+              time_from?: string | null
               time_to?: string | null
               address?: string | null
             }
@@ -1257,7 +1262,7 @@ export type TripsCollectionQuery = {
         id: number
         uuid: string
         title: string
-        date_from: string
+        date_from?: string | null
         date_to?: string | null
         image_storage_object_id?: string | null
         created_at: string
@@ -1295,9 +1300,9 @@ export type TripsCollectionQuery = {
 }
 
 export const ActivityCollectionDocument = gql`
-  query activityCollection($id: BigInt!) {
+  query activityCollection($uuid: UUID!) {
     __typename
-    activityCollection(filter: { id: { eq: $id } }) {
+    activityCollection(filter: { uuid: { eq: $uuid } }) {
       __typename
       edges {
         __typename
@@ -1339,7 +1344,7 @@ export const ActivityCollectionDocument = gql`
  * @example
  * const { data, loading, error } = useActivityCollectionQuery({
  *   variables: {
- *      id: // value for 'id'
+ *      uuid: // value for 'uuid'
  *   },
  * });
  */

@@ -1,5 +1,5 @@
-query activityCollection($id: BigInt!) {
-  activityCollection(filter: { id: { eq: $id } }) {
+query activityCollection($uuid: UUID!) {
+  activityCollection(filter: { uuid: { eq: $uuid } }) {
     edges {
       node {
         id
