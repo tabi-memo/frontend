@@ -19,6 +19,7 @@ export const Carousel = ({ urls }: CarouselProps) => {
   const dotColor = useColorModeValue('gray.400', 'gray.500')
   const activeDotColor = useColorModeValue('black', 'gray.100')
   const [currentSlide, setCurrentSlide] = React.useState(0)
+  const bg = useColorModeValue('white', 'gray.800')
 
   const settings = {
     dots: true,
@@ -71,7 +72,7 @@ export const Carousel = ({ urls }: CarouselProps) => {
         aria-label="left-arrow"
         colorScheme="white"
         borderRadius="full"
-        bg="white"
+        bg={bg}
         position="absolute"
         left={side}
         top={top}
@@ -87,7 +88,7 @@ export const Carousel = ({ urls }: CarouselProps) => {
         aria-label="right-arrow"
         colorScheme="white"
         borderRadius="full"
-        bg="white"
+        bg={bg}
         position="absolute"
         right={side}
         top={top}
