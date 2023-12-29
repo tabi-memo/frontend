@@ -82,9 +82,13 @@ export const DateTimePickerWrapper = ({
         .react-calendar__tile--now:enabled:hover {
           background-color: ${colorMode === 'dark' ? '#CBD5E0' : '#EDF2F7'};
         }
+
+        .react-datetime-picker__calendar react-datetime-picker__calendar--open{
+          inset: 100% auto auto 0px
+        }
       `}</style>
 
-      <div>
+      <div style={{ position: 'relative' }}>
         <ReactDateTimePicker
           onChange={onChange}
           value={value}
