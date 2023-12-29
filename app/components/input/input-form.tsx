@@ -17,6 +17,7 @@ export const InputForm = forwardRef(
         <ChakraFormInput
           {...props}
           ref={ref}
+          focusBorderColor={'primary.600'}
           borderColor={borderColor}
           bgColor={bgColor}
           _placeholder={{
