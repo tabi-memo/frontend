@@ -13,10 +13,16 @@ import {
   Flex
 } from '@chakra-ui/react'
 import { PrimaryButton } from '@/components/button'
+import { DateTimePickerWrapper } from '@/components/customDateTimePicker'
 import { InputForm, TextareaForm } from '@/components/input'
 import { createActivitySchema, createActivityResolver } from '../schema'
 
+type ValuePiece = Date | null
+type Value = ValuePiece | [ValuePiece, ValuePiece]
+
 export const FormActivity = () => {
+  const [dateTo, setDateTo] = useState<Value>(null)
+  const [dateFrom, setDateFrom] = useState<Value>(null)
   const [selectedImages, setSelectedImages] = useState<File[]>([])
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setSelectedImages((prevImages) => [...prevImages, ...acceptedFiles])
@@ -40,8 +46,10 @@ export const FormActivity = () => {
 
   const createHandler = handleSubmit(async (data: createActivitySchema) => {
     console.log(data)
-    // TODO append images to formData and send to backend
+    // TODO append 'images', 'date from', 'date to' to formData and send to backend
   })
+
+  console.log('date to', dateTo, 'date from' , dateFrom)
 
   return (
     <Box as="form" onSubmit={createHandler} pt={{ base: '40px', md: '40px' }}>
@@ -59,18 +67,12 @@ export const FormActivity = () => {
 
       <FormControl mt={{ base: '30px', md: '40px' }}>
         <FormLabel>Time From</FormLabel>
-        <InputForm {...register('timeFrom')} type="datetime-local" />
-        {errors.timeFrom && (
-          <FormErrorMessage>{errors.timeFrom.message}</FormErrorMessage>
-        )}
+        <DateTimePickerWrapper onChange={setDateFrom} value={dateFrom} />
       </FormControl>
 
       <FormControl mt={{ base: '30px', md: '40px' }}>
         <FormLabel>Time To</FormLabel>
-        <InputForm {...register('timeTo')} type="datetime-local" />
-        {errors.timeTo && (
-          <FormErrorMessage>{errors.timeTo.message}</FormErrorMessage>
-        )}
+        <DateTimePickerWrapper onChange={setDateTo} value={dateTo} />
       </FormControl>
 
       <FormControl
@@ -100,14 +102,14 @@ export const FormActivity = () => {
         )}
       </FormControl>
 
-      <Text mt={{ base: '30px', md: '40px' }} fontWeight="medium">
+      <Text
+        mt={{ base: '30px', md: '40px' }}
+        mb={selectedImages.length !== 0 ? { base: '30px', md: '40px' } : '8px'}
+        fontWeight="medium"
+      >
         Image
       </Text>
-      <SimpleGrid
-        mt={{ base: '30px', md: '40px' }}
-        columns={{ base: 2, md: 3 }}
-        spacing={4}
-      >
+      <SimpleGrid columns={{ base: 2, md: 3 }} spacing={4}>
         {selectedImages.map((image, index) => (
           <Image
             key={index}
@@ -125,7 +127,7 @@ export const FormActivity = () => {
       <Box
         {...getRootProps()}
         textAlign="center"
-        mt={selectedImages.length !== 0 && { base: '30px', md: '40px' }}
+        mt={{ base: 0, md: selectedImages.length !== 0 ? '40px' : '0' }}
       >
         <PrimaryButton variant="outline">
           <input {...getInputProps()} />
@@ -138,7 +140,7 @@ export const FormActivity = () => {
         <TextareaForm
           {...register('memo')}
           name="memo"
-          placeholder="Type test here..."
+          placeholder="Type here..."
         />
         {errors.memo && (
           <FormErrorMessage>{errors.memo.message}</FormErrorMessage>
