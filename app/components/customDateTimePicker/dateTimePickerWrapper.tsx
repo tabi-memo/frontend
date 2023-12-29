@@ -90,7 +90,7 @@ export const DateTimePickerWrapper = ({
           value={value}
           calendarIcon={<MdCalendarToday />}
           clearIcon={<MdClose />}
-          format={'y-MM-dd h:mm:ss a'}
+          format={'y-MM-dd h:mm a'}
         />
       </div>
     </>
