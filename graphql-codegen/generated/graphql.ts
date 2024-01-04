@@ -445,7 +445,7 @@ export type Activity = Node & {
   memo?: Maybe<Scalars['String']['output']>
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output']
-  time_from?: Maybe<Scalars['Datetime']['output']>
+  time_from: Scalars['Datetime']['output']
   time_to?: Maybe<Scalars['Datetime']['output']>
   title: Scalars['String']['output']
   trip_id?: Maybe<Scalars['BigInt']['output']>
@@ -835,7 +835,7 @@ export type Trips = Node & {
   activityCollection?: Maybe<ActivityConnection>
   cost?: Maybe<Scalars['BigFloat']['output']>
   created_at: Scalars['Datetime']['output']
-  date_from?: Maybe<Scalars['Date']['output']>
+  date_from: Scalars['Date']['output']
   date_to?: Maybe<Scalars['Date']['output']>
   description?: Maybe<Scalars['String']['output']>
   id: Scalars['BigInt']['output']
@@ -1115,6 +1115,66 @@ export type CreateTripMutation = {
   } | null
 }
 
+export type TripDetailsQueryVariables = Exact<{
+  uuid: Scalars['UUID']['input']
+}>
+
+export type TripDetailsQuery = {
+  __typename: 'Query'
+  tripsCollection?: {
+    __typename: 'tripsConnection'
+    edges: Array<{
+      __typename: 'tripsEdge'
+      node: {
+        __typename: 'trips'
+        uuid: string
+        title: string
+        date_from: string
+        date_to?: string | null
+        image_storage_object_id?: string | null
+        invitationsCollection?: {
+          __typename: 'invitationsConnection'
+          edges: Array<{
+            __typename: 'invitationsEdge'
+            node: {
+              __typename: 'invitations'
+              users?: {
+                __typename: 'users'
+                id: number
+                profile_picture_url?: string | null
+              } | null
+            }
+          }>
+        } | null
+        activityCollection?: {
+          __typename: 'activityConnection'
+          edges: Array<{
+            __typename: 'activityEdge'
+            node: {
+              __typename: 'activity'
+              uuid: string
+              title: string
+              time_from: string
+              time_to?: string | null
+              address?: string | null
+            }
+          }>
+        } | null
+        trip_tagsCollection?: {
+          __typename: 'trip_tagsConnection'
+          edges: Array<{
+            __typename: 'trip_tagsEdge'
+            node: {
+              __typename: 'trip_tags'
+              tags?: { __typename: 'tags'; id: number; name: string } | null
+            }
+          }>
+        } | null
+      }
+    }>
+  } | null
+}
+
 export type TripsCollectionQueryVariables = Exact<{
   filter?: InputMaybe<TripsFilter>
   orderBy?: InputMaybe<Array<TripsOrderBy> | TripsOrderBy>
@@ -1133,7 +1193,7 @@ export type TripsCollectionQuery = {
         id: number
         uuid: string
         title: string
-        date_from?: string | null
+        date_from: string
         date_to?: string | null
         image_storage_object_id?: string | null
         created_at: string
@@ -1411,6 +1471,366 @@ export const CreateTripDocument = {
     }
   ]
 } as unknown as DocumentNode<CreateTripMutation, CreateTripMutationVariables>
+export const TripDetailsDocument = {
+  __meta__: { hash: '7e95f12b53566f26e8c51c53348a8f00d13c1d7c' },
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'tripDetails' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'uuid' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'tripsCollection' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'filter' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'uuid' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'eq' },
+                            value: {
+                              kind: 'Variable',
+                              name: { kind: 'Name', value: 'uuid' }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'edges' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: '__typename' }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'node' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: '__typename' }
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'uuid' }
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'title' }
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'date_from' }
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'date_to' }
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'image_storage_object_id'
+                              }
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'invitationsCollection'
+                              },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: '__typename' }
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'edges' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: '__typename'
+                                          }
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'node' },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: '__typename'
+                                                }
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'users'
+                                                },
+                                                selectionSet: {
+                                                  kind: 'SelectionSet',
+                                                  selections: [
+                                                    {
+                                                      kind: 'Field',
+                                                      name: {
+                                                        kind: 'Name',
+                                                        value: '__typename'
+                                                      }
+                                                    },
+                                                    {
+                                                      kind: 'Field',
+                                                      name: {
+                                                        kind: 'Name',
+                                                        value: 'id'
+                                                      }
+                                                    },
+                                                    {
+                                                      kind: 'Field',
+                                                      name: {
+                                                        kind: 'Name',
+                                                        value:
+                                                          'profile_picture_url'
+                                                      }
+                                                    }
+                                                  ]
+                                                }
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ]
+                              }
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'activityCollection'
+                              },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: '__typename' }
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'edges' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: '__typename'
+                                          }
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'node' },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: '__typename'
+                                                }
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'uuid'
+                                                }
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'title'
+                                                }
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'time_from'
+                                                }
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'time_to'
+                                                }
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'address'
+                                                }
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ]
+                              }
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'trip_tagsCollection'
+                              },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: '__typename' }
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'edges' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: '__typename'
+                                          }
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'node' },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: '__typename'
+                                                }
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'tags'
+                                                },
+                                                selectionSet: {
+                                                  kind: 'SelectionSet',
+                                                  selections: [
+                                                    {
+                                                      kind: 'Field',
+                                                      name: {
+                                                        kind: 'Name',
+                                                        value: '__typename'
+                                                      }
+                                                    },
+                                                    {
+                                                      kind: 'Field',
+                                                      name: {
+                                                        kind: 'Name',
+                                                        value: 'id'
+                                                      }
+                                                    },
+                                                    {
+                                                      kind: 'Field',
+                                                      name: {
+                                                        kind: 'Name',
+                                                        value: 'name'
+                                                      }
+                                                    }
+                                                  ]
+                                                }
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<TripDetailsQuery, TripDetailsQueryVariables>
 export const TripsCollectionDocument = {
   __meta__: { hash: '8401c03d2c5f85ba0f977c1ea136bdd035c7d049' },
   kind: 'Document',

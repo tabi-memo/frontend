@@ -1,0 +1,44 @@
+query tripDetails($uuid: UUID!) {
+  tripsCollection(filter: { uuid: { eq: $uuid } }) {
+    edges {
+      node {
+        uuid
+        title
+        date_from
+        date_to
+        image_storage_object_id
+        invitationsCollection {
+          edges {
+            node {
+              users {
+                id
+                profile_picture_url
+              }
+            }
+          }
+        }
+        activityCollection {
+          edges {
+            node {
+              uuid
+              title
+              time_from
+              time_to
+              address
+            }
+          }
+        }
+        trip_tagsCollection {
+          edges {
+            node {
+              tags {
+                id
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

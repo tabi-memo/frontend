@@ -8,27 +8,29 @@ import {
 export type LinkProps = {
   isExternal?: boolean
   hasUnderLine?: boolean
+  hasHoverUnderLine?: boolean
   href: string
   children?: React.ReactNode
-}
-
-const underLineStyles = {
-  textDecoration: 'underline',
-  textUnderlineOffset: 2,
-  _hover: {
-    opacity: '.8',
-    textDecoration: 'underline',
-    textUnderlineOffset: 2
-  }
 }
 
 export const Link = ({
   isExternal = false,
   hasUnderLine = false,
+  hasHoverUnderLine = true,
   href,
   children,
   ...props
 }: LinkProps & ChakraLinkProps) => {
+  const underLineStyles = {
+    textDecoration: 'underline',
+    textUnderlineOffset: 2,
+    _hover: {
+      opacity: hasHoverUnderLine ? '.8' : '.7',
+      textDecoration: hasHoverUnderLine ? 'underline' : 'none',
+      textUnderlineOffset: 2
+    }
+  }
+
   const linkStyles = hasUnderLine
     ? {
         ...underLineStyles,

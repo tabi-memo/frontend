@@ -24,8 +24,12 @@ jobs:
       - name: Install Node.js dependencies
         run: |
           pnpm i --frozen-lockfile
+
+      - name: lint & format
+        run: |
           pnpm lint
           pnpm format
+          git status && git diff --exit-code
 
       - name: Next.js build
         run: |
