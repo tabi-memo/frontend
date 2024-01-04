@@ -6,7 +6,6 @@ import { Link } from '@/components/link'
 import { formatDateToDayMonthYearTime } from '@/libs/utils'
 import { customColors } from '@/theme/color'
 
-
 type ActivityInfoProps = {
   title: string
   time_from: string | null
@@ -15,8 +14,13 @@ type ActivityInfoProps = {
   url?: string | null
 }
 
-export const ActivityHeader: React.FC<ActivityInfoProps> = ({ title, time_from, time_to, address, url }) => {
-
+export const ActivityHeader: React.FC<ActivityInfoProps> = ({
+  title,
+  time_from,
+  time_to,
+  address,
+  url
+}) => {
   // const timeFrom = data?.time_from
   // const timeTo = data?.time_to
 

@@ -63,7 +63,7 @@ export const formatDbDate = (date: string | undefined | null) => {
 export const formatDateToDayMonthYearTime = (
   date: string | undefined | null
 ) => {
-   if (!date) return ''
+  if (!date) return ''
   const parsedDate = parseISO(date)
   const formattedDate = format(parsedDate, 'MMM d, yyyy HH:mm')
   return formattedDate

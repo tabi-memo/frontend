@@ -2,13 +2,15 @@
 
 import { Heading, Box, Text, VStack } from '@chakra-ui/react'
 
-
 type ActivityInfoProps = {
   memo: string | null | undefined
   cost: number | null | undefined
 }
 
-export const ActivityInfo: React.FC<ActivityInfoProps> = ({ memo, cost }:ActivityInfoProps) => {
+export const ActivityInfo: React.FC<ActivityInfoProps> = ({
+  memo,
+  cost
+}: ActivityInfoProps) => {
   return (
     <>
       <VStack spacing="4" align="stretch">
