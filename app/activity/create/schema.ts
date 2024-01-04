@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 
-// TODO: refactor zod validation 
+// TODO: refactor zod validation
 
 const createActivitySchema = z.object({
   title: z.string().min(1).max(20).optional(),
