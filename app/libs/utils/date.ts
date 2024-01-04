@@ -56,13 +56,14 @@ export const formatDbDate = (date: string | undefined | null) => {
   return formattedDate
 }
 
-
 /**
  * @param date  - ISO date string
  * @returns - Formatted date string e.g. '2023-01-01'
  */
-export const formatDateToDayMonthYearTime = (date: string | undefined | null) => {
-    const parsedDate = parseISO(date)
-    const formattedDate = format(parsedDate, 'MMM d, yyyy HH:mm')
+export const formatDateToDayMonthYearTime = (
+  date: string | undefined | null
+) => {
+  const parsedDate = parseISO(date)
+  const formattedDate = format(parsedDate, 'MMM d, yyyy HH:mm')
   return formattedDate
 }
