@@ -7,9 +7,12 @@ export default {
   component: DateTimePickerWrapper
 } as Meta
 
+type ValuePiece = Date | null
+type Value = ValuePiece | [ValuePiece, ValuePiece]
+
 type StoryProps = {
-  onChange: (value: Date | [Date, Date] | null) => void
-  value: Date | [Date, Date] | null
+  onChange: (value: Value) => void
+  value: Value
 }
 
 const Template: Story<StoryProps> = (args) => (
