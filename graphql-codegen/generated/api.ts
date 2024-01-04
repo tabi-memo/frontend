@@ -1152,13 +1152,6 @@ export type ActivityCollectionQuery = {
         memo?: string | null
         cost?: number | null
         image_storage_object_id?: string | null
-        trips?: {
-          __typename: 'trips'
-          id: number
-          uuid: string
-          user_id?: number | null
-          title: string
-        } | null
       }
     }>
   } | null
@@ -1319,13 +1312,6 @@ export const ActivityCollectionDocument = gql`
           memo
           cost
           image_storage_object_id
-          trips {
-            __typename
-            id
-            uuid
-            user_id
-            title
-          }
         }
       }
     }

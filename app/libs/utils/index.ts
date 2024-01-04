@@ -3,5 +3,6 @@ export {
   formatDateToDayMonth,
   formatDateToDayMonthWeek,
   formatDateToTime,
-  formatDbDate
+  formatDbDate,
+  formatDateToDayMonthYearTime
 } from './date'

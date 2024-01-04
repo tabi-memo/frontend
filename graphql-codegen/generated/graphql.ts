@@ -1160,13 +1160,6 @@ export type ActivityCollectionQuery = {
         memo?: string | null
         cost?: number | null
         image_storage_object_id?: string | null
-        trips?: {
-          __typename: 'trips'
-          id: number
-          uuid: string
-          user_id?: number | null
-          title: string
-        } | null
       }
     }>
   } | null
@@ -1308,7 +1301,7 @@ export type TripsCollectionQuery = {
 }
 
 export const ActivityCollectionDocument = {
-  __meta__: { hash: '9898da1d09fb0d14c1f3352d3d69dcaa2c02ed43' },
+  __meta__: { hash: '15ca5d10416881cfc03bd38a070dd5392eeb938e' },
   kind: 'Document',
   definitions: [
     {
@@ -1429,35 +1422,6 @@ export const ActivityCollectionDocument = {
                               name: {
                                 kind: 'Name',
                                 value: 'image_storage_object_id'
-                              }
-                            },
-                            {
-                              kind: 'Field',
-                              name: { kind: 'Name', value: 'trips' },
-                              selectionSet: {
-                                kind: 'SelectionSet',
-                                selections: [
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: '__typename' }
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'id' }
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'uuid' }
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'user_id' }
-                                  },
-                                  {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'title' }
-                                  }
-                                ]
                               }
                             }
                           ]

@@ -9,7 +9,6 @@ import {
   useColorModeValue
 } from '@chakra-ui/react'
 import { MdAccountCircle } from 'react-icons/md'
-import { formatDateToDayMonthYear } from '@/libs/utils'
 import { TripsCollectionQuery } from '@generated/api'
 
 type TripCardProps = {
@@ -28,7 +27,7 @@ export const TripCard = ({ data }: TripCardProps) => {
   return (
     <Card
       as={NextLink}
-      href={`/trip/${data.node.uuid}`}
+      href={`/trip/${data.node.id}`}
       role={'group'}
       maxW={{ base: '100%', md: 'calc(100% / 2 - 10px)', lg: '360px' }}
       pb={{ base: '12px', md: '0px' }}
@@ -107,8 +106,7 @@ export const TripCard = ({ data }: TripCardProps) => {
             </Flex>
           )}
         <Flex fontSize={{ base: 'sm', md: 'md' }}>
-          {formatDateToDayMonthYear(data.node.date_from)} -{' '}
-          {formatDateToDayMonthYear(data.node.date_to)}
+          {data.node.date_from} - {data.node.date_to}
         </Flex>
       </CardBody>
     </Card>
