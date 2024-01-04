@@ -8,8 +8,7 @@ import {
   VStack,
   Image,
   Text,
-  useColorModeValue,
-  Spacer
+  useColorModeValue
 } from '@chakra-ui/react'
 import { CiEdit } from 'react-icons/ci'
 import { FaRegTrashAlt } from 'react-icons/fa'
@@ -41,99 +40,99 @@ export default function AccountPage() {
       {loading || !data?.usersCollection ? (
         <Loading />
       ) : (
-        <Box
-          as="main"
-          minH={{ base: '86vh', lg: '78vh' }}
-          bg={bg}
-          color={color}
-        >
+        <Box as="main" minH="100svh" bg={bg} color={color}>
           <Container
             minW={{ base: '100%', lg: 'container.sm' }}
             display="flex"
             flexDirection="column"
             alignItems={{ base: 'space-around', lg: 'flex-start' }}
             gap={{ base: '40px', lg: '60px' }}
-            mt={{ base: '20px', md: '40px' }}
-            mb={{ base: '60px', md: '70px' }}
+            pt={{ base: '20px', md: '40px' }}
+            pb={{ base: '60px', md: '70px' }}
           >
-            <Flex
-              direction="column"
-              align="center"
+            <VStack
               gap={{ base: '40px', lg: '60px' }}
+              mx={{ base: '0', lg: 'auto' }}
             >
-              <Heading
-                as="h1"
-                fontSize={{ base: 'xl', md: '3xl', lg: '4xl' }}
-                fontWeight="bold"
-                w={{ base: '100%', lg: 'auto' }}
-              >
-                Account
-              </Heading>
               <Flex
-                minW={{ base: '100%', lg: '480px' }}
-                gap={{ base: '20px', lg: '30px' }}
-                padding="18px"
-                borderWidth="1px"
-                direction="column"
-                align="space-between"
+                gap="40px"
+                w={{ base: '100%', lg: 'auto' }}
+                flexDir="column"
+                alignItems={{ base: 'flex-start', md: 'center' }}
               >
-                <Flex direction="column" gap="20px" mb="30px">
-                  <VStack align="start">
-                    <Heading fontSize="bold">Email</Heading>
-                    <Text>{user?.email}</Text>
-                  </VStack>
-                  <VStack align="start">
-                    <Heading fontSize="bold">Name</Heading>
-                    <Text>{user?.name}</Text>
-                  </VStack>
-                  <VStack align="start">
-                    <Heading fontSize="bold">Image</Heading>
-                    {user?.profile_picture_url ? (
-                      <Image
-                        borderRadius="full"
-                        boxSize="30px"
-                        src={user.profile_picture_url}
-                        alt="Profile Picture"
-                      />
-                    ) : (
-                      <MdAccountCircle size="30px" />
-                    )}
-                  </VStack>
-                  <VStack align="start">
-                    <Heading fontSize="bold">Password</Heading>
-                    <Link
-                      href="/"
-                      hasUnderLine
-                      color="primary.700"
-                      fontSize={{ base: 'md', md: 'lg' }}
-                    >
-                      Change your password
-                    </Link>
-                  </VStack>
-                </Flex>
-                <Flex direction="column" align="center">
-                  <VStack justifyContent="center">
-                    <Link href="/account/edit">
-                      <PrimaryButton
-                        variant="solid"
-                        leftIcon={<CiEdit size="16px" />}
+                <Heading
+                  as="h1"
+                  fontSize={{ base: '2xl', md: '3xl', lg: '4xl' }}
+                  fontWeight="bold"
+                >
+                  Account
+                </Heading>
+                <Flex
+                  minW={{ base: '100%', lg: '480px' }}
+                  gap={{ base: '20px', lg: '30px' }}
+                  padding="18px"
+                  borderWidth="1px"
+                  direction="column"
+                  align="space-between"
+                >
+                  <Flex direction="column" gap="20px" mb="30px">
+                    <VStack align="start">
+                      <Heading fontSize="bold">Email</Heading>
+                      <Text>{user?.email}</Text>
+                    </VStack>
+                    <VStack align="start">
+                      <Heading fontSize="bold">Name</Heading>
+                      <Text>{user?.name}</Text>
+                    </VStack>
+                    <VStack align="start">
+                      <Heading fontSize="bold">Image</Heading>
+                      {user?.profile_picture_url ? (
+                        <Image
+                          borderRadius="full"
+                          boxSize="30px"
+                          src={user.profile_picture_url}
+                          alt="Profile Picture"
+                        />
+                      ) : (
+                        <MdAccountCircle size="30px" />
+                      )}
+                    </VStack>
+                    <VStack align="start">
+                      <Heading fontSize="bold">Password</Heading>
+                      <Link
+                        href="/"
+                        hasUnderLine
+                        color="primary.700"
+                        fontSize={{ base: 'md', md: 'lg' }}
                       >
-                        Edit Profile
-                      </PrimaryButton>
-                    </Link>
-                  </VStack>
+                        Change your password
+                      </Link>
+                    </VStack>
+                  </Flex>
+                  <Flex direction="column" align="center">
+                    <VStack justifyContent="center">
+                      <Link href="/account/edit">
+                        <PrimaryButton
+                          variant="solid"
+                          leftIcon={<CiEdit size="16px" />}
+                        >
+                          Edit Profile
+                        </PrimaryButton>
+                      </Link>
+                    </VStack>
+                  </Flex>
                 </Flex>
               </Flex>
-            </Flex>
-            <Flex direction="row" justify="center">
-              <AlertButton
-                variant="outline"
-                leftIcon={<FaRegTrashAlt size="14px" />}
-              >
-                Delete your account
-              </AlertButton>
-              <Spacer />
-            </Flex>
+
+              <Box mr="auto">
+                <AlertButton
+                  variant="outline"
+                  leftIcon={<FaRegTrashAlt size="14px" />}
+                >
+                  Delete your account
+                </AlertButton>
+              </Box>
+            </VStack>
           </Container>
         </Box>
       )}
