@@ -100,7 +100,7 @@ export default function AccountPage() {
                     <VStack align="start">
                       <Heading fontSize="bold">Password</Heading>
                       <Link
-                        href="/"
+                        href="/change-password"
                         hasUnderLine
                         color="primary.700"
                         fontSize={{ base: 'md', md: 'lg' }}
