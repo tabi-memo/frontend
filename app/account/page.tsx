@@ -54,6 +54,7 @@ export default function AccountPage() {
             alignItems={{ base: 'space-around', lg: 'flex-start' }}
             gap={{ base: '40px', lg: '60px' }}
             mt={{ base: '20px', md: '40px' }}
+            mb={{ base: '60px', md: '70px' }}
           >
             <Flex
               direction="column"
@@ -127,8 +128,6 @@ export default function AccountPage() {
             <Flex direction="row" justify="center">
               <AlertButton
                 variant="outline"
-                color="red"
-                _hover={{ bg: 'red.500', color: 'white' }}
                 leftIcon={<FaRegTrashAlt size="14px" />}
               >
                 Delete your account
