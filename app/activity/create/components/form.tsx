@@ -49,7 +49,7 @@ export const FormActivity = () => {
     // TODO append 'images', 'date from', 'date to' to formData and send to backend
   })
 
-  console.log('date to', dateTo, 'date from' , dateFrom)
+  console.log('date to', dateTo, 'date from', dateFrom)
 
   return (
     <Box as="form" onSubmit={createHandler} pt={{ base: '40px', md: '40px' }}>
