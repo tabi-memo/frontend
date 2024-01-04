@@ -36,7 +36,7 @@ export default function ActivityDetails({
   return (
     <>
     
-      { !activityData || loading ? (
+      { (!activityData || loading) ? (
         <Flex minH="84vh" align="center" justify="center">
           <Loading />
         </Flex>
