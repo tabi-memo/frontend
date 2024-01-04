@@ -17,15 +17,15 @@ import { MdAccountCircle } from 'react-icons/md'
 import { PrimaryButton, AlertButton } from '@/components/button'
 import { Link } from '@/components/link'
 import { Loading } from '@/components/loading'
+import { useUserUuid } from '@/providers/session-provider'
 import { useGetUserQuery } from '@generated/api'
 
 export default function AccountPage() {
   const bg = useColorModeValue('white', 'gray.800')
   const color = useColorModeValue('black', 'gray.300')
-  // TODO: Remove this line after implementing login
-  const tmpUuid = 'a1f4509d-39f6-4de7-921d-201ec3d4578f'
+  const uuid = useUserUuid()
   const { data, loading, error } = useGetUserQuery({
-    variables: { uuid: tmpUuid }
+    variables: { uuid }
   })
   const user = data?.usersCollection?.edges[0].node
 
