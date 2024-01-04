@@ -1,38 +1,18 @@
-import React from 'react'
-import { Story, Meta } from '@storybook/react'
-import { DateTimePickerWrapper } from '@/components/customDateTimePicker' // Adjust the import path accordingly
+import { StoryObj, Meta } from '@storybook/react'
+import { CustomDateTimePicker } from '../index' // Adjust the import path accordingly
 
-export default {
-  title: 'Components/DateTime',
-  component: DateTimePickerWrapper
-} as Meta
-
-type ValuePiece = Date | null
-type Value = ValuePiece | [ValuePiece, ValuePiece]
-
-type StoryProps = {
-  onChange: (value: Value) => void
-  value: Value
+const meta: Meta<typeof CustomDateTimePicker> = {
+  title: 'CustomDateTimePicker',
+  component: CustomDateTimePicker
 }
 
-const Template: Story<StoryProps> = (args) => (
-  <DateTimePickerWrapper {...args} />
-)
+export default meta
 
-export const Default = Template.bind({})
-Default.args = {
-  onChange: (value) => console.log(value),
-  value: new Date()
-}
+type Story = StoryObj<typeof CustomDateTimePicker>
 
-export const CustomDate = Template.bind({})
-CustomDate.args = {
-  onChange: (value) => console.log(value),
-  value: new Date('2023-01-01T12:00:00')
-}
-
-export const NullDate = Template.bind({})
-NullDate.args = {
-  onChange: (value) => console.log(value),
-  value: null
+export const Default: Story = {
+  args: {
+    onChange: (value) => console.log(value),
+    value: new Date()
+  }
 }

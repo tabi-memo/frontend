@@ -1,1 +1,1 @@
-export { DateTimePickerWrapper } from './dateTimePickerWrapper'
+export { CustomDateTimePicker } from './dateTimePickerWrapper'

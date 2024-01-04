@@ -8,7 +8,7 @@ import 'react-calendar/dist/Calendar.css'
 type ValuePiece = Date | null
 type Value = ValuePiece | [ValuePiece, ValuePiece]
 
-export const DateTimePickerWrapper = ({
+export const CustomDateTimePicker = ({
   onChange,
   value
 }: {
@@ -20,6 +20,10 @@ export const DateTimePickerWrapper = ({
   return (
     <>
       <style>{`
+       
+        .react-calendar{
+          margin-top: 12%;
+        }
         .react-calendar__tile--now {
           background-color: ${colorMode === 'dark' ? '#2D3748' : '#CBD5E0'};
         }
@@ -73,6 +77,7 @@ export const DateTimePickerWrapper = ({
 
         .react-calendar__navigation button:enabled:hover {
           background: ${colorMode === 'dark' ? 'white' : '#0987a0'};
+          color: ${colorMode === 'dark' ? 'black' : 'white'};
         }
 
         .react-datetime-picker__inputGroup__input:invalid {
