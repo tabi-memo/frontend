@@ -4,7 +4,6 @@ import { Box, Container, useColorModeValue } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 import { PrimaryButton } from '@/components/button'
 import { Loading } from '@/components/loading'
-import { Header, Footer } from '@/components/navigation'
 import { TripDetailsHeader, TripDetailsTabs } from './components'
 import { useTripDetailsQuery } from '@generated/api'
 
@@ -30,7 +29,6 @@ export default function TripDetailsPage({
 
   return (
     <>
-      <Header />
       <Box as="main" minH="100vh" bg={bg} color={color}>
         <Container
           maxW={{ base: '100%', lg: 'container.xl' }}
@@ -90,7 +88,6 @@ export default function TripDetailsPage({
           )}
         </Container>
       </Box>
-      <Footer />
     </>
   )
 }

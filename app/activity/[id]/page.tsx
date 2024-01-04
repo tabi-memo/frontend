@@ -3,7 +3,6 @@ import { Box, Container, useColorModeValue } from '@chakra-ui/react'
 import { FiChevronLeft } from 'react-icons/fi'
 import { Carousel } from '@/components/carousel'
 import { Link } from '@/components/link'
-import { Header, Footer } from '@/components/navigation'
 import { ActivityCard, ActivityInfo } from './component'
 
 type DummyActivityCardData = {
@@ -43,7 +42,6 @@ export default function ActivityDetails() {
 
   return (
     <>
-      <Header />
       <Box as="main" minH="100vh" bg={bg} color={color}>
         <Container
           maxW={{ base: '100%', md: '742px' }}
@@ -61,7 +59,6 @@ export default function ActivityDetails() {
           </Box>
         </Container>
       </Box>
-      <Footer />
     </>
   )
 }
