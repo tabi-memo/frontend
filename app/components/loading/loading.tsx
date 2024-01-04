@@ -1,4 +1,4 @@
-import { VStack, Spinner } from '@chakra-ui/react'
+import { VStack, Spinner } from "@chakra-ui/react"
 
 export const Loading = () => {
   return (
