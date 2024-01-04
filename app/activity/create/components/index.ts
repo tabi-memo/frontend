@@ -1,1 +1,1 @@
-export { FormActivity } from './form'
+export {FormActivity} from "./form"
