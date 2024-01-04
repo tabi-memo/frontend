@@ -21,8 +21,6 @@ export const ActivityHeader: React.FC<ActivityInfoProps> = ({
   address,
   url
 }) => {
-  // const timeFrom = data?.time_from
-  // const timeTo = data?.time_to
 
   return (
     <>
