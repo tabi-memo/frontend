@@ -1,8 +1,8 @@
 'use server'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
+import { USER_UUID_COOKIE_NAME } from '@/(auth)/constants'
 import { createClient } from '@/(auth)/supabase/server'
-import { USER_UUID_COOKIE_NAME } from '../uuid'
 
 export const signOut = async (): Promise<void> => {
   const c = cookies()

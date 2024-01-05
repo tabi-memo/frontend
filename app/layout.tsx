@@ -1,7 +1,7 @@
 import { Roboto } from 'next/font/google'
 import './globals.css'
 import { cookies } from 'next/headers'
-import { USER_UUID_COOKIE_NAME } from '@/(auth)/uuid'
+import { USER_UUID_COOKIE_NAME } from '@/(auth)/constants'
 import { ApolloWrapper } from '@/providers/apollo-provider'
 import { ChakraProvider } from '@/providers/chakra-provider'
 import { SessionProvider } from '@/providers/session-provider'

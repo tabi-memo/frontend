@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Link } from '@chakra-ui/next-js'
 import {
   Container,
@@ -10,64 +9,12 @@ import {
   MenuItem,
   IconButton,
   useColorMode,
-  useColorModeValue,
-  useToast,
-  useBoolean
+  useColorModeValue
 } from '@chakra-ui/react'
 import Image from 'next/image'
 import { FiMoon, FiSun } from 'react-icons/fi'
-import { MdAccountCircle, MdLogout } from 'react-icons/md'
-import { signOut } from '@/(auth)/signout/action'
-
-const LogOut = () => {
-  const toast = useToast()
-  const [isLoading, setIsLoading] = useBoolean()
-  isLoading
-  const [toastId, setToastId] = useState<ReturnType<typeof toast> | undefined>(
-    undefined
-  )
-
-  const signOutHandler = async () => {
-    try {
-      setIsLoading.on()
-      await signOut()
-    } catch (error) {
-      if (!toastId) {
-        const res = toast({
-          title: "We're sorry, but you failed to sign out.",
-          description: error instanceof Error ? error.message : 'unknown error',
-          status: 'error',
-          duration: 5000,
-          isClosable: true,
-          position: 'top',
-          onCloseComplete() {
-            setToastId(undefined)
-          }
-        })
-        setToastId(res)
-      }
-    } finally {
-      setIsLoading.off()
-    }
-  }
-
-  return (
-    <MenuItem
-      icon={<MdLogout size="20px" />}
-      bgColor="white"
-      _hover={{ bgColor: 'gray.100' }}
-      sx={{
-        svg: {
-          color: 'primary.700'
-        }
-      }}
-      onClick={signOutHandler}
-      isDisabled={isLoading}
-    >
-      Logout
-    </MenuItem>
-  )
-}
+import { MdAccountCircle } from 'react-icons/md'
+import LogOut from '@/(auth)/signout/components'
 
 export const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode()
