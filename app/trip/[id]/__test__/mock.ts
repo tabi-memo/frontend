@@ -6,7 +6,7 @@ export const tripDetailsMock1 = [
     request: {
       query: TripDetailsDocument,
       variables: {
-        uuid: 'trip-uuid-1'
+        id: 'trip-uuid-1'
       }
     },
     result: {
@@ -15,7 +15,7 @@ export const tripDetailsMock1 = [
           edges: [
             {
               node: {
-                uuid: 'trip-uuid-1',
+                id: 'trip-uuid-1',
                 image_storage_object_id: null,
                 title: 'Tokyo',
                 date_from: '2021-01-01',
@@ -52,7 +52,7 @@ export const tripDetailsMock1 = [
                         time_from: '2021-01-01T10:00:00+00:00',
                         time_to: '2021-01-01T11:00:00+00:00',
                         title: 'Activity 1',
-                        uuid: 'abc1'
+                        id: 'abc1'
                       }
                     },
                     {
@@ -61,7 +61,7 @@ export const tripDetailsMock1 = [
                         time_from: '2021-01-02T10:00:00+00:00',
                         time_to: '2021-01-02T11:00:00+00:00',
                         title: 'Activity 2',
-                        uuid: 'abc2'
+                        id: 'abc2'
                       }
                     },
                     {
@@ -70,7 +70,7 @@ export const tripDetailsMock1 = [
                         time_from: '2021-01-03T11:00:00+00:00',
                         time_to: '2021-01-03T12:00:00+00:00',
                         title: 'Activity 3',
-                        uuid: 'abc3'
+                        id: 'abc3'
                       }
                     },
                     {
@@ -79,7 +79,7 @@ export const tripDetailsMock1 = [
                         time_from: '2021-01-03T14:00:00+00:00',
                         time_to: '2021-01-03T08:00:00+00:00',
                         title: 'Activity 4',
-                        uuid: 'abc4'
+                        id: 'abc4'
                       }
                     }
                   ]
@@ -99,7 +99,7 @@ export const tripDetailsMock2 = [
     request: {
       query: TripDetailsDocument,
       variables: {
-        uuid: 'trip-uuid-2'
+        id: 'trip-uuid-2'
       }
     },
     result: {
@@ -108,7 +108,7 @@ export const tripDetailsMock2 = [
           edges: [
             {
               node: {
-                uuid: 'trip-uuid-2',
+                id: 'trip-uuid-2',
                 image_storage_object_id: null,
                 title: 'Tokyo',
                 date_from: '2021-01-01',
@@ -145,7 +145,7 @@ export const tripDetailsMock2 = [
                         time_from: '2021-01-01T10:00:00+00:00',
                         time_to: '2021-01-01T11:00:00+00:00',
                         title: 'Activity 1',
-                        uuid: 'abc1'
+                        id: 'abc1'
                       }
                     },
                     {
@@ -154,7 +154,7 @@ export const tripDetailsMock2 = [
                         time_from: '2021-01-01T12:00:00+00:00',
                         time_to: '2021-01-03T11:00:00+00:00',
                         title: 'Activity 2',
-                        uuid: 'abc2'
+                        id: 'abc2'
                       }
                     },
                     {
@@ -163,7 +163,7 @@ export const tripDetailsMock2 = [
                         time_from: '2021-01-03T11:00:00+00:00',
                         time_to: '2021-01-03T12:00:00+00:00',
                         title: 'Activity 3',
-                        uuid: 'abc3'
+                        id: 'abc3'
                       }
                     },
                     {
@@ -172,7 +172,7 @@ export const tripDetailsMock2 = [
                         time_from: '2021-01-03T14:00:00+00:00',
                         time_to: '2021-01-04T08:00:00+00:00',
                         title: 'Activity 4',
-                        uuid: 'abc4'
+                        id: 'abc4'
                       }
                     }
                   ]
