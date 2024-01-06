@@ -14,14 +14,19 @@ import { useRouter } from 'next/navigation'
 import { FiTrash2, FiMapPin, FiMoreHorizontal, FiEdit3 } from 'react-icons/fi'
 import { Link } from '@/components/link'
 import { ConfirmModal } from '@/components/modal'
-import { formatDateToTime } from '@/libs/utils'
+import {
+  formatDbTimeToDate,
+  formatDateToSlash,
+  extractTimeFromDate
+} from '@/libs/utils'
 import { ActivityType } from '../components'
 
 type ActivityCardProps = {
   activity: ActivityType
+  selectedDate: string
 }
 
-export const ActivityCard = ({ activity }: ActivityCardProps) => {
+export const ActivityCard = ({ activity, selectedDate }: ActivityCardProps) => {
   const bgColor = useColorModeValue('white', 'gray.700')
   const borderColor = useColorModeValue('gray.300', 'gray.700')
   const iconButtonColor = useColorModeValue('gray.400', 'gray.500')
@@ -33,6 +38,51 @@ export const ActivityCard = ({ activity }: ActivityCardProps) => {
     onClose: onDeleteModalClose
   } = useDisclosure()
 
+  const differentDate = (displayPlace: 'timeFrom' | 'timeTo') => {
+    if (!activity.timeTo) return null
+
+    const timeFromDate = formatDbTimeToDate(activity.timeFrom)
+    const timeToDate = formatDbTimeToDate(activity.timeTo)
+
+    if (timeFromDate === timeToDate) return null
+
+    const [yearSelected, monthSelected, daySelected] = selectedDate
+      .split('-')
+      .map(Number)
+
+    const [yearTimeFrom, monthTimeFrom, dayTimeFrom] = timeFromDate
+      .split('-')
+      .map(Number)
+
+    const [yearTimeTo, monthTimeTo, dayTimeTo] = timeToDate
+      .split('-')
+      .map(Number)
+
+    const selectedDateObj = new Date(
+      yearSelected,
+      monthSelected - 1,
+      daySelected
+    )
+
+    const timeFromDateObj = new Date(
+      yearTimeFrom,
+      monthTimeFrom - 1,
+      dayTimeFrom
+    )
+
+    const timeToDateObj = new Date(yearTimeTo, monthTimeTo - 1, dayTimeTo)
+
+    // To display below TimeFrom if the selected date is before than the timeFrom date
+    if (displayPlace === 'timeFrom' && timeFromDateObj < selectedDateObj) {
+      return formatDateToSlash(timeFromDate, 'dayMonth')
+    }
+
+    // To display below TimeTo if the selected date is later than the timeTo date
+    if (displayPlace === 'timeTo' && timeToDateObj > selectedDateObj) {
+      return formatDateToSlash(timeToDate, 'dayMonth')
+    }
+  }
+
   return (
     <>
       <Box position="relative" w="100%">
@@ -40,15 +90,30 @@ export const ActivityCard = ({ activity }: ActivityCardProps) => {
           href={`/activity/${activity.id}`}
           hasHoverUnderLine={false}
           display="flex"
-          alignItems="center"
-          gap={{ base: '20px', md: '40px' }}
+          gap={{ base: '16px', md: '40px' }}
         >
-          <VStack fontSize={{ base: 'xs', md: 'sm' }}>
-            <Text as="span">{formatDateToTime(activity.timeFrom)}</Text>
+          <VStack fontSize={{ base: 'xs', md: 'sm' }} w="42px" flexShrink={0}>
+            <VStack spacing="0">
+              {differentDate('timeFrom') && (
+                <Text as="span" fontSize="xs" data-testid="timeFromDate">
+                  ({differentDate('timeFrom')})
+                </Text>
+              )}
+              <Text as="span">{extractTimeFromDate(activity.timeFrom)}</Text>
+            </VStack>
+
             <Box color="gray.600" w={{ base: '20px', md: '28px' }}>
               <FiMapPin size="100%" />
             </Box>
-            <Text as="span">{formatDateToTime(activity.timeTo)}</Text>
+            <VStack spacing="0">
+              <Text as="span">{extractTimeFromDate(activity.timeTo)}</Text>
+
+              {differentDate('timeTo') && (
+                <Text as="span" fontSize="xs" data-testid="timeToDate">
+                  ({differentDate('timeTo')})
+                </Text>
+              )}
+            </VStack>
           </VStack>
           <Box
             borderWidth="1px"
