@@ -440,7 +440,7 @@ export type Activity = Node & {
   __typename?: 'activity'
   address?: Maybe<Scalars['String']['output']>
   cost?: Maybe<Scalars['BigFloat']['output']>
-  id: Scalars['BigInt']['output']
+  id: Scalars['UUID']['output']
   image_storage_object_id?: Maybe<Scalars['UUID']['output']>
   memo?: Maybe<Scalars['String']['output']>
   /** Globally Unique Record Identifier */
@@ -448,10 +448,9 @@ export type Activity = Node & {
   time_from: Scalars['Datetime']['output']
   time_to?: Maybe<Scalars['Datetime']['output']>
   title: Scalars['String']['output']
-  trip_id?: Maybe<Scalars['BigInt']['output']>
+  trip_id?: Maybe<Scalars['UUID']['output']>
   trips?: Maybe<Trips>
   url?: Maybe<Scalars['String']['output']>
-  uuid: Scalars['UUID']['output']
 }
 
 export type ActivityConnection = {
@@ -476,36 +475,29 @@ export type ActivityEdge = {
 
 export type ActivityFilter = {
   address?: InputMaybe<StringFilter>
-  /** Returns true only if all its inner filters are true, otherwise returns false */
-  and?: InputMaybe<Array<ActivityFilter>>
   cost?: InputMaybe<BigFloatFilter>
-  id?: InputMaybe<BigIntFilter>
+  id?: InputMaybe<UuidFilter>
   image_storage_object_id?: InputMaybe<UuidFilter>
   memo?: InputMaybe<StringFilter>
   nodeId?: InputMaybe<IdFilter>
-  /** Negates a filter */
-  not?: InputMaybe<ActivityFilter>
-  /** Returns true if at least one of its inner filters is true, otherwise returns false */
-  or?: InputMaybe<Array<ActivityFilter>>
   time_from?: InputMaybe<DatetimeFilter>
   time_to?: InputMaybe<DatetimeFilter>
   title?: InputMaybe<StringFilter>
-  trip_id?: InputMaybe<BigIntFilter>
+  trip_id?: InputMaybe<UuidFilter>
   url?: InputMaybe<StringFilter>
-  uuid?: InputMaybe<UuidFilter>
 }
 
 export type ActivityInsertInput = {
   address?: InputMaybe<Scalars['String']['input']>
   cost?: InputMaybe<Scalars['BigFloat']['input']>
+  id?: InputMaybe<Scalars['UUID']['input']>
   image_storage_object_id?: InputMaybe<Scalars['UUID']['input']>
   memo?: InputMaybe<Scalars['String']['input']>
   time_from?: InputMaybe<Scalars['Datetime']['input']>
   time_to?: InputMaybe<Scalars['Datetime']['input']>
   title?: InputMaybe<Scalars['String']['input']>
-  trip_id?: InputMaybe<Scalars['BigInt']['input']>
+  trip_id?: InputMaybe<Scalars['UUID']['input']>
   url?: InputMaybe<Scalars['String']['input']>
-  uuid?: InputMaybe<Scalars['UUID']['input']>
 }
 
 export type ActivityInsertResponse = {
@@ -527,20 +519,19 @@ export type ActivityOrderBy = {
   title?: InputMaybe<OrderByDirection>
   trip_id?: InputMaybe<OrderByDirection>
   url?: InputMaybe<OrderByDirection>
-  uuid?: InputMaybe<OrderByDirection>
 }
 
 export type ActivityUpdateInput = {
   address?: InputMaybe<Scalars['String']['input']>
   cost?: InputMaybe<Scalars['BigFloat']['input']>
+  id?: InputMaybe<Scalars['UUID']['input']>
   image_storage_object_id?: InputMaybe<Scalars['UUID']['input']>
   memo?: InputMaybe<Scalars['String']['input']>
   time_from?: InputMaybe<Scalars['Datetime']['input']>
   time_to?: InputMaybe<Scalars['Datetime']['input']>
   title?: InputMaybe<Scalars['String']['input']>
-  trip_id?: InputMaybe<Scalars['BigInt']['input']>
+  trip_id?: InputMaybe<Scalars['UUID']['input']>
   url?: InputMaybe<Scalars['String']['input']>
-  uuid?: InputMaybe<Scalars['UUID']['input']>
 }
 
 export type ActivityUpdateResponse = {
@@ -554,17 +545,16 @@ export type ActivityUpdateResponse = {
 export type Invitations = Node & {
   __typename?: 'invitations'
   email: Scalars['String']['output']
-  id: Scalars['BigInt']['output']
+  id: Scalars['UUID']['output']
   invitation_url: Scalars['String']['output']
-  invited_by_user_id?: Maybe<Scalars['BigInt']['output']>
-  invitee_user_id?: Maybe<Scalars['BigInt']['output']>
+  invited_by_user_id?: Maybe<Scalars['UUID']['output']>
+  invitee_user_id?: Maybe<Scalars['UUID']['output']>
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output']
   permission_level: Permission_Level_Enum
-  trip_id?: Maybe<Scalars['BigInt']['output']>
+  trip_id?: Maybe<Scalars['UUID']['output']>
   trips?: Maybe<Trips>
   users?: Maybe<Users>
-  uuid: Scalars['UUID']['output']
 }
 
 export type InvitationsConnection = {
@@ -588,31 +578,24 @@ export type InvitationsEdge = {
 }
 
 export type InvitationsFilter = {
-  /** Returns true only if all its inner filters are true, otherwise returns false */
-  and?: InputMaybe<Array<InvitationsFilter>>
   email?: InputMaybe<StringFilter>
-  id?: InputMaybe<BigIntFilter>
+  id?: InputMaybe<UuidFilter>
   invitation_url?: InputMaybe<StringFilter>
-  invited_by_user_id?: InputMaybe<BigIntFilter>
-  invitee_user_id?: InputMaybe<BigIntFilter>
+  invited_by_user_id?: InputMaybe<UuidFilter>
+  invitee_user_id?: InputMaybe<UuidFilter>
   nodeId?: InputMaybe<IdFilter>
-  /** Negates a filter */
-  not?: InputMaybe<InvitationsFilter>
-  /** Returns true if at least one of its inner filters is true, otherwise returns false */
-  or?: InputMaybe<Array<InvitationsFilter>>
   permission_level?: InputMaybe<Permission_Level_EnumFilter>
-  trip_id?: InputMaybe<BigIntFilter>
-  uuid?: InputMaybe<UuidFilter>
+  trip_id?: InputMaybe<UuidFilter>
 }
 
 export type InvitationsInsertInput = {
   email?: InputMaybe<Scalars['String']['input']>
+  id?: InputMaybe<Scalars['UUID']['input']>
   invitation_url?: InputMaybe<Scalars['String']['input']>
-  invited_by_user_id?: InputMaybe<Scalars['BigInt']['input']>
-  invitee_user_id?: InputMaybe<Scalars['BigInt']['input']>
+  invited_by_user_id?: InputMaybe<Scalars['UUID']['input']>
+  invitee_user_id?: InputMaybe<Scalars['UUID']['input']>
   permission_level?: InputMaybe<Permission_Level_Enum>
-  trip_id?: InputMaybe<Scalars['BigInt']['input']>
-  uuid?: InputMaybe<Scalars['UUID']['input']>
+  trip_id?: InputMaybe<Scalars['UUID']['input']>
 }
 
 export type InvitationsInsertResponse = {
@@ -631,17 +614,16 @@ export type InvitationsOrderBy = {
   invitee_user_id?: InputMaybe<OrderByDirection>
   permission_level?: InputMaybe<OrderByDirection>
   trip_id?: InputMaybe<OrderByDirection>
-  uuid?: InputMaybe<OrderByDirection>
 }
 
 export type InvitationsUpdateInput = {
   email?: InputMaybe<Scalars['String']['input']>
+  id?: InputMaybe<Scalars['UUID']['input']>
   invitation_url?: InputMaybe<Scalars['String']['input']>
-  invited_by_user_id?: InputMaybe<Scalars['BigInt']['input']>
-  invitee_user_id?: InputMaybe<Scalars['BigInt']['input']>
+  invited_by_user_id?: InputMaybe<Scalars['UUID']['input']>
+  invitee_user_id?: InputMaybe<Scalars['UUID']['input']>
   permission_level?: InputMaybe<Permission_Level_Enum>
-  trip_id?: InputMaybe<Scalars['BigInt']['input']>
-  uuid?: InputMaybe<Scalars['UUID']['input']>
+  trip_id?: InputMaybe<Scalars['UUID']['input']>
 }
 
 export type InvitationsUpdateResponse = {
@@ -667,12 +649,11 @@ export type Permission_Level_EnumFilter = {
 
 export type Tags = Node & {
   __typename?: 'tags'
-  id: Scalars['BigInt']['output']
+  id: Scalars['UUID']['output']
   name: Scalars['String']['output']
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output']
   trip_tagsCollection?: Maybe<Trip_TagsConnection>
-  uuid: Scalars['UUID']['output']
 }
 
 export type TagsTrip_TagsCollectionArgs = {
@@ -705,21 +686,14 @@ export type TagsEdge = {
 }
 
 export type TagsFilter = {
-  /** Returns true only if all its inner filters are true, otherwise returns false */
-  and?: InputMaybe<Array<TagsFilter>>
-  id?: InputMaybe<BigIntFilter>
+  id?: InputMaybe<UuidFilter>
   name?: InputMaybe<StringFilter>
   nodeId?: InputMaybe<IdFilter>
-  /** Negates a filter */
-  not?: InputMaybe<TagsFilter>
-  /** Returns true if at least one of its inner filters is true, otherwise returns false */
-  or?: InputMaybe<Array<TagsFilter>>
-  uuid?: InputMaybe<UuidFilter>
 }
 
 export type TagsInsertInput = {
+  id?: InputMaybe<Scalars['UUID']['input']>
   name?: InputMaybe<Scalars['String']['input']>
-  uuid?: InputMaybe<Scalars['UUID']['input']>
 }
 
 export type TagsInsertResponse = {
@@ -733,12 +707,11 @@ export type TagsInsertResponse = {
 export type TagsOrderBy = {
   id?: InputMaybe<OrderByDirection>
   name?: InputMaybe<OrderByDirection>
-  uuid?: InputMaybe<OrderByDirection>
 }
 
 export type TagsUpdateInput = {
+  id?: InputMaybe<Scalars['UUID']['input']>
   name?: InputMaybe<Scalars['String']['input']>
-  uuid?: InputMaybe<Scalars['UUID']['input']>
 }
 
 export type TagsUpdateResponse = {
@@ -751,14 +724,13 @@ export type TagsUpdateResponse = {
 
 export type Trip_Tags = Node & {
   __typename?: 'trip_tags'
-  id: Scalars['BigInt']['output']
+  id: Scalars['UUID']['output']
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output']
-  tag_id?: Maybe<Scalars['BigInt']['output']>
+  tag_id?: Maybe<Scalars['UUID']['output']>
   tags?: Maybe<Tags>
-  trip_id?: Maybe<Scalars['BigInt']['output']>
+  trip_id?: Maybe<Scalars['UUID']['output']>
   trips?: Maybe<Trips>
-  uuid: Scalars['UUID']['output']
 }
 
 export type Trip_TagsConnection = {
@@ -782,23 +754,16 @@ export type Trip_TagsEdge = {
 }
 
 export type Trip_TagsFilter = {
-  /** Returns true only if all its inner filters are true, otherwise returns false */
-  and?: InputMaybe<Array<Trip_TagsFilter>>
-  id?: InputMaybe<BigIntFilter>
+  id?: InputMaybe<UuidFilter>
   nodeId?: InputMaybe<IdFilter>
-  /** Negates a filter */
-  not?: InputMaybe<Trip_TagsFilter>
-  /** Returns true if at least one of its inner filters is true, otherwise returns false */
-  or?: InputMaybe<Array<Trip_TagsFilter>>
-  tag_id?: InputMaybe<BigIntFilter>
-  trip_id?: InputMaybe<BigIntFilter>
-  uuid?: InputMaybe<UuidFilter>
+  tag_id?: InputMaybe<UuidFilter>
+  trip_id?: InputMaybe<UuidFilter>
 }
 
 export type Trip_TagsInsertInput = {
-  tag_id?: InputMaybe<Scalars['BigInt']['input']>
-  trip_id?: InputMaybe<Scalars['BigInt']['input']>
-  uuid?: InputMaybe<Scalars['UUID']['input']>
+  id?: InputMaybe<Scalars['UUID']['input']>
+  tag_id?: InputMaybe<Scalars['UUID']['input']>
+  trip_id?: InputMaybe<Scalars['UUID']['input']>
 }
 
 export type Trip_TagsInsertResponse = {
@@ -813,13 +778,12 @@ export type Trip_TagsOrderBy = {
   id?: InputMaybe<OrderByDirection>
   tag_id?: InputMaybe<OrderByDirection>
   trip_id?: InputMaybe<OrderByDirection>
-  uuid?: InputMaybe<OrderByDirection>
 }
 
 export type Trip_TagsUpdateInput = {
-  tag_id?: InputMaybe<Scalars['BigInt']['input']>
-  trip_id?: InputMaybe<Scalars['BigInt']['input']>
-  uuid?: InputMaybe<Scalars['UUID']['input']>
+  id?: InputMaybe<Scalars['UUID']['input']>
+  tag_id?: InputMaybe<Scalars['UUID']['input']>
+  trip_id?: InputMaybe<Scalars['UUID']['input']>
 }
 
 export type Trip_TagsUpdateResponse = {
@@ -838,16 +802,15 @@ export type Trips = Node & {
   date_from: Scalars['Date']['output']
   date_to?: Maybe<Scalars['Date']['output']>
   description?: Maybe<Scalars['String']['output']>
-  id: Scalars['BigInt']['output']
+  id: Scalars['UUID']['output']
   image_storage_object_id?: Maybe<Scalars['UUID']['output']>
   invitationsCollection?: Maybe<InvitationsConnection>
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output']
   title: Scalars['String']['output']
   trip_tagsCollection?: Maybe<Trip_TagsConnection>
-  user_id?: Maybe<Scalars['BigInt']['output']>
+  user_id?: Maybe<Scalars['UUID']['output']>
   users?: Maybe<Users>
-  uuid: Scalars['UUID']['output']
 }
 
 export type TripsActivityCollectionArgs = {
@@ -898,23 +861,16 @@ export type TripsEdge = {
 }
 
 export type TripsFilter = {
-  /** Returns true only if all its inner filters are true, otherwise returns false */
-  and?: InputMaybe<Array<TripsFilter>>
   cost?: InputMaybe<BigFloatFilter>
   created_at?: InputMaybe<DatetimeFilter>
   date_from?: InputMaybe<DateFilter>
   date_to?: InputMaybe<DateFilter>
   description?: InputMaybe<StringFilter>
-  id?: InputMaybe<BigIntFilter>
+  id?: InputMaybe<UuidFilter>
   image_storage_object_id?: InputMaybe<UuidFilter>
   nodeId?: InputMaybe<IdFilter>
-  /** Negates a filter */
-  not?: InputMaybe<TripsFilter>
-  /** Returns true if at least one of its inner filters is true, otherwise returns false */
-  or?: InputMaybe<Array<TripsFilter>>
   title?: InputMaybe<StringFilter>
-  user_id?: InputMaybe<BigIntFilter>
-  uuid?: InputMaybe<UuidFilter>
+  user_id?: InputMaybe<UuidFilter>
 }
 
 export type TripsInsertInput = {
@@ -923,10 +879,10 @@ export type TripsInsertInput = {
   date_from?: InputMaybe<Scalars['Date']['input']>
   date_to?: InputMaybe<Scalars['Date']['input']>
   description?: InputMaybe<Scalars['String']['input']>
+  id?: InputMaybe<Scalars['UUID']['input']>
   image_storage_object_id?: InputMaybe<Scalars['UUID']['input']>
   title?: InputMaybe<Scalars['String']['input']>
-  user_id?: InputMaybe<Scalars['BigInt']['input']>
-  uuid?: InputMaybe<Scalars['UUID']['input']>
+  user_id?: InputMaybe<Scalars['UUID']['input']>
 }
 
 export type TripsInsertResponse = {
@@ -947,7 +903,6 @@ export type TripsOrderBy = {
   image_storage_object_id?: InputMaybe<OrderByDirection>
   title?: InputMaybe<OrderByDirection>
   user_id?: InputMaybe<OrderByDirection>
-  uuid?: InputMaybe<OrderByDirection>
 }
 
 export type TripsUpdateInput = {
@@ -956,10 +911,10 @@ export type TripsUpdateInput = {
   date_from?: InputMaybe<Scalars['Date']['input']>
   date_to?: InputMaybe<Scalars['Date']['input']>
   description?: InputMaybe<Scalars['String']['input']>
+  id?: InputMaybe<Scalars['UUID']['input']>
   image_storage_object_id?: InputMaybe<Scalars['UUID']['input']>
   title?: InputMaybe<Scalars['String']['input']>
-  user_id?: InputMaybe<Scalars['BigInt']['input']>
-  uuid?: InputMaybe<Scalars['UUID']['input']>
+  user_id?: InputMaybe<Scalars['UUID']['input']>
 }
 
 export type TripsUpdateResponse = {
@@ -973,14 +928,13 @@ export type TripsUpdateResponse = {
 export type Users = Node & {
   __typename?: 'users'
   email: Scalars['String']['output']
-  id: Scalars['BigInt']['output']
+  id: Scalars['UUID']['output']
   invitationsCollection?: Maybe<InvitationsConnection>
   name: Scalars['String']['output']
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output']
   profile_picture_url?: Maybe<Scalars['String']['output']>
   tripsCollection?: Maybe<TripsConnection>
-  uuid: Scalars['UUID']['output']
 }
 
 export type UsersInvitationsCollectionArgs = {
@@ -1022,25 +976,18 @@ export type UsersEdge = {
 }
 
 export type UsersFilter = {
-  /** Returns true only if all its inner filters are true, otherwise returns false */
-  and?: InputMaybe<Array<UsersFilter>>
   email?: InputMaybe<StringFilter>
-  id?: InputMaybe<BigIntFilter>
+  id?: InputMaybe<UuidFilter>
   name?: InputMaybe<StringFilter>
   nodeId?: InputMaybe<IdFilter>
-  /** Negates a filter */
-  not?: InputMaybe<UsersFilter>
-  /** Returns true if at least one of its inner filters is true, otherwise returns false */
-  or?: InputMaybe<Array<UsersFilter>>
   profile_picture_url?: InputMaybe<StringFilter>
-  uuid?: InputMaybe<UuidFilter>
 }
 
 export type UsersInsertInput = {
   email?: InputMaybe<Scalars['String']['input']>
+  id?: InputMaybe<Scalars['UUID']['input']>
   name?: InputMaybe<Scalars['String']['input']>
   profile_picture_url?: InputMaybe<Scalars['String']['input']>
-  uuid?: InputMaybe<Scalars['UUID']['input']>
 }
 
 export type UsersInsertResponse = {
@@ -1056,14 +1003,13 @@ export type UsersOrderBy = {
   id?: InputMaybe<OrderByDirection>
   name?: InputMaybe<OrderByDirection>
   profile_picture_url?: InputMaybe<OrderByDirection>
-  uuid?: InputMaybe<OrderByDirection>
 }
 
 export type UsersUpdateInput = {
   email?: InputMaybe<Scalars['String']['input']>
+  id?: InputMaybe<Scalars['UUID']['input']>
   name?: InputMaybe<Scalars['String']['input']>
   profile_picture_url?: InputMaybe<Scalars['String']['input']>
-  uuid?: InputMaybe<Scalars['UUID']['input']>
 }
 
 export type UsersUpdateResponse = {
@@ -1075,7 +1021,7 @@ export type UsersUpdateResponse = {
 }
 
 export type GetUserQueryVariables = Exact<{
-  uuid: Scalars['UUID']['input']
+  id: Scalars['UUID']['input']
 }>
 
 export type GetUserQuery = {
@@ -1086,7 +1032,7 @@ export type GetUserQuery = {
       __typename: 'usersEdge'
       node: {
         __typename: 'users'
-        uuid: string
+        id: string
         email: string
         name: string
         profile_picture_url?: string | null
@@ -1096,7 +1042,7 @@ export type GetUserQuery = {
 }
 
 export type CreateTripMutationVariables = Exact<{
-  user_id: Scalars['BigInt']['input']
+  user_id: Scalars['UUID']['input']
   title: Scalars['String']['input']
   date_from?: InputMaybe<Scalars['Date']['input']>
   date_to?: InputMaybe<Scalars['Date']['input']>
@@ -1106,17 +1052,12 @@ export type CreateTripMutation = {
   __typename: 'Mutation'
   insertIntotripsCollection?: {
     __typename: 'tripsInsertResponse'
-    records: Array<{
-      __typename: 'trips'
-      id: number
-      uuid: string
-      title: string
-    }>
+    records: Array<{ __typename: 'trips'; id: string; title: string }>
   } | null
 }
 
 export type TripDetailsQueryVariables = Exact<{
-  uuid: Scalars['UUID']['input']
+  id: Scalars['UUID']['input']
 }>
 
 export type TripDetailsQuery = {
@@ -1127,7 +1068,7 @@ export type TripDetailsQuery = {
       __typename: 'tripsEdge'
       node: {
         __typename: 'trips'
-        uuid: string
+        id: string
         title: string
         date_from: string
         date_to?: string | null
@@ -1140,7 +1081,7 @@ export type TripDetailsQuery = {
               __typename: 'invitations'
               users?: {
                 __typename: 'users'
-                id: number
+                id: string
                 profile_picture_url?: string | null
               } | null
             }
@@ -1152,7 +1093,7 @@ export type TripDetailsQuery = {
             __typename: 'activityEdge'
             node: {
               __typename: 'activity'
-              uuid: string
+              id: string
               title: string
               time_from: string
               time_to?: string | null
@@ -1166,7 +1107,7 @@ export type TripDetailsQuery = {
             __typename: 'trip_tagsEdge'
             node: {
               __typename: 'trip_tags'
-              tags?: { __typename: 'tags'; id: number; name: string } | null
+              tags?: { __typename: 'tags'; id: string; name: string } | null
             }
           }>
         } | null
@@ -1190,8 +1131,7 @@ export type TripsCollectionQuery = {
       __typename: 'tripsEdge'
       node: {
         __typename: 'trips'
-        id: number
-        uuid: string
+        id: string
         title: string
         date_from: string
         date_to?: string | null
@@ -1205,7 +1145,7 @@ export type TripsCollectionQuery = {
               __typename: 'invitations'
               users?: {
                 __typename: 'users'
-                id: number
+                id: string
                 profile_picture_url?: string | null
               } | null
             }
@@ -1215,7 +1155,7 @@ export type TripsCollectionQuery = {
           __typename: 'activityConnection'
           edges: Array<{
             __typename: 'activityEdge'
-            node: { __typename: 'activity'; id: number }
+            node: { __typename: 'activity'; id: string }
           }>
         } | null
       }
@@ -1231,7 +1171,7 @@ export type TripsCollectionQuery = {
 }
 
 export const GetUserDocument = {
-  __meta__: { hash: '0aee2a0596a8d9b006b4043e2eeae93221a362e2' },
+  __meta__: { hash: '00c528b2b1c851c06119aedb1fba6b5c885713cf' },
   kind: 'Document',
   definitions: [
     {
@@ -1241,7 +1181,7 @@ export const GetUserDocument = {
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'uuid' } },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
           type: {
             kind: 'NonNullType',
             type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } }
@@ -1264,7 +1204,7 @@ export const GetUserDocument = {
                   fields: [
                     {
                       kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'uuid' },
+                      name: { kind: 'Name', value: 'id' },
                       value: {
                         kind: 'ObjectValue',
                         fields: [
@@ -1273,7 +1213,7 @@ export const GetUserDocument = {
                             name: { kind: 'Name', value: 'eq' },
                             value: {
                               kind: 'Variable',
-                              name: { kind: 'Name', value: 'uuid' }
+                              name: { kind: 'Name', value: 'id' }
                             }
                           }
                         ]
@@ -1309,7 +1249,7 @@ export const GetUserDocument = {
                             },
                             {
                               kind: 'Field',
-                              name: { kind: 'Name', value: 'uuid' }
+                              name: { kind: 'Name', value: 'id' }
                             },
                             {
                               kind: 'Field',
@@ -1341,7 +1281,7 @@ export const GetUserDocument = {
   ]
 } as unknown as DocumentNode<GetUserQuery, GetUserQueryVariables>
 export const CreateTripDocument = {
-  __meta__: { hash: 'ae7e985f5065f62c8403435db7da34690de39dbe' },
+  __meta__: { hash: '995473133e320e5f7ef165df54d56100c62b3a75' },
   kind: 'Document',
   definitions: [
     {
@@ -1357,7 +1297,7 @@ export const CreateTripDocument = {
           },
           type: {
             kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'BigInt' } }
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } }
           }
         },
         {
@@ -1458,7 +1398,6 @@ export const CreateTripDocument = {
                         name: { kind: 'Name', value: '__typename' }
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'uuid' } },
                       { kind: 'Field', name: { kind: 'Name', value: 'title' } }
                     ]
                   }
@@ -1472,7 +1411,7 @@ export const CreateTripDocument = {
   ]
 } as unknown as DocumentNode<CreateTripMutation, CreateTripMutationVariables>
 export const TripDetailsDocument = {
-  __meta__: { hash: '7e95f12b53566f26e8c51c53348a8f00d13c1d7c' },
+  __meta__: { hash: '911f735030ae63fca4ef8cefcc3c07e92924ea00' },
   kind: 'Document',
   definitions: [
     {
@@ -1482,7 +1421,7 @@ export const TripDetailsDocument = {
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'uuid' } },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
           type: {
             kind: 'NonNullType',
             type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } }
@@ -1505,7 +1444,7 @@ export const TripDetailsDocument = {
                   fields: [
                     {
                       kind: 'ObjectField',
-                      name: { kind: 'Name', value: 'uuid' },
+                      name: { kind: 'Name', value: 'id' },
                       value: {
                         kind: 'ObjectValue',
                         fields: [
@@ -1514,7 +1453,7 @@ export const TripDetailsDocument = {
                             name: { kind: 'Name', value: 'eq' },
                             value: {
                               kind: 'Variable',
-                              name: { kind: 'Name', value: 'uuid' }
+                              name: { kind: 'Name', value: 'id' }
                             }
                           }
                         ]
@@ -1550,7 +1489,7 @@ export const TripDetailsDocument = {
                             },
                             {
                               kind: 'Field',
-                              name: { kind: 'Name', value: 'uuid' }
+                              name: { kind: 'Name', value: 'id' }
                             },
                             {
                               kind: 'Field',
@@ -1696,7 +1635,7 @@ export const TripDetailsDocument = {
                                                 kind: 'Field',
                                                 name: {
                                                   kind: 'Name',
-                                                  value: 'uuid'
+                                                  value: 'id'
                                                 }
                                               },
                                               {
@@ -1832,7 +1771,7 @@ export const TripDetailsDocument = {
   ]
 } as unknown as DocumentNode<TripDetailsQuery, TripDetailsQueryVariables>
 export const TripsCollectionDocument = {
-  __meta__: { hash: '8401c03d2c5f85ba0f977c1ea136bdd035c7d049' },
+  __meta__: { hash: '70a61f873c23f1db13cef7cd265a9845e9bfc53e' },
   kind: 'Document',
   definitions: [
     {
@@ -1959,7 +1898,7 @@ export const TripsCollectionDocument = {
                             },
                             {
                               kind: 'Field',
-                              name: { kind: 'Name', value: 'uuid' }
+                              name: { kind: 'Name', value: 'id' }
                             },
                             {
                               kind: 'Field',

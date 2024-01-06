@@ -1,8 +1,8 @@
-query getUser($uuid: UUID!) {
-  usersCollection(filter: { uuid: { eq: $uuid } }) {
+query getUser($id: UUID!) {
+  usersCollection(filter: { id: { eq: $id } }) {
     edges {
       node {
-        uuid
+        id
         email
         name
         profile_picture_url
