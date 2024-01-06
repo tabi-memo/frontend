@@ -13,7 +13,8 @@ import {
 } from '@chakra-ui/react'
 import Image from 'next/image'
 import { FiMoon, FiSun } from 'react-icons/fi'
-import { MdAccountCircle, MdLogout } from 'react-icons/md'
+import { MdAccountCircle } from 'react-icons/md'
+import LogOut from '@/(auth)/signout/components'
 
 export const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode()
@@ -65,20 +66,7 @@ export const Header = () => {
                 >
                   Account Info
                 </MenuItem>
-                <MenuItem
-                  icon={<MdLogout size="20px" />}
-                  bgColor={bg}
-                  _hover={{
-                    bgColor: useColorModeValue('gray.100', 'gray.700')
-                  }}
-                  sx={{
-                    svg: {
-                      color: 'primary.700'
-                    }
-                  }}
-                >
-                  Logout
-                </MenuItem>
+                <LogOut />
               </MenuList>
             </Menu>
             <Box
