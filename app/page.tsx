@@ -13,7 +13,7 @@ import { useRouter } from 'next/navigation'
 import { PrimaryButton } from '@/components/button'
 import { Loading } from '@/components/loading'
 import { Header, Footer } from '@/components/navigation'
-import { useUserUuid } from '@/providers/session-provider'
+import { useUserId } from '@/providers/session-provider'
 import { TripSearch, TripSort, TripCard } from '@/trip/components'
 import { useTripsCollectionQuery, TripsOrderBy } from '@generated/api'
 
@@ -23,12 +23,12 @@ export default function Top({ searchParams }: { searchParams: { q: string } }) {
   const color = useColorModeValue('black', 'gray.300')
 
   const searchWord = searchParams.q
-  const uuid = useUserUuid()
+  const userId = useUserId()
 
   const { data, loading, fetchMore, refetch } = useTripsCollectionQuery({
     variables: {
       filter: {
-        uuid: { eq: uuid },
+        id: { eq: userId },
         ...(searchWord &&
           searchWord.length && { title: { like: `%${searchWord}%` } })
       },

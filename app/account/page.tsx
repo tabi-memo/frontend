@@ -16,15 +16,15 @@ import { MdAccountCircle } from 'react-icons/md'
 import { PrimaryButton, AlertButton } from '@/components/button'
 import { Link } from '@/components/link'
 import { Loading } from '@/components/loading'
-import { useUserUuid } from '@/providers/session-provider'
+import { useUserId } from '@/providers/session-provider'
 import { useGetUserQuery } from '@generated/api'
 
 export default function AccountPage() {
   const bg = useColorModeValue('white', 'gray.800')
   const color = useColorModeValue('black', 'gray.300')
-  const uuid = useUserUuid()
+  const userId = useUserId()
   const { data, loading, error } = useGetUserQuery({
-    variables: { uuid }
+    variables: { id: userId }
   })
   const user = data?.usersCollection?.edges[0].node
 

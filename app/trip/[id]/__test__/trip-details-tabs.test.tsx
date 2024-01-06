@@ -19,7 +19,7 @@ describe('TripDetails Tabs', () => {
           activities={
             tripDetailsMock1[0].result.data.tripsCollection.edges[0].node.activityCollection?.edges.map(
               (activity) => ({
-                id: activity.node.uuid,
+                id: activity.node.id,
                 timeFrom: activity.node.time_from,
                 timeTo: activity.node.time_to,
                 title: activity.node.title,
@@ -65,7 +65,7 @@ describe('TripDetails Tabs', () => {
           activities={
             tripDetailsMock2[0].result.data.tripsCollection.edges[0].node.activityCollection?.edges.map(
               (activity) => ({
-                id: activity.node.uuid,
+                id: activity.node.id,
                 timeFrom: activity.node.time_from,
                 timeTo: activity.node.time_to,
                 title: activity.node.title,

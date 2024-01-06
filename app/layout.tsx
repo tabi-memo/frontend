@@ -24,14 +24,14 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const uuid = cookies().get(USER_UUID_COOKIE_NAME)?.value ?? undefined
+  const userId = cookies().get(USER_UUID_COOKIE_NAME)?.value ?? undefined
   return (
     <html lang="en" className={roboto.className}>
       <body>
         <ChakraProvider>
           <ApolloWrapper>
-            {uuid ? (
-              <SessionProvider uuid={uuid}>{children}</SessionProvider>
+            {userId ? (
+              <SessionProvider userId={userId}>{children}</SessionProvider>
             ) : (
               children
             )}
