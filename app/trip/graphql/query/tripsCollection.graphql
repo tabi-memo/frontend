@@ -13,7 +13,7 @@ query tripsCollection(
     edges {
       node {
         id
-        uuid
+        id
         title
         date_from
         date_to
