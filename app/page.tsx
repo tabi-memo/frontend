@@ -12,7 +12,6 @@ import {
 import { useRouter } from 'next/navigation'
 import { PrimaryButton } from '@/components/button'
 import { Loading } from '@/components/loading'
-import { Header, Footer } from '@/components/navigation'
 import { useUserUuid } from '@/providers/session-provider'
 import { TripSearch, TripSort, TripCard } from '@/trip/components'
 import { useTripsCollectionQuery, TripsOrderBy } from '@generated/api'
@@ -68,7 +67,6 @@ export default function Top({ searchParams }: { searchParams: { q: string } }) {
 
   return (
     <>
-      <Header />
       <Box as="main" minH="100vh" bg={bg} color={color}>
         <Container
           maxW={{ base: '100%', lg: 'container.xl' }}
@@ -131,7 +129,6 @@ export default function Top({ searchParams }: { searchParams: { q: string } }) {
           )}
         </Container>
       </Box>
-      <Footer />
     </>
   )
 }
