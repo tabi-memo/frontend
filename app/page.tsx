@@ -28,7 +28,7 @@ export default function Top({ searchParams }: { searchParams: { q: string } }) {
   const { data, loading, fetchMore, refetch } = useTripsCollectionQuery({
     variables: {
       filter: {
-        id: { eq: userId },
+        user_id: { eq: userId },
         ...(searchWord &&
           searchWord.length && { title: { like: `%${searchWord}%` } })
       },
