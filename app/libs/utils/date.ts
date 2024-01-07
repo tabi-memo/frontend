@@ -49,5 +49,3 @@ export const formatDbTimeToDate = (date: string | null | undefined) => {
   const formattedDate = date.split('T')[0]
   return formattedDate
 }
-
-

@@ -1,5 +1,5 @@
 export {
   formatDateToSlash,
   extractTimeFromDate,
-  formatDbTimeToDate,
+  formatDbTimeToDate
 } from './date'
