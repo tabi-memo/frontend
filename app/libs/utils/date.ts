@@ -46,6 +46,10 @@ export const formatDbDate = (date: string | undefined | null) => {
  */
 export const formatDbTimeToDate = (date: string | null | undefined) => {
   if (!date) return ''
-  const formattedDate = date.split('T')[0]
-  return formattedDate
+  const parts = date.split('T')
+  const monthDay = date.split('T')[0]
+  const hours = parts[1].split(':')[0]
+  const minutes = parts[1].split(':')[1]
+
+  return `${monthDay} ${hours}:${minutes}`
 }
