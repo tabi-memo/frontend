@@ -1137,6 +1137,27 @@ export type UsersUpdateResponse = {
   records: Array<Users>
 }
 
+export type GetUserQueryVariables = Exact<{
+  uuid: Scalars['UUID']['input']
+}>
+
+export type GetUserQuery = {
+  __typename: 'Query'
+  usersCollection?: {
+    __typename: 'usersConnection'
+    edges: Array<{
+      __typename: 'usersEdge'
+      node: {
+        __typename: 'users'
+        uuid: string
+        email: string
+        name: string
+        profile_picture_url?: string | null
+      }
+    }>
+  } | null
+}
+
 export type ActivityCollectionQueryVariables = Exact<{
   uuid: Scalars['UUID']['input']
 }>
@@ -1300,6 +1321,116 @@ export type TripsCollectionQuery = {
   } | null
 }
 
+export const GetUserDocument = {
+  __meta__: { hash: '0aee2a0596a8d9b006b4043e2eeae93221a362e2' },
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'getUser' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'uuid' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'usersCollection' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'filter' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'uuid' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'eq' },
+                            value: {
+                              kind: 'Variable',
+                              name: { kind: 'Name', value: 'uuid' }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'edges' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: '__typename' }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'node' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: '__typename' }
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'uuid' }
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'email' }
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'name' }
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'profile_picture_url'
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<GetUserQuery, GetUserQueryVariables>
 export const ActivityCollectionDocument = {
   __meta__: { hash: '15ca5d10416881cfc03bd38a070dd5392eeb938e' },
   kind: 'Document',

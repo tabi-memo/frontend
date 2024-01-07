@@ -13,6 +13,8 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+  'query getUser($uuid: UUID!) {\n  usersCollection(filter: {uuid: {eq: $uuid}}) {\n    edges {\n      node {\n        uuid\n        email\n        name\n        profile_picture_url\n      }\n    }\n  }\n}':
+    types.GetUserDocument,
   'query activityCollection($uuid: UUID!) {\n  activityCollection(filter: {uuid: {eq: $uuid}}) {\n    edges {\n      node {\n        id\n        uuid\n        trip_id\n        title\n        time_from\n        time_to\n        address\n        url\n        memo\n        cost\n        image_storage_object_id\n      }\n    }\n  }\n}':
     types.ActivityCollectionDocument,
   'mutation createTrip($user_id: BigInt!, $title: String!, $date_from: Date, $date_to: Date) {\n  insertIntotripsCollection(\n    objects: [{user_id: $user_id, title: $title, date_from: $date_from, date_to: $date_to}]\n  ) {\n    records {\n      __typename\n      id\n      uuid\n      title\n    }\n  }\n}':
@@ -37,6 +39,12 @@ const documents = {
  */
 export function graphql(source: string): unknown
 
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: 'query getUser($uuid: UUID!) {\n  usersCollection(filter: {uuid: {eq: $uuid}}) {\n    edges {\n      node {\n        uuid\n        email\n        name\n        profile_picture_url\n      }\n    }\n  }\n}'
+): (typeof documents)['query getUser($uuid: UUID!) {\n  usersCollection(filter: {uuid: {eq: $uuid}}) {\n    edges {\n      node {\n        uuid\n        email\n        name\n        profile_picture_url\n      }\n    }\n  }\n}']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
