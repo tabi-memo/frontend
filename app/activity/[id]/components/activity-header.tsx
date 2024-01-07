@@ -21,7 +21,6 @@ export const ActivityHeader: React.FC<ActivityInfoProps> = ({
   address,
   url
 }) => {
-
   return (
     <>
       <Flex pb={{ base: '30px', md: '40px' }} align="center">
