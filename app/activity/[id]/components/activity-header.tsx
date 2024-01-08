@@ -3,7 +3,7 @@
 import { Heading, Box, Flex, Spacer, Text, IconButton } from '@chakra-ui/react'
 import { FiClock, FiMapPin, FiLink2, FiEdit3, FiTrash2 } from 'react-icons/fi'
 import { Link } from '@/components/link'
-import { formatDbTimeToDate } from '@/libs/utils'
+import { formatToDateTime } from '@/libs/utils'
 import { customColors } from '@/theme/color'
 
 type ActivityInfoProps = {
@@ -53,7 +53,7 @@ export const ActivityHeader: React.FC<ActivityInfoProps> = ({
             fontWeight="semibold"
             mx={2}
           >
-            {formatDbTimeToDate(time_from)} - {formatDbTimeToDate(time_to)}
+            {formatToDateTime(time_from)} - {formatToDateTime(time_to)}
           </Text>
         </Box>
         <Box display="flex" alignItems="center" my={1}>
