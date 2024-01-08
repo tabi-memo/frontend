@@ -1,9 +1,8 @@
-query activityCollection($uuid: UUID!) {
-  activityCollection(filter: { uuid: { eq: $uuid } }) {
+query activityCollection($id: UUID!) {
+  activityCollection(filter: { id: { eq: $id } }) {
     edges {
       node {
         id
-        uuid
         trip_id
         title
         time_from

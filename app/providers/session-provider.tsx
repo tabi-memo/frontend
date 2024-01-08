@@ -5,21 +5,21 @@ import { redirect } from 'next/navigation'
 
 const SessionContext = createContext<string | undefined>(undefined)
 
-export const useUserUuid = (): string => {
-  const uuid = useContext(SessionContext)
-  if (typeof uuid !== 'string') {
+export const useUserId = (): string => {
+  const userId = useContext(SessionContext)
+  if (typeof userId !== 'string') {
     redirect('/signin')
   }
-  return uuid
+  return userId
 }
 export function SessionProvider({
   children,
-  uuid
+  userId
 }: {
   children: ReactNode
-  uuid: string
+  userId: string
 }) {
   return (
-    <SessionContext.Provider value={uuid}>{children}</SessionContext.Provider>
+    <SessionContext.Provider value={userId}>{children}</SessionContext.Provider>
   )
 }

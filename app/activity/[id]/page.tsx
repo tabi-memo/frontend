@@ -17,7 +17,7 @@ export default function ActivityDetails({
 
   const { data, loading } = useActivityCollectionQuery({
     variables: {
-      uuid: params.id
+      id: params.id
     }
   })
 
