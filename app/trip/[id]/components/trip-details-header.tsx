@@ -21,11 +21,11 @@ type TripDetailsHeaderProps = {
   dateFrom: string | null | undefined
   dateTo: string | null | undefined
   users: {
-    id: number | undefined
+    id: string | undefined
     image: string | null | undefined
   }[]
 
-  tags: { id: number | undefined; name: string | undefined }[]
+  tags: { id: string | undefined; name: string | undefined }[]
 }
 
 export const TripDetailsHeader = ({

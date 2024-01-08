@@ -28,7 +28,7 @@ export const TripCard = ({ data }: TripCardProps) => {
   return (
     <Card
       as={NextLink}
-      href={`/trip/${data.node.uuid}`}
+      href={`/trip/${data.node.id}`}
       role={'group'}
       maxW={{ base: '100%', md: 'calc(100% / 2 - 10px)', lg: '360px' }}
       pb={{ base: '12px', md: '0px' }}
