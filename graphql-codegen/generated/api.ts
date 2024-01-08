@@ -136,6 +136,8 @@ export type Mutation = {
   deleteFrominvitationsCollection: InvitationsDeleteResponse
   /** Deletes zero or more records from the `tags` collection */
   deleteFromtagsCollection: TagsDeleteResponse
+  /** Deletes zero or more records from the `test_tenant` collection */
+  deleteFromtest_tenantCollection: Test_TenantDeleteResponse
   /** Deletes zero or more records from the `trip_tags` collection */
   deleteFromtrip_tagsCollection: Trip_TagsDeleteResponse
   /** Deletes zero or more records from the `trips` collection */
@@ -148,6 +150,8 @@ export type Mutation = {
   insertIntoinvitationsCollection?: Maybe<InvitationsInsertResponse>
   /** Adds one or more `tags` records to the collection */
   insertIntotagsCollection?: Maybe<TagsInsertResponse>
+  /** Adds one or more `test_tenant` records to the collection */
+  insertIntotest_tenantCollection?: Maybe<Test_TenantInsertResponse>
   /** Adds one or more `trip_tags` records to the collection */
   insertIntotrip_tagsCollection?: Maybe<Trip_TagsInsertResponse>
   /** Adds one or more `trips` records to the collection */
@@ -160,6 +164,8 @@ export type Mutation = {
   updateinvitationsCollection: InvitationsUpdateResponse
   /** Updates zero or more records in the `tags` collection */
   updatetagsCollection: TagsUpdateResponse
+  /** Updates zero or more records in the `test_tenant` collection */
+  updatetest_tenantCollection: Test_TenantUpdateResponse
   /** Updates zero or more records in the `trip_tags` collection */
   updatetrip_tagsCollection: Trip_TagsUpdateResponse
   /** Updates zero or more records in the `trips` collection */
@@ -184,6 +190,12 @@ export type MutationDeleteFrominvitationsCollectionArgs = {
 export type MutationDeleteFromtagsCollectionArgs = {
   atMost?: Scalars['Int']['input']
   filter?: InputMaybe<TagsFilter>
+}
+
+/** The root type for creating and mutating data */
+export type MutationDeleteFromtest_TenantCollectionArgs = {
+  atMost?: Scalars['Int']['input']
+  filter?: InputMaybe<Test_TenantFilter>
 }
 
 /** The root type for creating and mutating data */
@@ -220,6 +232,11 @@ export type MutationInsertIntotagsCollectionArgs = {
 }
 
 /** The root type for creating and mutating data */
+export type MutationInsertIntotest_TenantCollectionArgs = {
+  objects: Array<Test_TenantInsertInput>
+}
+
+/** The root type for creating and mutating data */
 export type MutationInsertIntotrip_TagsCollectionArgs = {
   objects: Array<Trip_TagsInsertInput>
 }
@@ -253,6 +270,13 @@ export type MutationUpdatetagsCollectionArgs = {
   atMost?: Scalars['Int']['input']
   filter?: InputMaybe<TagsFilter>
   set: TagsUpdateInput
+}
+
+/** The root type for creating and mutating data */
+export type MutationUpdatetest_TenantCollectionArgs = {
+  atMost?: Scalars['Int']['input']
+  filter?: InputMaybe<Test_TenantFilter>
+  set: Test_TenantUpdateInput
 }
 
 /** The root type for creating and mutating data */
@@ -318,6 +342,8 @@ export type Query = {
   node?: Maybe<Node>
   /** A pagable collection of type `tags` */
   tagsCollection?: Maybe<TagsConnection>
+  /** A pagable collection of type `test_tenant` */
+  test_tenantCollection?: Maybe<Test_TenantConnection>
   /** A pagable collection of type `trip_tags` */
   trip_tagsCollection?: Maybe<Trip_TagsConnection>
   /** A pagable collection of type `trips` */
@@ -359,6 +385,16 @@ export type QueryTagsCollectionArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   orderBy?: InputMaybe<Array<TagsOrderBy>>
+}
+
+/** The root type for querying data */
+export type QueryTest_TenantCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  filter?: InputMaybe<Test_TenantFilter>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<Test_TenantOrderBy>>
 }
 
 /** The root type for querying data */
@@ -714,6 +750,69 @@ export type TagsUpdateResponse = {
   records: Array<Tags>
 }
 
+export type Test_Tenant = Node & {
+  __typename?: 'test_tenant'
+  details?: Maybe<Scalars['String']['output']>
+  id: Scalars['Int']['output']
+  /** Globally Unique Record Identifier */
+  nodeId: Scalars['ID']['output']
+}
+
+export type Test_TenantConnection = {
+  __typename?: 'test_tenantConnection'
+  edges: Array<Test_TenantEdge>
+  pageInfo: PageInfo
+}
+
+export type Test_TenantDeleteResponse = {
+  __typename?: 'test_tenantDeleteResponse'
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output']
+  /** Array of records impacted by the mutation */
+  records: Array<Test_Tenant>
+}
+
+export type Test_TenantEdge = {
+  __typename?: 'test_tenantEdge'
+  cursor: Scalars['String']['output']
+  node: Test_Tenant
+}
+
+export type Test_TenantFilter = {
+  details?: InputMaybe<StringFilter>
+  id?: InputMaybe<IntFilter>
+  nodeId?: InputMaybe<IdFilter>
+}
+
+export type Test_TenantInsertInput = {
+  details?: InputMaybe<Scalars['String']['input']>
+}
+
+export type Test_TenantInsertResponse = {
+  __typename?: 'test_tenantInsertResponse'
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output']
+  /** Array of records impacted by the mutation */
+  records: Array<Test_Tenant>
+}
+
+export type Test_TenantOrderBy = {
+  details?: InputMaybe<OrderByDirection>
+  id?: InputMaybe<OrderByDirection>
+}
+
+export type Test_TenantUpdateInput = {
+  details?: InputMaybe<Scalars['String']['input']>
+}
+
+export type Test_TenantUpdateResponse = {
+  __typename?: 'test_tenantUpdateResponse'
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output']
+  /** Array of records impacted by the mutation */
+  records: Array<Test_Tenant>
+}
+
 export type Trip_Tags = Node & {
   __typename?: 'trip_tags'
   id: Scalars['UUID']['output']
@@ -1033,6 +1132,33 @@ export type GetUserQuery = {
   } | null
 }
 
+export type ActivityCollectionQueryVariables = Exact<{
+  id: Scalars['UUID']['input']
+}>
+
+export type ActivityCollectionQuery = {
+  __typename: 'Query'
+  activityCollection?: {
+    __typename: 'activityConnection'
+    edges: Array<{
+      __typename: 'activityEdge'
+      node: {
+        __typename: 'activity'
+        id: string
+        trip_id?: string | null
+        title: string
+        time_from: string
+        time_to?: string | null
+        address?: string | null
+        url?: string | null
+        memo?: string | null
+        cost?: number | null
+        image_storage_object_id?: string | null
+      }
+    }>
+  } | null
+}
+
 export type CreateTripMutationVariables = Exact<{
   user_id: Scalars['UUID']['input']
   title: Scalars['String']['input']
@@ -1238,6 +1364,101 @@ export type GetUserQueryResult = Apollo.QueryResult<
 >
 export function refetchGetUserQuery(variables: GetUserQueryVariables) {
   return { query: GetUserDocument, variables: variables }
+}
+export const ActivityCollectionDocument = gql`
+  query activityCollection($id: UUID!) {
+    __typename
+    activityCollection(filter: { id: { eq: $id } }) {
+      __typename
+      edges {
+        __typename
+        node {
+          __typename
+          id
+          trip_id
+          title
+          time_from
+          time_to
+          address
+          url
+          memo
+          cost
+          image_storage_object_id
+        }
+      }
+    }
+  }
+`
+
+/**
+ * __useActivityCollectionQuery__
+ *
+ * To run a query within a React component, call `useActivityCollectionQuery` and pass it any options that fit your needs.
+ * When your component renders, `useActivityCollectionQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useActivityCollectionQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useActivityCollectionQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    ActivityCollectionQuery,
+    ActivityCollectionQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<
+    ActivityCollectionQuery,
+    ActivityCollectionQueryVariables
+  >(ActivityCollectionDocument, options)
+}
+export function useActivityCollectionLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    ActivityCollectionQuery,
+    ActivityCollectionQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<
+    ActivityCollectionQuery,
+    ActivityCollectionQueryVariables
+  >(ActivityCollectionDocument, options)
+}
+export function useActivityCollectionSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    ActivityCollectionQuery,
+    ActivityCollectionQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<
+    ActivityCollectionQuery,
+    ActivityCollectionQueryVariables
+  >(ActivityCollectionDocument, options)
+}
+export type ActivityCollectionQueryHookResult = ReturnType<
+  typeof useActivityCollectionQuery
+>
+export type ActivityCollectionLazyQueryHookResult = ReturnType<
+  typeof useActivityCollectionLazyQuery
+>
+export type ActivityCollectionSuspenseQueryHookResult = ReturnType<
+  typeof useActivityCollectionSuspenseQuery
+>
+export type ActivityCollectionQueryResult = Apollo.QueryResult<
+  ActivityCollectionQuery,
+  ActivityCollectionQueryVariables
+>
+export function refetchActivityCollectionQuery(
+  variables: ActivityCollectionQueryVariables
+) {
+  return { query: ActivityCollectionDocument, variables: variables }
 }
 export const CreateTripDocument = gql`
   mutation createTrip(

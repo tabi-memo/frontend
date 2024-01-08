@@ -1,0 +1,18 @@
+query activityCollection($id: UUID!) {
+  activityCollection(filter: { id: { eq: $id } }) {
+    edges {
+      node {
+        id
+        trip_id
+        title
+        time_from
+        time_to
+        address
+        url
+        memo
+        cost
+        image_storage_object_id
+      }
+    }
+  }
+}
