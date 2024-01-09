@@ -7,10 +7,7 @@ type ActivityInfoProps = {
   cost: number | null | undefined
 }
 
-export const ActivityInfo: React.FC<ActivityInfoProps> = ({
-  memo,
-  cost
-}: ActivityInfoProps) => {
+export const ActivityInfo = ({ memo, cost }: ActivityInfoProps) => {
   return (
     <>
       <VStack spacing="4" align="stretch">

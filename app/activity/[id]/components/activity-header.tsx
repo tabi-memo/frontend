@@ -14,13 +14,13 @@ type ActivityHeaderProps = {
   url?: string | null
 }
 
-export const ActivityHeader: React.FC<ActivityHeaderProps> = ({
+export const ActivityHeader = ({
   title,
   time_from,
   time_to,
   address,
   url
-}) => {
+}: ActivityHeaderProps) => {
   return (
     <>
       <Flex pb={{ base: '30px', md: '40px' }} align="center">
