@@ -6,7 +6,7 @@ import { Link } from '@/components/link'
 import { formatToDateTime } from '@/libs/utils'
 import { customColors } from '@/theme/color'
 
-type ActivityInfoProps = {
+type ActivityHeaderProps = {
   title: string
   time_from: string | null
   time_to?: string | null
@@ -14,7 +14,7 @@ type ActivityInfoProps = {
   url?: string | null
 }
 
-export const ActivityHeader: React.FC<ActivityInfoProps> = ({
+export const ActivityHeader: React.FC<ActivityHeaderProps> = ({
   title,
   time_from,
   time_to,

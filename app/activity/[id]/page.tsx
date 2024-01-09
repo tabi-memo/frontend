@@ -51,6 +51,7 @@ export default function ActivityDetails({
               address={activityData?.address}
               url={activityData?.url}
             />
+            {/* TODO: Fetch images from the database once available. */}
             <Carousel urls={dummyUrls} />
             <ActivityInfo memo={activityData?.memo} cost={activityData?.cost} />
             <Box mt="60px" display="flex" alignItems="center">
