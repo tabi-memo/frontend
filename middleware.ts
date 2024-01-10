@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from 'next/server'
 import { USER_UUID_COOKIE_NAME } from '@/(auth)/constants'
-import { createClient } from '@/(auth)/supabase/middleware'
+import { createClient } from '@/(auth)/supabase/with-request'
 
 export const config = {
   matcher: [
