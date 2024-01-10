@@ -12,7 +12,7 @@ import {
   useToast,
   useBoolean
 } from '@chakra-ui/react'
-import { changePassword } from '@/(auth)/change-password/action'
+import { useRouter } from 'next/navigation'
 import {
   changePasswordResolver,
   ChangePasswordSchema
@@ -25,6 +25,7 @@ export default function ChangePassword() {
   const [toastId, setToastId] = useState<ReturnType<typeof toast> | undefined>(
     undefined
   )
+  const router = useRouter()
 
   const {
     register,
@@ -36,27 +37,27 @@ export default function ChangePassword() {
 
   const changePasswordHandler = handleSubmit(
     async (data: ChangePasswordSchema) => {
-      try {
-        setIsLoading.on()
-        await changePassword(data)
-      } catch (error) {
-        if (!toastId) {
-          const res = toast({
-            title: "We're sorry, but you failed to sign in.",
-            description:
-              error instanceof Error ? error.message : 'unknown error',
-            status: 'error',
-            duration: 5000,
-            isClosable: true,
-            position: 'top',
-            onCloseComplete() {
-              setToastId(undefined)
-            }
-          })
-          setToastId(res)
-        }
-      } finally {
-        setIsLoading.off()
+      setIsLoading.on()
+      const response = await fetch('/change-password/action', {
+        method: 'POST',
+        body: JSON.stringify(data)
+      })
+      setIsLoading.off()
+      if (response.ok) {
+        router.push('/')
+      } else if (!toastId) {
+        const res = toast({
+          title: "We're sorry, but you failed to change your password.",
+          description: await response.json(),
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+          position: 'top',
+          onCloseComplete() {
+            setToastId(undefined)
+          }
+        })
+        setToastId(res)
       }
     }
   )
