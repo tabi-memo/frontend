@@ -1,6 +1,8 @@
 'use client'
 
-import { Box, Container, useColorModeValue } from '@chakra-ui/react'
+import { useState } from 'react'
+import { Box, Container, useColorModeValue, Input } from '@chakra-ui/react'
+import { createClient } from '@supabase/supabase-js'
 import { useRouter } from 'next/navigation'
 import { PrimaryButton } from '@/components/button'
 import { Loading } from '@/components/loading'
@@ -18,7 +20,11 @@ export default function TripDetailsPage({
 
   const router = useRouter()
 
-  const { data: tripData, loading: tripLoading } = useTripDetailsQuery({
+  const {
+    data: tripData,
+    loading: tripLoading,
+    refetch: refetchTrip
+  } = useTripDetailsQuery({
     variables: {
       id: params.id
     }
@@ -27,6 +33,37 @@ export default function TripDetailsPage({
   if (!tripData && !tripLoading) throw new Error('No trip data found')
 
   const tripDataCollection = tripData?.tripsCollection
+
+  const [imageUrl, setImageUrl] = useState<string | null>(null)
+  const uploadImage = async (id: string, file: File) => {
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_API_KEY!
+    )
+    const { data, error } = await supabase.storage
+      .from('tabi-memo-uploads')
+      .upload(`trips/${id}/${file.name}`, file)
+
+    if (error) {
+      throw error
+    } else {
+      console.log({ uploadFile: data })
+
+      // this approach needs two requests upload request -> get public url
+      const {
+        data: { publicUrl }
+      } = supabase.storage
+        .from(process.env.NEXT_PUBLIC_BUCKET_NAME!)
+        .getPublicUrl(data.path)
+      // const fileUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${process.env.NEXT_PUBLIC_BUCKET_NAME}/${data.path}`
+
+      // update trip image url if authorized by calling postgres function
+      // await supabase.rpc('update_trip_image', { trip_id: id, image_url: publicUrl })
+
+      setImageUrl(publicUrl)
+      refetchTrip() // Refetch trip after image upload
+    }
+  }
 
   return (
     <>
@@ -43,7 +80,7 @@ export default function TripDetailsPage({
             <>
               <TripDetailsHeader
                 id={tripDataCollection.edges[0].node.id}
-                image={tripDataCollection.edges[0].node.image_storage_object_id}
+                image={imageUrl || tripDataCollection.edges[0].node.image_url}
                 title={tripDataCollection.edges[0].node.title}
                 dateFrom={tripDataCollection.edges[0].node.date_from}
                 dateTo={tripDataCollection.edges[0].node.date_to}
@@ -85,6 +122,16 @@ export default function TripDetailsPage({
                 >
                   Add Activity
                 </PrimaryButton>
+                <Input
+                  type="file"
+                  id="imageUpload"
+                  accept="image/*"
+                  onChange={(e) => {
+                    if (e.target.files?.length) {
+                      uploadImage(params.id, e.target.files[0])
+                    }
+                  }}
+                />
               </Box>
             </>
           )}

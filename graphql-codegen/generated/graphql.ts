@@ -477,7 +477,7 @@ export type Activity = Node & {
   address?: Maybe<Scalars['String']['output']>
   cost?: Maybe<Scalars['BigFloat']['output']>
   id: Scalars['UUID']['output']
-  image_storage_object_id?: Maybe<Scalars['UUID']['output']>
+  image_url?: Maybe<Scalars['String']['output']>
   memo?: Maybe<Scalars['String']['output']>
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output']
@@ -511,11 +511,17 @@ export type ActivityEdge = {
 
 export type ActivityFilter = {
   address?: InputMaybe<StringFilter>
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<ActivityFilter>>
   cost?: InputMaybe<BigFloatFilter>
   id?: InputMaybe<UuidFilter>
-  image_storage_object_id?: InputMaybe<UuidFilter>
+  image_url?: InputMaybe<StringFilter>
   memo?: InputMaybe<StringFilter>
   nodeId?: InputMaybe<IdFilter>
+  /** Negates a filter */
+  not?: InputMaybe<ActivityFilter>
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<ActivityFilter>>
   time_from?: InputMaybe<DatetimeFilter>
   time_to?: InputMaybe<DatetimeFilter>
   title?: InputMaybe<StringFilter>
@@ -527,7 +533,7 @@ export type ActivityInsertInput = {
   address?: InputMaybe<Scalars['String']['input']>
   cost?: InputMaybe<Scalars['BigFloat']['input']>
   id?: InputMaybe<Scalars['UUID']['input']>
-  image_storage_object_id?: InputMaybe<Scalars['UUID']['input']>
+  image_url?: InputMaybe<Scalars['String']['input']>
   memo?: InputMaybe<Scalars['String']['input']>
   time_from?: InputMaybe<Scalars['Datetime']['input']>
   time_to?: InputMaybe<Scalars['Datetime']['input']>
@@ -548,7 +554,7 @@ export type ActivityOrderBy = {
   address?: InputMaybe<OrderByDirection>
   cost?: InputMaybe<OrderByDirection>
   id?: InputMaybe<OrderByDirection>
-  image_storage_object_id?: InputMaybe<OrderByDirection>
+  image_url?: InputMaybe<OrderByDirection>
   memo?: InputMaybe<OrderByDirection>
   time_from?: InputMaybe<OrderByDirection>
   time_to?: InputMaybe<OrderByDirection>
@@ -561,7 +567,7 @@ export type ActivityUpdateInput = {
   address?: InputMaybe<Scalars['String']['input']>
   cost?: InputMaybe<Scalars['BigFloat']['input']>
   id?: InputMaybe<Scalars['UUID']['input']>
-  image_storage_object_id?: InputMaybe<Scalars['UUID']['input']>
+  image_url?: InputMaybe<Scalars['String']['input']>
   memo?: InputMaybe<Scalars['String']['input']>
   time_from?: InputMaybe<Scalars['Datetime']['input']>
   time_to?: InputMaybe<Scalars['Datetime']['input']>
@@ -614,12 +620,18 @@ export type InvitationsEdge = {
 }
 
 export type InvitationsFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<InvitationsFilter>>
   email?: InputMaybe<StringFilter>
   id?: InputMaybe<UuidFilter>
   invitation_url?: InputMaybe<StringFilter>
   invited_by_user_id?: InputMaybe<UuidFilter>
   invitee_user_id?: InputMaybe<UuidFilter>
   nodeId?: InputMaybe<IdFilter>
+  /** Negates a filter */
+  not?: InputMaybe<InvitationsFilter>
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<InvitationsFilter>>
   permission_level?: InputMaybe<Permission_Level_EnumFilter>
   trip_id?: InputMaybe<UuidFilter>
 }
@@ -722,9 +734,15 @@ export type TagsEdge = {
 }
 
 export type TagsFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<TagsFilter>>
   id?: InputMaybe<UuidFilter>
   name?: InputMaybe<StringFilter>
   nodeId?: InputMaybe<IdFilter>
+  /** Negates a filter */
+  not?: InputMaybe<TagsFilter>
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<TagsFilter>>
 }
 
 export type TagsInsertInput = {
@@ -853,8 +871,14 @@ export type Trip_TagsEdge = {
 }
 
 export type Trip_TagsFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<Trip_TagsFilter>>
   id?: InputMaybe<UuidFilter>
   nodeId?: InputMaybe<IdFilter>
+  /** Negates a filter */
+  not?: InputMaybe<Trip_TagsFilter>
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<Trip_TagsFilter>>
   tag_id?: InputMaybe<UuidFilter>
   trip_id?: InputMaybe<UuidFilter>
 }
@@ -902,7 +926,7 @@ export type Trips = Node & {
   date_to?: Maybe<Scalars['Date']['output']>
   description?: Maybe<Scalars['String']['output']>
   id: Scalars['UUID']['output']
-  image_storage_object_id?: Maybe<Scalars['UUID']['output']>
+  image_url?: Maybe<Scalars['String']['output']>
   invitationsCollection?: Maybe<InvitationsConnection>
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output']
@@ -960,14 +984,20 @@ export type TripsEdge = {
 }
 
 export type TripsFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<TripsFilter>>
   cost?: InputMaybe<BigFloatFilter>
   created_at?: InputMaybe<DatetimeFilter>
   date_from?: InputMaybe<DateFilter>
   date_to?: InputMaybe<DateFilter>
   description?: InputMaybe<StringFilter>
   id?: InputMaybe<UuidFilter>
-  image_storage_object_id?: InputMaybe<UuidFilter>
+  image_url?: InputMaybe<StringFilter>
   nodeId?: InputMaybe<IdFilter>
+  /** Negates a filter */
+  not?: InputMaybe<TripsFilter>
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<TripsFilter>>
   title?: InputMaybe<StringFilter>
   user_id?: InputMaybe<UuidFilter>
 }
@@ -979,7 +1009,7 @@ export type TripsInsertInput = {
   date_to?: InputMaybe<Scalars['Date']['input']>
   description?: InputMaybe<Scalars['String']['input']>
   id?: InputMaybe<Scalars['UUID']['input']>
-  image_storage_object_id?: InputMaybe<Scalars['UUID']['input']>
+  image_url?: InputMaybe<Scalars['String']['input']>
   title?: InputMaybe<Scalars['String']['input']>
   user_id?: InputMaybe<Scalars['UUID']['input']>
 }
@@ -999,7 +1029,7 @@ export type TripsOrderBy = {
   date_to?: InputMaybe<OrderByDirection>
   description?: InputMaybe<OrderByDirection>
   id?: InputMaybe<OrderByDirection>
-  image_storage_object_id?: InputMaybe<OrderByDirection>
+  image_url?: InputMaybe<OrderByDirection>
   title?: InputMaybe<OrderByDirection>
   user_id?: InputMaybe<OrderByDirection>
 }
@@ -1011,7 +1041,7 @@ export type TripsUpdateInput = {
   date_to?: InputMaybe<Scalars['Date']['input']>
   description?: InputMaybe<Scalars['String']['input']>
   id?: InputMaybe<Scalars['UUID']['input']>
-  image_storage_object_id?: InputMaybe<Scalars['UUID']['input']>
+  image_url?: InputMaybe<Scalars['String']['input']>
   title?: InputMaybe<Scalars['String']['input']>
   user_id?: InputMaybe<Scalars['UUID']['input']>
 }
@@ -1075,10 +1105,16 @@ export type UsersEdge = {
 }
 
 export type UsersFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<UsersFilter>>
   email?: InputMaybe<StringFilter>
   id?: InputMaybe<UuidFilter>
   name?: InputMaybe<StringFilter>
   nodeId?: InputMaybe<IdFilter>
+  /** Negates a filter */
+  not?: InputMaybe<UsersFilter>
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<UsersFilter>>
   profile_picture_url?: InputMaybe<StringFilter>
 }
 
@@ -1198,7 +1234,7 @@ export type TripDetailsQuery = {
         title: string
         date_from: string
         date_to?: string | null
-        image_storage_object_id?: string | null
+        image_url?: string | null
         invitationsCollection?: {
           __typename: 'invitationsConnection'
           edges: Array<{
@@ -1261,7 +1297,7 @@ export type TripsCollectionQuery = {
         title: string
         date_from: string
         date_to?: string | null
-        image_storage_object_id?: string | null
+        image_url?: string | null
         created_at: string
         invitationsCollection?: {
           __typename: 'invitationsConnection'
@@ -1674,7 +1710,7 @@ export const CreateTripDocument = {
   ]
 } as unknown as DocumentNode<CreateTripMutation, CreateTripMutationVariables>
 export const TripDetailsDocument = {
-  __meta__: { hash: '911f735030ae63fca4ef8cefcc3c07e92924ea00' },
+  __meta__: { hash: '2d55b1c5b762fdef053cc44e3f34f33967afd7f8' },
   kind: 'Document',
   definitions: [
     {
@@ -1768,10 +1804,7 @@ export const TripDetailsDocument = {
                             },
                             {
                               kind: 'Field',
-                              name: {
-                                kind: 'Name',
-                                value: 'image_storage_object_id'
-                              }
+                              name: { kind: 'Name', value: 'image_url' }
                             },
                             {
                               kind: 'Field',
@@ -2034,7 +2067,7 @@ export const TripDetailsDocument = {
   ]
 } as unknown as DocumentNode<TripDetailsQuery, TripDetailsQueryVariables>
 export const TripsCollectionDocument = {
-  __meta__: { hash: '70a61f873c23f1db13cef7cd265a9845e9bfc53e' },
+  __meta__: { hash: '3256c7ff43134c13502c53f475e55fa91f55cabb' },
   kind: 'Document',
   definitions: [
     {
@@ -2177,10 +2210,7 @@ export const TripsCollectionDocument = {
                             },
                             {
                               kind: 'Field',
-                              name: {
-                                kind: 'Name',
-                                value: 'image_storage_object_id'
-                              }
+                              name: { kind: 'Name', value: 'image_url' }
                             },
                             {
                               kind: 'Field',
