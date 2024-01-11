@@ -1,7 +1,6 @@
 export {
-  formatDateToDayMonthYear,
-  formatDateToDayMonth,
-  formatDateToDayMonthWeek,
-  formatDateToTime,
-  formatDbDate
+  formatDateToSlash,
+  extractTimeFromDate,
+  formatDbTimeToDate,
+  formatToDateTime
 } from './date'

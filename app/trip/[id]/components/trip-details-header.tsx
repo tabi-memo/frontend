@@ -12,7 +12,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { FiEdit3, FiShare2, FiTrash2 } from 'react-icons/fi'
 import { MdManageAccounts, MdAccountCircle } from 'react-icons/md'
-import { formatDateToDayMonthYear } from '@/libs/utils'
+import { formatDateToSlash } from '@/libs/utils'
 
 type TripDetailsHeaderProps = {
   id: string
@@ -21,11 +21,11 @@ type TripDetailsHeaderProps = {
   dateFrom: string | null | undefined
   dateTo: string | null | undefined
   users: {
-    id: number | undefined
+    id: string | undefined
     image: string | null | undefined
   }[]
 
-  tags: { id: number | undefined; name: string | undefined }[]
+  tags: { id: string | undefined; name: string | undefined }[]
 }
 
 export const TripDetailsHeader = ({
@@ -90,8 +90,8 @@ export const TripDetailsHeader = ({
               fontSize={{ base: 'sm', md: 'md' }}
               color={{ base: 'gray.100', md: color }}
             >
-              {formatDateToDayMonthYear(dateFrom)} -{' '}
-              {formatDateToDayMonthYear(dateTo)}
+              {formatDateToSlash(dateFrom, 'dayMonthYear')} -{' '}
+              {formatDateToSlash(dateTo, 'dayMonthYear')}
             </Box>
           </Box>
 

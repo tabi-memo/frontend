@@ -1,5 +1,5 @@
 mutation createTrip(
-  $user_id: BigInt!
+  $user_id: UUID!
   $title: String!
   $date_from: Date
   $date_to: Date
@@ -17,7 +17,6 @@ mutation createTrip(
     records {
       __typename
       id
-      uuid
       title
     }
   }

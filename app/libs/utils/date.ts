@@ -1,57 +1,56 @@
-import { format, parseISO } from 'date-fns'
-
-// TODO Might need to fix to show correct date and time not depending on Locale
 /**
- * @param date - ISO date string
- * @returns - Formatted date string e.g. 'Jan 1, 2023'
+ * @param date - ISO date string e.g. '2023-01-01'
+ * @param type - 'dayMonthYear' | 'dayMonth'
+ * @returns - Formatted date string for 'dayMonthYear' e.g. '2023/01/01'
+ * @returns - Formatted date string for 'dayMonth' e.g. '01/01'
  */
-export const formatDateToDayMonthYear = (date: string | undefined | null) => {
+export const formatDateToSlash = (
+  date: string | undefined | null,
+  type: 'dayMonthYear' | 'dayMonth'
+) => {
   if (!date) return ''
-  const parsedDate = parseISO(date)
-  const formattedDate = format(parsedDate, 'MMM d, yyyy')
-  return formattedDate
-}
 
-// TODO Might need to fix to show correct date and time not depending on Locale
-/**
- * @param date - ISO date string
- * @returns - Formatted date string e.g. 'Jan 1'
- */
-export const formatDateToDayMonth = (date: string | undefined | null) => {
-  if (!date) return ''
-  const parsedDate = parseISO(date)
-  const formattedDate = format(parsedDate, 'MMM d')
-  return formattedDate
+  const parts = date.split('-')
+
+  if (type === 'dayMonthYear') return `${parts[0]}/${parts[1]}/${parts[2]}`
+
+  if (type === 'dayMonth') return `${parts[1]}/${parts[2]}`
 }
 
 /**
- * @param date - ISO date string
- * @returns - Formatted date string e.g. 'January 1, Sat'
+ * @param date - ISO date string e.g. '2021-01-01T12:00:00+00:00'
+ * @returns - Formatted time string e.g. '12:00'
  */
-export const formatDateToDayMonthWeek = (date: string | undefined | null) => {
+export const extractTimeFromDate = (date: string | undefined | null) => {
   if (!date) return ''
-  const parsedDate = parseISO(date)
-  const formattedDate = format(parsedDate, 'MMMM d, eee')
-  return formattedDate
-}
 
-// TODO Might need to fix to show correct date and time not depending on Locale
-/**
- * @param date - ISO date string
- * @returns - Formatted time string e.g. '13:00'
- */
-export const formatDateToTime = (date: string | undefined | null) => {
-  if (!date) return ''
-  const parsedDate = parseISO(date)
-  const formattedTime = format(parsedDate, 'HH:mm')
-  return formattedTime
+  const parts = date.split('T')
+  const hours = parts[1].split(':')[0]
+  const minutes = parts[1].split(':')[1]
+
+  return `${hours}:${minutes}`
 }
 
 /**
  * @param date  - ISO date string
  * @returns - Formatted date string e.g. '2023-01-01'
  */
-export const formatDbDate = (date: string) => {
+export const formatDbTimeToDate = (date: string | null | undefined) => {
+  if (!date) return ''
   const formattedDate = date.split('T')[0]
   return formattedDate
+}
+
+/**
+ * @param date  - ISO date string
+ * @returns - Formatted date string e.g. '2023-01-01 10:00'
+ */
+export const formatToDateTime = (date: string | null | undefined) => {
+  if (!date) return ''
+  const parts = date.split('T')
+  const monthDay = date.split('T')[0]
+  const hours = parts[1].split(':')[0]
+  const minutes = parts[1].split(':')[1]
+
+  return `${monthDay} ${hours}:${minutes}`
 }

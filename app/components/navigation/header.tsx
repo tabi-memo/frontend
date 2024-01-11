@@ -13,7 +13,8 @@ import {
 } from '@chakra-ui/react'
 import Image from 'next/image'
 import { FiMoon, FiSun } from 'react-icons/fi'
-import { MdAccountCircle, MdLogout } from 'react-icons/md'
+import { MdAccountCircle } from 'react-icons/md'
+import LogOut from '@/(auth)/signout/components'
 
 export const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode()
@@ -53,22 +54,19 @@ export const Header = () => {
                 h={{ base: '26px', md: '40px' }}
               />
               {/* TODO Change Link and Add Logout logic */}
-              <MenuList fontSize={{ base: 'md', md: 'lg' }} bgColor="white">
-                <MenuItem bgColor="white" _hover={{ bgColor: 'gray.100' }}>
+              <MenuList fontSize={{ base: 'md', md: 'lg' }} bgColor={bg}>
+                <MenuItem
+                  bgColor={bg}
+                  _hover={{
+                    bgColor: useColorModeValue('gray.100', 'gray.700'),
+                    textDecoration: 'none'
+                  }}
+                  as={Link}
+                  href="/account"
+                >
                   Account Info
                 </MenuItem>
-                <MenuItem
-                  icon={<MdLogout size="20px" />}
-                  bgColor="white"
-                  _hover={{ bgColor: 'gray.100' }}
-                  sx={{
-                    svg: {
-                      color: 'primary.700'
-                    }
-                  }}
-                >
-                  Logout
-                </MenuItem>
+                <LogOut />
               </MenuList>
             </Menu>
             <Box

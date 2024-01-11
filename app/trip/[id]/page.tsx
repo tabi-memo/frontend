@@ -19,7 +19,7 @@ export default function TripDetailsPage({
 
   const { data: tripData, loading: tripLoading } = useTripDetailsQuery({
     variables: {
-      uuid: params.id
+      id: params.id
     }
   })
 
@@ -40,7 +40,7 @@ export default function TripDetailsPage({
           ) : (
             <>
               <TripDetailsHeader
-                id={tripDataCollection.edges[0].node.uuid}
+                id={tripDataCollection.edges[0].node.id}
                 image={tripDataCollection.edges[0].node.image_storage_object_id}
                 title={tripDataCollection.edges[0].node.title}
                 dateFrom={tripDataCollection.edges[0].node.date_from}
@@ -67,7 +67,7 @@ export default function TripDetailsPage({
                 activities={
                   tripDataCollection.edges[0].node.activityCollection?.edges.map(
                     (activity) => ({
-                      id: activity.node.uuid,
+                      id: activity.node.id,
                       timeFrom: activity.node.time_from,
                       timeTo: activity.node.time_to,
                       title: activity.node.title,
