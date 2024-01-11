@@ -2,30 +2,26 @@
 
 import { Heading, Box, Text, VStack } from '@chakra-ui/react'
 
-type ActivityData = {
-  memo: string
-  cost: string
-}
-
 type ActivityInfoProps = {
-  dummyActivityData: ActivityData
+  memo: string | null | undefined
+  cost: number | null | undefined
 }
 
-export const ActivityInfo = ({ dummyActivityData }: ActivityInfoProps) => {
+export const ActivityInfo = ({ memo, cost }: ActivityInfoProps) => {
   return (
     <>
       <VStack spacing="4" align="stretch">
         <Box mt={{ base: '40px', md: '48px' }}>
           <Heading fontSize={{ base: 'lg', md: 'xl' }}>Memo</Heading>
           <Text pt="2" fontSize={{ base: 'md', md: 'lg' }}>
-            {dummyActivityData.memo}
+            {memo}
           </Text>
         </Box>
 
         <Box mt={{ base: '40px', md: '48px' }}>
           <Heading fontSize={{ base: 'lg', md: 'xl' }}>Cost</Heading>
           <Text pt="2" fontSize={{ base: 'md', md: 'lg' }}>
-            {dummyActivityData.cost}
+            ${cost}
           </Text>
         </Box>
       </VStack>

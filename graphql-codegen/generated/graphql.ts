@@ -144,6 +144,8 @@ export type Mutation = {
   deleteFrominvitationsCollection: InvitationsDeleteResponse
   /** Deletes zero or more records from the `tags` collection */
   deleteFromtagsCollection: TagsDeleteResponse
+  /** Deletes zero or more records from the `test_tenant` collection */
+  deleteFromtest_tenantCollection: Test_TenantDeleteResponse
   /** Deletes zero or more records from the `trip_tags` collection */
   deleteFromtrip_tagsCollection: Trip_TagsDeleteResponse
   /** Deletes zero or more records from the `trips` collection */
@@ -156,6 +158,8 @@ export type Mutation = {
   insertIntoinvitationsCollection?: Maybe<InvitationsInsertResponse>
   /** Adds one or more `tags` records to the collection */
   insertIntotagsCollection?: Maybe<TagsInsertResponse>
+  /** Adds one or more `test_tenant` records to the collection */
+  insertIntotest_tenantCollection?: Maybe<Test_TenantInsertResponse>
   /** Adds one or more `trip_tags` records to the collection */
   insertIntotrip_tagsCollection?: Maybe<Trip_TagsInsertResponse>
   /** Adds one or more `trips` records to the collection */
@@ -168,6 +172,8 @@ export type Mutation = {
   updateinvitationsCollection: InvitationsUpdateResponse
   /** Updates zero or more records in the `tags` collection */
   updatetagsCollection: TagsUpdateResponse
+  /** Updates zero or more records in the `test_tenant` collection */
+  updatetest_tenantCollection: Test_TenantUpdateResponse
   /** Updates zero or more records in the `trip_tags` collection */
   updatetrip_tagsCollection: Trip_TagsUpdateResponse
   /** Updates zero or more records in the `trips` collection */
@@ -192,6 +198,12 @@ export type MutationDeleteFrominvitationsCollectionArgs = {
 export type MutationDeleteFromtagsCollectionArgs = {
   atMost?: Scalars['Int']['input']
   filter?: InputMaybe<TagsFilter>
+}
+
+/** The root type for creating and mutating data */
+export type MutationDeleteFromtest_TenantCollectionArgs = {
+  atMost?: Scalars['Int']['input']
+  filter?: InputMaybe<Test_TenantFilter>
 }
 
 /** The root type for creating and mutating data */
@@ -228,6 +240,11 @@ export type MutationInsertIntotagsCollectionArgs = {
 }
 
 /** The root type for creating and mutating data */
+export type MutationInsertIntotest_TenantCollectionArgs = {
+  objects: Array<Test_TenantInsertInput>
+}
+
+/** The root type for creating and mutating data */
 export type MutationInsertIntotrip_TagsCollectionArgs = {
   objects: Array<Trip_TagsInsertInput>
 }
@@ -261,6 +278,13 @@ export type MutationUpdatetagsCollectionArgs = {
   atMost?: Scalars['Int']['input']
   filter?: InputMaybe<TagsFilter>
   set: TagsUpdateInput
+}
+
+/** The root type for creating and mutating data */
+export type MutationUpdatetest_TenantCollectionArgs = {
+  atMost?: Scalars['Int']['input']
+  filter?: InputMaybe<Test_TenantFilter>
+  set: Test_TenantUpdateInput
 }
 
 /** The root type for creating and mutating data */
@@ -326,6 +350,8 @@ export type Query = {
   node?: Maybe<Node>
   /** A pagable collection of type `tags` */
   tagsCollection?: Maybe<TagsConnection>
+  /** A pagable collection of type `test_tenant` */
+  test_tenantCollection?: Maybe<Test_TenantConnection>
   /** A pagable collection of type `trip_tags` */
   trip_tagsCollection?: Maybe<Trip_TagsConnection>
   /** A pagable collection of type `trips` */
@@ -367,6 +393,16 @@ export type QueryTagsCollectionArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   orderBy?: InputMaybe<Array<TagsOrderBy>>
+}
+
+/** The root type for querying data */
+export type QueryTest_TenantCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  filter?: InputMaybe<Test_TenantFilter>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<Test_TenantOrderBy>>
 }
 
 /** The root type for querying data */
@@ -722,6 +758,69 @@ export type TagsUpdateResponse = {
   records: Array<Tags>
 }
 
+export type Test_Tenant = Node & {
+  __typename?: 'test_tenant'
+  details?: Maybe<Scalars['String']['output']>
+  id: Scalars['Int']['output']
+  /** Globally Unique Record Identifier */
+  nodeId: Scalars['ID']['output']
+}
+
+export type Test_TenantConnection = {
+  __typename?: 'test_tenantConnection'
+  edges: Array<Test_TenantEdge>
+  pageInfo: PageInfo
+}
+
+export type Test_TenantDeleteResponse = {
+  __typename?: 'test_tenantDeleteResponse'
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output']
+  /** Array of records impacted by the mutation */
+  records: Array<Test_Tenant>
+}
+
+export type Test_TenantEdge = {
+  __typename?: 'test_tenantEdge'
+  cursor: Scalars['String']['output']
+  node: Test_Tenant
+}
+
+export type Test_TenantFilter = {
+  details?: InputMaybe<StringFilter>
+  id?: InputMaybe<IntFilter>
+  nodeId?: InputMaybe<IdFilter>
+}
+
+export type Test_TenantInsertInput = {
+  details?: InputMaybe<Scalars['String']['input']>
+}
+
+export type Test_TenantInsertResponse = {
+  __typename?: 'test_tenantInsertResponse'
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output']
+  /** Array of records impacted by the mutation */
+  records: Array<Test_Tenant>
+}
+
+export type Test_TenantOrderBy = {
+  details?: InputMaybe<OrderByDirection>
+  id?: InputMaybe<OrderByDirection>
+}
+
+export type Test_TenantUpdateInput = {
+  details?: InputMaybe<Scalars['String']['input']>
+}
+
+export type Test_TenantUpdateResponse = {
+  __typename?: 'test_tenantUpdateResponse'
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output']
+  /** Array of records impacted by the mutation */
+  records: Array<Test_Tenant>
+}
+
 export type Trip_Tags = Node & {
   __typename?: 'trip_tags'
   id: Scalars['UUID']['output']
@@ -1041,6 +1140,33 @@ export type GetUserQuery = {
   } | null
 }
 
+export type ActivityCollectionQueryVariables = Exact<{
+  id: Scalars['UUID']['input']
+}>
+
+export type ActivityCollectionQuery = {
+  __typename: 'Query'
+  activityCollection?: {
+    __typename: 'activityConnection'
+    edges: Array<{
+      __typename: 'activityEdge'
+      node: {
+        __typename: 'activity'
+        id: string
+        trip_id?: string | null
+        title: string
+        time_from: string
+        time_to?: string | null
+        address?: string | null
+        url?: string | null
+        memo?: string | null
+        cost?: number | null
+        image_storage_object_id?: string | null
+      }
+    }>
+  } | null
+}
+
 export type CreateTripMutationVariables = Exact<{
   user_id: Scalars['UUID']['input']
   title: Scalars['String']['input']
@@ -1280,6 +1406,143 @@ export const GetUserDocument = {
     }
   ]
 } as unknown as DocumentNode<GetUserQuery, GetUserQueryVariables>
+export const ActivityCollectionDocument = {
+  __meta__: { hash: '2d419044f6b09dcfdf15e868fceccda14add69f4' },
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'activityCollection' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'activityCollection' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'filter' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'id' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'eq' },
+                            value: {
+                              kind: 'Variable',
+                              name: { kind: 'Name', value: 'id' }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'edges' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: '__typename' }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'node' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: '__typename' }
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' }
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'trip_id' }
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'title' }
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'time_from' }
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'time_to' }
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'address' }
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'url' }
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'memo' }
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'cost' }
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'image_storage_object_id'
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  ActivityCollectionQuery,
+  ActivityCollectionQueryVariables
+>
 export const CreateTripDocument = {
   __meta__: { hash: '995473133e320e5f7ef165df54d56100c62b3a75' },
   kind: 'Document',
