@@ -40,3 +40,17 @@ export const formatDbTimeToDate = (date: string | null | undefined) => {
   const formattedDate = date.split('T')[0]
   return formattedDate
 }
+
+/**
+ * @param date  - ISO date string
+ * @returns - Formatted date string e.g. '2023-01-01 10:00'
+ */
+export const formatToDateTime = (date: string | null | undefined) => {
+  if (!date) return ''
+  const parts = date.split('T')
+  const monthDay = date.split('T')[0]
+  const hours = parts[1].split(':')[0]
+  const minutes = parts[1].split(':')[1]
+
+  return `${monthDay} ${hours}:${minutes}`
+}
