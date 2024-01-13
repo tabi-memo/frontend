@@ -66,69 +66,67 @@ export default function Top({ searchParams }: { searchParams: { q: string } }) {
   }
 
   return (
-    <>
-      <Box as="main" minH="100vh" bg={bg} color={color}>
-        <Container
-          maxW={{ base: '100%', lg: 'container.xl' }}
-          pt={{ base: '20px', md: '30px' }}
-          pb={{ base: '40px', md: '80px' }}
+    <Box as="main" minH="100vh" bg={bg} color={color}>
+      <Container
+        maxW={{ base: '100%', lg: 'container.xl' }}
+        pt={{ base: '20px', md: '30px' }}
+        pb={{ base: '40px', md: '80px' }}
+      >
+        <Grid
+          templateRows={'repeat(2, 1fr)'}
+          gridTemplateColumns={{ base: '1fr', lg: '342px 1fr' }}
+          alignItems="center"
+          gap={{ base: '12px', lg: '40px' }}
         >
-          <Grid
-            templateRows={'repeat(2, 1fr)'}
-            gridTemplateColumns={{ base: '1fr', lg: '342px 1fr' }}
+          <GridItem
+            display="flex"
             alignItems="center"
-            gap={{ base: '12px', lg: '40px' }}
+            justifyContent="space-between"
+            colSpan={{ base: 2, lg: 1 }}
           >
-            <GridItem
-              display="flex"
-              alignItems="center"
-              justifyContent="space-between"
-              colSpan={{ base: 2, lg: 1 }}
+            <Heading as={'h1'} fontSize={{ base: '2xl', md: '4xl' }}>
+              My Trips
+            </Heading>
+            <PrimaryButton
+              w="9.5rem"
+              onClick={() => router.push('/trip/create')}
             >
-              <Heading as={'h1'} fontSize={{ base: '2xl', md: '4xl' }}>
-                My Trips
-              </Heading>
-              <PrimaryButton
-                w="9.5rem"
-                onClick={() => router.push('/trip/create')}
-              >
-                Add New Trip
-              </PrimaryButton>
-            </GridItem>
-            <GridItem ml={{ base: '', lg: 'auto' }}>
-              <TripSearch />
-            </GridItem>
-            <GridItem>
-              <TripSort sortBy={handleSortBy} />
-            </GridItem>
-          </Grid>
-          {loading || !data?.tripsCollection ? (
-            <Loading />
-          ) : (
-            <>
-              <Flex
-                gap={{ base: '20px', lg: '60px' }}
-                mt={{ base: '38px', md: '40px' }}
-                flexWrap={'wrap'}
-              >
-                {data.tripsCollection.edges.length === 0 && (
-                  <Text>We couldn&apos;t find any results</Text>
-                )}
-                {data.tripsCollection.edges.map((trip) => (
-                  <TripCard key={trip.node.id} data={trip} />
-                ))}
-              </Flex>
-              {data.tripsCollection.pageInfo.hasNextPage && (
-                <Box textAlign="center" mt={{ base: '40px', md: '60px' }}>
-                  <PrimaryButton variant="outline" onClick={handleLoadMore}>
-                    Load More
-                  </PrimaryButton>
-                </Box>
+              Add New Trip
+            </PrimaryButton>
+          </GridItem>
+          <GridItem ml={{ base: '', lg: 'auto' }}>
+            <TripSearch />
+          </GridItem>
+          <GridItem>
+            <TripSort sortBy={handleSortBy} />
+          </GridItem>
+        </Grid>
+        {loading || !data?.tripsCollection ? (
+          <Loading />
+        ) : (
+          <>
+            <Flex
+              gap={{ base: '20px', lg: '60px' }}
+              mt={{ base: '38px', md: '40px' }}
+              flexWrap={'wrap'}
+            >
+              {data.tripsCollection.edges.length === 0 && (
+                <Text>We couldn&apos;t find any results</Text>
               )}
-            </>
-          )}
-        </Container>
-      </Box>
-    </>
+              {data.tripsCollection.edges.map((trip) => (
+                <TripCard key={trip.node.id} data={trip} />
+              ))}
+            </Flex>
+            {data.tripsCollection.pageInfo.hasNextPage && (
+              <Box textAlign="center" mt={{ base: '40px', md: '60px' }}>
+                <PrimaryButton variant="outline" onClick={handleLoadMore}>
+                  Load More
+                </PrimaryButton>
+              </Box>
+            )}
+          </>
+        )}
+      </Container>
+    </Box>
   )
 }

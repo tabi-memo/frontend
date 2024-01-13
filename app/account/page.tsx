@@ -38,7 +38,9 @@ export default function AccountPage() {
   return (
     <>
       {loading || !data?.usersCollection ? (
-        <Loading />
+        <Flex minH="100vh" align="center" justify="center">
+          <Loading />
+        </Flex>
       ) : (
         <Box as="main" minH="100svh" bg={bg} color={color}>
           <Container
