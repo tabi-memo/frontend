@@ -13,6 +13,7 @@ import {
   useBoolean
 } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
+import { changePasswordAction } from '@/(auth)/change-password/actions'
 import {
   changePasswordResolver,
   ChangePasswordSchema
@@ -38,17 +39,19 @@ export default function ChangePassword() {
   const changePasswordHandler = handleSubmit(
     async (data: ChangePasswordSchema) => {
       setIsLoading.on()
-      const response = await fetch('/change-password/action', {
-        method: 'POST',
-        body: JSON.stringify(data)
-      })
+      const { response, error } = await changePasswordAction(data)
+      // const response = await fetch('/change-password/action', {
+      //   method: 'POST',
+      //   body: JSON.stringify(data)
+      // })
+      console.log({ response, error })
       setIsLoading.off()
-      if (response.ok) {
+      if (!error && response?.ok) {
         router.push('/')
       } else if (!toastId) {
         const res = toast({
           title: "We're sorry, but you failed to change your password.",
-          description: await response.json(),
+          description: error?.message,
           status: 'error',
           duration: 5000,
           isClosable: true,
