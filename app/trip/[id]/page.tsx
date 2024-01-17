@@ -31,7 +31,7 @@ export default function TripDetailsPage({
   return (
     <>
       <Header />
-      <Box as="main" minH="100vh" bg={bg} color={color}>
+      <Box as="main" minH="100svh" bg={bg} color={color}>
         <Container
           maxW={{ base: '100%', lg: 'container.xl' }}
           pt={{ base: '0px', md: '30px' }}

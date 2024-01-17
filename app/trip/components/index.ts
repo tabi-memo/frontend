@@ -1,3 +1,5 @@
 export { TripCard } from './trip-card'
+export { TripFormTag } from './trip-form-tag'
+export { TripForm } from './trip-form'
 export { TripSearch } from './trip-search'
 export { TripSort } from './trip-sort'

@@ -1,3 +1,3 @@
-export { InputSearch } from './input-search'
 export { InputForm } from './input-form'
+export { InputIcon } from './input-icon'
 export { TextareaForm } from './textarea-form'
