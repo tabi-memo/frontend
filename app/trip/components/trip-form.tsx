@@ -9,7 +9,7 @@ import {
   useColorModeValue
 } from '@chakra-ui/react'
 import { PrimaryButton } from '@/components/button'
-import { DateTimePickerWrapper } from '@/components/customDateTimePicker'
+import { CustomDateTimePicker } from '@/components/customDateTimePicker'
 import { InputForm } from '@/components/input'
 import { TripFormTag } from '../components'
 
@@ -31,7 +31,7 @@ export const TripForm = () => {
 
         <FormControl>
           <FormLabel>Date From</FormLabel>
-          <DateTimePickerWrapper
+          <CustomDateTimePicker
             onChange={() => console.log('onChange')}
             value={null}
           />
@@ -39,7 +39,7 @@ export const TripForm = () => {
 
         <FormControl>
           <FormLabel>Date To</FormLabel>
-          <DateTimePickerWrapper
+          <CustomDateTimePicker
             onChange={() => console.log('onChange')}
             value={null}
           />
