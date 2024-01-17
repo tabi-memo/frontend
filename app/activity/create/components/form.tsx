@@ -13,7 +13,7 @@ import {
   Flex
 } from '@chakra-ui/react'
 import { PrimaryButton } from '@/components/button'
-import { DateTimePickerWrapper } from '@/components/customDateTimePicker'
+import { CustomDateTimePicker } from '@/components/customDateTimePicker'
 import { InputForm, TextareaForm } from '@/components/input'
 import { createActivitySchema, createActivityResolver } from '../schema'
 
@@ -67,12 +67,12 @@ export const FormActivity = () => {
 
       <FormControl mt={{ base: '30px', md: '40px' }}>
         <FormLabel>Time From</FormLabel>
-        <DateTimePickerWrapper onChange={setDateFrom} value={dateFrom} />
+        <CustomDateTimePicker onChange={setDateFrom} value={dateFrom} />
       </FormControl>
 
       <FormControl mt={{ base: '30px', md: '40px' }}>
         <FormLabel>Time To</FormLabel>
-        <DateTimePickerWrapper onChange={setDateTo} value={dateTo} />
+        <CustomDateTimePicker onChange={setDateTo} value={dateTo} />
       </FormControl>
 
       <FormControl
