@@ -3,26 +3,28 @@
 import { Heading, Box, Flex, Spacer, Text, IconButton } from '@chakra-ui/react'
 import { FiClock, FiMapPin, FiLink2, FiEdit3, FiTrash2 } from 'react-icons/fi'
 import { Link } from '@/components/link'
+import { formatToDateTime } from '@/libs/utils'
 import { customColors } from '@/theme/color'
 
-type ActivityData = {
+type ActivityHeaderProps = {
   title: string
-  time_from: string
-  address: string
-  url: string
+  time_from: string | null
+  time_to?: string | null
+  address?: string | null
+  url?: string | null
 }
 
-type ActivityCardProps = {
-  dummyActivityData: ActivityData
-}
-
-export const ActivityCard = ({ dummyActivityData }: ActivityCardProps) => {
+export const ActivityHeader = ({
+  title,
+  time_from,
+  time_to,
+  address,
+  url
+}: ActivityHeaderProps) => {
   return (
     <>
-      <Flex pb={{ base: '30px', md: '40px' }}>
-        <Heading fontSize={{ base: 'xl', md: '2xl' }}>
-          {dummyActivityData.title}
-        </Heading>
+      <Flex pb={{ base: '30px', md: '40px' }} align="center">
+        <Heading fontSize={{ base: 'xl', md: '2xl' }}>{title}</Heading>
         <Spacer />
 
         <Flex gap={{ base: '10px', md: '16px' }}>
@@ -51,7 +53,7 @@ export const ActivityCard = ({ dummyActivityData }: ActivityCardProps) => {
             fontWeight="semibold"
             mx={2}
           >
-            {dummyActivityData.time_from}
+            {formatToDateTime(time_from)} - {formatToDateTime(time_to)}
           </Text>
         </Box>
         <Box display="flex" alignItems="center" my={1}>
@@ -61,7 +63,7 @@ export const ActivityCard = ({ dummyActivityData }: ActivityCardProps) => {
             fontWeight="semibold"
             mx={2}
           >
-            {dummyActivityData.address}
+            {address}
           </Text>
         </Box>
         <Box display="flex" alignItems="center" my={1}>
@@ -73,7 +75,7 @@ export const ActivityCard = ({ dummyActivityData }: ActivityCardProps) => {
             color="primary.700"
             fontSize={{ base: 'md', md: 'lg' }}
           >
-            {dummyActivityData.url}
+            {url}
           </Link>
         </Box>
       </Flex>

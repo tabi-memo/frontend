@@ -15,6 +15,8 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
 const documents = {
   'query getUser($id: UUID!) {\n  usersCollection(filter: {id: {eq: $id}}) {\n    edges {\n      node {\n        id\n        email\n        name\n        profile_picture_url\n      }\n    }\n  }\n}':
     types.GetUserDocument,
+  'query activityCollection($id: UUID!) {\n  activityCollection(filter: {id: {eq: $id}}) {\n    edges {\n      node {\n        id\n        trip_id\n        title\n        time_from\n        time_to\n        address\n        url\n        memo\n        cost\n        image_storage_object_id\n      }\n    }\n  }\n}':
+    types.ActivityCollectionDocument,
   'mutation createTrip($user_id: UUID!, $title: String!, $date_from: Date, $date_to: Date) {\n  insertIntotripsCollection(\n    objects: [{user_id: $user_id, title: $title, date_from: $date_from, date_to: $date_to}]\n  ) {\n    records {\n      __typename\n      id\n      title\n    }\n  }\n}':
     types.CreateTripDocument,
   'query tripDetails($id: UUID!) {\n  tripsCollection(filter: {id: {eq: $id}}) {\n    edges {\n      node {\n        id\n        title\n        date_from\n        date_to\n        image_storage_object_id\n        invitationsCollection {\n          edges {\n            node {\n              users {\n                id\n                profile_picture_url\n              }\n            }\n          }\n        }\n        activityCollection {\n          edges {\n            node {\n              id\n              title\n              time_from\n              time_to\n              address\n            }\n          }\n        }\n        trip_tagsCollection {\n          edges {\n            node {\n              tags {\n                id\n                name\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}':
@@ -43,6 +45,12 @@ export function graphql(source: string): unknown
 export function graphql(
   source: 'query getUser($id: UUID!) {\n  usersCollection(filter: {id: {eq: $id}}) {\n    edges {\n      node {\n        id\n        email\n        name\n        profile_picture_url\n      }\n    }\n  }\n}'
 ): (typeof documents)['query getUser($id: UUID!) {\n  usersCollection(filter: {id: {eq: $id}}) {\n    edges {\n      node {\n        id\n        email\n        name\n        profile_picture_url\n      }\n    }\n  }\n}']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: 'query activityCollection($id: UUID!) {\n  activityCollection(filter: {id: {eq: $id}}) {\n    edges {\n      node {\n        id\n        trip_id\n        title\n        time_from\n        time_to\n        address\n        url\n        memo\n        cost\n        image_storage_object_id\n      }\n    }\n  }\n}'
+): (typeof documents)['query activityCollection($id: UUID!) {\n  activityCollection(filter: {id: {eq: $id}}) {\n    edges {\n      node {\n        id\n        trip_id\n        title\n        time_from\n        time_to\n        address\n        url\n        memo\n        cost\n        image_storage_object_id\n      }\n    }\n  }\n}']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
