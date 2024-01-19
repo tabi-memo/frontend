@@ -2,7 +2,7 @@
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { USER_UUID_COOKIE_NAME } from '@/(auth)/constants'
-import { createClient } from '@/(auth)/supabase/server'
+import { createClient } from '@/(auth)/supabase/with-cookie'
 
 export const signOut = async (): Promise<void> => {
   const c = cookies()
