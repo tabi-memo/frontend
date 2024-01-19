@@ -32,37 +32,35 @@ export default function ActivityDetails({
   const activityData = data?.activityCollection?.edges[0]?.node
 
   return (
-    <>
+    <Box as="main" minH="100vh" bg={bg} color={color}>
       {!activityData || loading ? (
-        <Flex minH="84vh" align="center" justify="center">
+        <Flex minH="100vh" align="center" justify="center">
           <Loading />
         </Flex>
       ) : (
-        <Box minHeight="100vh" as="main" bg={bg} color={color}>
-          <Container
-            maxW={{ base: '100%', md: '742px' }}
-            pt={{ base: '20px', md: '30px' }}
-            pb={{ base: '40px', md: '80px' }}
-          >
-            <ActivityHeader
-              title={activityData.title}
-              time_from={activityData.time_from}
-              time_to={activityData?.time_to}
-              address={activityData?.address}
-              url={activityData?.url}
-            />
-            {/* TODO: Fetch images from the database once available. */}
-            <Carousel urls={dummyUrls} />
-            <ActivityInfo memo={activityData?.memo} cost={activityData?.cost} />
-            <Box mt="60px" display="flex" alignItems="center">
-              <FiChevronLeft />
-              <Link ml="2%" href="/">
-                Got back to Trip Details
-              </Link>
-            </Box>
-          </Container>
-        </Box>
+        <Container
+          maxW={{ base: '100%', md: '742px' }}
+          pt={{ base: '20px', md: '30px' }}
+          pb={{ base: '40px', md: '80px' }}
+        >
+          <ActivityHeader
+            title={activityData.title}
+            time_from={activityData.time_from}
+            time_to={activityData?.time_to}
+            address={activityData?.address}
+            url={activityData?.url}
+          />
+          {/* TODO: Fetch images from the database once available. */}
+          <Carousel urls={dummyUrls} />
+          <ActivityInfo memo={activityData?.memo} cost={activityData?.cost} />
+          <Box mt="60px" display="flex" alignItems="center">
+            <FiChevronLeft />
+            <Link ml="2%" href="/">
+              Got back to Trip Details
+            </Link>
+          </Box>
+        </Container>
       )}
-    </>
+    </Box>
   )
 }
