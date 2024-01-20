@@ -19,7 +19,11 @@ export default function TripDetailsPage({
 
   const router = useRouter()
 
-  const { data: tripData, loading: tripLoading } = useTripDetailsQuery({
+  const {
+    data: tripData,
+    loading: tripLoading,
+    refetch: refetchTrip
+  } = useTripDetailsQuery({
     variables: {
       id: params.id
     }
@@ -53,6 +57,8 @@ export default function TripDetailsPage({
         .match({ id })
 
       setSelectedImage(file)
+      // NOTE: Refresh trip data to show new image on trip detail page and trip list page.
+      refetchTrip()
     }
   }
 
