@@ -20,11 +20,7 @@ export default function TripDetailsPage({
 
   const router = useRouter()
 
-  const {
-    data: tripData,
-    loading: tripLoading,
-    refetch: refetchTrip
-  } = useTripDetailsQuery({
+  const { data: tripData, loading: tripLoading } = useTripDetailsQuery({
     variables: {
       id: params.id
     }
@@ -33,8 +29,7 @@ export default function TripDetailsPage({
   if (!tripData && !tripLoading) throw new Error('No trip data found')
 
   const tripDataCollection = tripData?.tripsCollection
-
-  const [imageUrl, setImageUrl] = useState<string | null>(null)
+  const [selectedImage, setSelectedImage] = useState<File | null>(null)
   const uploadImage = async (id: string, file: File) => {
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -42,26 +37,23 @@ export default function TripDetailsPage({
     )
     const { data, error } = await supabase.storage
       .from('tabi-memo-uploads')
-      .upload(`trips/${id}/${file.name}`, file)
+      .upload(`trips/${id}/${file.name}`, file, { upsert: true })
 
     if (error) {
       throw error
     } else {
-      console.log({ uploadFile: data })
-
-      // this approach needs two requests upload request -> get public url
       const {
         data: { publicUrl }
       } = supabase.storage
         .from(process.env.NEXT_PUBLIC_BUCKET_NAME!)
         .getPublicUrl(data.path)
-      // const fileUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${process.env.NEXT_PUBLIC_BUCKET_NAME}/${data.path}`
 
-      // update trip image url if authorized by calling postgres function
-      // await supabase.rpc('update_trip_image', { trip_id: id, image_url: publicUrl })
+      await supabase
+        .from('trips')
+        .update({ image_url: publicUrl })
+        .match({ id })
 
-      setImageUrl(publicUrl)
-      refetchTrip() // Refetch trip after image upload
+      setSelectedImage(file)
     }
   }
 
@@ -80,7 +72,11 @@ export default function TripDetailsPage({
             <>
               <TripDetailsHeader
                 id={tripDataCollection.edges[0].node.id}
-                image={imageUrl || tripDataCollection.edges[0].node.image_url}
+                image={
+                  selectedImage
+                    ? URL.createObjectURL(selectedImage)
+                    : tripDataCollection.edges[0].node.image_url
+                }
                 title={tripDataCollection.edges[0].node.title}
                 dateFrom={tripDataCollection.edges[0].node.date_from}
                 dateTo={tripDataCollection.edges[0].node.date_to}
