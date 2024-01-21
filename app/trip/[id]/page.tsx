@@ -6,6 +6,7 @@ import { createClient } from '@supabase/supabase-js'
 import { useRouter } from 'next/navigation'
 import { PrimaryButton } from '@/components/button'
 import { Loading } from '@/components/loading'
+import { uploadImageAction } from './action/upload-image'
 import { TripDetailsHeader, TripDetailsTabs } from './components'
 import { useTripDetailsQuery } from '@generated/api'
 
@@ -33,32 +34,29 @@ export default function TripDetailsPage({
 
   const tripDataCollection = tripData?.tripsCollection
   const [selectedImage, setSelectedImage] = useState<File | null>(null)
+
   const uploadImage = async (id: string, file: File) => {
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_API_KEY!
-    )
-    const { data, error } = await supabase.storage
-      .from('tabi-memo-uploads')
-      .upload(`trips/${id}/${file.name}`, file, { upsert: true })
+    try {
+      const supabase = createClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_API_KEY!
+      )
 
-    if (error) {
-      throw error
-    } else {
-      const {
-        data: { publicUrl }
-      } = supabase.storage
-        .from(process.env.NEXT_PUBLIC_BUCKET_NAME!)
-        .getPublicUrl(data.path)
+      // TODO: Authenticated user can upload images with policy
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('tabi-memo-uploads')
+        .upload(`trips/${id}/${file.name}`, file, { upsert: true })
 
-      await supabase
-        .from('trips')
-        .update({ image_url: publicUrl })
-        .match({ id })
+      if (uploadError) throw new Error(uploadError.message)
+
+      // NOTE: Server action doen't return result in Client Component. I don't know why.
+      await uploadImageAction(id, uploadData.path)
 
       setSelectedImage(file)
-      // NOTE: Refresh trip data to show new image on trip detail page and trip list page.
-      refetchTrip()
+      await refetchTrip()
+    } catch (error) {
+      console.error({ error })
+      throw error
     }
   }
 
@@ -125,11 +123,7 @@ export default function TripDetailsPage({
                 type="file"
                 id="imageUpload"
                 accept="image/*"
-                onChange={(e) => {
-                  if (e.target.files?.length) {
-                    uploadImage(params.id, e.target.files[0])
-                  }
-                }}
+                onChange={(e) => uploadImage(params.id, e.target.files![0])}
               />
             </Box>
           </>
