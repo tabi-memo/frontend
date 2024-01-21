@@ -6,7 +6,7 @@ import { createClient } from '@supabase/supabase-js'
 import { useRouter } from 'next/navigation'
 import { PrimaryButton } from '@/components/button'
 import { Loading } from '@/components/loading'
-import { uploadImageAction } from './action/upload-image'
+import { updateImageMetadataAction } from './action/update-image-metadata'
 import { TripDetailsHeader, TripDetailsTabs } from './components'
 import { useTripDetailsQuery } from '@generated/api'
 
@@ -50,7 +50,7 @@ export default function TripDetailsPage({
       if (uploadError) throw new Error(uploadError.message)
 
       // NOTE: Server action doen't return result in Client Component. I don't know why.
-      await uploadImageAction(id, uploadData.path)
+      await updateImageMetadataAction(id, uploadData.path)
 
       setSelectedImage(file)
       await refetchTrip()

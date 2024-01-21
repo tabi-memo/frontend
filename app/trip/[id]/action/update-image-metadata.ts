@@ -2,7 +2,7 @@
 import { createServerActionClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 
-export const uploadImageAction = async (
+export const updateImageMetadataAction = async (
   id: string,
   filePath: string
 ): Promise<
