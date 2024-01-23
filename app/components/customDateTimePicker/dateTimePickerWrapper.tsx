@@ -5,8 +5,7 @@ import 'react-clock/dist/Clock.css'
 import 'react-datetime-picker/dist/DateTimePicker.css'
 import 'react-calendar/dist/Calendar.css'
 
-type ValuePiece = Date | null
-type Value = ValuePiece | [ValuePiece, ValuePiece]
+type Value = Date | null
 
 export const CustomDateTimePicker = ({
   onChange,

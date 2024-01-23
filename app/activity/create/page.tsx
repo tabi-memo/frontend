@@ -1,12 +1,15 @@
 'use client'
 
 import { Box, Container, Heading, useColorModeValue } from '@chakra-ui/react'
+import { useSearchParams } from 'next/navigation'
 import { Header, Footer } from '@/components/navigation'
 import { FormActivity } from './components'
 
 export default function CreateActivityPage() {
   const bg = useColorModeValue('white', 'gray.800')
   const color = useColorModeValue('black', 'gray.300')
+  const searchParams = useSearchParams()
+  const tripId = searchParams.get('id') ?? ''
 
   return (
     <>
@@ -19,7 +22,7 @@ export default function CreateActivityPage() {
           <Heading as={'h1'} fontSize={{ base: '2xl', md: '4xl' }}>
             Create Activity
           </Heading>
-          <FormActivity />
+          <FormActivity tripId={tripId} />
         </Container>
         <Footer />
       </Box>

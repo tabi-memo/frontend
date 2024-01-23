@@ -17,6 +17,8 @@ const documents = {
     types.GetUserDocument,
   'query activityCollection($id: UUID!) {\n  activityCollection(filter: {id: {eq: $id}}) {\n    edges {\n      node {\n        id\n        trip_id\n        title\n        time_from\n        time_to\n        address\n        url\n        memo\n        cost\n        image_storage_object_id\n      }\n    }\n  }\n}':
     types.ActivityCollectionDocument,
+  'mutation createActivity($address: String, $cost: BigFloat, $memo: String, $time_from: Datetime, $time_to: Datetime, $title: String!, $tripId: UUID!, $url: String) {\n  insertIntoactivityCollection(\n    objects: [{address: $address, cost: $cost, memo: $memo, time_from: $time_from, time_to: $time_to, title: $title, trip_id: $tripId, url: $url}]\n  ) {\n    records {\n      __typename\n      id\n      title\n    }\n  }\n}':
+    types.CreateActivityDocument,
   'mutation createTrip($user_id: UUID!, $title: String!, $date_from: Date, $date_to: Date) {\n  insertIntotripsCollection(\n    objects: [{user_id: $user_id, title: $title, date_from: $date_from, date_to: $date_to}]\n  ) {\n    records {\n      __typename\n      id\n      title\n    }\n  }\n}':
     types.CreateTripDocument,
   'query tripDetails($id: UUID!) {\n  tripsCollection(filter: {id: {eq: $id}}) {\n    edges {\n      node {\n        id\n        title\n        date_from\n        date_to\n        image_storage_object_id\n        invitationsCollection {\n          edges {\n            node {\n              users {\n                id\n                profile_picture_url\n              }\n            }\n          }\n        }\n        activityCollection {\n          edges {\n            node {\n              id\n              title\n              time_from\n              time_to\n              address\n            }\n          }\n        }\n        trip_tagsCollection {\n          edges {\n            node {\n              tags {\n                id\n                name\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}':
@@ -51,6 +53,12 @@ export function graphql(
 export function graphql(
   source: 'query activityCollection($id: UUID!) {\n  activityCollection(filter: {id: {eq: $id}}) {\n    edges {\n      node {\n        id\n        trip_id\n        title\n        time_from\n        time_to\n        address\n        url\n        memo\n        cost\n        image_storage_object_id\n      }\n    }\n  }\n}'
 ): (typeof documents)['query activityCollection($id: UUID!) {\n  activityCollection(filter: {id: {eq: $id}}) {\n    edges {\n      node {\n        id\n        trip_id\n        title\n        time_from\n        time_to\n        address\n        url\n        memo\n        cost\n        image_storage_object_id\n      }\n    }\n  }\n}']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: 'mutation createActivity($address: String, $cost: BigFloat, $memo: String, $time_from: Datetime, $time_to: Datetime, $title: String!, $tripId: UUID!, $url: String) {\n  insertIntoactivityCollection(\n    objects: [{address: $address, cost: $cost, memo: $memo, time_from: $time_from, time_to: $time_to, title: $title, trip_id: $tripId, url: $url}]\n  ) {\n    records {\n      __typename\n      id\n      title\n    }\n  }\n}'
+): (typeof documents)['mutation createActivity($address: String, $cost: BigFloat, $memo: String, $time_from: Datetime, $time_to: Datetime, $title: String!, $tripId: UUID!, $url: String) {\n  insertIntoactivityCollection(\n    objects: [{address: $address, cost: $cost, memo: $memo, time_from: $time_from, time_to: $time_to, title: $title, trip_id: $tripId, url: $url}]\n  ) {\n    records {\n      __typename\n      id\n      title\n    }\n  }\n}']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

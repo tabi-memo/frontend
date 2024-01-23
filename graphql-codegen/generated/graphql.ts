@@ -1167,6 +1167,25 @@ export type ActivityCollectionQuery = {
   } | null
 }
 
+export type CreateActivityMutationVariables = Exact<{
+  address?: InputMaybe<Scalars['String']['input']>
+  cost?: InputMaybe<Scalars['BigFloat']['input']>
+  memo?: InputMaybe<Scalars['String']['input']>
+  time_from?: InputMaybe<Scalars['Datetime']['input']>
+  time_to?: InputMaybe<Scalars['Datetime']['input']>
+  title: Scalars['String']['input']
+  tripId: Scalars['UUID']['input']
+  url?: InputMaybe<Scalars['String']['input']>
+}>
+
+export type CreateActivityMutation = {
+  __typename: 'Mutation'
+  insertIntoactivityCollection?: {
+    __typename: 'activityInsertResponse'
+    records: Array<{ __typename: 'activity'; id: string; title: string }>
+  } | null
+}
+
 export type CreateTripMutationVariables = Exact<{
   user_id: Scalars['UUID']['input']
   title: Scalars['String']['input']
@@ -1542,6 +1561,194 @@ export const ActivityCollectionDocument = {
 } as unknown as DocumentNode<
   ActivityCollectionQuery,
   ActivityCollectionQueryVariables
+>
+export const CreateActivityDocument = {
+  __meta__: { hash: '1a9bebbda49f5f1773f690b656847ce125624422' },
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'createActivity' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'address' }
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'cost' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'BigFloat' } }
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'memo' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'time_from' }
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Datetime' } }
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'time_to' }
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Datetime' } }
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'title' }
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+          }
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'tripId' }
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } }
+          }
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'url' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'insertIntoactivityCollection' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'objects' },
+                value: {
+                  kind: 'ListValue',
+                  values: [
+                    {
+                      kind: 'ObjectValue',
+                      fields: [
+                        {
+                          kind: 'ObjectField',
+                          name: { kind: 'Name', value: 'address' },
+                          value: {
+                            kind: 'Variable',
+                            name: { kind: 'Name', value: 'address' }
+                          }
+                        },
+                        {
+                          kind: 'ObjectField',
+                          name: { kind: 'Name', value: 'cost' },
+                          value: {
+                            kind: 'Variable',
+                            name: { kind: 'Name', value: 'cost' }
+                          }
+                        },
+                        {
+                          kind: 'ObjectField',
+                          name: { kind: 'Name', value: 'memo' },
+                          value: {
+                            kind: 'Variable',
+                            name: { kind: 'Name', value: 'memo' }
+                          }
+                        },
+                        {
+                          kind: 'ObjectField',
+                          name: { kind: 'Name', value: 'time_from' },
+                          value: {
+                            kind: 'Variable',
+                            name: { kind: 'Name', value: 'time_from' }
+                          }
+                        },
+                        {
+                          kind: 'ObjectField',
+                          name: { kind: 'Name', value: 'time_to' },
+                          value: {
+                            kind: 'Variable',
+                            name: { kind: 'Name', value: 'time_to' }
+                          }
+                        },
+                        {
+                          kind: 'ObjectField',
+                          name: { kind: 'Name', value: 'title' },
+                          value: {
+                            kind: 'Variable',
+                            name: { kind: 'Name', value: 'title' }
+                          }
+                        },
+                        {
+                          kind: 'ObjectField',
+                          name: { kind: 'Name', value: 'trip_id' },
+                          value: {
+                            kind: 'Variable',
+                            name: { kind: 'Name', value: 'tripId' }
+                          }
+                        },
+                        {
+                          kind: 'ObjectField',
+                          name: { kind: 'Name', value: 'url' },
+                          value: {
+                            kind: 'Variable',
+                            name: { kind: 'Name', value: 'url' }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'records' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: '__typename' }
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'title' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  CreateActivityMutation,
+  CreateActivityMutationVariables
 >
 export const CreateTripDocument = {
   __meta__: { hash: '995473133e320e5f7ef165df54d56100c62b3a75' },

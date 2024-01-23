@@ -17,6 +17,9 @@ export default function TripDetailsPage({
   const color = useColorModeValue('black', 'gray.300')
 
   const router = useRouter()
+  const routeToActivity = () => {
+    router.push(`/activity/create?id=${params.id}`)
+  }
 
   const { data: tripData, loading: tripLoading } = useTripDetailsQuery({
     variables: {
@@ -31,7 +34,7 @@ export default function TripDetailsPage({
   return (
     <>
       <Header />
-      <Box as="main" minH="100vh" bg={bg} color={color}>
+      <Box as="main" minH="100svh" bg={bg} color={color}>
         <Container
           maxW={{ base: '100%', lg: 'container.xl' }}
           pt={{ base: '0px', md: '30px' }}
@@ -79,10 +82,7 @@ export default function TripDetailsPage({
                 }
               />
               <Box textAlign="center" mt="60px">
-                <PrimaryButton
-                  size="lg"
-                  onClick={() => router.push('/activity/create')}
-                >
+                <PrimaryButton size="lg" onClick={routeToActivity}>
                   Add Activity
                 </PrimaryButton>
               </Box>

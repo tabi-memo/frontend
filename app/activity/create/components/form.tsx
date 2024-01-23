@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState, useRef, useMemo } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { useForm } from 'react-hook-form'
 import {
@@ -16,14 +16,32 @@ import { PrimaryButton } from '@/components/button'
 import { CustomDateTimePicker } from '@/components/customDateTimePicker'
 import { InputForm, TextareaForm } from '@/components/input'
 import { createActivitySchema, createActivityResolver } from '../schema'
-
-type ValuePiece = Date | null
-type Value = ValuePiece | [ValuePiece, ValuePiece]
-
-export const FormActivity = () => {
-  const [dateTo, setDateTo] = useState<Value>(null)
-  const [dateFrom, setDateFrom] = useState<Value>(null)
+import { useCreateActivityMutation } from '@generated/api'
+export const FormActivity = ({ tripId }: { tripId: string }) => {
   const [selectedImages, setSelectedImages] = useState<File[]>([])
+  const [timeTo, setTimeTo] = useState<Date | null>(null)
+  const [timeFrom, setTimeFrom] = useState<Date | null>(null)
+  const [isTimeError, setIsTimeError] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (timeFrom && timeTo) {
+      if (timeFrom > timeTo) {
+        setIsTimeError(true)
+      } else {
+        setIsTimeError(false)
+      }
+    }
+  }, [timeTo])
+
+  const isInitialRender = useRef(true)
+  const isTimeFromEmpty = useMemo(() => {
+    if (isInitialRender.current === false && !timeFrom) {
+      return true
+    }
+  }, [timeFrom])
+
+  isInitialRender.current = false
+
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setSelectedImages((prevImages) => [...prevImages, ...acceptedFiles])
   }, [])
@@ -44,12 +62,31 @@ export const FormActivity = () => {
     resolver: createActivityResolver
   })
 
-  const createHandler = handleSubmit(async (data: createActivitySchema) => {
-    console.log(data)
-    // TODO append 'images', 'date from', 'date to' to formData and send to backend
-  })
+  const [createActivityMutation] = useCreateActivityMutation()
 
-  console.log('date to', dateTo, 'date from', dateFrom)
+  const createHandler = handleSubmit(async (data: createActivitySchema) => {
+    if (!isTimeError && !isTimeFromEmpty) {
+      try {
+        const result = await createActivityMutation({
+          variables: {
+            title: data.title,
+            address: data.address,
+            cost: data.cost,
+            memo: data.memo,
+            time_from: timeFrom ? timeFrom.toISOString() : null,
+            time_to: timeTo ? timeTo.toISOString() : null,
+            tripId: tripId,
+            url: data.url
+          }
+        })
+        console.log(result)
+      } catch (e) {
+        console.log(e)
+      }
+    } else {
+      return
+    }
+  })
 
   return (
     <Box as="form" onSubmit={createHandler} pt={{ base: '40px', md: '40px' }}>
@@ -60,19 +97,29 @@ export const FormActivity = () => {
           placeholder="Asakusa Temple"
           {...register('title')}
         />
-        {errors.title && (
+        {errors.title?.message && (
           <FormErrorMessage>{errors.title.message}</FormErrorMessage>
         )}
       </FormControl>
 
-      <FormControl mt={{ base: '30px', md: '40px' }}>
+      <FormControl
+        isRequired
+        mt={{ base: '30px', md: '40px' }}
+        isInvalid={isTimeFromEmpty}
+      >
         <FormLabel>Time From</FormLabel>
-        <CustomDateTimePicker onChange={setDateFrom} value={dateFrom} />
+        <CustomDateTimePicker onChange={setTimeFrom} value={timeFrom} />
+        {isTimeFromEmpty && (
+          <FormErrorMessage>This field can not be empty</FormErrorMessage>
+        )}
       </FormControl>
 
-      <FormControl mt={{ base: '30px', md: '40px' }}>
+      <FormControl mt={{ base: '30px', md: '40px' }} isInvalid={isTimeError}>
         <FormLabel>Time To</FormLabel>
-        <CustomDateTimePicker onChange={setDateTo} value={dateTo} />
+        <CustomDateTimePicker onChange={setTimeTo} value={timeTo} />
+        {isTimeError && (
+          <FormErrorMessage>Time To must be after Time From</FormErrorMessage>
+        )}
       </FormControl>
 
       <FormControl
@@ -97,7 +144,7 @@ export const FormActivity = () => {
           type="url"
           placeholder="https://www.google.com"
         />
-        {errors.url && (
+        {errors.url?.message && (
           <FormErrorMessage>{errors.url.message}</FormErrorMessage>
         )}
       </FormControl>
@@ -142,21 +189,26 @@ export const FormActivity = () => {
           name="memo"
           placeholder="Type here..."
         />
-        {errors.memo && (
+        {errors.memo?.message && (
           <FormErrorMessage>{errors.memo.message}</FormErrorMessage>
         )}
       </FormControl>
 
       <FormControl isInvalid={!!errors.cost} mt={{ base: '30px', md: '40px' }}>
         <FormLabel>Cost</FormLabel>
-        <InputForm {...register('cost')} type="text" placeholder="$200" />
-        {errors.cost && (
-          <FormErrorMessage>{errors.cost.message}</FormErrorMessage>
+        <InputForm
+          optional="true"
+          type="number"
+          {...register('cost', { valueAsNumber: true })}
+          placeholder="200"
+        />
+        {errors.cost?.message && (
+          <FormErrorMessage>Please enter a valid number</FormErrorMessage>
         )}
       </FormControl>
 
       <Flex justifyContent="center" mt={{ base: '30px', md: '40px' }}>
-        <Button colorScheme="teal" type="submit" margin="auto">
+        <Button colorScheme="teal" type={'submit'} margin="auto">
           Create Activity
         </Button>
       </Flex>
