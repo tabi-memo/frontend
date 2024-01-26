@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
 import {
   FormControl,
   FormLabel,
@@ -26,7 +26,8 @@ type TripFormProps = {
   title: string
   dateFrom: string
   dateTo: string | null | undefined
-  tags: { id: string; name: string }[]
+  allTags: { id: string; name: string }[]
+  checkedTags: { id: string; name: string }[]
   cost: number | null | undefined
   costUnit: string | null | undefined
   tagsCollectionRefetch: () => void
@@ -34,42 +35,58 @@ type TripFormProps = {
 }
 
 export const TripForm = ({
-  // id,
+  id,
   image,
   title,
   dateFrom,
   dateTo,
-  tags,
+  allTags,
+  checkedTags,
   cost,
   costUnit,
   tagsCollectionRefetch,
   tagsRefetchLoading
 }: TripFormProps) => {
+  const imageSrc = useColorModeValue(
+    '/images/no_image_light.jpg',
+    '/images/no_image_dark.jpg'
+  )
   const { isOpen, onOpen, onClose } = useDisclosure()
+
   const {
     register,
-    // handleSubmit,
+    handleSubmit,
+    control,
     formState: { errors }
   } = useForm<TripSchema>({
     defaultValues: {
       title: title,
-      image_storage_object_id: image,
       date_from: dateFrom,
       date_to: dateTo,
-      cost: cost,
+      image_storage_object_id: image,
+      checkedTags: checkedTags.map((tag) => tag.id),
+      cost: cost ? cost.toString() : '',
       cost_unit: costUnit
     },
     resolver: tripSchemaResolver
   })
 
-  const imageSrc = useColorModeValue(
-    '/images/no_image_light.jpg',
-    '/images/no_image_dark.jpg'
-  )
+  console.log('errors', errors)
+
+  const updateTrip = async (data: TripSchema) => {
+    console.log('submit!', {
+      id,
+      data
+    })
+  }
 
   return (
     <>
-      <VStack as="form" gap={{ base: '30px', md: '40px' }}>
+      <VStack
+        as="form"
+        gap={{ base: '30px', md: '40px' }}
+        onSubmit={handleSubmit(updateTrip)}
+      >
         <FormControl isInvalid={!!errors.title}>
           <FormLabel>Title</FormLabel>
           <InputForm
@@ -101,7 +118,7 @@ export const TripForm = ({
         <FormControl isInvalid={!!errors.image_storage_object_id}>
           <FormLabel>Image</FormLabel>
           <HStack gap={{ base: '20px', md: '34px' }}>
-            <Image alt="" src={imageSrc} width="50%" />
+            <Image alt="" src={image || imageSrc} width="50%" />
             <PrimaryButton variant="outline">Select Image </PrimaryButton>
           </HStack>
           <FormErrorMessage>
@@ -109,31 +126,36 @@ export const TripForm = ({
           </FormErrorMessage>
         </FormControl>
 
-        <FormControl isInvalid={false}>
+        <FormControl isInvalid={!!errors.checkedTags}>
           <FormLabel>Tag</FormLabel>
-          <CheckboxGroup defaultValue={[]}>
-            <Flex columnGap={'20px'} rowGap={'10px'} flexWrap={'wrap'}>
-              {tagsRefetchLoading ? (
-                <Loading p="4px" size="md" />
-              ) : (
-                <>
-                  {tags.map((tag) => (
-                    <Checkbox key={tag.id} value={tag.id}>
-                      {tag.name}
-                    </Checkbox>
-                  ))}
-                </>
-              )}
-            </Flex>
-          </CheckboxGroup>
+          <Controller
+            name="checkedTags"
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <CheckboxGroup value={value} onChange={onChange}>
+                <Flex columnGap={'20px'} rowGap={'10px'} flexWrap={'wrap'}>
+                  {tagsRefetchLoading ? (
+                    <Loading p="4px" size="md" />
+                  ) : (
+                    <>
+                      {allTags.map((tag) => (
+                        <Checkbox key={tag.id} value={tag.id}>
+                          {tag.name}
+                        </Checkbox>
+                      ))}
+                    </>
+                  )}
+                </Flex>
+              </CheckboxGroup>
+            )}
+          />
+          <FormErrorMessage>{errors?.checkedTags?.message}</FormErrorMessage>
 
           <Box mt="20px">
             <SecondaryButton variant={'outline'} size="sm" onClick={onOpen}>
               Manage Tags
             </SecondaryButton>
           </Box>
-
-          {/* <FormErrorMessage>{errors?.tags?.message}</FormErrorMessage> */}
         </FormControl>
 
         <Flex gap="20px" justify={'start'} width="100%">
@@ -160,13 +182,15 @@ export const TripForm = ({
           </FormControl>
         </Flex>
 
-        <PrimaryButton size="lg">Save Trip</PrimaryButton>
+        <PrimaryButton size="lg" type="submit">
+          Save Trip
+        </PrimaryButton>
       </VStack>
 
       <TagFormModal
         isOpen={isOpen}
         onClose={onClose}
-        tags={tags}
+        allTags={allTags}
         tagsCollectionRefetch={tagsCollectionRefetch}
       />
     </>

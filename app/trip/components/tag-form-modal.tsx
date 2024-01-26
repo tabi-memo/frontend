@@ -26,14 +26,14 @@ import { useCreateTagMutation, useDeleteTagMutation } from '@generated/api'
 type TagFormModalProps = {
   isOpen: boolean
   onClose: () => void
-  tags: { id: string; name: string }[]
+  allTags: { id: string; name: string }[]
   tagsCollectionRefetch: () => void
 }
 
 export const TagFormModal = ({
   isOpen,
   onClose,
-  tags,
+  allTags,
   tagsCollectionRefetch
 }: TagFormModalProps) => {
   const tagBgColor = useColorModeValue('primary.700', 'primary.800')
@@ -121,7 +121,7 @@ export const TagFormModal = ({
                   <Loading p="10px" size="md" />
                 ) : (
                   <>
-                    {tags.map((tag) => (
+                    {allTags.map((tag) => (
                       <Tag
                         key={tag.id}
                         variant="solid"

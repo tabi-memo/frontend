@@ -6,7 +6,8 @@ const tripSchema = z.object({
   date_from: z.string().min(1, { message: 'Date from is required' }),
   date_to: z.string().nullable(),
   image_storage_object_id: z.string().nullable(),
-  cost: z.number().nullable(),
+  checkedTags: z.array(z.string()),
+  cost: z.string().nullable(),
   cost_unit: z.string().nullable()
 })
 

@@ -66,10 +66,16 @@ export default function TripEditPage({ params }: { params: { id: string } }) {
                 title={tripDataCollection.title}
                 dateFrom={tripDataCollection.date_from}
                 dateTo={tripDataCollection.date_to}
-                tags={
+                allTags={
                   tagsData?.tagsCollection?.edges.map((tag) => ({
                     id: tag.node.id,
                     name: tag.node.name
+                  })) || []
+                }
+                checkedTags={
+                  tripDataCollection.trip_tagsCollection?.edges.map((tag) => ({
+                    id: tag.node.tags?.id || '',
+                    name: tag.node.tags?.name || ''
                   })) || []
                 }
                 cost={tripDataCollection.cost}
