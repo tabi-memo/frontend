@@ -13,7 +13,7 @@ export const InputForm = forwardRef(
     const placeholdercolor = useColorModeValue('gray.400', 'gray.600')
 
     return (
-      <InputGroup minW={{ base: '100%', md: '23.75rem' }}>
+      <InputGroup minW={'100%'}>
         <ChakraFormInput
           {...props}
           ref={ref}

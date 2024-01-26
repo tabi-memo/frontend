@@ -37,6 +37,7 @@ export const InputIcon = forwardRef<ChakraInputProps & InputIconProps, 'input'>(
             type={onClick ? 'button' : 'submit'}
             onClick={onClick}
             color="primary.700"
+            isDisabled={props.isDisabled}
           >
             <Icon size="24px" />
           </IconButton>

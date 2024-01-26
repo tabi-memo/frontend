@@ -468,6 +468,7 @@ export type Activity = Node & {
   __typename?: 'activity'
   address?: Maybe<Scalars['String']['output']>
   cost?: Maybe<Scalars['BigFloat']['output']>
+  cost_unit?: Maybe<Scalars['String']['output']>
   id: Scalars['UUID']['output']
   image_storage_object_id?: Maybe<Scalars['UUID']['output']>
   memo?: Maybe<Scalars['String']['output']>
@@ -504,6 +505,7 @@ export type ActivityEdge = {
 export type ActivityFilter = {
   address?: InputMaybe<StringFilter>
   cost?: InputMaybe<BigFloatFilter>
+  cost_unit?: InputMaybe<StringFilter>
   id?: InputMaybe<UuidFilter>
   image_storage_object_id?: InputMaybe<UuidFilter>
   memo?: InputMaybe<StringFilter>
@@ -518,6 +520,7 @@ export type ActivityFilter = {
 export type ActivityInsertInput = {
   address?: InputMaybe<Scalars['String']['input']>
   cost?: InputMaybe<Scalars['BigFloat']['input']>
+  cost_unit?: InputMaybe<Scalars['String']['input']>
   id?: InputMaybe<Scalars['UUID']['input']>
   image_storage_object_id?: InputMaybe<Scalars['UUID']['input']>
   memo?: InputMaybe<Scalars['String']['input']>
@@ -539,6 +542,7 @@ export type ActivityInsertResponse = {
 export type ActivityOrderBy = {
   address?: InputMaybe<OrderByDirection>
   cost?: InputMaybe<OrderByDirection>
+  cost_unit?: InputMaybe<OrderByDirection>
   id?: InputMaybe<OrderByDirection>
   image_storage_object_id?: InputMaybe<OrderByDirection>
   memo?: InputMaybe<OrderByDirection>
@@ -552,6 +556,7 @@ export type ActivityOrderBy = {
 export type ActivityUpdateInput = {
   address?: InputMaybe<Scalars['String']['input']>
   cost?: InputMaybe<Scalars['BigFloat']['input']>
+  cost_unit?: InputMaybe<Scalars['String']['input']>
   id?: InputMaybe<Scalars['UUID']['input']>
   image_storage_object_id?: InputMaybe<Scalars['UUID']['input']>
   memo?: InputMaybe<Scalars['String']['input']>
@@ -677,11 +682,14 @@ export type Permission_Level_EnumFilter = {
 
 export type Tags = Node & {
   __typename?: 'tags'
+  created_at: Scalars['Datetime']['output']
   id: Scalars['UUID']['output']
   name: Scalars['String']['output']
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output']
   trip_tagsCollection?: Maybe<Trip_TagsConnection>
+  user_id: Scalars['UUID']['output']
+  users: Users
 }
 
 export type TagsTrip_TagsCollectionArgs = {
@@ -714,14 +722,18 @@ export type TagsEdge = {
 }
 
 export type TagsFilter = {
+  created_at?: InputMaybe<DatetimeFilter>
   id?: InputMaybe<UuidFilter>
   name?: InputMaybe<StringFilter>
   nodeId?: InputMaybe<IdFilter>
+  user_id?: InputMaybe<UuidFilter>
 }
 
 export type TagsInsertInput = {
+  created_at?: InputMaybe<Scalars['Datetime']['input']>
   id?: InputMaybe<Scalars['UUID']['input']>
   name?: InputMaybe<Scalars['String']['input']>
+  user_id?: InputMaybe<Scalars['UUID']['input']>
 }
 
 export type TagsInsertResponse = {
@@ -733,13 +745,17 @@ export type TagsInsertResponse = {
 }
 
 export type TagsOrderBy = {
+  created_at?: InputMaybe<OrderByDirection>
   id?: InputMaybe<OrderByDirection>
   name?: InputMaybe<OrderByDirection>
+  user_id?: InputMaybe<OrderByDirection>
 }
 
 export type TagsUpdateInput = {
+  created_at?: InputMaybe<Scalars['Datetime']['input']>
   id?: InputMaybe<Scalars['UUID']['input']>
   name?: InputMaybe<Scalars['String']['input']>
+  user_id?: InputMaybe<Scalars['UUID']['input']>
 }
 
 export type TagsUpdateResponse = {
@@ -889,6 +905,7 @@ export type Trips = Node & {
   __typename?: 'trips'
   activityCollection?: Maybe<ActivityConnection>
   cost?: Maybe<Scalars['BigFloat']['output']>
+  cost_unit?: Maybe<Scalars['String']['output']>
   created_at: Scalars['Datetime']['output']
   date_from: Scalars['Date']['output']
   date_to?: Maybe<Scalars['Date']['output']>
@@ -953,6 +970,7 @@ export type TripsEdge = {
 
 export type TripsFilter = {
   cost?: InputMaybe<BigFloatFilter>
+  cost_unit?: InputMaybe<StringFilter>
   created_at?: InputMaybe<DatetimeFilter>
   date_from?: InputMaybe<DateFilter>
   date_to?: InputMaybe<DateFilter>
@@ -966,6 +984,7 @@ export type TripsFilter = {
 
 export type TripsInsertInput = {
   cost?: InputMaybe<Scalars['BigFloat']['input']>
+  cost_unit?: InputMaybe<Scalars['String']['input']>
   created_at?: InputMaybe<Scalars['Datetime']['input']>
   date_from?: InputMaybe<Scalars['Date']['input']>
   date_to?: InputMaybe<Scalars['Date']['input']>
@@ -986,6 +1005,7 @@ export type TripsInsertResponse = {
 
 export type TripsOrderBy = {
   cost?: InputMaybe<OrderByDirection>
+  cost_unit?: InputMaybe<OrderByDirection>
   created_at?: InputMaybe<OrderByDirection>
   date_from?: InputMaybe<OrderByDirection>
   date_to?: InputMaybe<OrderByDirection>
@@ -998,6 +1018,7 @@ export type TripsOrderBy = {
 
 export type TripsUpdateInput = {
   cost?: InputMaybe<Scalars['BigFloat']['input']>
+  cost_unit?: InputMaybe<Scalars['String']['input']>
   created_at?: InputMaybe<Scalars['Datetime']['input']>
   date_from?: InputMaybe<Scalars['Date']['input']>
   date_to?: InputMaybe<Scalars['Date']['input']>
@@ -1025,6 +1046,7 @@ export type Users = Node & {
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output']
   profile_picture_url?: Maybe<Scalars['String']['output']>
+  tagsCollection?: Maybe<TagsConnection>
   tripsCollection?: Maybe<TripsConnection>
 }
 
@@ -1035,6 +1057,15 @@ export type UsersInvitationsCollectionArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   orderBy?: InputMaybe<Array<InvitationsOrderBy>>
+}
+
+export type UsersTagsCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  filter?: InputMaybe<TagsFilter>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<TagsOrderBy>>
 }
 
 export type UsersTripsCollectionArgs = {
@@ -1159,6 +1190,19 @@ export type ActivityCollectionQuery = {
   } | null
 }
 
+export type CreateTagMutationVariables = Exact<{
+  name: Scalars['String']['input']
+  userId: Scalars['UUID']['input']
+}>
+
+export type CreateTagMutation = {
+  __typename: 'Mutation'
+  insertIntotagsCollection?: {
+    __typename: 'tagsInsertResponse'
+    records: Array<{ __typename: 'tags'; id: string; name: string }>
+  } | null
+}
+
 export type CreateTripMutationVariables = Exact<{
   user_id: Scalars['UUID']['input']
   title: Scalars['String']['input']
@@ -1171,6 +1215,33 @@ export type CreateTripMutation = {
   insertIntotripsCollection?: {
     __typename: 'tripsInsertResponse'
     records: Array<{ __typename: 'trips'; id: string; title: string }>
+  } | null
+}
+
+export type DeleteTagMutationVariables = Exact<{
+  id: Scalars['UUID']['input']
+}>
+
+export type DeleteTagMutation = {
+  __typename: 'Mutation'
+  deleteFromtagsCollection: {
+    __typename: 'tagsDeleteResponse'
+    records: Array<{ __typename: 'tags'; id: string; name: string }>
+  }
+}
+
+export type TagsCollectionQueryVariables = Exact<{
+  userId: Scalars['UUID']['input']
+}>
+
+export type TagsCollectionQuery = {
+  __typename: 'Query'
+  tagsCollection?: {
+    __typename: 'tagsConnection'
+    edges: Array<{
+      __typename: 'tagsEdge'
+      node: { __typename: 'tags'; id: string; name: string }
+    }>
   } | null
 }
 
@@ -1191,6 +1262,8 @@ export type TripDetailsQuery = {
         date_from: string
         date_to?: string | null
         image_storage_object_id?: string | null
+        cost?: number | null
+        cost_unit?: string | null
         invitationsCollection?: {
           __typename: 'invitationsConnection'
           edges: Array<{
@@ -1460,6 +1533,62 @@ export function refetchActivityCollectionQuery(
 ) {
   return { query: ActivityCollectionDocument, variables: variables }
 }
+export const CreateTagDocument = gql`
+  mutation createTag($name: String!, $userId: UUID!) {
+    __typename
+    insertIntotagsCollection(objects: [{ name: $name, user_id: $userId }]) {
+      __typename
+      records {
+        __typename
+        id
+        name
+      }
+    }
+  }
+`
+export type CreateTagMutationFn = Apollo.MutationFunction<
+  CreateTagMutation,
+  CreateTagMutationVariables
+>
+
+/**
+ * __useCreateTagMutation__
+ *
+ * To run a mutation, you first call `useCreateTagMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateTagMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createTagMutation, { data, loading, error }] = useCreateTagMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useCreateTagMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateTagMutation,
+    CreateTagMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<CreateTagMutation, CreateTagMutationVariables>(
+    CreateTagDocument,
+    options
+  )
+}
+export type CreateTagMutationHookResult = ReturnType<
+  typeof useCreateTagMutation
+>
+export type CreateTagMutationResult = Apollo.MutationResult<CreateTagMutation>
+export type CreateTagMutationOptions = Apollo.BaseMutationOptions<
+  CreateTagMutation,
+  CreateTagMutationVariables
+>
 export const CreateTripDocument = gql`
   mutation createTrip(
     $user_id: UUID!
@@ -1532,6 +1661,151 @@ export type CreateTripMutationOptions = Apollo.BaseMutationOptions<
   CreateTripMutation,
   CreateTripMutationVariables
 >
+export const DeleteTagDocument = gql`
+  mutation deleteTag($id: UUID!) {
+    __typename
+    deleteFromtagsCollection(filter: { id: { eq: $id } }) {
+      __typename
+      records {
+        __typename
+        id
+        name
+      }
+    }
+  }
+`
+export type DeleteTagMutationFn = Apollo.MutationFunction<
+  DeleteTagMutation,
+  DeleteTagMutationVariables
+>
+
+/**
+ * __useDeleteTagMutation__
+ *
+ * To run a mutation, you first call `useDeleteTagMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteTagMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteTagMutation, { data, loading, error }] = useDeleteTagMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteTagMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteTagMutation,
+    DeleteTagMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<DeleteTagMutation, DeleteTagMutationVariables>(
+    DeleteTagDocument,
+    options
+  )
+}
+export type DeleteTagMutationHookResult = ReturnType<
+  typeof useDeleteTagMutation
+>
+export type DeleteTagMutationResult = Apollo.MutationResult<DeleteTagMutation>
+export type DeleteTagMutationOptions = Apollo.BaseMutationOptions<
+  DeleteTagMutation,
+  DeleteTagMutationVariables
+>
+export const TagsCollectionDocument = gql`
+  query tagsCollection($userId: UUID!) {
+    __typename
+    tagsCollection(
+      filter: { user_id: { eq: $userId } }
+      orderBy: { created_at: AscNullsLast }
+    ) {
+      __typename
+      edges {
+        __typename
+        node {
+          __typename
+          id
+          name
+        }
+      }
+    }
+  }
+`
+
+/**
+ * __useTagsCollectionQuery__
+ *
+ * To run a query within a React component, call `useTagsCollectionQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTagsCollectionQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTagsCollectionQuery({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useTagsCollectionQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    TagsCollectionQuery,
+    TagsCollectionQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<TagsCollectionQuery, TagsCollectionQueryVariables>(
+    TagsCollectionDocument,
+    options
+  )
+}
+export function useTagsCollectionLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    TagsCollectionQuery,
+    TagsCollectionQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<TagsCollectionQuery, TagsCollectionQueryVariables>(
+    TagsCollectionDocument,
+    options
+  )
+}
+export function useTagsCollectionSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    TagsCollectionQuery,
+    TagsCollectionQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<
+    TagsCollectionQuery,
+    TagsCollectionQueryVariables
+  >(TagsCollectionDocument, options)
+}
+export type TagsCollectionQueryHookResult = ReturnType<
+  typeof useTagsCollectionQuery
+>
+export type TagsCollectionLazyQueryHookResult = ReturnType<
+  typeof useTagsCollectionLazyQuery
+>
+export type TagsCollectionSuspenseQueryHookResult = ReturnType<
+  typeof useTagsCollectionSuspenseQuery
+>
+export type TagsCollectionQueryResult = Apollo.QueryResult<
+  TagsCollectionQuery,
+  TagsCollectionQueryVariables
+>
+export function refetchTagsCollectionQuery(
+  variables: TagsCollectionQueryVariables
+) {
+  return { query: TagsCollectionDocument, variables: variables }
+}
 export const TripDetailsDocument = gql`
   query tripDetails($id: UUID!) {
     __typename
@@ -1546,6 +1820,8 @@ export const TripDetailsDocument = gql`
           date_from
           date_to
           image_storage_object_id
+          cost
+          cost_unit
           invitationsCollection {
             __typename
             edges {
