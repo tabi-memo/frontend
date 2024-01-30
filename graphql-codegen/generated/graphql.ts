@@ -915,8 +915,8 @@ export type Trips = Node & {
   cost?: Maybe<Scalars['BigFloat']['output']>
   cost_unit?: Maybe<Scalars['String']['output']>
   created_at: Scalars['Datetime']['output']
-  date_from: Scalars['Date']['output']
-  date_to?: Maybe<Scalars['Date']['output']>
+  date_from: Scalars['Datetime']['output']
+  date_to?: Maybe<Scalars['Datetime']['output']>
   description?: Maybe<Scalars['String']['output']>
   id: Scalars['UUID']['output']
   image_storage_object_id?: Maybe<Scalars['UUID']['output']>
@@ -980,8 +980,8 @@ export type TripsFilter = {
   cost?: InputMaybe<BigFloatFilter>
   cost_unit?: InputMaybe<StringFilter>
   created_at?: InputMaybe<DatetimeFilter>
-  date_from?: InputMaybe<DateFilter>
-  date_to?: InputMaybe<DateFilter>
+  date_from?: InputMaybe<DatetimeFilter>
+  date_to?: InputMaybe<DatetimeFilter>
   description?: InputMaybe<StringFilter>
   id?: InputMaybe<UuidFilter>
   image_storage_object_id?: InputMaybe<UuidFilter>
@@ -994,8 +994,8 @@ export type TripsInsertInput = {
   cost?: InputMaybe<Scalars['BigFloat']['input']>
   cost_unit?: InputMaybe<Scalars['String']['input']>
   created_at?: InputMaybe<Scalars['Datetime']['input']>
-  date_from?: InputMaybe<Scalars['Date']['input']>
-  date_to?: InputMaybe<Scalars['Date']['input']>
+  date_from?: InputMaybe<Scalars['Datetime']['input']>
+  date_to?: InputMaybe<Scalars['Datetime']['input']>
   description?: InputMaybe<Scalars['String']['input']>
   id?: InputMaybe<Scalars['UUID']['input']>
   image_storage_object_id?: InputMaybe<Scalars['UUID']['input']>
@@ -1028,8 +1028,8 @@ export type TripsUpdateInput = {
   cost?: InputMaybe<Scalars['BigFloat']['input']>
   cost_unit?: InputMaybe<Scalars['String']['input']>
   created_at?: InputMaybe<Scalars['Datetime']['input']>
-  date_from?: InputMaybe<Scalars['Date']['input']>
-  date_to?: InputMaybe<Scalars['Date']['input']>
+  date_from?: InputMaybe<Scalars['Datetime']['input']>
+  date_to?: InputMaybe<Scalars['Datetime']['input']>
   description?: InputMaybe<Scalars['String']['input']>
   id?: InputMaybe<Scalars['UUID']['input']>
   image_storage_object_id?: InputMaybe<Scalars['UUID']['input']>
@@ -1214,8 +1214,8 @@ export type CreateTagMutation = {
 export type CreateTripMutationVariables = Exact<{
   user_id: Scalars['UUID']['input']
   title: Scalars['String']['input']
-  date_from?: InputMaybe<Scalars['Date']['input']>
-  date_to?: InputMaybe<Scalars['Date']['input']>
+  date_from: Scalars['Datetime']['input']
+  date_to?: InputMaybe<Scalars['Datetime']['input']>
 }>
 
 export type CreateTripMutation = {
@@ -1223,6 +1223,24 @@ export type CreateTripMutation = {
   insertIntotripsCollection?: {
     __typename: 'tripsInsertResponse'
     records: Array<{ __typename: 'trips'; id: string; title: string }>
+  } | null
+}
+
+export type CreateTripTagMutationVariables = Exact<{
+  tripId: Scalars['UUID']['input']
+  tagId: Scalars['UUID']['input']
+}>
+
+export type CreateTripTagMutation = {
+  __typename: 'Mutation'
+  insertIntotrip_tagsCollection?: {
+    __typename: 'trip_tagsInsertResponse'
+    records: Array<{
+      __typename: 'trip_tags'
+      id: string
+      tag_id?: string | null
+      trip_id?: string | null
+    }>
   } | null
 }
 
@@ -1235,6 +1253,18 @@ export type DeleteTagMutation = {
   deleteFromtagsCollection: {
     __typename: 'tagsDeleteResponse'
     records: Array<{ __typename: 'tags'; id: string; name: string }>
+  }
+}
+
+export type DeleteTripTagMutationVariables = Exact<{
+  id: Scalars['UUID']['input']
+}>
+
+export type DeleteTripTagMutation = {
+  __typename: 'Mutation'
+  deleteFromtrip_tagsCollection: {
+    __typename: 'trip_tagsDeleteResponse'
+    records: Array<{ __typename: 'trip_tags'; id: string }>
   }
 }
 
@@ -1310,6 +1340,26 @@ export type TripDetailsQuery = {
             }
           }>
         } | null
+      }
+    }>
+  } | null
+}
+
+export type TripTagsCollectionQueryVariables = Exact<{
+  filter?: InputMaybe<Trip_TagsFilter>
+}>
+
+export type TripTagsCollectionQuery = {
+  __typename: 'Query'
+  trip_tagsCollection?: {
+    __typename: 'trip_tagsConnection'
+    edges: Array<{
+      __typename: 'trip_tagsEdge'
+      node: {
+        __typename: 'trip_tags'
+        id: string
+        trip_id?: string | null
+        tag_id?: string | null
       }
     }>
   } | null
@@ -1712,7 +1762,7 @@ export const CreateTagDocument = {
   ]
 } as unknown as DocumentNode<CreateTagMutation, CreateTagMutationVariables>
 export const CreateTripDocument = {
-  __meta__: { hash: '995473133e320e5f7ef165df54d56100c62b3a75' },
+  __meta__: { hash: 'aca942ce9802822f0ecd793697b6b6bf16d25152' },
   kind: 'Document',
   definitions: [
     {
@@ -1748,7 +1798,13 @@ export const CreateTripDocument = {
             kind: 'Variable',
             name: { kind: 'Name', value: 'date_from' }
           },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Date' } }
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'Datetime' }
+            }
+          }
         },
         {
           kind: 'VariableDefinition',
@@ -1756,7 +1812,7 @@ export const CreateTripDocument = {
             kind: 'Variable',
             name: { kind: 'Name', value: 'date_to' }
           },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Date' } }
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Datetime' } }
         }
       ],
       selectionSet: {
@@ -1841,6 +1897,114 @@ export const CreateTripDocument = {
     }
   ]
 } as unknown as DocumentNode<CreateTripMutation, CreateTripMutationVariables>
+export const CreateTripTagDocument = {
+  __meta__: { hash: 'b86b0c68b8ee2697ff1b539e5df92575cedb30f0' },
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'createTripTag' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'tripId' }
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } }
+          }
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'tagId' }
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'insertIntotrip_tagsCollection' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'objects' },
+                value: {
+                  kind: 'ListValue',
+                  values: [
+                    {
+                      kind: 'ObjectValue',
+                      fields: [
+                        {
+                          kind: 'ObjectField',
+                          name: { kind: 'Name', value: 'trip_id' },
+                          value: {
+                            kind: 'Variable',
+                            name: { kind: 'Name', value: 'tripId' }
+                          }
+                        },
+                        {
+                          kind: 'ObjectField',
+                          name: { kind: 'Name', value: 'tag_id' },
+                          value: {
+                            kind: 'Variable',
+                            name: { kind: 'Name', value: 'tagId' }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'records' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: '__typename' }
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'tag_id' }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'trip_id' }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  CreateTripTagMutation,
+  CreateTripTagMutationVariables
+>
 export const DeleteTagDocument = {
   __meta__: { hash: 'c661c9a00fdae1dbac69eeb283611e0c9202cf55' },
   kind: 'Document',
@@ -1921,6 +2085,88 @@ export const DeleteTagDocument = {
     }
   ]
 } as unknown as DocumentNode<DeleteTagMutation, DeleteTagMutationVariables>
+export const DeleteTripTagDocument = {
+  __meta__: { hash: '1a4d048db574dedfebd859dc737e16a42021f3ff' },
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'deleteTripTag' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteFromtrip_tagsCollection' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'filter' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'id' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'eq' },
+                            value: {
+                              kind: 'Variable',
+                              name: { kind: 'Name', value: 'id' }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'records' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: '__typename' }
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  DeleteTripTagMutation,
+  DeleteTripTagMutationVariables
+>
 export const TagsCollectionDocument = {
   __meta__: { hash: '994a2e7e0694c279cbfeff6c8696cbbe6a0c687c' },
   kind: 'Document',
@@ -2405,6 +2651,97 @@ export const TripDetailsDocument = {
     }
   ]
 } as unknown as DocumentNode<TripDetailsQuery, TripDetailsQueryVariables>
+export const TripTagsCollectionDocument = {
+  __meta__: { hash: 'f4142b2a2f4ab96ce0e69488851fdff976486652' },
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'tripTagsCollection' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'filter' }
+          },
+          type: {
+            kind: 'NamedType',
+            name: { kind: 'Name', value: 'trip_tagsFilter' }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'trip_tagsCollection' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'filter' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'filter' }
+                }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'edges' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: '__typename' }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'node' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: '__typename' }
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' }
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'trip_id' }
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'tag_id' }
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  TripTagsCollectionQuery,
+  TripTagsCollectionQueryVariables
+>
 export const TripsCollectionDocument = {
   __meta__: { hash: '70a61f873c23f1db13cef7cd265a9845e9bfc53e' },
   kind: 'Document',

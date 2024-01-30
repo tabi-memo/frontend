@@ -2,5 +2,7 @@ export {
   formatDateToSlash,
   extractTimeFromDate,
   formatDbTimeToDate,
-  formatToDateTime
+  formatToDateTime,
+  getDateObj,
+  formatToISODate
 } from './date'

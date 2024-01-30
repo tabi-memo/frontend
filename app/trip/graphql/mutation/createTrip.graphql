@@ -1,8 +1,8 @@
 mutation createTrip(
   $user_id: UUID!
   $title: String!
-  $date_from: Date
-  $date_to: Date
+  $date_from: Datetime!
+  $date_to: Datetime
 ) {
   insertIntotripsCollection(
     objects: [

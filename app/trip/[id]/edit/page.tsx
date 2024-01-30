@@ -6,7 +6,11 @@ import { Loading } from '@/components/loading'
 import { Header, Footer } from '@/components/navigation'
 import { useUserId } from '@/providers/session-provider'
 import { TripForm } from '../../components'
-import { useTagsCollectionQuery, useTripDetailsQuery } from '@generated/api'
+import {
+  useTagsCollectionQuery,
+  useTripDetailsQuery,
+  useTripTagsCollectionQuery
+} from '@generated/api'
 
 export default function TripEditPage({ params }: { params: { id: string } }) {
   const bg = useColorModeValue('white', 'gray.800')
@@ -14,11 +18,23 @@ export default function TripEditPage({ params }: { params: { id: string } }) {
 
   const userId = useUserId()
 
-  const { data: tripData, loading: tripLoading } = useTripDetailsQuery({
+  const {
+    data: tripData,
+    loading: tripLoading,
+    refetch: tripRefetch,
+    networkStatus: tripNetWorkStatus
+  } = useTripDetailsQuery({
     variables: {
       id: params.id
-    }
+    },
+    notifyOnNetworkStatusChange: true
   })
+
+  const tripDataCollection = tripData?.tripsCollection?.edges[0]?.node
+  const tripDetailsRefetch = () => {
+    tripRefetch()
+  }
+  const tripDetailsRefetchLoading = tripNetWorkStatus === NetworkStatus.refetch
 
   const {
     data: tagsData,
@@ -30,16 +46,38 @@ export default function TripEditPage({ params }: { params: { id: string } }) {
     notifyOnNetworkStatusChange: true
   })
 
-  if ((!tripData && !tripLoading) || (!tagsData && !tagsLoading))
-    throw new Error('No trip data found')
-
-  const tripDataCollection = tripData?.tripsCollection?.edges[0]?.node
-
   const tagsCollectionRefetch = () => {
     tagsRefetch()
   }
-
   const tagsRefetchLoading = tagsNetWorkStatus === NetworkStatus.refetch
+
+  const {
+    data: tripTagsData,
+    refetch: tripTagsRefetch,
+    networkStatus: tripTagsNetWorkStatus
+  } = useTripTagsCollectionQuery({
+    variables: {
+      filter: {
+        trip_id: { eq: params.id }
+      }
+    },
+    notifyOnNetworkStatusChange: true
+  })
+
+  const tripsTagsDataArray = tripTagsData?.trip_tagsCollection?.edges.map(
+    (tag) => ({
+      id: tag.node.id,
+      tag_id: tag.node.tag_id || '',
+      trip_id: tag.node.trip_id || ''
+    })
+  )
+  const tripTagsCollectionRefetch = () => {
+    tripTagsRefetch()
+  }
+  const tripTagsRefetchLoading = tripTagsNetWorkStatus === NetworkStatus.refetch
+
+  if ((!tripData && !tripLoading) || (!tagsData && !tagsLoading))
+    throw new Error('No trip data found')
 
   console.log('tripDataCollection', tripDataCollection)
   console.log('tagsData', tagsData)
@@ -57,31 +95,40 @@ export default function TripEditPage({ params }: { params: { id: string } }) {
             Edit Trip
           </Heading>
           <Box mt="40px">
-            {!tripDataCollection || tripLoading ? (
+            {!tripDataCollection || tripLoading || !tripsTagsDataArray ? (
               <Loading />
             ) : (
               <TripForm
-                id={tripDataCollection.id}
-                image={tripDataCollection.image_storage_object_id}
-                title={tripDataCollection.title}
-                dateFrom={tripDataCollection.date_from}
-                dateTo={tripDataCollection.date_to}
-                allTags={
-                  tagsData?.tagsCollection?.edges.map((tag) => ({
-                    id: tag.node.id,
-                    name: tag.node.name
-                  })) || []
-                }
-                checkedTags={
-                  tripDataCollection.trip_tagsCollection?.edges.map((tag) => ({
-                    id: tag.node.tags?.id || '',
-                    name: tag.node.tags?.name || ''
-                  })) || []
-                }
-                cost={tripDataCollection.cost}
-                costUnit={tripDataCollection.cost_unit}
-                tagsCollectionRefetch={tagsCollectionRefetch}
-                tagsRefetchLoading={tagsRefetchLoading}
+                tripDetails={{
+                  id: tripDataCollection.id,
+                  image: tripDataCollection.image_storage_object_id,
+                  title: tripDataCollection.title,
+                  dateFrom: tripDataCollection.date_from,
+                  dateTo: tripDataCollection.date_to,
+                  cost: tripDataCollection.cost,
+                  costUnit: tripDataCollection.cost_unit,
+                  refetch: tripDetailsRefetch,
+                  refetchLoading: tripDetailsRefetchLoading
+                }}
+                tags={{
+                  data:
+                    tagsData?.tagsCollection?.edges.map((tag) => ({
+                      id: tag.node.id,
+                      name: tag.node.name
+                    })) || [],
+                  refetch: tagsCollectionRefetch,
+                  refetchLoading: tagsRefetchLoading
+                }}
+                tripTags={{
+                  data:
+                    tripTagsData?.trip_tagsCollection?.edges.map((tripTag) => ({
+                      id: tripTag.node.id,
+                      tag_id: tripTag.node.tag_id || '',
+                      trip_id: tripTag.node.trip_id || ''
+                    })) || [],
+                  refetch: tripTagsCollectionRefetch,
+                  refetchLoading: tripTagsRefetchLoading
+                }}
               />
             )}
           </Box>

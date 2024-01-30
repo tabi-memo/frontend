@@ -1,0 +1,11 @@
+query tripTagsCollection($filter: trip_tagsFilter) {
+  trip_tagsCollection(filter: $filter) {
+    edges {
+      node {
+        id
+        trip_id
+        tag_id
+      }
+    }
+  }
+}

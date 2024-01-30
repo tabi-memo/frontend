@@ -19,14 +19,20 @@ const documents = {
     types.ActivityCollectionDocument,
   'mutation createTag($name: String!, $userId: UUID!) {\n  insertIntotagsCollection(objects: [{name: $name, user_id: $userId}]) {\n    records {\n      __typename\n      id\n      name\n    }\n  }\n}':
     types.CreateTagDocument,
-  'mutation createTrip($user_id: UUID!, $title: String!, $date_from: Date, $date_to: Date) {\n  insertIntotripsCollection(\n    objects: [{user_id: $user_id, title: $title, date_from: $date_from, date_to: $date_to}]\n  ) {\n    records {\n      __typename\n      id\n      title\n    }\n  }\n}':
+  'mutation createTrip($user_id: UUID!, $title: String!, $date_from: Datetime!, $date_to: Datetime) {\n  insertIntotripsCollection(\n    objects: [{user_id: $user_id, title: $title, date_from: $date_from, date_to: $date_to}]\n  ) {\n    records {\n      __typename\n      id\n      title\n    }\n  }\n}':
     types.CreateTripDocument,
+  'mutation createTripTag($tripId: UUID!, $tagId: UUID!) {\n  insertIntotrip_tagsCollection(objects: [{trip_id: $tripId, tag_id: $tagId}]) {\n    records {\n      __typename\n      id\n      tag_id\n      trip_id\n    }\n  }\n}':
+    types.CreateTripTagDocument,
   'mutation deleteTag($id: UUID!) {\n  deleteFromtagsCollection(filter: {id: {eq: $id}}) {\n    records {\n      __typename\n      id\n      name\n    }\n  }\n}':
     types.DeleteTagDocument,
+  'mutation deleteTripTag($id: UUID!) {\n  deleteFromtrip_tagsCollection(filter: {id: {eq: $id}}) {\n    records {\n      __typename\n      id\n    }\n  }\n}':
+    types.DeleteTripTagDocument,
   'query tagsCollection($userId: UUID!) {\n  tagsCollection(\n    filter: {user_id: {eq: $userId}}\n    orderBy: {created_at: AscNullsLast}\n  ) {\n    edges {\n      node {\n        id\n        name\n      }\n    }\n  }\n}':
     types.TagsCollectionDocument,
   'query tripDetails($id: UUID!) {\n  tripsCollection(filter: {id: {eq: $id}}) {\n    edges {\n      node {\n        id\n        title\n        date_from\n        date_to\n        image_storage_object_id\n        cost\n        cost_unit\n        invitationsCollection {\n          edges {\n            node {\n              users {\n                id\n                profile_picture_url\n              }\n            }\n          }\n        }\n        activityCollection {\n          edges {\n            node {\n              id\n              title\n              time_from\n              time_to\n              address\n            }\n          }\n        }\n        trip_tagsCollection {\n          edges {\n            node {\n              tags {\n                id\n                name\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}':
     types.TripDetailsDocument,
+  'query tripTagsCollection($filter: trip_tagsFilter) {\n  trip_tagsCollection(filter: $filter) {\n    edges {\n      node {\n        id\n        trip_id\n        tag_id\n      }\n    }\n  }\n}':
+    types.TripTagsCollectionDocument,
   'query tripsCollection($filter: tripsFilter, $orderBy: [tripsOrderBy!], $first: Int!, $after: Cursor) {\n  tripsCollection(\n    filter: $filter\n    first: $first\n    after: $after\n    orderBy: $orderBy\n  ) {\n    edges {\n      node {\n        id\n        id\n        title\n        date_from\n        date_to\n        image_storage_object_id\n        created_at\n        invitationsCollection {\n          edges {\n            node {\n              users {\n                id\n                profile_picture_url\n              }\n            }\n          }\n        }\n        activityCollection {\n          edges {\n            node {\n              id\n            }\n          }\n        }\n      }\n    }\n    pageInfo {\n      startCursor\n      endCursor\n      hasPreviousPage\n      hasNextPage\n    }\n  }\n}':
     types.TripsCollectionDocument
 }
@@ -67,14 +73,26 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: 'mutation createTrip($user_id: UUID!, $title: String!, $date_from: Date, $date_to: Date) {\n  insertIntotripsCollection(\n    objects: [{user_id: $user_id, title: $title, date_from: $date_from, date_to: $date_to}]\n  ) {\n    records {\n      __typename\n      id\n      title\n    }\n  }\n}'
-): (typeof documents)['mutation createTrip($user_id: UUID!, $title: String!, $date_from: Date, $date_to: Date) {\n  insertIntotripsCollection(\n    objects: [{user_id: $user_id, title: $title, date_from: $date_from, date_to: $date_to}]\n  ) {\n    records {\n      __typename\n      id\n      title\n    }\n  }\n}']
+  source: 'mutation createTrip($user_id: UUID!, $title: String!, $date_from: Datetime!, $date_to: Datetime) {\n  insertIntotripsCollection(\n    objects: [{user_id: $user_id, title: $title, date_from: $date_from, date_to: $date_to}]\n  ) {\n    records {\n      __typename\n      id\n      title\n    }\n  }\n}'
+): (typeof documents)['mutation createTrip($user_id: UUID!, $title: String!, $date_from: Datetime!, $date_to: Datetime) {\n  insertIntotripsCollection(\n    objects: [{user_id: $user_id, title: $title, date_from: $date_from, date_to: $date_to}]\n  ) {\n    records {\n      __typename\n      id\n      title\n    }\n  }\n}']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: 'mutation createTripTag($tripId: UUID!, $tagId: UUID!) {\n  insertIntotrip_tagsCollection(objects: [{trip_id: $tripId, tag_id: $tagId}]) {\n    records {\n      __typename\n      id\n      tag_id\n      trip_id\n    }\n  }\n}'
+): (typeof documents)['mutation createTripTag($tripId: UUID!, $tagId: UUID!) {\n  insertIntotrip_tagsCollection(objects: [{trip_id: $tripId, tag_id: $tagId}]) {\n    records {\n      __typename\n      id\n      tag_id\n      trip_id\n    }\n  }\n}']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
   source: 'mutation deleteTag($id: UUID!) {\n  deleteFromtagsCollection(filter: {id: {eq: $id}}) {\n    records {\n      __typename\n      id\n      name\n    }\n  }\n}'
 ): (typeof documents)['mutation deleteTag($id: UUID!) {\n  deleteFromtagsCollection(filter: {id: {eq: $id}}) {\n    records {\n      __typename\n      id\n      name\n    }\n  }\n}']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: 'mutation deleteTripTag($id: UUID!) {\n  deleteFromtrip_tagsCollection(filter: {id: {eq: $id}}) {\n    records {\n      __typename\n      id\n    }\n  }\n}'
+): (typeof documents)['mutation deleteTripTag($id: UUID!) {\n  deleteFromtrip_tagsCollection(filter: {id: {eq: $id}}) {\n    records {\n      __typename\n      id\n    }\n  }\n}']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -87,6 +105,12 @@ export function graphql(
 export function graphql(
   source: 'query tripDetails($id: UUID!) {\n  tripsCollection(filter: {id: {eq: $id}}) {\n    edges {\n      node {\n        id\n        title\n        date_from\n        date_to\n        image_storage_object_id\n        cost\n        cost_unit\n        invitationsCollection {\n          edges {\n            node {\n              users {\n                id\n                profile_picture_url\n              }\n            }\n          }\n        }\n        activityCollection {\n          edges {\n            node {\n              id\n              title\n              time_from\n              time_to\n              address\n            }\n          }\n        }\n        trip_tagsCollection {\n          edges {\n            node {\n              tags {\n                id\n                name\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}'
 ): (typeof documents)['query tripDetails($id: UUID!) {\n  tripsCollection(filter: {id: {eq: $id}}) {\n    edges {\n      node {\n        id\n        title\n        date_from\n        date_to\n        image_storage_object_id\n        cost\n        cost_unit\n        invitationsCollection {\n          edges {\n            node {\n              users {\n                id\n                profile_picture_url\n              }\n            }\n          }\n        }\n        activityCollection {\n          edges {\n            node {\n              id\n              title\n              time_from\n              time_to\n              address\n            }\n          }\n        }\n        trip_tagsCollection {\n          edges {\n            node {\n              tags {\n                id\n                name\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: 'query tripTagsCollection($filter: trip_tagsFilter) {\n  trip_tagsCollection(filter: $filter) {\n    edges {\n      node {\n        id\n        trip_id\n        tag_id\n      }\n    }\n  }\n}'
+): (typeof documents)['query tripTagsCollection($filter: trip_tagsFilter) {\n  trip_tagsCollection(filter: $filter) {\n    edges {\n      node {\n        id\n        trip_id\n        tag_id\n      }\n    }\n  }\n}']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

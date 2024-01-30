@@ -1,3 +1,3 @@
 export { InputForm } from './input-form'
-export { InputIcon } from './input-icon'
+export { InputIconButton } from './input-icon-button'
 export { TextareaForm } from './textarea-form'

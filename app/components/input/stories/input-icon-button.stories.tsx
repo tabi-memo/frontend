@@ -1,13 +1,13 @@
 import { Meta, StoryObj } from '@storybook/react'
 import { FiSearch } from 'react-icons/fi'
-import { InputIcon } from '@/components/input'
+import { InputIconButton } from '@/components/input'
 
-const meta: Meta<typeof InputIcon> = {
-  title: 'Input Icon',
-  component: InputIcon
+const meta: Meta<typeof InputIconButton> = {
+  title: 'Input Icon Button',
+  component: InputIconButton
 }
 export default meta
-type Story = StoryObj<typeof InputIcon>
+type Story = StoryObj<typeof InputIconButton>
 
 export const Default: Story = {
   args: {

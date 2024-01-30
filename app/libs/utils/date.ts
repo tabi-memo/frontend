@@ -1,3 +1,7 @@
+import { zonedTimeToUtc, toDate, utcToZonedTime, format } from 'date-fns-tz'
+
+const TIMEZONE = 'Asia/Tokyo'
+
 /**
  * @param date - ISO date string e.g. '2023-01-01'
  * @param type - 'dayMonthYear' | 'dayMonth'
@@ -53,4 +57,26 @@ export const formatToDateTime = (date: string | null | undefined) => {
   const minutes = parts[1].split(':')[1]
 
   return `${monthDay} ${hours}:${minutes}`
+}
+
+/**
+ *
+ * @param isoString - ISO date string
+ * @returns - Date Object ex. Mon Jan 01 2024 00:00:00 GMT-0800 (Pacific Standard Time)
+ */
+export const getDateObj = (isoString: string) => {
+  const parsedDate = toDate(isoString, { timeZone: TIMEZONE })
+  const dateObj = utcToZonedTime(parsedDate, TIMEZONE)
+  return dateObj
+}
+
+/**
+ * @param date - Date Object
+ * @returns - ISO date string with Tokyo timezone ex.2024-01-01T12:00:00+09:00
+ */
+export const formatToISODate = (date: Date) => {
+  const isoString = format(date, "yyyy-MM-dd'T'HH:mm:ssXXX", {
+    timeZone: TIMEZONE
+  })
+  return isoString
 }

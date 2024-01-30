@@ -17,7 +17,7 @@ import {
   useToast
 } from '@chakra-ui/react'
 import { FiPlusCircle, FiX } from 'react-icons/fi'
-import { InputIcon } from '@/components/input'
+import { InputIconButton } from '@/components/input'
 import { Loading } from '@/components/loading'
 import { useUserId } from '@/providers/session-provider'
 import { TagSchema, tagSchemaResolver } from '../schema'
@@ -54,6 +54,7 @@ export const TagFormModal = ({
 
   const addTag = async (input: TagSchema) => {
     try {
+      
       await createTagMutation({
         variables: {
           name: input.name,
@@ -155,7 +156,7 @@ export const TagFormModal = ({
               </Heading>
               <Box mt="8px">
                 <FormControl isInvalid={!!errors.name}>
-                  <InputIcon
+                  <InputIconButton
                     type={'text'}
                     placeholder={'Add tag'}
                     ariaLabel={'Add tag'}

@@ -9,13 +9,13 @@ import {
   useColorModeValue
 } from '@chakra-ui/react'
 
-type InputIconProps = {
+type InputIconButtonProps = {
   ariaLabel: string
   icon: IconType
   onClick?: () => void
 }
 
-export const InputIcon = forwardRef<ChakraInputProps & InputIconProps, 'input'>(
+export const InputIconButton = forwardRef<ChakraInputProps & InputIconButtonProps, 'input'>(
   ({ ariaLabel, icon: Icon, onClick, ...props }, ref) => {
     const bgColor = useColorModeValue('white', 'gray.700')
     const borderColor = useColorModeValue('primary.700', 'gray.500')
