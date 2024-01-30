@@ -19,7 +19,7 @@ const documents = {
     types.ActivityCollectionDocument,
   'mutation createTag($name: String!, $userId: UUID!) {\n  insertIntotagsCollection(objects: [{name: $name, user_id: $userId}]) {\n    records {\n      __typename\n      id\n      name\n    }\n  }\n}':
     types.CreateTagDocument,
-  'mutation createTrip($user_id: UUID!, $title: String!, $date_from: Datetime!, $date_to: Datetime) {\n  insertIntotripsCollection(\n    objects: [{user_id: $user_id, title: $title, date_from: $date_from, date_to: $date_to}]\n  ) {\n    records {\n      __typename\n      id\n      title\n    }\n  }\n}':
+  'mutation createTrip($object: tripsInsertInput!) {\n  insertIntotripsCollection(objects: [$object]) {\n    records {\n      __typename\n      id\n      title\n    }\n  }\n}':
     types.CreateTripDocument,
   'mutation createTripTag($tripId: UUID!, $tagId: UUID!) {\n  insertIntotrip_tagsCollection(objects: [{trip_id: $tripId, tag_id: $tagId}]) {\n    records {\n      __typename\n      id\n      tag_id\n      trip_id\n    }\n  }\n}':
     types.CreateTripTagDocument,
@@ -75,8 +75,8 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: 'mutation createTrip($user_id: UUID!, $title: String!, $date_from: Datetime!, $date_to: Datetime) {\n  insertIntotripsCollection(\n    objects: [{user_id: $user_id, title: $title, date_from: $date_from, date_to: $date_to}]\n  ) {\n    records {\n      __typename\n      id\n      title\n    }\n  }\n}'
-): (typeof documents)['mutation createTrip($user_id: UUID!, $title: String!, $date_from: Datetime!, $date_to: Datetime) {\n  insertIntotripsCollection(\n    objects: [{user_id: $user_id, title: $title, date_from: $date_from, date_to: $date_to}]\n  ) {\n    records {\n      __typename\n      id\n      title\n    }\n  }\n}']
+  source: 'mutation createTrip($object: tripsInsertInput!) {\n  insertIntotripsCollection(objects: [$object]) {\n    records {\n      __typename\n      id\n      title\n    }\n  }\n}'
+): (typeof documents)['mutation createTrip($object: tripsInsertInput!) {\n  insertIntotripsCollection(objects: [$object]) {\n    records {\n      __typename\n      id\n      title\n    }\n  }\n}']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

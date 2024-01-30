@@ -1212,10 +1212,7 @@ export type CreateTagMutation = {
 }
 
 export type CreateTripMutationVariables = Exact<{
-  user_id: Scalars['UUID']['input']
-  title: Scalars['String']['input']
-  date_from: Scalars['Datetime']['input']
-  date_to?: InputMaybe<Scalars['Datetime']['input']>
+  object: TripsInsertInput
 }>
 
 export type CreateTripMutation = {
@@ -1775,7 +1772,7 @@ export const CreateTagDocument = {
   ]
 } as unknown as DocumentNode<CreateTagMutation, CreateTagMutationVariables>
 export const CreateTripDocument = {
-  __meta__: { hash: 'aca942ce9802822f0ecd793697b6b6bf16d25152' },
+  __meta__: { hash: '68140ac8465fd7c6f5bab39db9eec02dab9501ef' },
   kind: 'Document',
   definitions: [
     {
@@ -1787,45 +1784,15 @@ export const CreateTripDocument = {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'user_id' }
-          },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } }
-          }
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'title' }
-          },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-          }
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'date_from' }
+            name: { kind: 'Name', value: 'object' }
           },
           type: {
             kind: 'NonNullType',
             type: {
               kind: 'NamedType',
-              name: { kind: 'Name', value: 'Datetime' }
+              name: { kind: 'Name', value: 'tripsInsertInput' }
             }
           }
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'date_to' }
-          },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Datetime' } }
         }
       ],
       selectionSet: {
@@ -1843,41 +1810,8 @@ export const CreateTripDocument = {
                   kind: 'ListValue',
                   values: [
                     {
-                      kind: 'ObjectValue',
-                      fields: [
-                        {
-                          kind: 'ObjectField',
-                          name: { kind: 'Name', value: 'user_id' },
-                          value: {
-                            kind: 'Variable',
-                            name: { kind: 'Name', value: 'user_id' }
-                          }
-                        },
-                        {
-                          kind: 'ObjectField',
-                          name: { kind: 'Name', value: 'title' },
-                          value: {
-                            kind: 'Variable',
-                            name: { kind: 'Name', value: 'title' }
-                          }
-                        },
-                        {
-                          kind: 'ObjectField',
-                          name: { kind: 'Name', value: 'date_from' },
-                          value: {
-                            kind: 'Variable',
-                            name: { kind: 'Name', value: 'date_from' }
-                          }
-                        },
-                        {
-                          kind: 'ObjectField',
-                          name: { kind: 'Name', value: 'date_to' },
-                          value: {
-                            kind: 'Variable',
-                            name: { kind: 'Name', value: 'date_to' }
-                          }
-                        }
-                      ]
+                      kind: 'Variable',
+                      name: { kind: 'Name', value: 'object' }
                     }
                   ]
                 }

@@ -1,62 +1,79 @@
-import { useForm, Controller } from 'react-hook-form'
 import { useToast } from '@chakra-ui/react'
-import { formatToISODate, getDateObj } from '@/libs/utils'
-import { TripDetailsArgs } from '../components/trip-form'
-import { TripSchema, tripSchemaResolver } from '../schema'
-import { useUpdateTripMutation } from '@generated/api'
+import { useRouter } from 'next/navigation'
+import { formatToISODate } from '@/libs/utils'
+import { TripDetailsArgs, TripTagsArgs } from '../components/trip-form'
+import { TripSchema } from '../schema'
+import {
+  useUpdateTripMutation,
+  useCreateTripTagMutation,
+  useDeleteTripTagMutation
+} from '@generated/api'
 
-export const useTripUpdate = (tripDetails?: TripDetailsArgs) => {
+export const useTripUpdate = (
+  tripTags?: TripTagsArgs,
+  tripDetails?: TripDetailsArgs
+) => {
   const toast = useToast()
+  const router = useRouter()
   const [updateTripMutation, { loading: isTripUpdating }] =
     useUpdateTripMutation()
 
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors }
-  } = useForm<TripSchema>({
-    defaultValues: {
-      title: tripDetails?.title,
-      date_from: tripDetails?.dateFrom
-        ? getDateObj(tripDetails.dateFrom)
-        : undefined,
-      date_to: tripDetails?.dateTo ? getDateObj(tripDetails.dateTo) : null,
-      image_storage_object_id: tripDetails?.image,
-      cost: tripDetails?.cost ? tripDetails.cost.toString() : '',
-      cost_unit: tripDetails?.costUnit
-    },
-    resolver: tripSchemaResolver
-  })
+  const [createTripTagMutation, { loading: isTripTagCreating }] =
+    useCreateTripTagMutation()
+  const [deleteTripTagMutation, { loading: isTripTagDeleting }] =
+    useDeleteTripTagMutation()
 
-  const mutationTrip = async (data: TripSchema) => {
-    const type = tripDetails ? 'update' : 'create'
+  const updateTrip = async (data: TripSchema) => {
+    if (!tripDetails) throw new Error('Trip details is not found')
 
     try {
-      if (tripDetails) {
-        await updateTripMutation({
-          variables: {
-            id: tripDetails.id,
-            set: {
-              title: data.title,
-              date_from: formatToISODate(data.date_from),
-              date_to: data.date_to ? formatToISODate(data.date_to) : null,
-              image_storage_object_id: data.image_storage_object_id,
-              cost: data.cost ? data.cost : null,
-              cost_unit: data.cost_unit
-            }
+      // Trip Update
+      await updateTripMutation({
+        variables: {
+          id: tripDetails.id,
+          set: {
+            title: data.title,
+            date_from: formatToISODate(data.date_from),
+            date_to: data.date_to ? formatToISODate(data.date_to) : null,
+            image_storage_object_id: data.image_storage_object_id,
+            cost: data.cost,
+            cost_unit: data.cost_unit
           }
-        })
-        tripDetails.refetch()
-      }
+        }
+      })
 
-      if (!tripDetails) {
-        console.log('create!')
-      }
+      // TripTags Update
+      const selectedTags = data.selectedTags
+      const tripTagsArray = tripTags?.data || []
 
-      window.scroll({ top: 0 })
+      const deletePromises = tripTagsArray
+        .filter((tag) => !selectedTags.includes(tag.tag_id))
+        .map((tag) =>
+          deleteTripTagMutation({
+            variables: {
+              id: tag.id
+            }
+          })
+        )
+      const createPromises = selectedTags
+        .filter((tag) => !tripTagsArray.find((t) => t.tag_id === tag))
+        .map((tag) =>
+          createTripTagMutation({
+            variables: {
+              tripId: tripDetails.id,
+              tagId: tag
+            }
+          })
+        )
+
+      await Promise.all([...deletePromises, ...createPromises])
+
+      tripDetails.refetch()
+      tripTags?.refetch()
+      router.push(`/trip/${tripDetails.id}`)
+
       toast({
-        title: `Successfully ${type}d!`,
+        title: 'Successfully updated!',
         status: 'success',
         duration: 2000,
         isClosable: true,
@@ -64,10 +81,12 @@ export const useTripUpdate = (tripDetails?: TripDetailsArgs) => {
       })
     } catch (error) {
       console.error(error)
+      // NOTE: For case tripTags (one or all) updating failed, refetch tripTags to show the latest data
+      tripTags?.refetch()
       window.scroll({ top: 0 })
 
       toast({
-        title: `We're sorry, but you failed to ${type} a trip`,
+        title: "We're sorry, but you failed to update a trip",
         description:
           error instanceof Error ? error.message : 'Please try again later.',
         status: 'error',
@@ -79,11 +98,8 @@ export const useTripUpdate = (tripDetails?: TripDetailsArgs) => {
   }
 
   return {
-    onMutate: handleSubmit(mutationTrip),
+    updateTrip,
     isTripUpdating,
-    register,
-    control,
-    errors,
-    Controller
+    isTripTagsUpdating: isTripTagCreating || isTripTagDeleting
   }
 }

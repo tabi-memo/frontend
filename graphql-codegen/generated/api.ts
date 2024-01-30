@@ -1204,10 +1204,7 @@ export type CreateTagMutation = {
 }
 
 export type CreateTripMutationVariables = Exact<{
-  user_id: Scalars['UUID']['input']
-  title: Scalars['String']['input']
-  date_from: Scalars['Datetime']['input']
-  date_to?: InputMaybe<Scalars['Datetime']['input']>
+  object: TripsInsertInput
 }>
 
 export type CreateTripMutation = {
@@ -1653,23 +1650,9 @@ export type CreateTagMutationOptions = Apollo.BaseMutationOptions<
   CreateTagMutationVariables
 >
 export const CreateTripDocument = gql`
-  mutation createTrip(
-    $user_id: UUID!
-    $title: String!
-    $date_from: Datetime!
-    $date_to: Datetime
-  ) {
+  mutation createTrip($object: tripsInsertInput!) {
     __typename
-    insertIntotripsCollection(
-      objects: [
-        {
-          user_id: $user_id
-          title: $title
-          date_from: $date_from
-          date_to: $date_to
-        }
-      ]
-    ) {
+    insertIntotripsCollection(objects: [$object]) {
       __typename
       records {
         __typename
@@ -1697,10 +1680,7 @@ export type CreateTripMutationFn = Apollo.MutationFunction<
  * @example
  * const [createTripMutation, { data, loading, error }] = useCreateTripMutation({
  *   variables: {
- *      user_id: // value for 'user_id'
- *      title: // value for 'title'
- *      date_from: // value for 'date_from'
- *      date_to: // value for 'date_to'
+ *      object: // value for 'object'
  *   },
  * });
  */

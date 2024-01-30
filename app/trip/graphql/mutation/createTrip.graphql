@@ -1,19 +1,5 @@
-mutation createTrip(
-  $user_id: UUID!
-  $title: String!
-  $date_from: Datetime!
-  $date_to: Datetime
-) {
-  insertIntotripsCollection(
-    objects: [
-      {
-        user_id: $user_id
-        title: $title
-        date_from: $date_from
-        date_to: $date_to
-      }
-    ]
-  ) {
+mutation createTrip($object: tripsInsertInput!) {
+  insertIntotripsCollection(objects: [$object]) {
     records {
       __typename
       id

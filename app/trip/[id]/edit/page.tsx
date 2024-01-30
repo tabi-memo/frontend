@@ -18,6 +18,7 @@ export default function TripEditPage({ params }: { params: { id: string } }) {
 
   const userId = useUserId()
 
+  // Trip Details
   const {
     data: tripData,
     loading: tripLoading,
@@ -36,6 +37,34 @@ export default function TripEditPage({ params }: { params: { id: string } }) {
   }
   const tripDetailsRefetchLoading = tripNetWorkStatus === NetworkStatus.refetch
 
+  // Trip Tags
+  const {
+    data: tripTagsData,
+    loading: tripTagsLoading,
+    refetch: tripTagsRefetch,
+    networkStatus: tripTagsNetWorkStatus
+  } = useTripTagsCollectionQuery({
+    variables: {
+      filter: {
+        trip_id: { eq: params.id }
+      }
+    },
+    notifyOnNetworkStatusChange: true
+  })
+
+  // Tags
+  const tripsTagsDataArray = tripTagsData?.trip_tagsCollection?.edges.map(
+    (tag) => ({
+      id: tag.node.id,
+      tag_id: tag.node.tag_id || '',
+      trip_id: tag.node.trip_id || ''
+    })
+  )
+  const tripTagsCollectionRefetch = () => {
+    tripTagsRefetch()
+  }
+  const tripTagsRefetchLoading = tripTagsNetWorkStatus === NetworkStatus.refetch
+
   const {
     data: tagsData,
     loading: tagsLoading,
@@ -51,32 +80,11 @@ export default function TripEditPage({ params }: { params: { id: string } }) {
   }
   const tagsRefetchLoading = tagsNetWorkStatus === NetworkStatus.refetch
 
-  const {
-    data: tripTagsData,
-    refetch: tripTagsRefetch,
-    networkStatus: tripTagsNetWorkStatus
-  } = useTripTagsCollectionQuery({
-    variables: {
-      filter: {
-        trip_id: { eq: params.id }
-      }
-    },
-    notifyOnNetworkStatusChange: true
-  })
-
-  const tripsTagsDataArray = tripTagsData?.trip_tagsCollection?.edges.map(
-    (tag) => ({
-      id: tag.node.id,
-      tag_id: tag.node.tag_id || '',
-      trip_id: tag.node.trip_id || ''
-    })
+  if (
+    (!tripData && !tripLoading) ||
+    (!tripTagsData && !tripTagsLoading) ||
+    (!tagsData && !tagsLoading)
   )
-  const tripTagsCollectionRefetch = () => {
-    tripTagsRefetch()
-  }
-  const tripTagsRefetchLoading = tripTagsNetWorkStatus === NetworkStatus.refetch
-
-  if ((!tripData && !tripLoading) || (!tagsData && !tagsLoading))
     throw new Error('No trip data found')
 
   return (
@@ -107,15 +115,6 @@ export default function TripEditPage({ params }: { params: { id: string } }) {
                   refetch: tripDetailsRefetch,
                   refetchLoading: tripDetailsRefetchLoading
                 }}
-                tags={{
-                  data:
-                    tagsData?.tagsCollection?.edges.map((tag) => ({
-                      id: tag.node.id,
-                      name: tag.node.name
-                    })) || [],
-                  refetch: tagsCollectionRefetch,
-                  refetchLoading: tagsRefetchLoading
-                }}
                 tripTags={{
                   data:
                     tripTagsData?.trip_tagsCollection?.edges.map((tripTag) => ({
@@ -125,6 +124,15 @@ export default function TripEditPage({ params }: { params: { id: string } }) {
                     })) || [],
                   refetch: tripTagsCollectionRefetch,
                   refetchLoading: tripTagsRefetchLoading
+                }}
+                tags={{
+                  data:
+                    tagsData?.tagsCollection?.edges.map((tag) => ({
+                      id: tag.node.id,
+                      name: tag.node.name
+                    })) || [],
+                  refetch: tagsCollectionRefetch,
+                  refetchLoading: tagsRefetchLoading
                 }}
               />
             )}

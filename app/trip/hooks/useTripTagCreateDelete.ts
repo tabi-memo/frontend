@@ -6,8 +6,8 @@ import {
 } from '@generated/api'
 
 export const useTripTagCreateDelete = (
-  tripTags: TripTagsArgs,
-  tripId: string
+  tripId: string,
+  tripTags?: TripTagsArgs
 ) => {
   const toast = useToast()
   const [createTripTagMutation, { loading: isTripTagCreating }] =
@@ -17,7 +17,7 @@ export const useTripTagCreateDelete = (
 
   const tagClickHandler = async (selectedTagId: string) => {
     try {
-      const isTagIdAlreadyExists = tripTags.data.find(
+      const isTagIdAlreadyExists = tripTags?.data.find(
         (tripTag) => tripTag.tag_id === selectedTagId
       )
 
@@ -27,7 +27,7 @@ export const useTripTagCreateDelete = (
             id: isTagIdAlreadyExists.id
           }
         })
-        tripTags.refetch()
+        tripTags?.refetch()
         return
       }
 
@@ -38,7 +38,7 @@ export const useTripTagCreateDelete = (
             tagId: selectedTagId
           }
         })
-        tripTags.refetch()
+        tripTags?.refetch()
       }
     } catch (error) {
       console.error(error)

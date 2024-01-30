@@ -8,6 +8,7 @@ import 'react-calendar/dist/Calendar.css'
 type ValuePiece = Date | null
 type Value = ValuePiece | [ValuePiece, ValuePiece]
 
+// TODO Delete this and use react date picker for time as well
 export const CustomDateTimePicker = ({
   onChange,
   value
@@ -20,7 +21,7 @@ export const CustomDateTimePicker = ({
   return (
     <>
       <style>{`
-       
+
         .react-calendar{
           margin-top: 12%;
         }

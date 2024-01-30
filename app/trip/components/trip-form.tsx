@@ -1,3 +1,4 @@
+import { useForm, Controller } from 'react-hook-form'
 import {
   FormControl,
   FormLabel,
@@ -16,9 +17,10 @@ import { PrimaryButton, SecondaryButton } from '@/components/button'
 import { CustomDatePicker } from '@/components/date'
 import { InputForm } from '@/components/input'
 import { Loading } from '@/components/loading'
-
+import { getDateObj } from '@/libs/utils'
 import { TagFormModal } from '../components'
-import { useTripUpdate, useTripTagCreateDelete } from '../hooks'
+import { useTripCreate, useTripUpdate, useTripTagCreateDelete } from '../hooks'
+import { TripSchema, tripSchemaResolver } from '../schema'
 
 export type TripDetailsArgs = {
   id: string
@@ -32,22 +34,22 @@ export type TripDetailsArgs = {
   refetchLoading: boolean
 }
 
-export type TagsArgs = {
-  data: { id: string; name: string }[]
-  refetch: () => void
-  refetchLoading: boolean
-}
-
 export type TripTagsArgs = {
   data: { id: string; tag_id: string; trip_id: string }[]
   refetch: () => void
   refetchLoading: boolean
 }
 
+export type TagsArgs = {
+  data: { id: string; name: string }[]
+  refetch: () => void
+  refetchLoading: boolean
+}
+
 type TripFormProps = {
-  tripDetails: TripDetailsArgs
+  tripDetails?: TripDetailsArgs
+  tripTags?: TripTagsArgs
   tags: TagsArgs
-  tripTags: TripTagsArgs
 }
 
 export const TripForm = ({ tripDetails, tags, tripTags }: TripFormProps) => {
@@ -57,15 +59,45 @@ export const TripForm = ({ tripDetails, tags, tripTags }: TripFormProps) => {
   )
   const { isOpen, onOpen, onClose } = useDisclosure()
 
-  const { onMutate, isTripUpdating, register, control, errors, Controller } =
-    useTripUpdate(tripDetails)
+  const { createTrip, isTripCreating } = useTripCreate()
 
-  const { tagClickHandler, isTripTagCreating, isTripTagDeleting } =
-    useTripTagCreateDelete(tripTags, tripDetails.id)
+  const { updateTrip, isTripUpdating } = useTripUpdate(tripTags, tripDetails)
+
+  const { isTripTagCreating, isTripTagDeleting } = useTripTagCreateDelete(
+    String(tripDetails?.id),
+    tripTags
+  )
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors }
+  } = useForm<TripSchema>({
+    defaultValues: {
+      title: tripDetails?.title,
+      date_from: tripDetails?.dateFrom
+        ? getDateObj(tripDetails.dateFrom)
+        : undefined,
+      date_to: tripDetails?.dateTo ? getDateObj(tripDetails.dateTo) : null,
+      image_storage_object_id: tripDetails?.image || null,
+      selectedTags: tripTags ? tripTags.data.map((tag) => tag.tag_id) : [],
+      cost: tripDetails?.cost ? tripDetails.cost.toString() : '',
+      cost_unit: tripDetails?.costUnit
+    },
+    resolver: tripSchemaResolver
+  })
+
+  const mutateFun = tripDetails ? updateTrip : createTrip
+  const isMutating = isTripCreating || isTripUpdating
 
   return (
     <>
-      <VStack as="form" gap={{ base: '30px', md: '40px' }} onSubmit={onMutate}>
+      <VStack
+        as="form"
+        gap={{ base: '30px', md: '40px' }}
+        onSubmit={handleSubmit(mutateFun)}
+      >
         <FormControl isInvalid={!!errors.title}>
           <FormLabel>Title</FormLabel>
           <InputForm
@@ -115,7 +147,7 @@ export const TripForm = ({ tripDetails, tags, tripTags }: TripFormProps) => {
         <FormControl isInvalid={!!errors.image_storage_object_id}>
           <FormLabel>Image</FormLabel>
           <HStack gap={{ base: '20px', md: '34px' }}>
-            <Image alt="" src={tripDetails.image || imageSrc} width="50%" />
+            <Image alt="" src={tripDetails?.image || imageSrc} width="50%" />
             <PrimaryButton variant="outline">Select Image </PrimaryButton>
           </HStack>
           <FormErrorMessage>
@@ -123,36 +155,46 @@ export const TripForm = ({ tripDetails, tags, tripTags }: TripFormProps) => {
           </FormErrorMessage>
         </FormControl>
 
-        <Flex justify="start" flexDir="column" width="100%">
+        <FormControl isInvalid={!!errors?.selectedTags}>
           <FormLabel>Tag</FormLabel>
 
-          <CheckboxGroup defaultValue={tripTags.data.map((tag) => tag.tag_id)}>
-            <Flex columnGap={'20px'} rowGap={'10px'} flexWrap={'wrap'}>
-              {tags.refetchLoading ? (
-                <Loading p="4px" size="md" />
-              ) : (
-                <>
-                  {tags.data.map((tag) => (
-                    <Checkbox
-                      key={tag.id}
-                      value={tag.id}
-                      isDisabled={isTripTagCreating || isTripTagDeleting}
-                      onChange={() => tagClickHandler(tag.id)}
-                    >
-                      {tag.name}
-                    </Checkbox>
-                  ))}
-                </>
-              )}
-            </Flex>
-          </CheckboxGroup>
+          <Controller
+            name="selectedTags"
+            control={control}
+            render={({ field: { onChange } }) => (
+              <CheckboxGroup
+                defaultValue={tripTags?.data.map((tag) => tag.tag_id)}
+                onChange={onChange}
+              >
+                <Flex columnGap={'20px'} rowGap={'10px'} flexWrap={'wrap'}>
+                  {tags.refetchLoading ? (
+                    <Loading p="4px" size="md" />
+                  ) : (
+                    <>
+                      {tags.data.map((tag) => (
+                        <Checkbox
+                          key={tag.id}
+                          value={tag.id}
+                          isDisabled={isTripTagCreating || isTripTagDeleting}
+                        >
+                          {tag.name}
+                        </Checkbox>
+                      ))}
+                    </>
+                  )}
+                </Flex>
+              </CheckboxGroup>
+            )}
+          />
+
+          <FormErrorMessage>{errors?.selectedTags?.message}</FormErrorMessage>
 
           <Box mt="20px">
             <SecondaryButton variant={'outline'} size="sm" onClick={onOpen}>
               Manage Tags
             </SecondaryButton>
           </Box>
-        </Flex>
+        </FormControl>
 
         <Flex gap="20px" justify={'start'} width="100%">
           <FormControl w={'180px'} isInvalid={!!errors.cost}>
@@ -178,7 +220,7 @@ export const TripForm = ({ tripDetails, tags, tripTags }: TripFormProps) => {
           </FormControl>
         </Flex>
 
-        <PrimaryButton size="lg" type="submit" isDisabled={isTripUpdating}>
+        <PrimaryButton size="lg" type="submit" isDisabled={isMutating}>
           Save Trip
         </PrimaryButton>
       </VStack>
