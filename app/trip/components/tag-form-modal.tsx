@@ -1,5 +1,3 @@
-import { KeyboardEvent } from 'react'
-import { useForm } from 'react-hook-form'
 import {
   Modal,
   ModalOverlay,
@@ -13,15 +11,12 @@ import {
   Tag,
   useColorModeValue,
   Box,
-  Heading,
-  useToast
+  Heading
 } from '@chakra-ui/react'
 import { FiPlusCircle, FiX } from 'react-icons/fi'
 import { InputIconButton } from '@/components/input'
 import { Loading } from '@/components/loading'
-import { useUserId } from '@/providers/session-provider'
-import { TagSchema, tagSchemaResolver } from '../schema'
-import { useCreateTagMutation, useDeleteTagMutation } from '@generated/api'
+import { useTagCreateDelete } from '../hooks'
 
 type TagFormModalProps = {
   isOpen: boolean
@@ -37,74 +32,16 @@ export const TagFormModal = ({
   tagsCollectionRefetch
 }: TagFormModalProps) => {
   const tagBgColor = useColorModeValue('primary.700', 'primary.800')
-  const userId = useUserId()
-  const toast = useToast()
 
   const {
+    addEnterHandler,
+    addTag,
+    deleteTag,
+    isCreating,
+    isDeleting,
     register,
-    handleSubmit,
-    reset,
-    formState: { errors }
-  } = useForm<TagSchema>({
-    resolver: tagSchemaResolver
-  })
-
-  const [createTagMutation, { loading: isCreating }] = useCreateTagMutation()
-  const [deleteTagMutation, { loading: isDeleting }] = useDeleteTagMutation()
-
-  const addTag = async (input: TagSchema) => {
-    try {
-      
-      await createTagMutation({
-        variables: {
-          name: input.name,
-          userId: userId
-        }
-      })
-      reset()
-      tagsCollectionRefetch()
-    } catch (error) {
-      console.error(error)
-      toast({
-        title: "We're sorry, but you failed to create a tag",
-        description:
-          error instanceof Error ? error.message : 'Please try again later.',
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-        position: 'top'
-      })
-    }
-  }
-
-  const addEnterHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      e.preventDefault()
-      handleSubmit(addTag)()
-    }
-  }
-
-  const deleteTag = async (id: string) => {
-    try {
-      await deleteTagMutation({
-        variables: {
-          id: id
-        }
-      })
-      tagsCollectionRefetch()
-    } catch (error) {
-      console.error(error)
-      toast({
-        title: "We're sorry, but you failed to delete a tag",
-        description:
-          error instanceof Error ? error.message : 'Please try again later.',
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-        position: 'top'
-      })
-    }
-  }
+    errors
+  } = useTagCreateDelete(tagsCollectionRefetch)
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
@@ -163,7 +100,7 @@ export const TagFormModal = ({
                     icon={FiPlusCircle}
                     isDisabled={isCreating}
                     onKeyDown={(e) => addEnterHandler(e)}
-                    onClick={handleSubmit((d) => addTag(d))}
+                    onClick={addTag}
                     {...register('name')}
                   />
                   <FormErrorMessage>{errors?.name?.message}</FormErrorMessage>

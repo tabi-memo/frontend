@@ -1,0 +1,8 @@
+mutation updateTrip($id: UUID!, $set: tripsUpdateInput!) {
+  updatetripsCollection(set: $set, filter: { id: { eq: $id } }) {
+    records {
+      id
+      title
+    }
+  }
+}

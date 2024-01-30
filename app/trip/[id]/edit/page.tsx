@@ -79,9 +79,6 @@ export default function TripEditPage({ params }: { params: { id: string } }) {
   if ((!tripData && !tripLoading) || (!tagsData && !tagsLoading))
     throw new Error('No trip data found')
 
-  console.log('tripDataCollection', tripDataCollection)
-  console.log('tagsData', tagsData)
-
   return (
     <>
       <Header />

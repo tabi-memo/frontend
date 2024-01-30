@@ -28,9 +28,9 @@ export type Scalars = {
   Int: { input: number; output: number }
   Float: { input: number; output: number }
   /** A high precision floating point value represented as a string */
-  BigFloat: { input: number; output: number }
+  BigFloat: { input: string; output: string }
   /** An arbitrary size integer represented as a string */
-  BigInt: { input: number; output: number }
+  BigInt: { input: string; output: string }
   /** An opaque string using for tracking a position in results during pagination */
   Cursor: { input: any; output: any }
   /** A date wihout time information */
@@ -1191,7 +1191,7 @@ export type ActivityCollectionQuery = {
         address?: string | null
         url?: string | null
         memo?: string | null
-        cost?: number | null
+        cost?: string | null
         image_storage_object_id?: string | null
       }
     }>
@@ -1268,6 +1268,19 @@ export type DeleteTripTagMutation = {
   }
 }
 
+export type UpdateTripMutationVariables = Exact<{
+  id: Scalars['UUID']['input']
+  set: TripsUpdateInput
+}>
+
+export type UpdateTripMutation = {
+  __typename: 'Mutation'
+  updatetripsCollection: {
+    __typename: 'tripsUpdateResponse'
+    records: Array<{ __typename: 'trips'; id: string; title: string }>
+  }
+}
+
 export type TagsCollectionQueryVariables = Exact<{
   userId: Scalars['UUID']['input']
 }>
@@ -1300,7 +1313,7 @@ export type TripDetailsQuery = {
         date_from: string
         date_to?: string | null
         image_storage_object_id?: string | null
-        cost?: number | null
+        cost?: string | null
         cost_unit?: string | null
         invitationsCollection?: {
           __typename: 'invitationsConnection'
@@ -2167,6 +2180,105 @@ export const DeleteTripTagDocument = {
   DeleteTripTagMutation,
   DeleteTripTagMutationVariables
 >
+export const UpdateTripDocument = {
+  __meta__: { hash: '7b9783d44e5c70098239e977664434de3eae6204' },
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'updateTrip' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } }
+          }
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'set' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'tripsUpdateInput' }
+            }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updatetripsCollection' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'set' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'set' }
+                }
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'filter' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'id' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'eq' },
+                            value: {
+                              kind: 'Variable',
+                              name: { kind: 'Name', value: 'id' }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'records' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: '__typename' }
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'title' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<UpdateTripMutation, UpdateTripMutationVariables>
 export const TagsCollectionDocument = {
   __meta__: { hash: '994a2e7e0694c279cbfeff6c8696cbbe6a0c687c' },
   kind: 'Document',

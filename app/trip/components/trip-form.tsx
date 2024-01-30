@@ -1,4 +1,3 @@
-import { useForm, Controller } from 'react-hook-form'
 import {
   FormControl,
   FormLabel,
@@ -11,43 +10,44 @@ import {
   Flex,
   Checkbox,
   Box,
-  useDisclosure,
-  useToast
+  useDisclosure
 } from '@chakra-ui/react'
 import { PrimaryButton, SecondaryButton } from '@/components/button'
 import { CustomDatePicker } from '@/components/date'
 import { InputForm } from '@/components/input'
 import { Loading } from '@/components/loading'
-import { getDateObj, formatToISODate } from '@/libs/utils'
+
 import { TagFormModal } from '../components'
-import { tripSchemaResolver, TripSchema } from '../schema'
-import {
-  useCreateTripTagMutation,
-  useDeleteTripTagMutation
-} from '@generated/api'
+import { useTripUpdate, useTripTagCreateDelete } from '../hooks'
+
+export type TripDetailsArgs = {
+  id: string
+  image: string | null | undefined
+  title: string
+  dateFrom: string
+  dateTo: string | null | undefined
+  cost: string | null | undefined
+  costUnit: string | null | undefined
+  refetch: () => void
+  refetchLoading: boolean
+}
+
+export type TagsArgs = {
+  data: { id: string; name: string }[]
+  refetch: () => void
+  refetchLoading: boolean
+}
+
+export type TripTagsArgs = {
+  data: { id: string; tag_id: string; trip_id: string }[]
+  refetch: () => void
+  refetchLoading: boolean
+}
 
 type TripFormProps = {
-  tripDetails: {
-    id: string
-    image: string | null | undefined
-    title: string
-    dateFrom: string
-    dateTo: string | null | undefined
-    cost: number | null | undefined
-    costUnit: string | null | undefined
-    refetch: () => void
-    refetchLoading: boolean
-  }
-  tags: {
-    data: { id: string; name: string }[]
-    refetch: () => void
-    refetchLoading: boolean
-  }
-  tripTags: {
-    data: { id: string; tag_id: string; trip_id: string }[]
-    refetch: () => void
-    refetchLoading: boolean
-  }
+  tripDetails: TripDetailsArgs
+  tags: TagsArgs
+  tripTags: TripTagsArgs
 }
 
 export const TripForm = ({ tripDetails, tags, tripTags }: TripFormProps) => {
@@ -56,92 +56,16 @@ export const TripForm = ({ tripDetails, tags, tripTags }: TripFormProps) => {
     '/images/no_image_dark.jpg'
   )
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const toast = useToast()
 
-  console.log('tripTagsData', tripTags.data)
+  const { onMutate, isTripUpdating, register, control, errors, Controller } =
+    useTripUpdate(tripDetails)
 
-  const [createTripTagMutation, { loading: isTripTagCreating }] =
-    useCreateTripTagMutation()
-  const [deleteTripTagMutation, { loading: isTripTagDeleting }] =
-    useDeleteTripTagMutation()
-
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors }
-  } = useForm<TripSchema>({
-    defaultValues: {
-      title: tripDetails.title,
-      date_from: getDateObj(tripDetails.dateFrom),
-      date_to: tripDetails.dateTo ? getDateObj(tripDetails.dateTo) : null,
-      image_storage_object_id: tripDetails.image,
-      cost: tripDetails.cost ? tripDetails.cost.toString() : '',
-      cost_unit: tripDetails.costUnit
-    },
-    resolver: tripSchemaResolver
-  })
-
-  console.log('errors', errors)
-
-  const tagClickHandler = async (selectedTagId: string) => {
-    try {
-      const isTagIdAlreadyExists = tripTags.data.find(
-        (tripTag) => tripTag.tag_id === selectedTagId
-      )
-
-      if (isTagIdAlreadyExists) {
-        await deleteTripTagMutation({
-          variables: {
-            id: isTagIdAlreadyExists.id
-          }
-        })
-        tripTags.refetch()
-        return
-      }
-
-      if (!isTagIdAlreadyExists) {
-        await createTripTagMutation({
-          variables: {
-            tripId: tripDetails.id,
-            tagId: selectedTagId
-          }
-        })
-        tripTags.refetch()
-      }
-    } catch (error) {
-      console.error(error)
-      toast({
-        title: "We're sorry, but you failed to update a tag",
-        description:
-          error instanceof Error ? error.message : 'Please try again later.',
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-        position: 'top'
-      })
-    }
-  }
-
-  const updateTrip = async (data: TripSchema) => {
-    console.log('submit!', {
-      tripId: tripDetails.id,
-      data
-    })
-
-    if (data.date_to) {
-      const dateTo = formatToISODate(data.date_to)
-      console.log('dateTo', dateTo)
-    }
-  }
+  const { tagClickHandler, isTripTagCreating, isTripTagDeleting } =
+    useTripTagCreateDelete(tripTags, tripDetails.id)
 
   return (
     <>
-      <VStack
-        as="form"
-        gap={{ base: '30px', md: '40px' }}
-        onSubmit={handleSubmit(updateTrip)}
-      >
+      <VStack as="form" gap={{ base: '30px', md: '40px' }} onSubmit={onMutate}>
         <FormControl isInvalid={!!errors.title}>
           <FormLabel>Title</FormLabel>
           <InputForm
@@ -187,6 +111,7 @@ export const TripForm = ({ tripDetails, tags, tripTags }: TripFormProps) => {
           <FormErrorMessage>{errors?.date_to?.message}</FormErrorMessage>
         </FormControl>
 
+        {/* TODO Image Upload to storage & Send the URL string to DB */}
         <FormControl isInvalid={!!errors.image_storage_object_id}>
           <FormLabel>Image</FormLabel>
           <HStack gap={{ base: '20px', md: '34px' }}>
@@ -253,7 +178,7 @@ export const TripForm = ({ tripDetails, tags, tripTags }: TripFormProps) => {
           </FormControl>
         </Flex>
 
-        <PrimaryButton size="lg" type="submit">
+        <PrimaryButton size="lg" type="submit" isDisabled={isTripUpdating}>
           Save Trip
         </PrimaryButton>
       </VStack>

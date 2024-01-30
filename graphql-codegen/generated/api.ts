@@ -28,8 +28,8 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean }
   Int: { input: number; output: number }
   Float: { input: number; output: number }
-  BigFloat: { input: number; output: number }
-  BigInt: { input: number; output: number }
+  BigFloat: { input: string; output: string }
+  BigInt: { input: string; output: string }
   Cursor: { input: any; output: any }
   Date: { input: string; output: string }
   Datetime: { input: string; output: string }
@@ -1183,7 +1183,7 @@ export type ActivityCollectionQuery = {
         address?: string | null
         url?: string | null
         memo?: string | null
-        cost?: number | null
+        cost?: string | null
         image_storage_object_id?: string | null
       }
     }>
@@ -1260,6 +1260,19 @@ export type DeleteTripTagMutation = {
   }
 }
 
+export type UpdateTripMutationVariables = Exact<{
+  id: Scalars['UUID']['input']
+  set: TripsUpdateInput
+}>
+
+export type UpdateTripMutation = {
+  __typename: 'Mutation'
+  updatetripsCollection: {
+    __typename: 'tripsUpdateResponse'
+    records: Array<{ __typename: 'trips'; id: string; title: string }>
+  }
+}
+
 export type TagsCollectionQueryVariables = Exact<{
   userId: Scalars['UUID']['input']
 }>
@@ -1292,7 +1305,7 @@ export type TripDetailsQuery = {
         date_from: string
         date_to?: string | null
         image_storage_object_id?: string | null
-        cost?: number | null
+        cost?: string | null
         cost_unit?: string | null
         invitationsCollection?: {
           __typename: 'invitationsConnection'
@@ -1880,6 +1893,62 @@ export type DeleteTripTagMutationResult =
 export type DeleteTripTagMutationOptions = Apollo.BaseMutationOptions<
   DeleteTripTagMutation,
   DeleteTripTagMutationVariables
+>
+export const UpdateTripDocument = gql`
+  mutation updateTrip($id: UUID!, $set: tripsUpdateInput!) {
+    __typename
+    updatetripsCollection(set: $set, filter: { id: { eq: $id } }) {
+      __typename
+      records {
+        __typename
+        id
+        title
+      }
+    }
+  }
+`
+export type UpdateTripMutationFn = Apollo.MutationFunction<
+  UpdateTripMutation,
+  UpdateTripMutationVariables
+>
+
+/**
+ * __useUpdateTripMutation__
+ *
+ * To run a mutation, you first call `useUpdateTripMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateTripMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateTripMutation, { data, loading, error }] = useUpdateTripMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      set: // value for 'set'
+ *   },
+ * });
+ */
+export function useUpdateTripMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateTripMutation,
+    UpdateTripMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<UpdateTripMutation, UpdateTripMutationVariables>(
+    UpdateTripDocument,
+    options
+  )
+}
+export type UpdateTripMutationHookResult = ReturnType<
+  typeof useUpdateTripMutation
+>
+export type UpdateTripMutationResult = Apollo.MutationResult<UpdateTripMutation>
+export type UpdateTripMutationOptions = Apollo.BaseMutationOptions<
+  UpdateTripMutation,
+  UpdateTripMutationVariables
 >
 export const TagsCollectionDocument = gql`
   query tagsCollection($userId: UUID!) {

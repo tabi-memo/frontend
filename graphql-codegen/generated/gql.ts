@@ -27,6 +27,8 @@ const documents = {
     types.DeleteTagDocument,
   'mutation deleteTripTag($id: UUID!) {\n  deleteFromtrip_tagsCollection(filter: {id: {eq: $id}}) {\n    records {\n      __typename\n      id\n    }\n  }\n}':
     types.DeleteTripTagDocument,
+  'mutation updateTrip($id: UUID!, $set: tripsUpdateInput!) {\n  updatetripsCollection(set: $set, filter: {id: {eq: $id}}) {\n    records {\n      id\n      title\n    }\n  }\n}':
+    types.UpdateTripDocument,
   'query tagsCollection($userId: UUID!) {\n  tagsCollection(\n    filter: {user_id: {eq: $userId}}\n    orderBy: {created_at: AscNullsLast}\n  ) {\n    edges {\n      node {\n        id\n        name\n      }\n    }\n  }\n}':
     types.TagsCollectionDocument,
   'query tripDetails($id: UUID!) {\n  tripsCollection(filter: {id: {eq: $id}}) {\n    edges {\n      node {\n        id\n        title\n        date_from\n        date_to\n        image_storage_object_id\n        cost\n        cost_unit\n        invitationsCollection {\n          edges {\n            node {\n              users {\n                id\n                profile_picture_url\n              }\n            }\n          }\n        }\n        activityCollection {\n          edges {\n            node {\n              id\n              title\n              time_from\n              time_to\n              address\n            }\n          }\n        }\n        trip_tagsCollection {\n          edges {\n            node {\n              tags {\n                id\n                name\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}':
@@ -93,6 +95,12 @@ export function graphql(
 export function graphql(
   source: 'mutation deleteTripTag($id: UUID!) {\n  deleteFromtrip_tagsCollection(filter: {id: {eq: $id}}) {\n    records {\n      __typename\n      id\n    }\n  }\n}'
 ): (typeof documents)['mutation deleteTripTag($id: UUID!) {\n  deleteFromtrip_tagsCollection(filter: {id: {eq: $id}}) {\n    records {\n      __typename\n      id\n    }\n  }\n}']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: 'mutation updateTrip($id: UUID!, $set: tripsUpdateInput!) {\n  updatetripsCollection(set: $set, filter: {id: {eq: $id}}) {\n    records {\n      id\n      title\n    }\n  }\n}'
+): (typeof documents)['mutation updateTrip($id: UUID!, $set: tripsUpdateInput!) {\n  updatetripsCollection(set: $set, filter: {id: {eq: $id}}) {\n    records {\n      id\n      title\n    }\n  }\n}']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
