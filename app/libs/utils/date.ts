@@ -1,4 +1,4 @@
-import { zonedTimeToUtc, toDate, utcToZonedTime, format } from 'date-fns-tz'
+import { toDate, utcToZonedTime, format } from 'date-fns-tz'
 
 const TIMEZONE = 'Asia/Tokyo'
 

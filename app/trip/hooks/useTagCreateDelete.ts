@@ -60,7 +60,7 @@ export const useTagCreateDelete = (tagsCollectionRefetch: () => void) => {
           id: id
         }
       })
-      
+
       tagsCollectionRefetch()
     } catch (error) {
       console.error(error)

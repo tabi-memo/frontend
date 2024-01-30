@@ -15,34 +15,35 @@ type InputIconButtonProps = {
   onClick?: () => void
 }
 
-export const InputIconButton = forwardRef<ChakraInputProps & InputIconButtonProps, 'input'>(
-  ({ ariaLabel, icon: Icon, onClick, ...props }, ref) => {
-    const bgColor = useColorModeValue('white', 'gray.700')
-    const borderColor = useColorModeValue('primary.700', 'gray.500')
+export const InputIconButton = forwardRef<
+  ChakraInputProps & InputIconButtonProps,
+  'input'
+>(({ ariaLabel, icon: Icon, onClick, ...props }, ref) => {
+  const bgColor = useColorModeValue('white', 'gray.700')
+  const borderColor = useColorModeValue('primary.700', 'gray.500')
 
-    return (
-      <InputGroup minW={{ base: '100%', md: '23.75rem' }}>
-        <ChakraInput
-          ref={ref}
-          {...props}
-          borderColor={borderColor}
-          focusBorderColor={'primary.600'}
-          bgColor={bgColor}
-          _placeholder={{ color: 'gray.400' }}
-        />
-        <InputRightElement>
-          <IconButton
-            aria-label={ariaLabel}
-            variant="unstyled"
-            type={onClick ? 'button' : 'submit'}
-            onClick={onClick}
-            color="primary.700"
-            isDisabled={props.isDisabled}
-          >
-            <Icon size="24px" />
-          </IconButton>
-        </InputRightElement>
-      </InputGroup>
-    )
-  }
-)
+  return (
+    <InputGroup minW={{ base: '100%', md: '23.75rem' }}>
+      <ChakraInput
+        ref={ref}
+        {...props}
+        borderColor={borderColor}
+        focusBorderColor={'primary.600'}
+        bgColor={bgColor}
+        _placeholder={{ color: 'gray.400' }}
+      />
+      <InputRightElement>
+        <IconButton
+          aria-label={ariaLabel}
+          variant="unstyled"
+          type={onClick ? 'button' : 'submit'}
+          onClick={onClick}
+          color="primary.700"
+          isDisabled={props.isDisabled}
+        >
+          <Icon size="24px" />
+        </IconButton>
+      </InputRightElement>
+    </InputGroup>
+  )
+})
