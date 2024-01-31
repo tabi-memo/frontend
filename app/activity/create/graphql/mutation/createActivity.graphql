@@ -1,0 +1,32 @@
+mutation createActivity(
+  $trip_id: UUID!
+  $title: String!
+  $time_from: Datetime
+  $time_to: Datetime
+  $address: String
+  $url: String
+  $memo: String
+  $cost: BigFloat
+) {
+  insertIntoactivitiesCollection(
+    objects: [
+      {
+        trip_id: $trip_id
+        title: $title
+        time_from: $time_from
+        time_to: $time_to
+        address: $address
+        url: $url
+        memo: $memo
+        cost: $cost
+        image_url: $image_url
+      }
+    ]
+  ) {
+    records {
+      __typename
+      id
+      title
+    }
+  }
+}
