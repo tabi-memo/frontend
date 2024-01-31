@@ -1,4 +1,5 @@
 'use client'
+
 import {
   Heading,
   Box,
@@ -12,9 +13,9 @@ import {
 import { useRouter } from 'next/navigation'
 import { PrimaryButton } from '@/components/button'
 import { Loading } from '@/components/loading'
-import { useUserId } from '@/providers/session-provider'
+
 import { TripSearch, TripSort, TripCard } from '@/trip/components'
-import { useTripsCollectionQuery, TripsOrderBy } from '@generated/api'
+import { useTripsGet } from '@/trip/hooks'
 
 export default function Top({ searchParams }: { searchParams: { q: string } }) {
   const router = useRouter()
@@ -22,48 +23,17 @@ export default function Top({ searchParams }: { searchParams: { q: string } }) {
   const color = useColorModeValue('black', 'gray.300')
 
   const searchWord = searchParams.q
-  const userId = useUserId()
 
-  const { data, loading, fetchMore, refetch } = useTripsCollectionQuery({
-    variables: {
-      filter: {
-        user_id: { eq: userId },
-        ...(searchWord &&
-          searchWord.length && { title: { like: `%${searchWord}%` } })
-      },
-      first: 6,
-      after: null
-    }
-  })
+  const {
+    tripsData,
+    loading,
+    error,
+    handleSortBy,
+    handleLoadMore,
+    refetchLoading
+  } = useTripsGet(searchWord)
 
-  const handleSortBy = (sortObj: TripsOrderBy) => {
-    refetch({
-      orderBy: sortObj
-    })
-  }
-
-  const handleLoadMore = () => {
-    fetchMore({
-      variables: {
-        after: data?.tripsCollection?.pageInfo.endCursor
-      },
-      updateQuery: (previousQueryResult, { fetchMoreResult }) => {
-        const newEdges = fetchMoreResult?.tripsCollection?.edges
-        const pageInfo = fetchMoreResult?.tripsCollection?.pageInfo
-        const previousCollection = previousQueryResult?.tripsCollection
-        return newEdges && newEdges.length && pageInfo && previousCollection
-          ? {
-              tripsCollection: {
-                __typename: previousCollection.__typename,
-                edges: [...previousCollection.edges, ...newEdges],
-                pageInfo
-              },
-              __typename: previousQueryResult.__typename
-            }
-          : previousQueryResult
-      }
-    })
-  }
+  if (error) throw new Error('Failed to fetch trips')
 
   return (
     <Box as="main" minH="100vh" bg={bg} color={color}>
@@ -101,7 +71,7 @@ export default function Top({ searchParams }: { searchParams: { q: string } }) {
             <TripSort sortBy={handleSortBy} />
           </GridItem>
         </Grid>
-        {loading || !data?.tripsCollection ? (
+        {loading || refetchLoading || !tripsData ? (
           <Loading />
         ) : (
           <>
@@ -110,16 +80,19 @@ export default function Top({ searchParams }: { searchParams: { q: string } }) {
               mt={{ base: '38px', md: '40px' }}
               flexWrap={'wrap'}
             >
-              {data.tripsCollection.edges.length === 0 && (
+              {tripsData.edges.length === 0 && (
                 <Text>We couldn&apos;t find any results</Text>
               )}
-              {data.tripsCollection.edges.map((trip) => (
+              {tripsData.edges.map((trip) => (
                 <TripCard key={trip.node.id} data={trip} />
               ))}
             </Flex>
-            {data.tripsCollection.pageInfo.hasNextPage && (
+            {tripsData.pageInfo.hasNextPage && (
               <Box textAlign="center" mt={{ base: '40px', md: '60px' }}>
-                <PrimaryButton variant="outline" onClick={handleLoadMore}>
+                <PrimaryButton
+                  variant="outline"
+                  onClick={() => handleLoadMore(tripsData.pageInfo.endCursor)}
+                >
                   Load More
                 </PrimaryButton>
               </Box>

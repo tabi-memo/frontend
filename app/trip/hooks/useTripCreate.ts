@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation'
 import { formatToISODate } from '@/libs/utils'
 import { useUserId } from '@/providers/session-provider'
 import { TripSchema } from '../schema'
+import { useTripsGet } from '.'
 import { useCreateTripMutation, useCreateTripTagMutation } from '@generated/api'
 
 export const useTripCreate = () => {
@@ -14,6 +15,8 @@ export const useTripCreate = () => {
 
   const [createTripTagMutation, { loading: isTripTagCreating }] =
     useCreateTripTagMutation()
+
+  const { tripsRefetch } = useTripsGet()
 
   const createTrip = async (data: TripSchema) => {
     try {
@@ -47,6 +50,7 @@ export const useTripCreate = () => {
 
       await Promise.all([...createPromises])
 
+      tripsRefetch()
       router.push('/')
 
       toast({

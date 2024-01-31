@@ -82,7 +82,7 @@ export const TripForm = ({ tripDetails, tags, tripTags }: TripFormProps) => {
       date_to: tripDetails?.dateTo ? getDateObj(tripDetails.dateTo) : null,
       image_storage_object_id: tripDetails?.image || null,
       selectedTags: tripTags ? tripTags.data.map((tag) => tag.tag_id) : [],
-      cost: tripDetails?.cost ? tripDetails.cost.toString() : '',
+      cost: tripDetails?.cost ? tripDetails.cost.toString() : null,
       cost_unit: tripDetails?.costUnit
     },
     resolver: tripSchemaResolver

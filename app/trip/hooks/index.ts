@@ -1,3 +1,4 @@
+export { useTripsGet } from './useTripsGet'
 export { useTagCreateDelete } from './useTagCreateDelete'
 export { useTripCreate } from './useTripCreate'
 export { useTripTagCreateDelete } from './useTripTagCreateDelete'

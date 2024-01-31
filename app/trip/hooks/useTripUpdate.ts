@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation'
 import { formatToISODate } from '@/libs/utils'
 import { TripDetailsArgs, TripTagsArgs } from '../components/trip-form'
 import { TripSchema } from '../schema'
+import { useTripsGet } from '.'
 import {
   useUpdateTripMutation,
   useCreateTripTagMutation,
@@ -22,6 +23,8 @@ export const useTripUpdate = (
     useCreateTripTagMutation()
   const [deleteTripTagMutation, { loading: isTripTagDeleting }] =
     useDeleteTripTagMutation()
+
+  const { tripsRefetch } = useTripsGet()
 
   const updateTrip = async (data: TripSchema) => {
     if (!tripDetails) throw new Error('Trip details is not found')
@@ -70,6 +73,7 @@ export const useTripUpdate = (
 
       tripDetails.refetch()
       tripTags?.refetch()
+      tripsRefetch()
       router.push(`/trip/${tripDetails.id}`)
 
       toast({
