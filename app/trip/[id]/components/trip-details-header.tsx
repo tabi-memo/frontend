@@ -20,11 +20,12 @@ type TripDetailsHeaderProps = {
   title: string
   dateFrom: string | null | undefined
   dateTo: string | null | undefined
+  cost: string | null | undefined
+  costUnit: string | null | undefined
   users: {
     id: string | undefined
     image: string | null | undefined
   }[]
-
   tags: { id: string | undefined; name: string | undefined }[]
 }
 
@@ -34,6 +35,8 @@ export const TripDetailsHeader = ({
   title,
   dateFrom,
   dateTo,
+  cost,
+  costUnit,
   tags,
   users
 }: TripDetailsHeaderProps) => {
@@ -89,10 +92,16 @@ export const TripDetailsHeader = ({
               mt={{ base: '4px', md: '8px' }}
               fontSize={{ base: 'sm', md: 'md' }}
               color={{ base: 'gray.100', md: color }}
+              fontWeight="bold"
             >
               {formatDateToSlash(dateFrom, 'dayMonthYear')} -{' '}
               {formatDateToSlash(dateTo, 'dayMonthYear')}
             </Box>
+            {cost && (
+              <Box mt="4px">
+                Total Cost: {cost} {costUnit}
+              </Box>
+            )}
           </Box>
 
           <Flex gap={{ base: '10px', md: '28px' }}>

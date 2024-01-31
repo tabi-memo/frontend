@@ -47,6 +47,8 @@ export default function TripDetailsPage({
                 title={tripDataCollection.edges[0].node.title}
                 dateFrom={tripDataCollection.edges[0].node.date_from}
                 dateTo={tripDataCollection.edges[0].node.date_to}
+                cost={tripDataCollection.edges[0].node.cost}
+                costUnit={tripDataCollection.edges[0].node.cost_unit}
                 users={
                   tripDataCollection.edges[0].node.invitationsCollection?.edges.map(
                     (invitation) => ({
