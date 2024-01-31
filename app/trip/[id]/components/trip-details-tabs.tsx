@@ -10,7 +10,12 @@ import {
   VStack,
   Heading
 } from '@chakra-ui/react'
-import { formatDbTimeToDate, formatDateToSlash } from '@/libs/utils'
+import {
+  formatDbTimeToDate,
+  formatDateToSlash,
+  getDateObj,
+  formatToISODate
+} from '@/libs/utils'
 import { ActivityCard } from '../components'
 
 export type ActivityType = {
@@ -30,8 +35,8 @@ export const TripDetailsTabs = ({ activities }: TripDetailsTabsProps) => {
 
   const sortedActivities = useMemo(() => {
     return activities.sort((a, b) => {
-      const dateA = new Date(a.timeFrom).getTime()
-      const dateB = new Date(b.timeFrom).getTime()
+      const dateA = getDateObj(a.timeFrom).getTime()
+      const dateB = getDateObj(b.timeFrom).getTime()
 
       return dateA - dateB
     })
@@ -49,15 +54,21 @@ export const TripDetailsTabs = ({ activities }: TripDetailsTabsProps) => {
       // Array list for all dates
       const allDates: string[] = []
       sortedActivities.forEach((activity) => {
-        const startDate = new Date(formatDbTimeToDate(activity.timeFrom))
-        const endDate = new Date(formatDbTimeToDate(activity.timeTo))
+        const startDate = getDateObj(activity.timeFrom)
+        const endDate = activity.timeTo ? getDateObj(activity.timeTo) : null
 
         const currentDate = startDate
 
-        while (currentDate <= endDate) {
-          const formattedDate = currentDate.toISOString().split('T')[0] // Format to yyyy-mm-dd
-          if (!allDates.includes(formattedDate)) {
-            allDates.push(formattedDate)
+        while (endDate && currentDate <= endDate) {
+          const formattedFromDate = formatToISODate(currentDate).split('T')[0]
+          const formattedToDate = formatToISODate(endDate).split('T')[0]
+
+          if (!allDates.includes(formattedFromDate)) {
+            allDates.push(formattedFromDate)
+          }
+
+          if (!allDates.includes(formattedToDate)) {
+            allDates.push(formattedToDate)
           }
 
           // Move to the next day
@@ -69,7 +80,7 @@ export const TripDetailsTabs = ({ activities }: TripDetailsTabsProps) => {
         const activitiesForDate = sortedActivities.filter(
           (activity) =>
             formatDbTimeToDate(activity.timeFrom) === dateKey ||
-            formatDbTimeToDate(activity.timeTo) === dateKey
+            (activity.timeTo && formatDbTimeToDate(activity.timeTo) === dateKey)
         )
 
         result[dateKey] = activitiesForDate
@@ -82,12 +93,12 @@ export const TripDetailsTabs = ({ activities }: TripDetailsTabsProps) => {
   const [tabIndex, setTabIndex] = useState(0)
 
   const [selectedDate, setSelectedDate] = useState(
-    Object.keys(activitiesByDate)[0]
+    `${Object.keys(activitiesByDate)[0]}T00:00:00+09:00`
   )
 
   const handleTabsChange = (index: number) => {
     setTabIndex(index)
-    setSelectedDate(Object.keys(activitiesByDate)[index])
+    setSelectedDate(`${Object.keys(activitiesByDate)[index]}T00:00:00+09:00`)
   }
 
   return (

@@ -1,63 +1,11 @@
 import { toDate, utcToZonedTime, format } from 'date-fns-tz'
 
+/*
+ * NOTE: This timezone is used for the entire application.
+ * All form inputs for date or date time should have offset of +09:00 e.g."2024-01-01T00:00:00+09:00", which is Tokyo timezone.
+ * See "formatToISODate" function.
+ */
 const TIMEZONE = 'Asia/Tokyo'
-
-/**
- * @param date - ISO date string e.g. '2023-01-01'
- * @param type - 'dayMonthYear' | 'dayMonth'
- * @returns - Formatted date string for 'dayMonthYear' e.g. '2023/01/01'
- * @returns - Formatted date string for 'dayMonth' e.g. '01/01'
- */
-export const formatDateToSlash = (
-  date: string | undefined | null,
-  type: 'dayMonthYear' | 'dayMonth'
-) => {
-  if (!date) return ''
-
-  const parts = date.split('-')
-
-  if (type === 'dayMonthYear') return `${parts[0]}/${parts[1]}/${parts[2]}`
-
-  if (type === 'dayMonth') return `${parts[1]}/${parts[2]}`
-}
-
-/**
- * @param date - ISO date string e.g. '2021-01-01T12:00:00+00:00'
- * @returns - Formatted time string e.g. '12:00'
- */
-export const extractTimeFromDate = (date: string | undefined | null) => {
-  if (!date) return ''
-
-  const parts = date.split('T')
-  const hours = parts[1].split(':')[0]
-  const minutes = parts[1].split(':')[1]
-
-  return `${hours}:${minutes}`
-}
-
-/**
- * @param date  - ISO date string
- * @returns - Formatted date string e.g. '2023-01-01'
- */
-export const formatDbTimeToDate = (date: string | null | undefined) => {
-  if (!date) return ''
-  const formattedDate = date.split('T')[0]
-  return formattedDate
-}
-
-/**
- * @param date  - ISO date string
- * @returns - Formatted date string e.g. '2023-01-01 10:00'
- */
-export const formatToDateTime = (date: string | null | undefined) => {
-  if (!date) return ''
-  const parts = date.split('T')
-  const monthDay = date.split('T')[0]
-  const hours = parts[1].split(':')[0]
-  const minutes = parts[1].split(':')[1]
-
-  return `${monthDay} ${hours}:${minutes}`
-}
 
 /**
  *
@@ -70,6 +18,12 @@ export const getDateObj = (isoString: string) => {
   return dateObj
 }
 
+export const getOneNextDate = (isoString: string) => {
+  const dateObj = getDateObj(isoString)
+  dateObj.setDate(dateObj.getDate() + 1)
+  return dateObj
+}
+
 /**
  * @param date - Date Object
  * @returns - ISO date string with Tokyo timezone ex.2024-01-01T12:00:00+09:00
@@ -79,4 +33,61 @@ export const formatToISODate = (date: Date) => {
     timeZone: TIMEZONE
   })
   return isoString
+}
+
+/**
+ * @param date - ISO date string
+ * @param type - 'dayMonthYear' | 'dayMonth'
+ * @returns - Formatted date string for 'dayMonthYear' e.g. '2023/01/01'
+ * @returns - Formatted date string for 'dayMonth' e.g. '01/01'
+ */
+export const formatDateToSlash = (
+  date: string | undefined | null,
+  type: 'dayMonthYear' | 'dayMonth'
+) => {
+  if (!date) return ''
+
+  const dateObj = getDateObj(date)
+  const formattedDateMonthYear = format(dateObj, 'yyyy/MM/dd')
+  const formattedDateMonth = format(dateObj, 'MM/dd')
+
+  if (type === 'dayMonthYear') return formattedDateMonthYear
+  if (type === 'dayMonth') return formattedDateMonth
+}
+
+/**
+ * @param date  - ISO date string
+ * @returns - Formatted date string e.g. '2023/01/01 10:00'
+ */
+export const formatToDateTime = (date: string | null | undefined) => {
+  if (!date) return ''
+
+  const dateObj = getDateObj(date)
+  const formattedDate = format(dateObj, 'yyyy/MM/dd HH:mm')
+  return formattedDate
+}
+
+/**
+ * @param date - ISO date string
+ * @returns - Formatted time string e.g. '12:00'
+ */
+export const extractTimeFromDate = (date: string | undefined | null) => {
+  if (!date) return ''
+
+  const dateObj = getDateObj(date)
+  const formattedTime = format(dateObj, 'HH:mm')
+  return formattedTime
+}
+
+// TODO
+/**
+ * @param date  - ISO date string
+ * @returns - Formatted date string e.g. '2023-01-01'
+ */
+export const formatDbTimeToDate = (date: string | null | undefined) => {
+  if (!date) return ''
+
+  const dateObj = getDateObj(date)
+  const formattedDate = format(dateObj, 'yyyy-MM-dd')
+  return formattedDate
 }
