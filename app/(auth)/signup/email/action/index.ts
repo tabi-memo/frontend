@@ -2,7 +2,7 @@
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import type { SignUpSchema } from '@/(auth)/signup/email/schema'
-import { createClient } from '@/(auth)/supabase/server'
+import { createClient } from '@/(auth)/supabase/with-cookie'
 
 export const signUp = async ({
   email,

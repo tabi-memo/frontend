@@ -2,7 +2,6 @@
 
 import { NetworkStatus } from '@apollo/client'
 import { Heading, Box, Container, useColorModeValue } from '@chakra-ui/react'
-import { Header, Footer } from '@/components/navigation'
 import { useUserId } from '@/providers/session-provider'
 import { TripForm } from '../components'
 import { useTagsCollectionQuery } from '@generated/api'
@@ -31,33 +30,29 @@ export default function CreateTripPage() {
   if (!tagsData && !tagsLoading) throw new Error('No tags data found')
 
   return (
-    <>
-      <Header />
-      <Box as="main" minH="100vh" bg={bg} color={color}>
-        <Container
-          maxW={{ base: '100%', lg: 'container.sm' }}
-          pt={{ base: '20px', md: '30px' }}
-          pb={{ base: '40px', md: '80px' }}
-        >
-          <Heading as="h1" fontSize={{ base: '2xl', md: '4xl' }}>
-            Create Trip
-          </Heading>
-          <Box mt="40px">
-            <TripForm
-              tags={{
-                data:
-                  tagsData?.tagsCollection?.edges.map((tag) => ({
-                    id: tag.node.id,
-                    name: tag.node.name
-                  })) || [],
-                refetch: tagsCollectionRefetch,
-                refetchLoading: tagsRefetchLoading
-              }}
-            />
-          </Box>
-        </Container>
-      </Box>
-      <Footer />
-    </>
+    <Box as="main" minH="100svh" bg={bg} color={color}>
+      <Container
+        maxW={{ base: '100%', lg: 'container.sm' }}
+        pt={{ base: '20px', md: '30px' }}
+        pb={{ base: '40px', md: '80px' }}
+      >
+        <Heading as="h1" fontSize={{ base: '2xl', md: '4xl' }}>
+          Create Trip
+        </Heading>
+        <Box mt="40px">
+          <TripForm
+            tags={{
+              data:
+                tagsData?.tagsCollection?.edges.map((tag) => ({
+                  id: tag.node.id,
+                  name: tag.node.name
+                })) || [],
+              refetch: tagsCollectionRefetch,
+              refetchLoading: tagsRefetchLoading
+            }}
+          />
+        </Box>
+      </Container>
+    </Box>
   )
 }

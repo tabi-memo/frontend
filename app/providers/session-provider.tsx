@@ -1,7 +1,8 @@
 'use client'
 
 import { ReactNode, createContext, useContext } from 'react'
-import { redirect } from 'next/navigation'
+import { redirect, usePathname } from 'next/navigation'
+import { Footer, Header } from '@/components/navigation'
 
 const SessionContext = createContext<string | undefined>(undefined)
 
@@ -19,7 +20,16 @@ export function SessionProvider({
   children: ReactNode
   userId: string
 }) {
-  return (
+  const pathname = usePathname()
+  console.log(pathname)
+  const AUTH_PATH_NAMES = ['/signin', '/signup']
+  return AUTH_PATH_NAMES.includes(pathname) ? (
     <SessionContext.Provider value={userId}>{children}</SessionContext.Provider>
+  ) : (
+    <SessionContext.Provider value={userId}>
+      <Header />
+      {children}
+      <Footer />
+    </SessionContext.Provider>
   )
 }
