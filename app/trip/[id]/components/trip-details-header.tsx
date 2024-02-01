@@ -98,7 +98,7 @@ export const TripDetailsHeader = ({
               {formatDateToSlash(dateTo, 'dayMonthYear')}
             </Box>
             {cost && (
-              <Box mt="4px">
+              <Box mt="4px" display={{ base: 'none', md: 'block' }}>
                 Total Cost: {cost} {costUnit}
               </Box>
             )}
@@ -136,9 +136,9 @@ export const TripDetailsHeader = ({
 
         <Flex
           flexDir={{ base: 'column', md: 'row' }}
-          mt={{ base: '24px', md: '28px' }}
+          mt={{ base: '24px', md: '20px' }}
           justifyContent="space-between"
-          gap={'16px'}
+          gap={'14px'}
         >
           <Flex align="center" gap="18px">
             {!!users.length && (
@@ -181,6 +181,7 @@ export const TripDetailsHeader = ({
               Manage
             </Link>
           </Flex>
+
           <Flex gap="12px" maxW={{ base: '100%', md: '50%' }} flexWrap="wrap">
             {tags.map((tag) => (
               <Tag
@@ -196,6 +197,12 @@ export const TripDetailsHeader = ({
               </Tag>
             ))}
           </Flex>
+
+          {cost && (
+            <Box display={{ base: 'block', md: 'none' }} fontWeight="bold">
+              Total Cost: {cost} {costUnit}
+            </Box>
+          )}
         </Flex>
       </Box>
     </Box>
