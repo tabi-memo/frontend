@@ -15,9 +15,10 @@ import { FiTrash2, FiMapPin, FiMoreHorizontal, FiEdit3 } from 'react-icons/fi'
 import { Link } from '@/components/link'
 import { ConfirmModal } from '@/components/modal'
 import {
-  formatDbTimeToDate,
   formatDateToSlash,
-  extractTimeFromDate
+  extractTimeFromDate,
+  getOneNextDate,
+  getDateObj
 } from '@/libs/utils'
 import { ActivityType } from '../components'
 
@@ -41,45 +42,21 @@ export const ActivityCard = ({ activity, selectedDate }: ActivityCardProps) => {
   const differentDate = (displayPlace: 'timeFrom' | 'timeTo') => {
     if (!activity.timeTo) return null
 
-    const timeFromDate = formatDbTimeToDate(activity.timeFrom)
-    const timeToDate = formatDbTimeToDate(activity.timeTo)
+    const timeFromDateObj = getDateObj(activity.timeFrom)
+    const timeToDateObj = getDateObj(activity.timeTo)
+    const selectedDateObj = getDateObj(selectedDate)
+    const nextDate = getOneNextDate(selectedDate)
 
-    if (timeFromDate === timeToDate) return null
-
-    const [yearSelected, monthSelected, daySelected] = selectedDate
-      .split('-')
-      .map(Number)
-
-    const [yearTimeFrom, monthTimeFrom, dayTimeFrom] = timeFromDate
-      .split('-')
-      .map(Number)
-
-    const [yearTimeTo, monthTimeTo, dayTimeTo] = timeToDate
-      .split('-')
-      .map(Number)
-
-    const selectedDateObj = new Date(
-      yearSelected,
-      monthSelected - 1,
-      daySelected
-    )
-
-    const timeFromDateObj = new Date(
-      yearTimeFrom,
-      monthTimeFrom - 1,
-      dayTimeFrom
-    )
-
-    const timeToDateObj = new Date(yearTimeTo, monthTimeTo - 1, dayTimeTo)
+    if (timeFromDateObj === timeToDateObj) return null
 
     // To display below TimeFrom if the selected date is before than the timeFrom date
     if (displayPlace === 'timeFrom' && timeFromDateObj < selectedDateObj) {
-      return formatDateToSlash(timeFromDate, 'dayMonth')
+      return formatDateToSlash(activity.timeFrom, 'dayMonth')
     }
 
     // To display below TimeTo if the selected date is later than the timeTo date
-    if (displayPlace === 'timeTo' && timeToDateObj > selectedDateObj) {
-      return formatDateToSlash(timeToDate, 'dayMonth')
+    if (displayPlace === 'timeTo' && timeToDateObj > nextDate) {
+      return formatDateToSlash(activity.timeTo, 'dayMonth')
     }
   }
 

@@ -1,0 +1,9 @@
+mutation createTag($name: String!, $userId: UUID!) {
+  insertIntotagsCollection(objects: [{ name: $name, user_id: $userId }]) {
+    records {
+      __typename
+      id
+      name
+    }
+  }
+}

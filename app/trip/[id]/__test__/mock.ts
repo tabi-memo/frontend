@@ -18,8 +18,8 @@ export const tripDetailsMock1 = [
                 id: 'trip-uuid-1',
                 image_storage_object_id: null,
                 title: 'Tokyo',
-                date_from: '2021-01-01',
-                date_to: '2021-01-01',
+                date_from: '2024-01-01T00:00:00+09:00',
+                date_to: '2024-01-10T00:00:00+09:00',
                 invitationsCollection: {
                   edges: [
                     {
@@ -49,8 +49,8 @@ export const tripDetailsMock1 = [
                     {
                       node: {
                         address: 'Shibuya',
-                        time_from: '2021-01-01T10:00:00+00:00',
-                        time_to: '2021-01-01T11:00:00+00:00',
+                        time_from: '2024-01-01T10:00:00+09:00',
+                        time_to: '2024-01-01T11:00:00+09:00',
                         title: 'Activity 1',
                         id: 'abc1'
                       }
@@ -58,8 +58,8 @@ export const tripDetailsMock1 = [
                     {
                       node: {
                         address: 'Asakusa',
-                        time_from: '2021-01-02T10:00:00+00:00',
-                        time_to: '2021-01-02T11:00:00+00:00',
+                        time_from: '2024-01-02T10:00:00+09:00',
+                        time_to: '2024-01-02T11:00:00+09:00',
                         title: 'Activity 2',
                         id: 'abc2'
                       }
@@ -67,8 +67,8 @@ export const tripDetailsMock1 = [
                     {
                       node: {
                         address: 'Shinjuku',
-                        time_from: '2021-01-03T11:00:00+00:00',
-                        time_to: '2021-01-03T12:00:00+00:00',
+                        time_from: '2024-01-03T11:00:00+09:00',
+                        time_to: '2024-01-03T12:00:00+09:00',
                         title: 'Activity 3',
                         id: 'abc3'
                       }
@@ -76,8 +76,8 @@ export const tripDetailsMock1 = [
                     {
                       node: {
                         address: 'Yoyogi',
-                        time_from: '2021-01-03T14:00:00+00:00',
-                        time_to: '2021-01-03T08:00:00+00:00',
+                        time_from: '2024-01-03T14:00:00+09:00',
+                        time_to: '2024-01-03T18:00:00+09:00',
                         title: 'Activity 4',
                         id: 'abc4'
                       }
@@ -111,8 +111,8 @@ export const tripDetailsMock2 = [
                 id: 'trip-uuid-2',
                 image_storage_object_id: null,
                 title: 'Tokyo',
-                date_from: '2021-01-01',
-                date_to: '2021-01-01',
+                date_from: '2024-01-01T00:00:00+09:00',
+                date_to: '2024-01-010T00:00:00+09:00',
                 invitationsCollection: {
                   edges: [
                     {
@@ -142,8 +142,8 @@ export const tripDetailsMock2 = [
                     {
                       node: {
                         address: 'Shibuya',
-                        time_from: '2021-01-01T10:00:00+00:00',
-                        time_to: '2021-01-01T11:00:00+00:00',
+                        time_from: '2021-01-01T10:00:00+09:00',
+                        time_to: '2021-01-01T11:00:00+09:00',
                         title: 'Activity 1',
                         id: 'abc1'
                       }
@@ -151,8 +151,8 @@ export const tripDetailsMock2 = [
                     {
                       node: {
                         address: 'Asakusa',
-                        time_from: '2021-01-01T12:00:00+00:00',
-                        time_to: '2021-01-03T11:00:00+00:00',
+                        time_from: '2021-01-01T12:00:00+09:00',
+                        time_to: '2021-01-03T11:00:00+09:00',
                         title: 'Activity 2',
                         id: 'abc2'
                       }
@@ -160,8 +160,8 @@ export const tripDetailsMock2 = [
                     {
                       node: {
                         address: 'Shinjuku',
-                        time_from: '2021-01-03T11:00:00+00:00',
-                        time_to: '2021-01-03T12:00:00+00:00',
+                        time_from: '2021-01-03T11:00:00+09:00',
+                        time_to: '2021-01-03T12:00:00+09:00',
                         title: 'Activity 3',
                         id: 'abc3'
                       }
@@ -169,8 +169,8 @@ export const tripDetailsMock2 = [
                     {
                       node: {
                         address: 'Yoyogi',
-                        time_from: '2021-01-03T14:00:00+00:00',
-                        time_to: '2021-01-04T08:00:00+00:00',
+                        time_from: '2021-01-03T14:00:00+09:00',
+                        time_to: '2021-01-04T08:00:00+09:00',
                         title: 'Activity 4',
                         id: 'abc4'
                       }

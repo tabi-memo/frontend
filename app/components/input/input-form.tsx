@@ -1,19 +1,24 @@
+import { IconType } from 'react-icons'
 import {
   Input as ChakraFormInput,
   InputProps as ChakraInputProps,
   InputGroup,
+  InputRightElement,
   forwardRef,
   useColorModeValue
 } from '@chakra-ui/react'
 
-export const InputForm = forwardRef(
-  (props: ChakraInputProps, ref: React.Ref<HTMLInputElement>) => {
+type InputFormProps = {
+  rightIcon?: IconType
+}
+export const InputForm = forwardRef<ChakraInputProps & InputFormProps, 'input'>(
+  ({ rightIcon: RightIcon, ...props }, ref) => {
     const bgColor = useColorModeValue('white', 'gray.700')
     const borderColor = useColorModeValue('gray.300', 'gray.500')
     const placeholdercolor = useColorModeValue('gray.400', 'gray.600')
 
     return (
-      <InputGroup minW={{ base: '100%', md: '23.75rem' }}>
+      <InputGroup minW={'100%'}>
         <ChakraFormInput
           {...props}
           ref={ref}
@@ -24,6 +29,11 @@ export const InputForm = forwardRef(
             color: placeholdercolor
           }}
         />
+        {RightIcon && (
+          <InputRightElement color="gray.500">
+            <RightIcon />
+          </InputRightElement>
+        )}
       </InputGroup>
     )
   }

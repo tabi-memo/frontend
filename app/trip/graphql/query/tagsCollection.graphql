@@ -1,0 +1,13 @@
+query tagsCollection($userId: UUID!) {
+  tagsCollection(
+    filter: { user_id: { eq: $userId } }
+    orderBy: { created_at: AscNullsLast }
+  ) {
+    edges {
+      node {
+        id
+        name
+      }
+    }
+  }
+}

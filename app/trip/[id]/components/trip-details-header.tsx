@@ -20,11 +20,12 @@ type TripDetailsHeaderProps = {
   title: string
   dateFrom: string | null | undefined
   dateTo: string | null | undefined
+  cost: string | null | undefined
+  costUnit: string | null | undefined
   users: {
     id: string | undefined
     image: string | null | undefined
   }[]
-
   tags: { id: string | undefined; name: string | undefined }[]
 }
 
@@ -34,6 +35,8 @@ export const TripDetailsHeader = ({
   title,
   dateFrom,
   dateTo,
+  cost,
+  costUnit,
   tags,
   users
 }: TripDetailsHeaderProps) => {
@@ -89,10 +92,16 @@ export const TripDetailsHeader = ({
               mt={{ base: '4px', md: '8px' }}
               fontSize={{ base: 'sm', md: 'md' }}
               color={{ base: 'gray.100', md: color }}
+              fontWeight="bold"
             >
               {formatDateToSlash(dateFrom, 'dayMonthYear')} -{' '}
               {formatDateToSlash(dateTo, 'dayMonthYear')}
             </Box>
+            {cost && (
+              <Box mt="4px" display={{ base: 'none', md: 'block' }}>
+                Total Cost: {cost} {costUnit}
+              </Box>
+            )}
           </Box>
 
           <Flex gap={{ base: '10px', md: '28px' }}>
@@ -127,9 +136,9 @@ export const TripDetailsHeader = ({
 
         <Flex
           flexDir={{ base: 'column', md: 'row' }}
-          mt={{ base: '24px', md: '28px' }}
+          mt={{ base: '24px', md: '20px' }}
           justifyContent="space-between"
-          gap={'16px'}
+          gap={'14px'}
         >
           <Flex align="center" gap="18px">
             {!!users.length && (
@@ -172,6 +181,7 @@ export const TripDetailsHeader = ({
               Manage
             </Link>
           </Flex>
+
           <Flex gap="12px" maxW={{ base: '100%', md: '50%' }} flexWrap="wrap">
             {tags.map((tag) => (
               <Tag
@@ -187,6 +197,12 @@ export const TripDetailsHeader = ({
               </Tag>
             ))}
           </Flex>
+
+          {cost && (
+            <Box display={{ base: 'block', md: 'none' }} fontWeight="bold">
+              Total Cost: {cost} {costUnit}
+            </Box>
+          )}
         </Flex>
       </Box>
     </Box>

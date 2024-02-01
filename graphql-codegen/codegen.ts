@@ -50,8 +50,8 @@ const config: CodegenConfig = {
       Time: 'string',
       Datetime: 'string',
       JSON: 'string',
-      BigInt: 'number',
-      BigFloat: 'number',
+      BigInt: 'string',
+      BigFloat: 'string',
       Opaque: 'any'
     }
   },
