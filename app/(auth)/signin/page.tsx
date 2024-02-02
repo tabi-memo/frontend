@@ -84,7 +84,7 @@ export default function SignIn() {
           py={{ base: '40px', md: '40px' }}
           px={{ base: '16px', md: '80px' }}
         >
-          <CardHeader w="100%">
+          <CardHeader w="100%" p="0">
             <Center w="100%">
               <Image src={logo} width={144} height={40} alt="Tabi Memo" />
             </Center>
@@ -102,8 +102,8 @@ export default function SignIn() {
               </Heading>
               <Heading
                 as="h2"
-                fontSize={{ base: 'sm', md: 'sm' }}
-                color="gray.600"
+                fontSize="sm"
+                color="gray.700"
                 fontWeight="regular"
               >
                 Sign in to your account
@@ -119,10 +119,13 @@ export default function SignIn() {
             w={{ base: '80vw', md: 'unset' }}
             maxW="500px"
           >
-            <VStack gap={{ base: '30px', md: '40px' }}>
+            <VStack gap="24px">
               <FormControl isInvalid={!!errors.email}>
                 <FormLabel>Email</FormLabel>
-                <InputForm {...register('email')} />
+                <InputForm
+                  {...register('email')}
+                  minW={{ base: '300px', md: '380px' }}
+                />
                 {errors.email && (
                   <FormErrorMessage>{errors.email.message}</FormErrorMessage>
                 )}
@@ -134,14 +137,19 @@ export default function SignIn() {
                   <FormErrorMessage>{errors.password.message}</FormErrorMessage>
                 )}
               </FormControl>
-
-              <PrimaryButton isLoading={isLoading} type={'submit'} w="100%">
-                Sign In
-              </PrimaryButton>
             </VStack>
+            <PrimaryButton
+              isLoading={isLoading}
+              type={'submit'}
+              w="100%"
+              mt="30px"
+            >
+              Sign In
+            </PrimaryButton>
           </CardBody>
           <CardFooter
             mt={{ base: '38px', md: '42px' }}
+            p="0"
             gap={{ base: '30px', md: '40px' }}
           >
             <VStack w="100%">
