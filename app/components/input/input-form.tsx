@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useState } from 'react'
 import { IconType } from 'react-icons'
 import {
   Input as ChakraFormInput,
@@ -9,15 +10,18 @@ import {
   useColorModeValue
 } from '@chakra-ui/react'
 import { FiEye, FiEyeOff } from 'react-icons/fi'
+import { FiEye, FiEyeOff } from 'react-icons/fi'
 type InputFormProps = {
   rightIcon?: IconType
-  hasEyeIcon?: boolean
+  showInput?: boolean
 }
 export const InputForm = forwardRef<ChakraInputProps & InputFormProps, 'input'>(
-  ({ rightIcon: RightIcon, hasEyeIcon, ...props }, ref) => {
+  ({ rightIcon: RightIcon, showInput, ...props }, ref) => {
     const bgColor = useColorModeValue('white', 'gray.700')
     const borderColor = useColorModeValue('gray.300', 'gray.500')
     const placeholdercolor = useColorModeValue('gray.400', 'gray.600')
+    const [show, setShow] = useState(false)
+    const handleClick = () => setShow(!show)
     const [show, setShow] = useState(false)
     const handleClick = () => setShow(!show)
 
@@ -25,7 +29,7 @@ export const InputForm = forwardRef<ChakraInputProps & InputFormProps, 'input'>(
       <InputGroup minW={'100%'}>
         <ChakraFormInput
           {...props}
-          type={show ? 'text' : props.type}
+          type={show ? 'text' : 'password'}
           ref={ref}
           focusBorderColor={'primary.600'}
           borderColor={borderColor}
@@ -40,7 +44,7 @@ export const InputForm = forwardRef<ChakraInputProps & InputFormProps, 'input'>(
           </InputRightElement>
         )}
 
-        {hasEyeIcon && (
+        {showInput && (
           <InputRightElement
             color="gray.500"
             onClick={handleClick}
