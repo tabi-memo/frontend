@@ -3,14 +3,14 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
   Box,
-  Flex,
   FormLabel,
   FormErrorMessage,
   FormControl,
-  Input,
   Heading,
   useToast,
-  useBoolean
+  useBoolean,
+  useColorModeValue,
+  VStack
 } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 import {
@@ -18,8 +18,10 @@ import {
   ChangePasswordSchema
 } from '@/(auth)/change-password/schema'
 import { PrimaryButton } from '@/components/button'
+import { InputForm } from '@/components/input'
 
 export default function ChangePassword() {
+  const color = useColorModeValue('black', 'gray.300')
   const toast = useToast()
   const [isLoading, setIsLoading] = useBoolean()
   const [toastId, setToastId] = useState<ReturnType<typeof toast> | undefined>(
@@ -63,27 +65,53 @@ export default function ChangePassword() {
   )
 
   return (
-    <>
-      <Heading>Change Password</Heading>
-      <Box as="form" onSubmit={changePasswordHandler}>
-        <Flex flexDirection={'column'}>
+    <Box
+      as="main"
+      w="100vw"
+      minH={{ base: 'calc(100vh - 145px)', md: 'calc(100vh - 210px)' }}
+      color={color}
+    >
+      <VStack
+        mt={{ base: '20px', md: '40px' }}
+        mx="auto"
+        w={{ base: '380px', md: '480px' }}
+        px={{ base: '16px', md: '80px' }}
+      >
+        <Heading
+          as="h1"
+          fontSize={{ base: '2xl', md: '4xl' }}
+          mb="40px"
+          w="100%"
+          textAlign={{ base: 'left', md: 'center' }}
+        >
+          Change Password
+        </Heading>
+        <VStack
+          spacing={{ base: '30px', md: '40px' }}
+          as="form"
+          onSubmit={changePasswordHandler}
+        >
           <FormControl isInvalid={!!errors.oldPassword}>
             <FormLabel>Old Password</FormLabel>
-            <Input type="password" {...register('oldPassword')} />
+            <InputForm
+              {...register('oldPassword')}
+              w={{ base: '358px', md: '480px' }}
+              showInput={true}
+            />
             {errors.oldPassword && (
               <FormErrorMessage>{errors.oldPassword.message}</FormErrorMessage>
             )}
           </FormControl>
           <FormControl isInvalid={!!errors.newPassword}>
             <FormLabel>New Password</FormLabel>
-            <Input type="password" {...register('newPassword')} />
+            <InputForm {...register('newPassword')} showInput={true} />
             {errors.newPassword && (
               <FormErrorMessage>{errors.newPassword.message}</FormErrorMessage>
             )}
           </FormControl>
           <FormControl isInvalid={!!errors.confirmNewPassword}>
             <FormLabel>Confirm New Password</FormLabel>
-            <Input type="password" {...register('confirmNewPassword')} />
+            <InputForm showInput={true} {...register('confirmNewPassword')} />
             {errors.confirmNewPassword && (
               <FormErrorMessage>
                 {errors.confirmNewPassword.message}
@@ -93,8 +121,8 @@ export default function ChangePassword() {
           <PrimaryButton isLoading={isLoading} type={'submit'}>
             Change Password
           </PrimaryButton>
-        </Flex>
-      </Box>
-    </>
+        </VStack>
+      </VStack>
+    </Box>
   )
 }
