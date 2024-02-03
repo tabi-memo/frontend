@@ -121,16 +121,21 @@ export default function SignUp() {
           >
             <VStack gap="24px">
               <FormControl isInvalid={!!errors.name}>
-                <FormLabel>Name</FormLabel>
-                <InputForm {...register('name')} placeholder="John Smith" />
+                <FormLabel color="black">Name</FormLabel>
+                <InputForm
+                  {...register('name')}
+                  forceLightMode={true}
+                  placeholder="John Smith"
+                />
                 {errors.name && (
                   <FormErrorMessage>{errors.name.message}</FormErrorMessage>
                 )}
               </FormControl>
               <FormControl isInvalid={!!errors.email}>
-                <FormLabel>Email</FormLabel>
+                <FormLabel color="black">Email</FormLabel>
                 <InputForm
                   {...register('email')}
+                  forceLightMode={true}
                   placeholder="tabimemo@example.com"
                   minW={{ base: '300px', md: '380px' }}
                 />
@@ -139,9 +144,10 @@ export default function SignUp() {
                 )}
               </FormControl>
               <FormControl isInvalid={!!errors.password}>
-                <FormLabel>Password</FormLabel>
+                <FormLabel color="black">Password</FormLabel>
                 <InputForm
                   type="password"
+                  forceLightMode={true}
                   {...register('password')}
                   placeholder="password"
                 />
@@ -150,9 +156,10 @@ export default function SignUp() {
                 )}
               </FormControl>
               <FormControl isInvalid={!!errors.confirmationPassword}>
-                <FormLabel>Confirm Password</FormLabel>
+                <FormLabel color="black">Confirm Password</FormLabel>
                 <InputForm
                   type="password"
+                  forceLightMode={true}
                   {...register('confirmationPassword')}
                   placeholder="password"
                 />

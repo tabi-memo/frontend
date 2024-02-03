@@ -10,14 +10,34 @@ import {
 
 type InputFormProps = {
   rightIcon?: IconType
+  forceLightMode?: boolean
 }
 export const InputForm = forwardRef<ChakraInputProps & InputFormProps, 'input'>(
-  ({ rightIcon: RightIcon, ...props }, ref) => {
+  ({ rightIcon: RightIcon, forceLightMode, ...props }, ref) => {
     const bgColor = useColorModeValue('white', 'gray.700')
     const borderColor = useColorModeValue('gray.300', 'gray.500')
     const placeholdercolor = useColorModeValue('gray.400', 'gray.600')
 
-    return (
+    return forceLightMode ? (
+      <InputGroup minW={'100%'}>
+        <ChakraFormInput
+          {...props}
+          ref={ref}
+          color="black"
+          focusBorderColor={'primary.600'}
+          borderColor="gray.300"
+          bgColor="white"
+          _placeholder={{
+            color: 'gray.400'
+          }}
+        />
+        {RightIcon && (
+          <InputRightElement color="gray.500">
+            <RightIcon />
+          </InputRightElement>
+        )}
+      </InputGroup>
+    ) : (
       <InputGroup minW={'100%'}>
         <ChakraFormInput
           {...props}
