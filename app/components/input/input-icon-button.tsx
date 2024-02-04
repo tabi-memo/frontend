@@ -1,3 +1,4 @@
+import { IconType } from 'react-icons'
 import {
   Input as ChakraInput,
   InputProps as ChakraInputProps,
@@ -7,16 +8,17 @@ import {
   forwardRef,
   useColorModeValue
 } from '@chakra-ui/react'
-import { FiSearch } from 'react-icons/fi'
 
-type InputSearchProps = {
+type InputIconButtonProps = {
   ariaLabel: string
+  icon: IconType
+  onClick?: () => void
 }
 
-export const InputSearch = forwardRef<
-  ChakraInputProps & InputSearchProps,
+export const InputIconButton = forwardRef<
+  ChakraInputProps & InputIconButtonProps,
   'input'
->(({ ariaLabel, ...props }, ref) => {
+>(({ ariaLabel, icon: Icon, onClick, ...props }, ref) => {
   const bgColor = useColorModeValue('white', 'gray.700')
   const borderColor = useColorModeValue('primary.700', 'gray.500')
 
@@ -34,10 +36,12 @@ export const InputSearch = forwardRef<
         <IconButton
           aria-label={ariaLabel}
           variant="unstyled"
-          type="submit"
+          type={onClick ? 'button' : 'submit'}
+          onClick={onClick}
           color="primary.700"
+          isDisabled={props.isDisabled}
         >
-          <FiSearch size="24px" />
+          <Icon size="24px" />
         </IconButton>
       </InputRightElement>
     </InputGroup>

@@ -2,7 +2,8 @@
 import { useRef, FormEvent, KeyboardEvent } from 'react'
 import { Box } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
-import { InputSearch } from '@/components/input'
+import { FiSearch } from 'react-icons/fi'
+import { InputIconButton } from '@/components/input'
 
 export const TripSearch = () => {
   const router = useRouter()
@@ -37,13 +38,14 @@ export const TripSearch = () => {
 
   return (
     <Box as="form" onSubmit={submitHandler}>
-      <InputSearch
+      <InputIconButton
         type={'text'}
         name={'searchWord'}
         placeholder={'Search trips by title'}
         ariaLabel={'Search trips by title'}
         onKeyDown={(e) => submitByEnter(e)}
         ref={inputRef}
+        icon={FiSearch}
       />
     </Box>
   )

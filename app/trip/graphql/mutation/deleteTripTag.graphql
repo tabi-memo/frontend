@@ -1,0 +1,8 @@
+mutation deleteTripTag($id: UUID!) {
+  deleteFromtrip_tagsCollection(filter: { id: { eq: $id } }) {
+    records {
+      __typename
+      id
+    }
+  }
+}

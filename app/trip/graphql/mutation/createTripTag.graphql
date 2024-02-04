@@ -1,0 +1,12 @@
+mutation createTripTag($tripId: UUID!, $tagId: UUID!) {
+  insertIntotrip_tagsCollection(
+    objects: [{ trip_id: $tripId, tag_id: $tagId }]
+  ) {
+    records {
+      __typename
+      id
+      tag_id
+      trip_id
+    }
+  }
+}

@@ -61,7 +61,7 @@ export default function TripDetailsPage({
   }
 
   return (
-    <Box as="main" minH="100vh" bg={bg} color={color}>
+    <Box as="main" minH="100svh" bg={bg} color={color}>
       <Container
         maxW={{ base: '100%', lg: 'container.xl' }}
         pt={{ base: '0px', md: '30px' }}
@@ -81,6 +81,8 @@ export default function TripDetailsPage({
               title={tripDataCollection.edges[0].node.title}
               dateFrom={tripDataCollection.edges[0].node.date_from}
               dateTo={tripDataCollection.edges[0].node.date_to}
+              cost={tripDataCollection.edges[0].node.cost}
+              costUnit={tripDataCollection.edges[0].node.cost_unit}
               users={
                 tripDataCollection.edges[0].node.invitationsCollection?.edges.map(
                   (invitation) => ({

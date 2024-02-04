@@ -4,7 +4,7 @@ import { Heading, Box, Text, VStack } from '@chakra-ui/react'
 
 type ActivityInfoProps = {
   memo: string | null | undefined
-  cost: number | null | undefined
+  cost: string | null | undefined
 }
 
 export const ActivityInfo = ({ memo, cost }: ActivityInfoProps) => {

@@ -1,0 +1,9 @@
+mutation deleteTag($id: UUID!) {
+  deleteFromtagsCollection(filter: { id: { eq: $id } }) {
+    records {
+      __typename
+      id
+      name
+    }
+  }
+}

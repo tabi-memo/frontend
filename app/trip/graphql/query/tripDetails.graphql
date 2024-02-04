@@ -6,7 +6,10 @@ query tripDetails($id: UUID!) {
         title
         date_from
         date_to
-        image_url
+        # image_url // TODO ref: https://github.com/tabi-memo/frontend/pull/26
+        image_storage_object_id
+        cost
+        cost_unit
         invitationsCollection {
           edges {
             node {
