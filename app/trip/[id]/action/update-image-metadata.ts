@@ -34,12 +34,20 @@ export const updateImageMetadataAction = async (
       .match({ id })
 
     if (updateResponse.error) {
-      return { status: 'error', data: { publicUrl }, error: { message: updateResponse.error.message } }
+      return {
+        status: 'error',
+        data: { publicUrl },
+        error: { message: updateResponse.error.message }
+      }
     }
 
     return { status: 'success', data: { publicUrl } }
   } catch (error) {
     console.error({ error })
-    return { status: 'error', data: { publicUrl: '' }, error: { message: 'Failed to upload image' } }
+    return {
+      status: 'error',
+      data: { publicUrl: '' },
+      error: { message: 'Failed to upload image' }
+    }
   }
 }
