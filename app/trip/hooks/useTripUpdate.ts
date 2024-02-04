@@ -38,7 +38,7 @@ export const useTripUpdate = (
             title: data.title,
             date_from: formatToISODate(data.date_from),
             date_to: data.date_to ? formatToISODate(data.date_to) : null,
-            image_storage_object_id: data.image_storage_object_id,
+            image_url: data.image_url,
             cost: data.cost,
             cost_unit: data.cost_unit
           }

@@ -140,12 +140,12 @@ export type Mutation = {
   __typename?: 'Mutation'
   /** Deletes zero or more records from the `activity` collection */
   deleteFromactivityCollection: ActivityDeleteResponse
+  /** Deletes zero or more records from the `activity_uploaded_files` collection */
+  deleteFromactivity_uploaded_filesCollection: Activity_Uploaded_FilesDeleteResponse
   /** Deletes zero or more records from the `invitations` collection */
   deleteFrominvitationsCollection: InvitationsDeleteResponse
   /** Deletes zero or more records from the `tags` collection */
   deleteFromtagsCollection: TagsDeleteResponse
-  /** Deletes zero or more records from the `test_tenant` collection */
-  deleteFromtest_tenantCollection: Test_TenantDeleteResponse
   /** Deletes zero or more records from the `trip_tags` collection */
   deleteFromtrip_tagsCollection: Trip_TagsDeleteResponse
   /** Deletes zero or more records from the `trips` collection */
@@ -154,12 +154,12 @@ export type Mutation = {
   deleteFromusersCollection: UsersDeleteResponse
   /** Adds one or more `activity` records to the collection */
   insertIntoactivityCollection?: Maybe<ActivityInsertResponse>
+  /** Adds one or more `activity_uploaded_files` records to the collection */
+  insertIntoactivity_uploaded_filesCollection?: Maybe<Activity_Uploaded_FilesInsertResponse>
   /** Adds one or more `invitations` records to the collection */
   insertIntoinvitationsCollection?: Maybe<InvitationsInsertResponse>
   /** Adds one or more `tags` records to the collection */
   insertIntotagsCollection?: Maybe<TagsInsertResponse>
-  /** Adds one or more `test_tenant` records to the collection */
-  insertIntotest_tenantCollection?: Maybe<Test_TenantInsertResponse>
   /** Adds one or more `trip_tags` records to the collection */
   insertIntotrip_tagsCollection?: Maybe<Trip_TagsInsertResponse>
   /** Adds one or more `trips` records to the collection */
@@ -168,12 +168,12 @@ export type Mutation = {
   insertIntousersCollection?: Maybe<UsersInsertResponse>
   /** Updates zero or more records in the `activity` collection */
   updateactivityCollection: ActivityUpdateResponse
+  /** Updates zero or more records in the `activity_uploaded_files` collection */
+  updateactivity_uploaded_filesCollection: Activity_Uploaded_FilesUpdateResponse
   /** Updates zero or more records in the `invitations` collection */
   updateinvitationsCollection: InvitationsUpdateResponse
   /** Updates zero or more records in the `tags` collection */
   updatetagsCollection: TagsUpdateResponse
-  /** Updates zero or more records in the `test_tenant` collection */
-  updatetest_tenantCollection: Test_TenantUpdateResponse
   /** Updates zero or more records in the `trip_tags` collection */
   updatetrip_tagsCollection: Trip_TagsUpdateResponse
   /** Updates zero or more records in the `trips` collection */
@@ -189,6 +189,12 @@ export type MutationDeleteFromactivityCollectionArgs = {
 }
 
 /** The root type for creating and mutating data */
+export type MutationDeleteFromactivity_Uploaded_FilesCollectionArgs = {
+  atMost?: Scalars['Int']['input']
+  filter?: InputMaybe<Activity_Uploaded_FilesFilter>
+}
+
+/** The root type for creating and mutating data */
 export type MutationDeleteFrominvitationsCollectionArgs = {
   atMost?: Scalars['Int']['input']
   filter?: InputMaybe<InvitationsFilter>
@@ -198,12 +204,6 @@ export type MutationDeleteFrominvitationsCollectionArgs = {
 export type MutationDeleteFromtagsCollectionArgs = {
   atMost?: Scalars['Int']['input']
   filter?: InputMaybe<TagsFilter>
-}
-
-/** The root type for creating and mutating data */
-export type MutationDeleteFromtest_TenantCollectionArgs = {
-  atMost?: Scalars['Int']['input']
-  filter?: InputMaybe<Test_TenantFilter>
 }
 
 /** The root type for creating and mutating data */
@@ -230,6 +230,11 @@ export type MutationInsertIntoactivityCollectionArgs = {
 }
 
 /** The root type for creating and mutating data */
+export type MutationInsertIntoactivity_Uploaded_FilesCollectionArgs = {
+  objects: Array<Activity_Uploaded_FilesInsertInput>
+}
+
+/** The root type for creating and mutating data */
 export type MutationInsertIntoinvitationsCollectionArgs = {
   objects: Array<InvitationsInsertInput>
 }
@@ -237,11 +242,6 @@ export type MutationInsertIntoinvitationsCollectionArgs = {
 /** The root type for creating and mutating data */
 export type MutationInsertIntotagsCollectionArgs = {
   objects: Array<TagsInsertInput>
-}
-
-/** The root type for creating and mutating data */
-export type MutationInsertIntotest_TenantCollectionArgs = {
-  objects: Array<Test_TenantInsertInput>
 }
 
 /** The root type for creating and mutating data */
@@ -267,6 +267,13 @@ export type MutationUpdateactivityCollectionArgs = {
 }
 
 /** The root type for creating and mutating data */
+export type MutationUpdateactivity_Uploaded_FilesCollectionArgs = {
+  atMost?: Scalars['Int']['input']
+  filter?: InputMaybe<Activity_Uploaded_FilesFilter>
+  set: Activity_Uploaded_FilesUpdateInput
+}
+
+/** The root type for creating and mutating data */
 export type MutationUpdateinvitationsCollectionArgs = {
   atMost?: Scalars['Int']['input']
   filter?: InputMaybe<InvitationsFilter>
@@ -278,13 +285,6 @@ export type MutationUpdatetagsCollectionArgs = {
   atMost?: Scalars['Int']['input']
   filter?: InputMaybe<TagsFilter>
   set: TagsUpdateInput
-}
-
-/** The root type for creating and mutating data */
-export type MutationUpdatetest_TenantCollectionArgs = {
-  atMost?: Scalars['Int']['input']
-  filter?: InputMaybe<Test_TenantFilter>
-  set: Test_TenantUpdateInput
 }
 
 /** The root type for creating and mutating data */
@@ -344,14 +344,14 @@ export type Query = {
   __typename?: 'Query'
   /** A pagable collection of type `activity` */
   activityCollection?: Maybe<ActivityConnection>
+  /** A pagable collection of type `activity_uploaded_files` */
+  activity_uploaded_filesCollection?: Maybe<Activity_Uploaded_FilesConnection>
   /** A pagable collection of type `invitations` */
   invitationsCollection?: Maybe<InvitationsConnection>
   /** Retrieve a record by its `ID` */
   node?: Maybe<Node>
   /** A pagable collection of type `tags` */
   tagsCollection?: Maybe<TagsConnection>
-  /** A pagable collection of type `test_tenant` */
-  test_tenantCollection?: Maybe<Test_TenantConnection>
   /** A pagable collection of type `trip_tags` */
   trip_tagsCollection?: Maybe<Trip_TagsConnection>
   /** A pagable collection of type `trips` */
@@ -368,6 +368,16 @@ export type QueryActivityCollectionArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   orderBy?: InputMaybe<Array<ActivityOrderBy>>
+}
+
+/** The root type for querying data */
+export type QueryActivity_Uploaded_FilesCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  filter?: InputMaybe<Activity_Uploaded_FilesFilter>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<Activity_Uploaded_FilesOrderBy>>
 }
 
 /** The root type for querying data */
@@ -393,16 +403,6 @@ export type QueryTagsCollectionArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   orderBy?: InputMaybe<Array<TagsOrderBy>>
-}
-
-/** The root type for querying data */
-export type QueryTest_TenantCollectionArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>
-  before?: InputMaybe<Scalars['Cursor']['input']>
-  filter?: InputMaybe<Test_TenantFilter>
-  first?: InputMaybe<Scalars['Int']['input']>
-  last?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<Test_TenantOrderBy>>
 }
 
 /** The root type for querying data */
@@ -474,11 +474,13 @@ export type UuidFilter = {
 
 export type Activity = Node & {
   __typename?: 'activity'
+  activity_uploaded_filesCollection?: Maybe<Activity_Uploaded_FilesConnection>
   address?: Maybe<Scalars['String']['output']>
   cost?: Maybe<Scalars['BigFloat']['output']>
   cost_unit?: Maybe<Scalars['String']['output']>
+  created_at: Scalars['Datetime']['output']
   id: Scalars['UUID']['output']
-  image_storage_object_id?: Maybe<Scalars['UUID']['output']>
+  image_url?: Maybe<Scalars['String']['output']>
   memo?: Maybe<Scalars['String']['output']>
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output']
@@ -488,6 +490,15 @@ export type Activity = Node & {
   trip_id?: Maybe<Scalars['UUID']['output']>
   trips?: Maybe<Trips>
   url?: Maybe<Scalars['String']['output']>
+}
+
+export type ActivityActivity_Uploaded_FilesCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  filter?: InputMaybe<Activity_Uploaded_FilesFilter>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<Activity_Uploaded_FilesOrderBy>>
 }
 
 export type ActivityConnection = {
@@ -512,12 +523,19 @@ export type ActivityEdge = {
 
 export type ActivityFilter = {
   address?: InputMaybe<StringFilter>
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<ActivityFilter>>
   cost?: InputMaybe<BigFloatFilter>
   cost_unit?: InputMaybe<StringFilter>
+  created_at?: InputMaybe<DatetimeFilter>
   id?: InputMaybe<UuidFilter>
-  image_storage_object_id?: InputMaybe<UuidFilter>
+  image_url?: InputMaybe<StringFilter>
   memo?: InputMaybe<StringFilter>
   nodeId?: InputMaybe<IdFilter>
+  /** Negates a filter */
+  not?: InputMaybe<ActivityFilter>
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<ActivityFilter>>
   time_from?: InputMaybe<DatetimeFilter>
   time_to?: InputMaybe<DatetimeFilter>
   title?: InputMaybe<StringFilter>
@@ -529,8 +547,9 @@ export type ActivityInsertInput = {
   address?: InputMaybe<Scalars['String']['input']>
   cost?: InputMaybe<Scalars['BigFloat']['input']>
   cost_unit?: InputMaybe<Scalars['String']['input']>
+  created_at?: InputMaybe<Scalars['Datetime']['input']>
   id?: InputMaybe<Scalars['UUID']['input']>
-  image_storage_object_id?: InputMaybe<Scalars['UUID']['input']>
+  image_url?: InputMaybe<Scalars['String']['input']>
   memo?: InputMaybe<Scalars['String']['input']>
   time_from?: InputMaybe<Scalars['Datetime']['input']>
   time_to?: InputMaybe<Scalars['Datetime']['input']>
@@ -551,8 +570,9 @@ export type ActivityOrderBy = {
   address?: InputMaybe<OrderByDirection>
   cost?: InputMaybe<OrderByDirection>
   cost_unit?: InputMaybe<OrderByDirection>
+  created_at?: InputMaybe<OrderByDirection>
   id?: InputMaybe<OrderByDirection>
-  image_storage_object_id?: InputMaybe<OrderByDirection>
+  image_url?: InputMaybe<OrderByDirection>
   memo?: InputMaybe<OrderByDirection>
   time_from?: InputMaybe<OrderByDirection>
   time_to?: InputMaybe<OrderByDirection>
@@ -565,8 +585,9 @@ export type ActivityUpdateInput = {
   address?: InputMaybe<Scalars['String']['input']>
   cost?: InputMaybe<Scalars['BigFloat']['input']>
   cost_unit?: InputMaybe<Scalars['String']['input']>
+  created_at?: InputMaybe<Scalars['Datetime']['input']>
   id?: InputMaybe<Scalars['UUID']['input']>
-  image_storage_object_id?: InputMaybe<Scalars['UUID']['input']>
+  image_url?: InputMaybe<Scalars['String']['input']>
   memo?: InputMaybe<Scalars['String']['input']>
   time_from?: InputMaybe<Scalars['Datetime']['input']>
   time_to?: InputMaybe<Scalars['Datetime']['input']>
@@ -581,6 +602,101 @@ export type ActivityUpdateResponse = {
   affectedCount: Scalars['Int']['output']
   /** Array of records impacted by the mutation */
   records: Array<Activity>
+}
+
+export type Activity_Uploaded_Files = Node & {
+  __typename?: 'activity_uploaded_files'
+  activity?: Maybe<Activity>
+  activity_id?: Maybe<Scalars['UUID']['output']>
+  content_type: Scalars['String']['output']
+  created_at: Scalars['Datetime']['output']
+  file_data?: Maybe<Scalars['JSON']['output']>
+  file_name: Scalars['String']['output']
+  file_url: Scalars['String']['output']
+  id: Scalars['UUID']['output']
+  /** Globally Unique Record Identifier */
+  nodeId: Scalars['ID']['output']
+}
+
+export type Activity_Uploaded_FilesConnection = {
+  __typename?: 'activity_uploaded_filesConnection'
+  edges: Array<Activity_Uploaded_FilesEdge>
+  pageInfo: PageInfo
+}
+
+export type Activity_Uploaded_FilesDeleteResponse = {
+  __typename?: 'activity_uploaded_filesDeleteResponse'
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output']
+  /** Array of records impacted by the mutation */
+  records: Array<Activity_Uploaded_Files>
+}
+
+export type Activity_Uploaded_FilesEdge = {
+  __typename?: 'activity_uploaded_filesEdge'
+  cursor: Scalars['String']['output']
+  node: Activity_Uploaded_Files
+}
+
+export type Activity_Uploaded_FilesFilter = {
+  activity_id?: InputMaybe<UuidFilter>
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<Activity_Uploaded_FilesFilter>>
+  content_type?: InputMaybe<StringFilter>
+  created_at?: InputMaybe<DatetimeFilter>
+  file_name?: InputMaybe<StringFilter>
+  file_url?: InputMaybe<StringFilter>
+  id?: InputMaybe<UuidFilter>
+  nodeId?: InputMaybe<IdFilter>
+  /** Negates a filter */
+  not?: InputMaybe<Activity_Uploaded_FilesFilter>
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<Activity_Uploaded_FilesFilter>>
+}
+
+export type Activity_Uploaded_FilesInsertInput = {
+  activity_id?: InputMaybe<Scalars['UUID']['input']>
+  content_type?: InputMaybe<Scalars['String']['input']>
+  created_at?: InputMaybe<Scalars['Datetime']['input']>
+  file_data?: InputMaybe<Scalars['JSON']['input']>
+  file_name?: InputMaybe<Scalars['String']['input']>
+  file_url?: InputMaybe<Scalars['String']['input']>
+  id?: InputMaybe<Scalars['UUID']['input']>
+}
+
+export type Activity_Uploaded_FilesInsertResponse = {
+  __typename?: 'activity_uploaded_filesInsertResponse'
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output']
+  /** Array of records impacted by the mutation */
+  records: Array<Activity_Uploaded_Files>
+}
+
+export type Activity_Uploaded_FilesOrderBy = {
+  activity_id?: InputMaybe<OrderByDirection>
+  content_type?: InputMaybe<OrderByDirection>
+  created_at?: InputMaybe<OrderByDirection>
+  file_name?: InputMaybe<OrderByDirection>
+  file_url?: InputMaybe<OrderByDirection>
+  id?: InputMaybe<OrderByDirection>
+}
+
+export type Activity_Uploaded_FilesUpdateInput = {
+  activity_id?: InputMaybe<Scalars['UUID']['input']>
+  content_type?: InputMaybe<Scalars['String']['input']>
+  created_at?: InputMaybe<Scalars['Datetime']['input']>
+  file_data?: InputMaybe<Scalars['JSON']['input']>
+  file_name?: InputMaybe<Scalars['String']['input']>
+  file_url?: InputMaybe<Scalars['String']['input']>
+  id?: InputMaybe<Scalars['UUID']['input']>
+}
+
+export type Activity_Uploaded_FilesUpdateResponse = {
+  __typename?: 'activity_uploaded_filesUpdateResponse'
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output']
+  /** Array of records impacted by the mutation */
+  records: Array<Activity_Uploaded_Files>
 }
 
 export type Invitations = Node & {
@@ -619,12 +735,18 @@ export type InvitationsEdge = {
 }
 
 export type InvitationsFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<InvitationsFilter>>
   email?: InputMaybe<StringFilter>
   id?: InputMaybe<UuidFilter>
   invitation_url?: InputMaybe<StringFilter>
   invited_by_user_id?: InputMaybe<UuidFilter>
   invitee_user_id?: InputMaybe<UuidFilter>
   nodeId?: InputMaybe<IdFilter>
+  /** Negates a filter */
+  not?: InputMaybe<InvitationsFilter>
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<InvitationsFilter>>
   permission_level?: InputMaybe<Permission_Level_EnumFilter>
   trip_id?: InputMaybe<UuidFilter>
 }
@@ -730,10 +852,16 @@ export type TagsEdge = {
 }
 
 export type TagsFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<TagsFilter>>
   created_at?: InputMaybe<DatetimeFilter>
   id?: InputMaybe<UuidFilter>
   name?: InputMaybe<StringFilter>
   nodeId?: InputMaybe<IdFilter>
+  /** Negates a filter */
+  not?: InputMaybe<TagsFilter>
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<TagsFilter>>
   user_id?: InputMaybe<UuidFilter>
 }
 
@@ -774,69 +902,6 @@ export type TagsUpdateResponse = {
   records: Array<Tags>
 }
 
-export type Test_Tenant = Node & {
-  __typename?: 'test_tenant'
-  details?: Maybe<Scalars['String']['output']>
-  id: Scalars['Int']['output']
-  /** Globally Unique Record Identifier */
-  nodeId: Scalars['ID']['output']
-}
-
-export type Test_TenantConnection = {
-  __typename?: 'test_tenantConnection'
-  edges: Array<Test_TenantEdge>
-  pageInfo: PageInfo
-}
-
-export type Test_TenantDeleteResponse = {
-  __typename?: 'test_tenantDeleteResponse'
-  /** Count of the records impacted by the mutation */
-  affectedCount: Scalars['Int']['output']
-  /** Array of records impacted by the mutation */
-  records: Array<Test_Tenant>
-}
-
-export type Test_TenantEdge = {
-  __typename?: 'test_tenantEdge'
-  cursor: Scalars['String']['output']
-  node: Test_Tenant
-}
-
-export type Test_TenantFilter = {
-  details?: InputMaybe<StringFilter>
-  id?: InputMaybe<IntFilter>
-  nodeId?: InputMaybe<IdFilter>
-}
-
-export type Test_TenantInsertInput = {
-  details?: InputMaybe<Scalars['String']['input']>
-}
-
-export type Test_TenantInsertResponse = {
-  __typename?: 'test_tenantInsertResponse'
-  /** Count of the records impacted by the mutation */
-  affectedCount: Scalars['Int']['output']
-  /** Array of records impacted by the mutation */
-  records: Array<Test_Tenant>
-}
-
-export type Test_TenantOrderBy = {
-  details?: InputMaybe<OrderByDirection>
-  id?: InputMaybe<OrderByDirection>
-}
-
-export type Test_TenantUpdateInput = {
-  details?: InputMaybe<Scalars['String']['input']>
-}
-
-export type Test_TenantUpdateResponse = {
-  __typename?: 'test_tenantUpdateResponse'
-  /** Count of the records impacted by the mutation */
-  affectedCount: Scalars['Int']['output']
-  /** Array of records impacted by the mutation */
-  records: Array<Test_Tenant>
-}
-
 export type Trip_Tags = Node & {
   __typename?: 'trip_tags'
   id: Scalars['UUID']['output']
@@ -869,8 +934,14 @@ export type Trip_TagsEdge = {
 }
 
 export type Trip_TagsFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<Trip_TagsFilter>>
   id?: InputMaybe<UuidFilter>
   nodeId?: InputMaybe<IdFilter>
+  /** Negates a filter */
+  not?: InputMaybe<Trip_TagsFilter>
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<Trip_TagsFilter>>
   tag_id?: InputMaybe<UuidFilter>
   trip_id?: InputMaybe<UuidFilter>
 }
@@ -919,7 +990,7 @@ export type Trips = Node & {
   date_to?: Maybe<Scalars['Datetime']['output']>
   description?: Maybe<Scalars['String']['output']>
   id: Scalars['UUID']['output']
-  image_storage_object_id?: Maybe<Scalars['UUID']['output']>
+  image_url?: Maybe<Scalars['String']['output']>
   invitationsCollection?: Maybe<InvitationsConnection>
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output']
@@ -977,6 +1048,8 @@ export type TripsEdge = {
 }
 
 export type TripsFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<TripsFilter>>
   cost?: InputMaybe<BigFloatFilter>
   cost_unit?: InputMaybe<StringFilter>
   created_at?: InputMaybe<DatetimeFilter>
@@ -984,8 +1057,12 @@ export type TripsFilter = {
   date_to?: InputMaybe<DatetimeFilter>
   description?: InputMaybe<StringFilter>
   id?: InputMaybe<UuidFilter>
-  image_storage_object_id?: InputMaybe<UuidFilter>
+  image_url?: InputMaybe<StringFilter>
   nodeId?: InputMaybe<IdFilter>
+  /** Negates a filter */
+  not?: InputMaybe<TripsFilter>
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<TripsFilter>>
   title?: InputMaybe<StringFilter>
   user_id?: InputMaybe<UuidFilter>
 }
@@ -998,7 +1075,7 @@ export type TripsInsertInput = {
   date_to?: InputMaybe<Scalars['Datetime']['input']>
   description?: InputMaybe<Scalars['String']['input']>
   id?: InputMaybe<Scalars['UUID']['input']>
-  image_storage_object_id?: InputMaybe<Scalars['UUID']['input']>
+  image_url?: InputMaybe<Scalars['String']['input']>
   title?: InputMaybe<Scalars['String']['input']>
   user_id?: InputMaybe<Scalars['UUID']['input']>
 }
@@ -1019,7 +1096,7 @@ export type TripsOrderBy = {
   date_to?: InputMaybe<OrderByDirection>
   description?: InputMaybe<OrderByDirection>
   id?: InputMaybe<OrderByDirection>
-  image_storage_object_id?: InputMaybe<OrderByDirection>
+  image_url?: InputMaybe<OrderByDirection>
   title?: InputMaybe<OrderByDirection>
   user_id?: InputMaybe<OrderByDirection>
 }
@@ -1032,7 +1109,7 @@ export type TripsUpdateInput = {
   date_to?: InputMaybe<Scalars['Datetime']['input']>
   description?: InputMaybe<Scalars['String']['input']>
   id?: InputMaybe<Scalars['UUID']['input']>
-  image_storage_object_id?: InputMaybe<Scalars['UUID']['input']>
+  image_url?: InputMaybe<Scalars['String']['input']>
   title?: InputMaybe<Scalars['String']['input']>
   user_id?: InputMaybe<Scalars['UUID']['input']>
 }
@@ -1106,10 +1183,16 @@ export type UsersEdge = {
 }
 
 export type UsersFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<UsersFilter>>
   email?: InputMaybe<StringFilter>
   id?: InputMaybe<UuidFilter>
   name?: InputMaybe<StringFilter>
   nodeId?: InputMaybe<IdFilter>
+  /** Negates a filter */
+  not?: InputMaybe<UsersFilter>
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<UsersFilter>>
   profile_picture_url?: InputMaybe<StringFilter>
 }
 
@@ -1192,9 +1275,31 @@ export type ActivityCollectionQuery = {
         url?: string | null
         memo?: string | null
         cost?: string | null
-        image_storage_object_id?: string | null
+        cost_unit?: string | null
+        image_url?: string | null
       }
     }>
+  } | null
+}
+
+export type CreateActivityMutationVariables = Exact<{
+  trip_id: Scalars['UUID']['input']
+  title: Scalars['String']['input']
+  time_from?: InputMaybe<Scalars['Datetime']['input']>
+  time_to?: InputMaybe<Scalars['Datetime']['input']>
+  address?: InputMaybe<Scalars['String']['input']>
+  url?: InputMaybe<Scalars['String']['input']>
+  memo?: InputMaybe<Scalars['String']['input']>
+  cost?: InputMaybe<Scalars['BigFloat']['input']>
+  cost_unit?: InputMaybe<Scalars['String']['input']>
+  image_url?: InputMaybe<Scalars['String']['input']>
+}>
+
+export type CreateActivityMutation = {
+  __typename: 'Mutation'
+  insertIntoactivityCollection?: {
+    __typename: 'activityInsertResponse'
+    records: Array<{ __typename: 'activity'; id: string; title: string }>
   } | null
 }
 
@@ -1309,7 +1414,7 @@ export type TripDetailsQuery = {
         title: string
         date_from: string
         date_to?: string | null
-        image_storage_object_id?: string | null
+        image_url?: string | null
         cost?: string | null
         cost_unit?: string | null
         invitationsCollection?: {
@@ -1394,7 +1499,7 @@ export type TripsCollectionQuery = {
         title: string
         date_from: string
         date_to?: string | null
-        image_storage_object_id?: string | null
+        image_url?: string | null
         created_at: string
         invitationsCollection?: {
           __typename: 'invitationsConnection'
@@ -1540,7 +1645,7 @@ export const GetUserDocument = {
   ]
 } as unknown as DocumentNode<GetUserQuery, GetUserQueryVariables>
 export const ActivityCollectionDocument = {
-  __meta__: { hash: '2d419044f6b09dcfdf15e868fceccda14add69f4' },
+  __meta__: { hash: '5ba311a19d53ac42096cb55d1830aaf08f96fccf' },
   kind: 'Document',
   definitions: [
     {
@@ -1654,10 +1759,11 @@ export const ActivityCollectionDocument = {
                             },
                             {
                               kind: 'Field',
-                              name: {
-                                kind: 'Name',
-                                value: 'image_storage_object_id'
-                              }
+                              name: { kind: 'Name', value: 'cost_unit' }
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'image_url' }
                             }
                           ]
                         }
@@ -1675,6 +1781,226 @@ export const ActivityCollectionDocument = {
 } as unknown as DocumentNode<
   ActivityCollectionQuery,
   ActivityCollectionQueryVariables
+>
+export const CreateActivityDocument = {
+  __meta__: { hash: '22e6378e9a0ec7a9c28a6430981dcfebf7820216' },
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'createActivity' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'trip_id' }
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } }
+          }
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'title' }
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+          }
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'time_from' }
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Datetime' } }
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'time_to' }
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Datetime' } }
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'address' }
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'url' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'memo' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'cost' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'BigFloat' } }
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'cost_unit' }
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'image_url' }
+          },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'insertIntoactivityCollection' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'objects' },
+                value: {
+                  kind: 'ListValue',
+                  values: [
+                    {
+                      kind: 'ObjectValue',
+                      fields: [
+                        {
+                          kind: 'ObjectField',
+                          name: { kind: 'Name', value: 'trip_id' },
+                          value: {
+                            kind: 'Variable',
+                            name: { kind: 'Name', value: 'trip_id' }
+                          }
+                        },
+                        {
+                          kind: 'ObjectField',
+                          name: { kind: 'Name', value: 'title' },
+                          value: {
+                            kind: 'Variable',
+                            name: { kind: 'Name', value: 'title' }
+                          }
+                        },
+                        {
+                          kind: 'ObjectField',
+                          name: { kind: 'Name', value: 'time_from' },
+                          value: {
+                            kind: 'Variable',
+                            name: { kind: 'Name', value: 'time_from' }
+                          }
+                        },
+                        {
+                          kind: 'ObjectField',
+                          name: { kind: 'Name', value: 'time_to' },
+                          value: {
+                            kind: 'Variable',
+                            name: { kind: 'Name', value: 'time_to' }
+                          }
+                        },
+                        {
+                          kind: 'ObjectField',
+                          name: { kind: 'Name', value: 'address' },
+                          value: {
+                            kind: 'Variable',
+                            name: { kind: 'Name', value: 'address' }
+                          }
+                        },
+                        {
+                          kind: 'ObjectField',
+                          name: { kind: 'Name', value: 'url' },
+                          value: {
+                            kind: 'Variable',
+                            name: { kind: 'Name', value: 'url' }
+                          }
+                        },
+                        {
+                          kind: 'ObjectField',
+                          name: { kind: 'Name', value: 'memo' },
+                          value: {
+                            kind: 'Variable',
+                            name: { kind: 'Name', value: 'memo' }
+                          }
+                        },
+                        {
+                          kind: 'ObjectField',
+                          name: { kind: 'Name', value: 'cost' },
+                          value: {
+                            kind: 'Variable',
+                            name: { kind: 'Name', value: 'cost' }
+                          }
+                        },
+                        {
+                          kind: 'ObjectField',
+                          name: { kind: 'Name', value: 'cost_unit' },
+                          value: {
+                            kind: 'Variable',
+                            name: { kind: 'Name', value: 'cost_unit' }
+                          }
+                        },
+                        {
+                          kind: 'ObjectField',
+                          name: { kind: 'Name', value: 'image_url' },
+                          value: {
+                            kind: 'Variable',
+                            name: { kind: 'Name', value: 'image_url' }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'records' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: '__typename' }
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'title' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  CreateActivityMutation,
+  CreateActivityMutationVariables
 >
 export const CreateTagDocument = {
   __meta__: { hash: '9ecd6081f83febe06337ebd01345eef596b81cf9' },
@@ -2330,7 +2656,7 @@ export const TagsCollectionDocument = {
   ]
 } as unknown as DocumentNode<TagsCollectionQuery, TagsCollectionQueryVariables>
 export const TripDetailsDocument = {
-  __meta__: { hash: '12df849b2205e5cf49fd291f6cb8582aa49100c3' },
+  __meta__: { hash: 'bbd255d8e0db3b7f99ea25021e5db3fcd72f4091' },
   kind: 'Document',
   definitions: [
     {
@@ -2424,10 +2750,7 @@ export const TripDetailsDocument = {
                             },
                             {
                               kind: 'Field',
-                              name: {
-                                kind: 'Name',
-                                value: 'image_storage_object_id'
-                              }
+                              name: { kind: 'Name', value: 'image_url' }
                             },
                             {
                               kind: 'Field',
@@ -2789,7 +3112,7 @@ export const TripTagsCollectionDocument = {
   TripTagsCollectionQueryVariables
 >
 export const TripsCollectionDocument = {
-  __meta__: { hash: '70a61f873c23f1db13cef7cd265a9845e9bfc53e' },
+  __meta__: { hash: '3256c7ff43134c13502c53f475e55fa91f55cabb' },
   kind: 'Document',
   definitions: [
     {
@@ -2932,10 +3255,7 @@ export const TripsCollectionDocument = {
                             },
                             {
                               kind: 'Field',
-                              name: {
-                                kind: 'Name',
-                                value: 'image_storage_object_id'
-                              }
+                              name: { kind: 'Name', value: 'image_url' }
                             },
                             {
                               kind: 'Field',

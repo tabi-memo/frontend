@@ -103,7 +103,7 @@ export default function TripEditPage({ params }: { params: { id: string } }) {
             <TripForm
               tripDetails={{
                 id: tripDataCollection.id,
-                image: tripDataCollection.image_storage_object_id,
+                image: tripDataCollection.image_url,
                 title: tripDataCollection.title,
                 dateFrom: tripDataCollection.date_from,
                 dateTo: tripDataCollection.date_to,
