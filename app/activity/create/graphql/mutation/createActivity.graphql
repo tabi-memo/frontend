@@ -8,8 +8,7 @@ mutation createActivity(
   $memo: String
   $cost: BigFloat
   $cost_unit: String
-  # $image_url: String // TODO ref: https://github.com/tabi-memo/frontend/pull/26
-  $image_storage_object_id: UUID
+  $image_url: String
 ) {
   insertIntoactivityCollection(
     objects: [
@@ -23,8 +22,7 @@ mutation createActivity(
         memo: $memo
         cost: $cost
         cost_unit: $cost_unit
-        # image_url: $image_url // TODO ref: https://github.com/tabi-memo/frontend/pull/26
-        image_storage_object_id: $image_storage_object_id
+        image_url: $image_url
       }
     ]
   ) {

@@ -11,7 +11,8 @@ query activityCollection($id: UUID!) {
         url
         memo
         cost
-        image_storage_object_id
+        cost_unit
+        image_url
       }
     }
   }
