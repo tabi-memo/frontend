@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import { useToast } from '@chakra-ui/react'
 import { useUserId } from '@/providers/session-provider'
 import { TagSchema, tagSchemaResolver } from '../schema'
+import { useTripsGet, useTripDetailsGet } from '.'
 import { useCreateTagMutation, useDeleteTagMutation } from '@generated/api'
 
 export const useTagCreateDelete = (tagsCollectionRefetch: () => void) => {
@@ -21,6 +22,9 @@ export const useTagCreateDelete = (tagsCollectionRefetch: () => void) => {
   const [createTagMutation, { loading: isCreating }] = useCreateTagMutation()
   const [deleteTagMutation, { loading: isDeleting }] = useDeleteTagMutation()
 
+  const { tripsRefetch } = useTripsGet()
+  const { tripDetailsClient } = useTripDetailsGet()
+
   const addTag = async (input: TagSchema) => {
     try {
       await createTagMutation({
@@ -32,6 +36,7 @@ export const useTagCreateDelete = (tagsCollectionRefetch: () => void) => {
 
       reset()
       tagsCollectionRefetch()
+      tripsRefetch()
     } catch (error) {
       console.error(error)
       toast({
@@ -58,10 +63,20 @@ export const useTagCreateDelete = (tagsCollectionRefetch: () => void) => {
       await deleteTagMutation({
         variables: {
           id: id
-        }
+        },
+        refetchQueries: []
       })
 
+      // refetch all tripDetails in case tag is used
+      tripDetailsClient.resetStore()
       tagsCollectionRefetch()
+      toast({
+        title: 'Successfully deleted!',
+        status: 'success',
+        duration: 2000,
+        isClosable: true,
+        position: 'top'
+      })
     } catch (error) {
       console.error(error)
       toast({

@@ -1,0 +1,11 @@
+mutation deleteTrip($id: UUID!, $userId: UUID!) {
+  deleteFromtripsCollection(
+    filter: { id: { eq: $id }, user_id: { eq: $userId } }
+  ) {
+    records {
+      __typename
+      id
+      title
+    }
+  }
+}
