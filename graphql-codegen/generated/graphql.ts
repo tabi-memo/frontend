@@ -1428,6 +1428,19 @@ export type DeleteTagMutation = {
   }
 }
 
+export type DeleteTripMutationVariables = Exact<{
+  id: Scalars['UUID']['input']
+  userId: Scalars['UUID']['input']
+}>
+
+export type DeleteTripMutation = {
+  __typename: 'Mutation'
+  deleteFromtripsCollection: {
+    __typename: 'tripsDeleteResponse'
+    records: Array<{ __typename: 'trips'; id: string; title: string }>
+  }
+}
+
 export type DeleteTripTagMutationVariables = Exact<{
   id: Scalars['UUID']['input']
 }>
@@ -1469,7 +1482,7 @@ export type TagsCollectionQuery = {
 }
 
 export type TripDetailsQueryVariables = Exact<{
-  id: Scalars['UUID']['input']
+  id?: InputMaybe<Scalars['UUID']['input']>
 }>
 
 export type TripDetailsQuery = {
@@ -2527,6 +2540,114 @@ export const DeleteTagDocument = {
     }
   ]
 } as unknown as DocumentNode<DeleteTagMutation, DeleteTagMutationVariables>
+export const DeleteTripDocument = {
+  __meta__: { hash: '6e8dd46bc33661ac768394595679671f8b605429' },
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'deleteTrip' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } }
+          }
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'userId' }
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteFromtripsCollection' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'filter' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'id' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'eq' },
+                            value: {
+                              kind: 'Variable',
+                              name: { kind: 'Name', value: 'id' }
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'user_id' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'eq' },
+                            value: {
+                              kind: 'Variable',
+                              name: { kind: 'Name', value: 'userId' }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'records' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: '__typename' }
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'title' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<DeleteTripMutation, DeleteTripMutationVariables>
 export const DeleteTripTagDocument = {
   __meta__: { hash: '1a4d048db574dedfebd859dc737e16a42021f3ff' },
   kind: 'Document',
@@ -2825,7 +2946,7 @@ export const TagsCollectionDocument = {
   ]
 } as unknown as DocumentNode<TagsCollectionQuery, TagsCollectionQueryVariables>
 export const TripDetailsDocument = {
-  __meta__: { hash: 'bbd255d8e0db3b7f99ea25021e5db3fcd72f4091' },
+  __meta__: { hash: '1bc05beaca139a887f8c922c4de4dc6c86706670' },
   kind: 'Document',
   definitions: [
     {
@@ -2836,10 +2957,7 @@ export const TripDetailsDocument = {
         {
           kind: 'VariableDefinition',
           variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } }
-          }
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } }
         }
       ],
       selectionSet: {

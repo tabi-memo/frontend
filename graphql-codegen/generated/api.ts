@@ -1420,6 +1420,19 @@ export type DeleteTagMutation = {
   }
 }
 
+export type DeleteTripMutationVariables = Exact<{
+  id: Scalars['UUID']['input']
+  userId: Scalars['UUID']['input']
+}>
+
+export type DeleteTripMutation = {
+  __typename: 'Mutation'
+  deleteFromtripsCollection: {
+    __typename: 'tripsDeleteResponse'
+    records: Array<{ __typename: 'trips'; id: string; title: string }>
+  }
+}
+
 export type DeleteTripTagMutationVariables = Exact<{
   id: Scalars['UUID']['input']
 }>
@@ -1461,7 +1474,7 @@ export type TagsCollectionQuery = {
 }
 
 export type TripDetailsQueryVariables = Exact<{
-  id: Scalars['UUID']['input']
+  id?: InputMaybe<Scalars['UUID']['input']>
 }>
 
 export type TripDetailsQuery = {
@@ -2142,6 +2155,64 @@ export type DeleteTagMutationOptions = Apollo.BaseMutationOptions<
   DeleteTagMutation,
   DeleteTagMutationVariables
 >
+export const DeleteTripDocument = gql`
+  mutation deleteTrip($id: UUID!, $userId: UUID!) {
+    __typename
+    deleteFromtripsCollection(
+      filter: { id: { eq: $id }, user_id: { eq: $userId } }
+    ) {
+      __typename
+      records {
+        __typename
+        id
+        title
+      }
+    }
+  }
+`
+export type DeleteTripMutationFn = Apollo.MutationFunction<
+  DeleteTripMutation,
+  DeleteTripMutationVariables
+>
+
+/**
+ * __useDeleteTripMutation__
+ *
+ * To run a mutation, you first call `useDeleteTripMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteTripMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteTripMutation, { data, loading, error }] = useDeleteTripMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useDeleteTripMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteTripMutation,
+    DeleteTripMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<DeleteTripMutation, DeleteTripMutationVariables>(
+    DeleteTripDocument,
+    options
+  )
+}
+export type DeleteTripMutationHookResult = ReturnType<
+  typeof useDeleteTripMutation
+>
+export type DeleteTripMutationResult = Apollo.MutationResult<DeleteTripMutation>
+export type DeleteTripMutationOptions = Apollo.BaseMutationOptions<
+  DeleteTripMutation,
+  DeleteTripMutationVariables
+>
 export const DeleteTripTagDocument = gql`
   mutation deleteTripTag($id: UUID!) {
     __typename
@@ -2344,7 +2415,7 @@ export function refetchTagsCollectionQuery(
   return { query: TagsCollectionDocument, variables: variables }
 }
 export const TripDetailsDocument = gql`
-  query tripDetails($id: UUID!) {
+  query tripDetails($id: UUID) {
     __typename
     tripsCollection(filter: { id: { eq: $id } }) {
       __typename
@@ -2424,7 +2495,7 @@ export const TripDetailsDocument = gql`
  * });
  */
 export function useTripDetailsQuery(
-  baseOptions: Apollo.QueryHookOptions<
+  baseOptions?: Apollo.QueryHookOptions<
     TripDetailsQuery,
     TripDetailsQueryVariables
   >
@@ -2470,7 +2541,7 @@ export type TripDetailsQueryResult = Apollo.QueryResult<
   TripDetailsQuery,
   TripDetailsQueryVariables
 >
-export function refetchTripDetailsQuery(variables: TripDetailsQueryVariables) {
+export function refetchTripDetailsQuery(variables?: TripDetailsQueryVariables) {
   return { query: TripDetailsDocument, variables: variables }
 }
 export const TripTagsCollectionDocument = gql`
