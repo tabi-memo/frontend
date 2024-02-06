@@ -170,7 +170,11 @@ export const ActivityCard = ({ activity, selectedDate }: ActivityCardProps) => {
       <ConfirmModal
         isOpen={isDeleteModalOpen}
         onClose={onDeleteModalClose}
-        confirmText="delete this activity"
+        confirmBody={
+          <Text fontSize="lg" fontWeight="semibold">
+            Are you sure you want to delete this activity?
+          </Text>
+        }
         onClick={() => {}}
         submitLabel="Delete"
       />
