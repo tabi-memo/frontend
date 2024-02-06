@@ -63,8 +63,7 @@ export const useTagCreateDelete = (tagsCollectionRefetch: () => void) => {
       await deleteTagMutation({
         variables: {
           id: id
-        },
-        refetchQueries: []
+        }
       })
 
       // refetch all tripDetails in case tag is used
