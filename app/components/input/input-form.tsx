@@ -13,10 +13,10 @@ import { FiEye, FiEyeOff } from 'react-icons/fi'
 import { FiEye, FiEyeOff } from 'react-icons/fi'
 type InputFormProps = {
   rightIcon?: IconType
-  showInput?: boolean
+  hasEyeIcon?: boolean
 }
 export const InputForm = forwardRef<ChakraInputProps & InputFormProps, 'input'>(
-  ({ rightIcon: RightIcon, showInput, ...props }, ref) => {
+  ({ rightIcon: RightIcon, hasEyeIcon, ...props }, ref) => {
     const bgColor = useColorModeValue('white', 'gray.700')
     const borderColor = useColorModeValue('gray.300', 'gray.500')
     const placeholdercolor = useColorModeValue('gray.400', 'gray.600')
@@ -44,7 +44,7 @@ export const InputForm = forwardRef<ChakraInputProps & InputFormProps, 'input'>(
           </InputRightElement>
         )}
 
-        {showInput && (
+        {hasEyeIcon && (
           <InputRightElement
             color="gray.500"
             onClick={handleClick}

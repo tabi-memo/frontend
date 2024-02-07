@@ -68,20 +68,20 @@ export default function ChangePassword() {
     <Box
       as="main"
       w="100vw"
-      minH={{ base: 'calc(100vh - 145px)', md: 'calc(100vh - 210px)' }}
+      minH={{ base: 'calc(100vh - 140px)', md: 'calc(100vh - 205px)' }}
       color={color}
     >
       <VStack
         mt={{ base: '20px', md: '40px' }}
         mx="auto"
-        w={{ base: '380px', md: '480px' }}
+        w="fit-content"
         px={{ base: '16px', md: '80px' }}
       >
         <Heading
           as="h1"
           fontSize={{ base: '2xl', md: '4xl' }}
           mb="40px"
-          w="100%"
+          w={{ base: '358px', md: '480px' }}
           textAlign={{ base: 'left', md: 'center' }}
         >
           Change Password
@@ -96,7 +96,7 @@ export default function ChangePassword() {
             <InputForm
               {...register('oldPassword')}
               w={{ base: '358px', md: '480px' }}
-              showInput={true}
+              hasEyeIcon={true}
             />
             {errors.oldPassword && (
               <FormErrorMessage>{errors.oldPassword.message}</FormErrorMessage>
@@ -104,21 +104,25 @@ export default function ChangePassword() {
           </FormControl>
           <FormControl isInvalid={!!errors.newPassword}>
             <FormLabel>New Password</FormLabel>
-            <InputForm {...register('newPassword')} showInput={true} />
+            <InputForm {...register('newPassword')} hasEyeIcon={true} />
             {errors.newPassword && (
               <FormErrorMessage>{errors.newPassword.message}</FormErrorMessage>
             )}
           </FormControl>
           <FormControl isInvalid={!!errors.confirmNewPassword}>
             <FormLabel>Confirm New Password</FormLabel>
-            <InputForm showInput={true} {...register('confirmNewPassword')} />
+            <InputForm hasEyeIcon={true} {...register('confirmNewPassword')} />
             {errors.confirmNewPassword && (
               <FormErrorMessage>
                 {errors.confirmNewPassword.message}
               </FormErrorMessage>
             )}
           </FormControl>
-          <PrimaryButton isLoading={isLoading} type={'submit'}>
+          <PrimaryButton
+            isLoading={isLoading}
+            type={'submit'}
+            mb={{ base: '60px', md: '70px' }}
+          >
             Change Password
           </PrimaryButton>
         </VStack>
