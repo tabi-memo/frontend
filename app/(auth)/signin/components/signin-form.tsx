@@ -1,4 +1,3 @@
-'use client'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
@@ -68,7 +67,7 @@ export const SignInForm = () => {
       mt={{ base: '38px', md: '42px' }}
       gap={{ base: '30px', md: '40px' }}
       p="0%"
-      maxW="500px"
+      maxW="380px"
     >
       <VStack gap="24px">
         <FormControl isInvalid={!!errors.email}>

@@ -1,7 +1,4 @@
-'use client'
-
 import { CardFooter, VStack, Text } from '@chakra-ui/react'
-
 import { Link } from '@/components/link'
 
 export const SignInFooter = () => {

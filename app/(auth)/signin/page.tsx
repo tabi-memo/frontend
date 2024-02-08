@@ -30,7 +30,7 @@ export default function SignIn() {
           }}
           bg="white"
           boxShadow={{ base: '0', md: '0 4px 16px rgba(0, 0, 0, 0.1)' }}
-          maxW={{ base: '100%', lg: 'container.sm' }}
+          maxW={{ base: '100%', md: '542px' }}
           py="40px"
           px={{ base: '16px', md: '80px' }}
         >
