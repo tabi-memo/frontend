@@ -25,7 +25,7 @@ export const InputForm = forwardRef<ChakraInputProps & InputFormProps, 'input'>(
       <InputGroup minW={'100%'}>
         <ChakraFormInput
           {...props}
-          type={show ? 'text' : 'password'}
+          type={show ? 'text' : props.type}
           ref={ref}
           focusBorderColor={'primary.600'}
           borderColor={borderColor}

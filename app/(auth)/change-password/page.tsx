@@ -74,29 +74,33 @@ export default function ChangePassword() {
       <VStack
         mt={{ base: '20px', md: '40px' }}
         mx="auto"
-        w="fit-content"
+        w={{ base: '100%', md: '480px' }}
         px={{ base: '16px', md: '80px' }}
       >
         <Heading
           as="h1"
           fontSize={{ base: '2xl', md: '4xl' }}
           mb="40px"
-          w={{ base: '358px', md: '480px' }}
+          w={{ base: '100%', md: '480px' }}
+          maxW="480px"
           textAlign={{ base: 'left', md: 'center' }}
         >
           Change Password
         </Heading>
         <VStack
           spacing={{ base: '30px', md: '40px' }}
+          w={{ base: '100%', md: '480px' }}
+          maxW="480px"
           as="form"
           onSubmit={changePasswordHandler}
         >
           <FormControl isInvalid={!!errors.oldPassword}>
             <FormLabel>Old Password</FormLabel>
             <InputForm
-              {...register('oldPassword')}
-              w={{ base: '358px', md: '480px' }}
+              type="password"
               hasEyeIcon={true}
+              {...register('oldPassword')}
+              w={{ base: '100%', md: '480px' }}
             />
             {errors.oldPassword && (
               <FormErrorMessage>{errors.oldPassword.message}</FormErrorMessage>
@@ -104,14 +108,22 @@ export default function ChangePassword() {
           </FormControl>
           <FormControl isInvalid={!!errors.newPassword}>
             <FormLabel>New Password</FormLabel>
-            <InputForm {...register('newPassword')} hasEyeIcon={true} />
+            <InputForm
+              type="password"
+              hasEyeIcon={true}
+              {...register('newPassword')}
+            />
             {errors.newPassword && (
               <FormErrorMessage>{errors.newPassword.message}</FormErrorMessage>
             )}
           </FormControl>
           <FormControl isInvalid={!!errors.confirmNewPassword}>
             <FormLabel>Confirm New Password</FormLabel>
-            <InputForm hasEyeIcon={true} {...register('confirmNewPassword')} />
+            <InputForm
+              type="password"
+              hasEyeIcon={true}
+              {...register('confirmNewPassword')}
+            />
             {errors.confirmNewPassword && (
               <FormErrorMessage>
                 {errors.confirmNewPassword.message}
