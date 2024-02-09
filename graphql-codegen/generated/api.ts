@@ -138,6 +138,8 @@ export type Mutation = {
   deleteFrominvitationsCollection: InvitationsDeleteResponse
   /** Deletes zero or more records from the `tags` collection */
   deleteFromtagsCollection: TagsDeleteResponse
+  /** Deletes zero or more records from the `test_tenant` collection */
+  deleteFromtest_tenantCollection: Test_TenantDeleteResponse
   /** Deletes zero or more records from the `trip_tags` collection */
   deleteFromtrip_tagsCollection: Trip_TagsDeleteResponse
   /** Deletes zero or more records from the `trips` collection */
@@ -152,6 +154,8 @@ export type Mutation = {
   insertIntoinvitationsCollection?: Maybe<InvitationsInsertResponse>
   /** Adds one or more `tags` records to the collection */
   insertIntotagsCollection?: Maybe<TagsInsertResponse>
+  /** Adds one or more `test_tenant` records to the collection */
+  insertIntotest_tenantCollection?: Maybe<Test_TenantInsertResponse>
   /** Adds one or more `trip_tags` records to the collection */
   insertIntotrip_tagsCollection?: Maybe<Trip_TagsInsertResponse>
   /** Adds one or more `trips` records to the collection */
@@ -166,6 +170,8 @@ export type Mutation = {
   updateinvitationsCollection: InvitationsUpdateResponse
   /** Updates zero or more records in the `tags` collection */
   updatetagsCollection: TagsUpdateResponse
+  /** Updates zero or more records in the `test_tenant` collection */
+  updatetest_tenantCollection: Test_TenantUpdateResponse
   /** Updates zero or more records in the `trip_tags` collection */
   updatetrip_tagsCollection: Trip_TagsUpdateResponse
   /** Updates zero or more records in the `trips` collection */
@@ -196,6 +202,12 @@ export type MutationDeleteFrominvitationsCollectionArgs = {
 export type MutationDeleteFromtagsCollectionArgs = {
   atMost?: Scalars['Int']['input']
   filter?: InputMaybe<TagsFilter>
+}
+
+/** The root type for creating and mutating data */
+export type MutationDeleteFromtest_TenantCollectionArgs = {
+  atMost?: Scalars['Int']['input']
+  filter?: InputMaybe<Test_TenantFilter>
 }
 
 /** The root type for creating and mutating data */
@@ -234,6 +246,11 @@ export type MutationInsertIntoinvitationsCollectionArgs = {
 /** The root type for creating and mutating data */
 export type MutationInsertIntotagsCollectionArgs = {
   objects: Array<TagsInsertInput>
+}
+
+/** The root type for creating and mutating data */
+export type MutationInsertIntotest_TenantCollectionArgs = {
+  objects: Array<Test_TenantInsertInput>
 }
 
 /** The root type for creating and mutating data */
@@ -277,6 +294,13 @@ export type MutationUpdatetagsCollectionArgs = {
   atMost?: Scalars['Int']['input']
   filter?: InputMaybe<TagsFilter>
   set: TagsUpdateInput
+}
+
+/** The root type for creating and mutating data */
+export type MutationUpdatetest_TenantCollectionArgs = {
+  atMost?: Scalars['Int']['input']
+  filter?: InputMaybe<Test_TenantFilter>
+  set: Test_TenantUpdateInput
 }
 
 /** The root type for creating and mutating data */
@@ -344,6 +368,8 @@ export type Query = {
   node?: Maybe<Node>
   /** A pagable collection of type `tags` */
   tagsCollection?: Maybe<TagsConnection>
+  /** A pagable collection of type `test_tenant` */
+  test_tenantCollection?: Maybe<Test_TenantConnection>
   /** A pagable collection of type `trip_tags` */
   trip_tagsCollection?: Maybe<Trip_TagsConnection>
   /** A pagable collection of type `trips` */
@@ -395,6 +421,16 @@ export type QueryTagsCollectionArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   orderBy?: InputMaybe<Array<TagsOrderBy>>
+}
+
+/** The root type for querying data */
+export type QueryTest_TenantCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  filter?: InputMaybe<Test_TenantFilter>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<Test_TenantOrderBy>>
 }
 
 /** The root type for querying data */
@@ -515,8 +551,6 @@ export type ActivityEdge = {
 
 export type ActivityFilter = {
   address?: InputMaybe<StringFilter>
-  /** Returns true only if all its inner filters are true, otherwise returns false */
-  and?: InputMaybe<Array<ActivityFilter>>
   cost?: InputMaybe<BigFloatFilter>
   cost_unit?: InputMaybe<StringFilter>
   created_at?: InputMaybe<DatetimeFilter>
@@ -524,10 +558,6 @@ export type ActivityFilter = {
   image_url?: InputMaybe<StringFilter>
   memo?: InputMaybe<StringFilter>
   nodeId?: InputMaybe<IdFilter>
-  /** Negates a filter */
-  not?: InputMaybe<ActivityFilter>
-  /** Returns true if at least one of its inner filters is true, otherwise returns false */
-  or?: InputMaybe<Array<ActivityFilter>>
   time_from?: InputMaybe<DatetimeFilter>
   time_to?: InputMaybe<DatetimeFilter>
   title?: InputMaybe<StringFilter>
@@ -632,18 +662,12 @@ export type Activity_Uploaded_FilesEdge = {
 
 export type Activity_Uploaded_FilesFilter = {
   activity_id?: InputMaybe<UuidFilter>
-  /** Returns true only if all its inner filters are true, otherwise returns false */
-  and?: InputMaybe<Array<Activity_Uploaded_FilesFilter>>
   content_type?: InputMaybe<StringFilter>
   created_at?: InputMaybe<DatetimeFilter>
   file_name?: InputMaybe<StringFilter>
   file_url?: InputMaybe<StringFilter>
   id?: InputMaybe<UuidFilter>
   nodeId?: InputMaybe<IdFilter>
-  /** Negates a filter */
-  not?: InputMaybe<Activity_Uploaded_FilesFilter>
-  /** Returns true if at least one of its inner filters is true, otherwise returns false */
-  or?: InputMaybe<Array<Activity_Uploaded_FilesFilter>>
 }
 
 export type Activity_Uploaded_FilesInsertInput = {
@@ -727,18 +751,12 @@ export type InvitationsEdge = {
 }
 
 export type InvitationsFilter = {
-  /** Returns true only if all its inner filters are true, otherwise returns false */
-  and?: InputMaybe<Array<InvitationsFilter>>
   email?: InputMaybe<StringFilter>
   id?: InputMaybe<UuidFilter>
   invitation_url?: InputMaybe<StringFilter>
   invited_by_user_id?: InputMaybe<UuidFilter>
   invitee_user_id?: InputMaybe<UuidFilter>
   nodeId?: InputMaybe<IdFilter>
-  /** Negates a filter */
-  not?: InputMaybe<InvitationsFilter>
-  /** Returns true if at least one of its inner filters is true, otherwise returns false */
-  or?: InputMaybe<Array<InvitationsFilter>>
   permission_level?: InputMaybe<Permission_Level_EnumFilter>
   trip_id?: InputMaybe<UuidFilter>
 }
@@ -844,16 +862,10 @@ export type TagsEdge = {
 }
 
 export type TagsFilter = {
-  /** Returns true only if all its inner filters are true, otherwise returns false */
-  and?: InputMaybe<Array<TagsFilter>>
   created_at?: InputMaybe<DatetimeFilter>
   id?: InputMaybe<UuidFilter>
   name?: InputMaybe<StringFilter>
   nodeId?: InputMaybe<IdFilter>
-  /** Negates a filter */
-  not?: InputMaybe<TagsFilter>
-  /** Returns true if at least one of its inner filters is true, otherwise returns false */
-  or?: InputMaybe<Array<TagsFilter>>
   user_id?: InputMaybe<UuidFilter>
 }
 
@@ -894,6 +906,69 @@ export type TagsUpdateResponse = {
   records: Array<Tags>
 }
 
+export type Test_Tenant = Node & {
+  __typename?: 'test_tenant'
+  details?: Maybe<Scalars['String']['output']>
+  id: Scalars['Int']['output']
+  /** Globally Unique Record Identifier */
+  nodeId: Scalars['ID']['output']
+}
+
+export type Test_TenantConnection = {
+  __typename?: 'test_tenantConnection'
+  edges: Array<Test_TenantEdge>
+  pageInfo: PageInfo
+}
+
+export type Test_TenantDeleteResponse = {
+  __typename?: 'test_tenantDeleteResponse'
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output']
+  /** Array of records impacted by the mutation */
+  records: Array<Test_Tenant>
+}
+
+export type Test_TenantEdge = {
+  __typename?: 'test_tenantEdge'
+  cursor: Scalars['String']['output']
+  node: Test_Tenant
+}
+
+export type Test_TenantFilter = {
+  details?: InputMaybe<StringFilter>
+  id?: InputMaybe<IntFilter>
+  nodeId?: InputMaybe<IdFilter>
+}
+
+export type Test_TenantInsertInput = {
+  details?: InputMaybe<Scalars['String']['input']>
+}
+
+export type Test_TenantInsertResponse = {
+  __typename?: 'test_tenantInsertResponse'
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output']
+  /** Array of records impacted by the mutation */
+  records: Array<Test_Tenant>
+}
+
+export type Test_TenantOrderBy = {
+  details?: InputMaybe<OrderByDirection>
+  id?: InputMaybe<OrderByDirection>
+}
+
+export type Test_TenantUpdateInput = {
+  details?: InputMaybe<Scalars['String']['input']>
+}
+
+export type Test_TenantUpdateResponse = {
+  __typename?: 'test_tenantUpdateResponse'
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output']
+  /** Array of records impacted by the mutation */
+  records: Array<Test_Tenant>
+}
+
 export type Trip_Tags = Node & {
   __typename?: 'trip_tags'
   id: Scalars['UUID']['output']
@@ -926,14 +1001,8 @@ export type Trip_TagsEdge = {
 }
 
 export type Trip_TagsFilter = {
-  /** Returns true only if all its inner filters are true, otherwise returns false */
-  and?: InputMaybe<Array<Trip_TagsFilter>>
   id?: InputMaybe<UuidFilter>
   nodeId?: InputMaybe<IdFilter>
-  /** Negates a filter */
-  not?: InputMaybe<Trip_TagsFilter>
-  /** Returns true if at least one of its inner filters is true, otherwise returns false */
-  or?: InputMaybe<Array<Trip_TagsFilter>>
   tag_id?: InputMaybe<UuidFilter>
   trip_id?: InputMaybe<UuidFilter>
 }
@@ -1040,8 +1109,6 @@ export type TripsEdge = {
 }
 
 export type TripsFilter = {
-  /** Returns true only if all its inner filters are true, otherwise returns false */
-  and?: InputMaybe<Array<TripsFilter>>
   cost?: InputMaybe<BigFloatFilter>
   cost_unit?: InputMaybe<StringFilter>
   created_at?: InputMaybe<DatetimeFilter>
@@ -1051,10 +1118,6 @@ export type TripsFilter = {
   id?: InputMaybe<UuidFilter>
   image_url?: InputMaybe<StringFilter>
   nodeId?: InputMaybe<IdFilter>
-  /** Negates a filter */
-  not?: InputMaybe<TripsFilter>
-  /** Returns true if at least one of its inner filters is true, otherwise returns false */
-  or?: InputMaybe<Array<TripsFilter>>
   title?: InputMaybe<StringFilter>
   user_id?: InputMaybe<UuidFilter>
 }
@@ -1175,16 +1238,10 @@ export type UsersEdge = {
 }
 
 export type UsersFilter = {
-  /** Returns true only if all its inner filters are true, otherwise returns false */
-  and?: InputMaybe<Array<UsersFilter>>
   email?: InputMaybe<StringFilter>
   id?: InputMaybe<UuidFilter>
   name?: InputMaybe<StringFilter>
   nodeId?: InputMaybe<IdFilter>
-  /** Negates a filter */
-  not?: InputMaybe<UsersFilter>
-  /** Returns true if at least one of its inner filters is true, otherwise returns false */
-  or?: InputMaybe<Array<UsersFilter>>
   profile_picture_url?: InputMaybe<StringFilter>
 }
 
@@ -1223,6 +1280,19 @@ export type UsersUpdateResponse = {
   affectedCount: Scalars['Int']['output']
   /** Array of records impacted by the mutation */
   records: Array<Users>
+}
+
+export type UpdateUserMutationVariables = Exact<{
+  id: Scalars['UUID']['input']
+  set: UsersUpdateInput
+}>
+
+export type UpdateUserMutation = {
+  __typename: 'Mutation'
+  updateusersCollection: {
+    __typename: 'usersUpdateResponse'
+    records: Array<{ __typename: 'users'; id: string; name: string }>
+  }
 }
 
 export type GetUserQueryVariables = Exact<{
@@ -1526,6 +1596,62 @@ export type TripsCollectionQuery = {
   } | null
 }
 
+export const UpdateUserDocument = gql`
+  mutation updateUser($id: UUID!, $set: usersUpdateInput!) {
+    __typename
+    updateusersCollection(set: $set, filter: { id: { eq: $id } }) {
+      __typename
+      records {
+        __typename
+        id
+        name
+      }
+    }
+  }
+`
+export type UpdateUserMutationFn = Apollo.MutationFunction<
+  UpdateUserMutation,
+  UpdateUserMutationVariables
+>
+
+/**
+ * __useUpdateUserMutation__
+ *
+ * To run a mutation, you first call `useUpdateUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateUserMutation, { data, loading, error }] = useUpdateUserMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      set: // value for 'set'
+ *   },
+ * });
+ */
+export function useUpdateUserMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateUserMutation,
+    UpdateUserMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<UpdateUserMutation, UpdateUserMutationVariables>(
+    UpdateUserDocument,
+    options
+  )
+}
+export type UpdateUserMutationHookResult = ReturnType<
+  typeof useUpdateUserMutation
+>
+export type UpdateUserMutationResult = Apollo.MutationResult<UpdateUserMutation>
+export type UpdateUserMutationOptions = Apollo.BaseMutationOptions<
+  UpdateUserMutation,
+  UpdateUserMutationVariables
+>
 export const GetUserDocument = gql`
   query getUser($id: UUID!) {
     __typename

@@ -13,6 +13,8 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+  'mutation updateUser($id: UUID!, $set: usersUpdateInput!) {\n  updateusersCollection(set: $set, filter: {id: {eq: $id}}) {\n    records {\n      id\n      name\n    }\n  }\n}':
+    types.UpdateUserDocument,
   'query getUser($id: UUID!) {\n  usersCollection(filter: {id: {eq: $id}}) {\n    edges {\n      node {\n        id\n        email\n        name\n        profile_picture_url\n      }\n    }\n  }\n}':
     types.GetUserDocument,
   'query activityCollection($id: UUID!) {\n  activityCollection(filter: {id: {eq: $id}}) {\n    edges {\n      node {\n        id\n        trip_id\n        title\n        time_from\n        time_to\n        address\n        url\n        memo\n        cost\n        cost_unit\n        image_url\n      }\n    }\n  }\n}':
@@ -55,6 +57,12 @@ const documents = {
  */
 export function graphql(source: string): unknown
 
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: 'mutation updateUser($id: UUID!, $set: usersUpdateInput!) {\n  updateusersCollection(set: $set, filter: {id: {eq: $id}}) {\n    records {\n      id\n      name\n    }\n  }\n}'
+): (typeof documents)['mutation updateUser($id: UUID!, $set: usersUpdateInput!) {\n  updateusersCollection(set: $set, filter: {id: {eq: $id}}) {\n    records {\n      id\n      name\n    }\n  }\n}']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

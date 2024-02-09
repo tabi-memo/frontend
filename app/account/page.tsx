@@ -104,10 +104,11 @@ export default function AccountPage() {
                           boxSize="30px"
                           src={user.profile_picture_url}
                           alt="Profile Picture"
-                          color="gray.400"
                         />
                       ) : (
-                        <MdAccountCircle size="30px" />
+                        <Box color="gray.400">
+                          <MdAccountCircle size="30px" />
+                        </Box>
                       )}
                     </VStack>
                     <VStack align="start">
