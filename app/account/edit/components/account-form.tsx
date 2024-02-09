@@ -115,7 +115,7 @@ export const AccountEditForm = ({
               </FormControl>
 
               <Heading fontSize="bold">Image</Heading>
-              <HStack justify="center" w="100%">
+              <HStack justify="center" w="100%" spacing="50px">
                 {profile_picture_url ? (
                   <Image
                     borderRadius="full"
@@ -128,7 +128,7 @@ export const AccountEditForm = ({
                     <MdAccountCircle size="80px" />
                   </Box>
                 )}
-                <SecondaryButton variant="outline" ml="50px">
+                <SecondaryButton variant="outline">
                   Choose Image
                 </SecondaryButton>
               </HStack>
