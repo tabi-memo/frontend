@@ -35,6 +35,15 @@ export default function AccountPage() {
     throw new Error(error.message)
   }
 
+  const userInfoQuery = JSON.stringify({
+    name: user?.name,
+    email: user?.email,
+    profile_picture_url: user?.profile_picture_url ?? null
+  })
+
+  // Generate the URL with the query parameter
+  const href = `/account/edit?userInfo=${encodeURIComponent(userInfoQuery)}`
+
   return (
     <>
       {loading || !data?.usersCollection ? (
@@ -45,6 +54,7 @@ export default function AccountPage() {
         <Box as="main" minH="100svh" bg={bg} color={color}>
           <Container
             minW={{ base: '100%', lg: 'container.sm' }}
+            maxW="480px"
             display="flex"
             flexDirection="column"
             alignItems={{ base: 'space-around', lg: 'flex-start' }}
@@ -70,7 +80,7 @@ export default function AccountPage() {
                   Account
                 </Heading>
                 <Flex
-                  minW={{ base: '100%', lg: '480px' }}
+                  w={{ base: '100%', md: '480px' }}
                   gap={{ base: '20px', lg: '30px' }}
                   padding="18px"
                   borderWidth="1px"
@@ -94,6 +104,7 @@ export default function AccountPage() {
                           boxSize="30px"
                           src={user.profile_picture_url}
                           alt="Profile Picture"
+                          color="gray.400"
                         />
                       ) : (
                         <MdAccountCircle size="30px" />
@@ -113,7 +124,7 @@ export default function AccountPage() {
                   </Flex>
                   <Flex direction="column" align="center">
                     <VStack justifyContent="center">
-                      <Link href="/account/edit">
+                      <Link href={href}>
                         <PrimaryButton
                           variant="solid"
                           leftIcon={<CiEdit size="16px" />}
@@ -126,7 +137,7 @@ export default function AccountPage() {
                 </Flex>
               </Flex>
 
-              <Box mr="auto">
+              <Box ml="0px" w={{ base: '100%', md: '480px' }}>
                 <AlertButton
                   variant="outline"
                   leftIcon={<FaRegTrashAlt size="14px" />}
