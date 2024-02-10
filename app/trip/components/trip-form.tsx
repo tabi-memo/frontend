@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import {
   FormControl,
@@ -11,7 +12,8 @@ import {
   Flex,
   Checkbox,
   Box,
-  useDisclosure
+  useDisclosure,
+  Input
 } from '@chakra-ui/react'
 import { PrimaryButton, SecondaryButton } from '@/components/button'
 import { CustomDatePicker } from '@/components/date'
@@ -91,6 +93,9 @@ export const TripForm = ({ tripDetails, tags, tripTags }: TripFormProps) => {
   const mutateFun = tripDetails ? updateTrip : createTrip
   const isMutating = isTripCreating || isTripUpdating
 
+  // Image Upload
+  const [selectedImage, setSelectedImage] = useState<File | null>(null)
+
   return (
     <>
       <VStack
@@ -147,8 +152,36 @@ export const TripForm = ({ tripDetails, tags, tripTags }: TripFormProps) => {
         <FormControl isInvalid={!!errors.image_url}>
           <FormLabel>Image</FormLabel>
           <HStack gap={{ base: '20px', md: '34px' }}>
-            <Image alt="" src={tripDetails?.image || imageSrc} width="50%" />
-            <PrimaryButton variant="outline">Select Image </PrimaryButton>
+            {selectedImage ? (
+              <Image
+                alt="Selected Image"
+                src={URL.createObjectURL(selectedImage)}
+                width="50%"
+                objectFit="cover"
+              />
+            ) : (
+              <Image
+                alt="Default Image"
+                src={tripDetails?.image || imageSrc}
+                width="50%"
+                objectFit="cover"
+              />
+            )}
+            <PrimaryButton variant="outline" as="label">
+              Select Image
+              <Input
+                type="file"
+                accept="image/*"
+                id="imageUpload"
+                onChange={(event) => {
+                  const file = event.target.files?.[0]
+                  if (file) {
+                    setSelectedImage(file)
+                  }
+                }}
+                hidden
+              />
+            </PrimaryButton>
           </HStack>
           <FormErrorMessage>{errors?.image_url?.message}</FormErrorMessage>
         </FormControl>
