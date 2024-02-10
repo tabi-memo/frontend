@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation'
 import { formatToISODate } from '@/libs/utils'
 import { useUserId } from '@/providers/session-provider'
 import { TripSchema } from '../schema'
+import { useUploadFile } from './useUploadFile'
 import { useTripsGet } from '.'
 import { useCreateTripMutation, useCreateTripTagMutation } from '@generated/api'
 
@@ -17,6 +18,7 @@ export const useTripCreate = () => {
     useCreateTripTagMutation()
 
   const { tripsRefetch } = useTripsGet()
+  const { uploadFile } = useUploadFile()
 
   const createTrip = async (data: TripSchema) => {
     try {
@@ -49,6 +51,10 @@ export const useTripCreate = () => {
       )
 
       await Promise.all([...createPromises])
+
+      if (data.uploaded_image_file && createdTripId) {
+        uploadFile(data.uploaded_image_file, createdTripId)
+      }
 
       tripsRefetch()
       router.push('/')

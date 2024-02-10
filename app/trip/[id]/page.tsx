@@ -1,12 +1,9 @@
 'use client'
 
-import { useState } from 'react'
-import { Box, Container, useColorModeValue, Input } from '@chakra-ui/react'
-import { createClient } from '@supabase/supabase-js'
+import { Box, Container, useColorModeValue } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 import { PrimaryButton } from '@/components/button'
 import { Loading } from '@/components/loading'
-import { updateImageMetadataAction } from './action/update-image-metadata'
 import { TripDetailsHeader, TripDetailsTabs } from './components'
 import { useTripDetailsQuery } from '@generated/api'
 
@@ -20,11 +17,7 @@ export default function TripDetailsPage({
 
   const router = useRouter()
 
-  const {
-    data: tripData,
-    loading: tripLoading,
-    refetch: refetchTrip
-  } = useTripDetailsQuery({
+  const { data: tripData, loading: tripLoading } = useTripDetailsQuery({
     variables: {
       id: params.id
     }
@@ -33,32 +26,6 @@ export default function TripDetailsPage({
   if (!tripData && !tripLoading) throw new Error('No trip data found')
 
   const tripDataCollection = tripData?.tripsCollection
-  const [selectedImage, setSelectedImage] = useState<File | null>(null)
-
-  const uploadImage = async (id: string, file: File) => {
-    try {
-      const supabase = createClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_API_KEY!
-      )
-
-      // TODO: Authenticated user can upload images with policy
-      const { data: uploadData, error: uploadError } = await supabase.storage
-        .from('tabi-memo-uploads')
-        .upload(`trips/${id}/${file.name}`, file, { upsert: true })
-
-      if (uploadError) throw new Error(uploadError.message)
-
-      // NOTE: Server action doen't return result in Client Component. I don't know why.
-      await updateImageMetadataAction(id, uploadData.path)
-
-      setSelectedImage(file)
-      await refetchTrip()
-    } catch (error) {
-      console.error({ error })
-      throw error
-    }
-  }
 
   return (
     <Box as="main" minH="100svh" bg={bg} color={color}>
@@ -73,11 +40,7 @@ export default function TripDetailsPage({
           <>
             <TripDetailsHeader
               id={tripDataCollection.edges[0].node.id}
-              image={
-                selectedImage
-                  ? URL.createObjectURL(selectedImage)
-                  : tripDataCollection.edges[0].node.image_url
-              }
+              image={tripDataCollection.edges[0].node.image_url}
               title={tripDataCollection.edges[0].node.title}
               dateFrom={tripDataCollection.edges[0].node.date_from}
               dateTo={tripDataCollection.edges[0].node.date_to}
@@ -121,12 +84,6 @@ export default function TripDetailsPage({
               >
                 Add Activity
               </PrimaryButton>
-              <Input
-                type="file"
-                id="imageUpload"
-                accept="image/*"
-                onChange={(e) => uploadImage(params.id, e.target.files![0])}
-              />
             </Box>
           </>
         )}

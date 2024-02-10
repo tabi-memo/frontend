@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation'
 import { formatToISODate } from '@/libs/utils'
 import { TripDetailsArgs, TripTagsArgs } from '../components/trip-form'
 import { TripSchema } from '../schema'
+import { useUploadFile } from './useUploadFile'
 import { useTripsGet } from '.'
 import {
   useUpdateTripMutation,
@@ -25,6 +26,7 @@ export const useTripUpdate = (
     useDeleteTripTagMutation()
 
   const { tripsRefetch } = useTripsGet()
+  const { uploadFile } = useUploadFile()
 
   const updateTrip = async (data: TripSchema) => {
     if (!tripDetails) throw new Error('Trip details is not found')
@@ -70,6 +72,10 @@ export const useTripUpdate = (
         )
 
       await Promise.all([...deletePromises, ...createPromises])
+
+      if (data.uploaded_image_file && tripDetails) {
+        uploadFile(data.uploaded_image_file, tripDetails.id)
+      }
 
       tripDetails.refetch()
       tripTags?.refetch()

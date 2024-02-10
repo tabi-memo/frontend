@@ -9,6 +9,7 @@ const tripSchema = z.object({
   }),
   date_to: z.date().nullable(),
   image_url: z.string().nullable(),
+  uploaded_image_file: z.instanceof(File).nullable(),
   selectedTags: z.array(z.string()),
   cost: z.string().nullable(),
   cost_unit: z.string().nullable()

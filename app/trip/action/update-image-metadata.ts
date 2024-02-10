@@ -15,13 +15,6 @@ export const updateImageMetadataAction = async (
     //       https://supabase.com/docs/guides/auth/auth-helpers/nextjs?language=ts#server-actions
     const supabase = createServerActionClient({ cookies: () => cookieStore })
 
-    // Supabase Storage API is not available in the server action.
-    // const { data: uploadData, error: uploadError } = await supabase.storage
-    //   .from('tabi-memo-uploads')
-    //   .upload(`trips/${id}/${file.name}`, file, { upsert: true })
-
-    // if (uploadError) throw uploadError
-
     const {
       data: { publicUrl }
     } = await supabase.storage

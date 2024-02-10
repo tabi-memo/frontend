@@ -59,6 +59,7 @@ export const TripForm = ({ tripDetails, tags, tripTags }: TripFormProps) => {
     '/images/no_image_light.jpg',
     '/images/no_image_dark.jpg'
   )
+  const [selectedImage, setSelectedImage] = useState<File | null>(null)
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const { createTrip, isTripCreating } = useTripCreate()
@@ -83,6 +84,7 @@ export const TripForm = ({ tripDetails, tags, tripTags }: TripFormProps) => {
         : undefined,
       date_to: tripDetails?.dateTo ? getDateObj(tripDetails.dateTo) : null,
       image_url: tripDetails?.image || null,
+      uploaded_image_file: null,
       selectedTags: tripTags ? tripTags.data.map((tag) => tag.tag_id) : [],
       cost: tripDetails?.cost ? tripDetails.cost.toString() : null,
       cost_unit: tripDetails?.costUnit
@@ -92,9 +94,6 @@ export const TripForm = ({ tripDetails, tags, tripTags }: TripFormProps) => {
 
   const mutateFun = tripDetails ? updateTrip : createTrip
   const isMutating = isTripCreating || isTripUpdating
-
-  // Image Upload
-  const [selectedImage, setSelectedImage] = useState<File | null>(null)
 
   return (
     <>
@@ -167,21 +166,28 @@ export const TripForm = ({ tripDetails, tags, tripTags }: TripFormProps) => {
                 objectFit="cover"
               />
             )}
-            <PrimaryButton variant="outline" as="label">
-              Select Image
-              <Input
-                type="file"
-                accept="image/*"
-                id="imageUpload"
-                onChange={(event) => {
-                  const file = event.target.files?.[0]
-                  if (file) {
-                    setSelectedImage(file)
-                  }
-                }}
-                hidden
-              />
-            </PrimaryButton>
+            <Controller
+              name="uploaded_image_file"
+              control={control}
+              render={({ field: { onChange } }) => (
+                <PrimaryButton variant="outline" as="label">
+                  Select Image
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    id="imageUpload"
+                    onChange={(event) => {
+                      const file = event.target.files?.[0]
+                      if (file) {
+                        setSelectedImage(file)
+                        onChange(file)
+                      }
+                    }}
+                    hidden
+                  />
+                </PrimaryButton>
+              )}
+            />
           </HStack>
           <FormErrorMessage>{errors?.image_url?.message}</FormErrorMessage>
         </FormControl>
