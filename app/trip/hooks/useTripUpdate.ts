@@ -74,7 +74,7 @@ export const useTripUpdate = (
       await Promise.all([...deletePromises, ...createPromises])
 
       if (data.uploaded_image_file && tripDetails) {
-        uploadFile(data.uploaded_image_file, tripDetails.id)
+        await uploadFile(data.uploaded_image_file, tripDetails.id)
       }
 
       tripDetails.refetch()

@@ -53,7 +53,7 @@ export const useTripCreate = () => {
       await Promise.all([...createPromises])
 
       if (data.uploaded_image_file && createdTripId) {
-        uploadFile(data.uploaded_image_file, createdTripId)
+        await uploadFile(data.uploaded_image_file, createdTripId)
       }
 
       tripsRefetch()
