@@ -1325,7 +1325,18 @@ export type ActivityCollectionQuery = {
         memo?: string | null
         cost?: string | null
         cost_unit?: string | null
-        image_url?: string | null
+        activity_uploaded_filesCollection?: {
+          __typename: 'activity_uploaded_filesConnection'
+          edges: Array<{
+            __typename: 'activity_uploaded_filesEdge'
+            node: {
+              __typename: 'activity_uploaded_files'
+              id: string
+              file_name: string
+              file_url: string
+            }
+          }>
+        } | null
       }
     }>
   } | null
@@ -1692,7 +1703,18 @@ export const ActivityCollectionDocument = gql`
           memo
           cost
           cost_unit
-          image_url
+          activity_uploaded_filesCollection {
+            __typename
+            edges {
+              __typename
+              node {
+                __typename
+                id
+                file_name
+                file_url
+              }
+            }
+          }
         }
       }
     }

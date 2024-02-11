@@ -1333,7 +1333,18 @@ export type ActivityCollectionQuery = {
         memo?: string | null
         cost?: string | null
         cost_unit?: string | null
-        image_url?: string | null
+        activity_uploaded_filesCollection?: {
+          __typename: 'activity_uploaded_filesConnection'
+          edges: Array<{
+            __typename: 'activity_uploaded_filesEdge'
+            node: {
+              __typename: 'activity_uploaded_files'
+              id: string
+              file_name: string
+              file_url: string
+            }
+          }>
+        } | null
       }
     }>
   } | null
@@ -1715,7 +1726,7 @@ export const GetUserDocument = {
   ]
 } as unknown as DocumentNode<GetUserQuery, GetUserQueryVariables>
 export const ActivityCollectionDocument = {
-  __meta__: { hash: '5ba311a19d53ac42096cb55d1830aaf08f96fccf' },
+  __meta__: { hash: '3e04fac286fc4b6bc6c6d91483ca2b248b25bad6' },
   kind: 'Document',
   definitions: [
     {
@@ -1833,7 +1844,72 @@ export const ActivityCollectionDocument = {
                             },
                             {
                               kind: 'Field',
-                              name: { kind: 'Name', value: 'image_url' }
+                              name: {
+                                kind: 'Name',
+                                value: 'activity_uploaded_filesCollection'
+                              },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: '__typename' }
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'edges' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: '__typename'
+                                          }
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'node' },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: '__typename'
+                                                }
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'id'
+                                                }
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'file_name'
+                                                }
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'file_url'
+                                                }
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ]
+                              }
                             }
                           ]
                         }

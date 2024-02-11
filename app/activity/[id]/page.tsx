@@ -30,6 +30,11 @@ export default function ActivityDetails({
   if (!loading && !data) throw new Error('No activity data found')
 
   const activityData = data?.activityCollection?.edges[0]?.node
+  const uploadedImageUrls = activityData?.activity_uploaded_filesCollection
+    ? activityData?.activity_uploaded_filesCollection?.edges.map(
+        (edge) => edge?.node?.file_url || ''
+      )
+    : []
 
   return (
     <Box as="main" minH="100vh" bg={bg} color={color}>
@@ -44,6 +49,7 @@ export default function ActivityDetails({
           pb={{ base: '40px', md: '80px' }}
         >
           <ActivityHeader
+            id={activityData.id}
             title={activityData.title}
             time_from={activityData.time_from}
             time_to={activityData?.time_to}
@@ -51,7 +57,9 @@ export default function ActivityDetails({
             url={activityData?.url}
           />
           {/* TODO: Fetch images from the database once available. */}
-          <Carousel urls={dummyUrls} />
+          <Carousel
+            urls={uploadedImageUrls.length > 0 ? uploadedImageUrls : dummyUrls}
+          />
           <ActivityInfo memo={activityData?.memo} cost={activityData?.cost} />
           <Box mt="60px" display="flex" alignItems="center">
             <FiChevronLeft />
