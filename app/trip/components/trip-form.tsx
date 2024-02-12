@@ -225,6 +225,7 @@ export const TripForm = ({ tripDetails, tags, tripTags }: TripFormProps) => {
 
       <TagFormModal
         isOpen={isOpen}
+        onOpen={onOpen}
         onClose={onClose}
         allTags={tags.data}
         tagsCollectionRefetch={tags.refetch}
