@@ -1,4 +1,4 @@
-query tripDetails($id: UUID!) {
+query tripDetails($id: UUID) {
   tripsCollection(filter: { id: { eq: $id } }) {
     edges {
       node {
@@ -6,7 +6,7 @@ query tripDetails($id: UUID!) {
         title
         date_from
         date_to
-        image_storage_object_id
+        image_url
         cost
         cost_unit
         invitationsCollection {

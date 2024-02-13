@@ -8,7 +8,7 @@ const tripSchema = z.object({
     invalid_type_error: "That's not a date"
   }),
   date_to: z.date().nullable(),
-  image_storage_object_id: z.string().nullable(),
+  image_url: z.string().nullable(),
   selectedTags: z.array(z.string()),
   cost: z.string().nullable(),
   cost_unit: z.string().nullable()

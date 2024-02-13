@@ -6,13 +6,17 @@ import {
   useColorModeValue,
   Image as ChakraImage,
   Link,
-  IconButton
+  IconButton,
+  useDisclosure,
+  Text
 } from '@chakra-ui/react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { FiEdit3, FiShare2, FiTrash2 } from 'react-icons/fi'
 import { MdManageAccounts, MdAccountCircle } from 'react-icons/md'
+import { ConfirmModal } from '@/components/modal'
 import { formatDateToSlash } from '@/libs/utils'
+import { useTripDelete } from '../../hooks'
 
 type TripDetailsHeaderProps = {
   id: string
@@ -49,6 +53,14 @@ export const TripDetailsHeader = ({
 
   const color = useColorModeValue('black', 'gray.300')
   const tagBgColor = useColorModeValue('primary.700', 'primary.800')
+
+  const {
+    isOpen: isDeleteModalOpen,
+    onOpen: onDeleteModalOpen,
+    onClose: onDeleteModalClose
+  } = useDisclosure()
+
+  const { deleteTrip, isTripDeleting } = useTripDelete(id)
 
   return (
     <Box>
@@ -122,10 +134,9 @@ export const TripDetailsHeader = ({
             >
               <FiEdit3 size="100%" />
             </IconButton>
-            {/* TODO Change to modal */}
             <IconButton
               aria-label="Delete this trip"
-              onClick={() => {}}
+              onClick={onDeleteModalOpen}
               variant="roundIcon"
               p={{ base: '6px', md: '10px' }}
             >
@@ -205,6 +216,20 @@ export const TripDetailsHeader = ({
           )}
         </Flex>
       </Box>
+
+      {/* Delete Trip Modal */}
+      <ConfirmModal
+        isOpen={isDeleteModalOpen}
+        onClose={onDeleteModalClose}
+        confirmBody={
+          <Text fontSize="lg" fontWeight="semibold">
+            Are you sure you want to delete this trip?
+          </Text>
+        }
+        onClick={deleteTrip}
+        isMutating={isTripDeleting}
+        submitLabel="Delete"
+      />
     </Box>
   )
 }
