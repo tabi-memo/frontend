@@ -80,7 +80,7 @@ export const TripForm = ({ tripDetails, tags, tripTags }: TripFormProps) => {
         ? getDateObj(tripDetails.dateFrom)
         : undefined,
       date_to: tripDetails?.dateTo ? getDateObj(tripDetails.dateTo) : null,
-      image_storage_object_id: tripDetails?.image || null,
+      image_url: tripDetails?.image || null,
       selectedTags: tripTags ? tripTags.data.map((tag) => tag.tag_id) : [],
       cost: tripDetails?.cost ? tripDetails.cost.toString() : null,
       cost_unit: tripDetails?.costUnit
@@ -144,15 +144,13 @@ export const TripForm = ({ tripDetails, tags, tripTags }: TripFormProps) => {
         </FormControl>
 
         {/* TODO Image Upload to storage & Send the URL string to DB */}
-        <FormControl isInvalid={!!errors.image_storage_object_id}>
+        <FormControl isInvalid={!!errors.image_url}>
           <FormLabel>Image</FormLabel>
           <HStack gap={{ base: '20px', md: '34px' }}>
             <Image alt="" src={tripDetails?.image || imageSrc} width="50%" />
             <PrimaryButton variant="outline">Select Image </PrimaryButton>
           </HStack>
-          <FormErrorMessage>
-            {errors?.image_storage_object_id?.message}
-          </FormErrorMessage>
+          <FormErrorMessage>{errors?.image_url?.message}</FormErrorMessage>
         </FormControl>
 
         <FormControl isInvalid={!!errors?.selectedTags}>
@@ -227,6 +225,7 @@ export const TripForm = ({ tripDetails, tags, tripTags }: TripFormProps) => {
 
       <TagFormModal
         isOpen={isOpen}
+        onOpen={onOpen}
         onClose={onClose}
         allTags={tags.data}
         tagsCollectionRefetch={tags.refetch}
