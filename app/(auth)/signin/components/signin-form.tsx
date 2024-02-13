@@ -67,7 +67,8 @@ export const SignInForm = () => {
       mt={{ base: '38px', md: '42px' }}
       gap={{ base: '30px', md: '40px' }}
       p="0%"
-      maxW="380px"
+      maxW="500px"
+      w={{ base: '90vw', md: 'unset' }}
     >
       <VStack gap="24px">
         <FormControl isInvalid={!!errors.email}>

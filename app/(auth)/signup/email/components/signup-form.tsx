@@ -52,27 +52,28 @@ export const SignUpForm = () => {
       setIsLoading.off()
     }
   })
+  const signUpInputStyle = {
+    'input:-webkit-autofill, input:-webkit-autofill:focus': {
+      boxShadow: '0 0 0 1000px #f8f8f8 inset',
+      textFillColor: 'black'
+    }
+  }
   return (
     <CardBody
+      sx={signUpInputStyle}
       as="form"
       onSubmit={signUpHandler}
       mt={{ base: '38px', md: '42px' }}
       gap={{ base: '30px', md: '40px' }}
       p="0%"
-      w={{ base: '80vw', md: 'unset' }}
+      w={{ base: '90vw', md: 'unset' }}
       maxW="500px"
     >
       <VStack gap="24px">
-        <FormControl isInvalid={!!errors.name}>
-          <FormLabel color="black">Name</FormLabel>
-          <InputForm {...register('name')} placeholder="John Smith" />
-          {errors.name && (
-            <FormErrorMessage>{errors.name.message}</FormErrorMessage>
-          )}
-        </FormControl>
         <FormControl isInvalid={!!errors.email}>
           <FormLabel color="black">Email</FormLabel>
           <InputForm
+            type="email"
             {...register('email')}
             placeholder="tabimemo@example.com"
             minW={{ base: '300px', md: '380px' }}
@@ -81,10 +82,22 @@ export const SignUpForm = () => {
             <FormErrorMessage>{errors.email.message}</FormErrorMessage>
           )}
         </FormControl>
+        <FormControl isInvalid={!!errors.name}>
+          <FormLabel color="black">Name</FormLabel>
+          <InputForm
+            type="text"
+            {...register('name')}
+            placeholder="John Smith"
+          />
+          {errors.name && (
+            <FormErrorMessage>{errors.name.message}</FormErrorMessage>
+          )}
+        </FormControl>
         <FormControl isInvalid={!!errors.password}>
           <FormLabel color="black">Password</FormLabel>
           <InputForm
             type="password"
+            hasEyeIcon={true}
             {...register('password')}
             placeholder="password"
           />
@@ -96,6 +109,7 @@ export const SignUpForm = () => {
           <FormLabel color="black">Confirm Password</FormLabel>
           <InputForm
             type="password"
+            hasEyeIcon={true}
             {...register('confirmationPassword')}
             placeholder="password"
           />
@@ -107,7 +121,7 @@ export const SignUpForm = () => {
         </FormControl>
       </VStack>
       <PrimaryButton isLoading={isLoading} type={'submit'} w="100%" mt="30px">
-        Sign Up
+        Create Account
       </PrimaryButton>
     </CardBody>
   )
