@@ -16,7 +16,7 @@ export const tripDetailsMock1 = [
             {
               node: {
                 id: 'trip-uuid-1',
-                image_storage_object_id: null,
+                image_url: null,
                 title: 'Tokyo',
                 date_from: '2024-01-01T00:00:00+09:00',
                 date_to: '2024-01-10T00:00:00+09:00',
@@ -109,7 +109,7 @@ export const tripDetailsMock2 = [
             {
               node: {
                 id: 'trip-uuid-2',
-                image_storage_object_id: null,
+                image_url: null,
                 title: 'Tokyo',
                 date_from: '2024-01-01T00:00:00+09:00',
                 date_to: '2024-01-010T00:00:00+09:00',

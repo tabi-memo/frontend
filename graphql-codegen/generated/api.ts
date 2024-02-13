@@ -132,6 +132,8 @@ export type Mutation = {
   __typename?: 'Mutation'
   /** Deletes zero or more records from the `activity` collection */
   deleteFromactivityCollection: ActivityDeleteResponse
+  /** Deletes zero or more records from the `activity_uploaded_files` collection */
+  deleteFromactivity_uploaded_filesCollection: Activity_Uploaded_FilesDeleteResponse
   /** Deletes zero or more records from the `invitations` collection */
   deleteFrominvitationsCollection: InvitationsDeleteResponse
   /** Deletes zero or more records from the `tags` collection */
@@ -146,6 +148,8 @@ export type Mutation = {
   deleteFromusersCollection: UsersDeleteResponse
   /** Adds one or more `activity` records to the collection */
   insertIntoactivityCollection?: Maybe<ActivityInsertResponse>
+  /** Adds one or more `activity_uploaded_files` records to the collection */
+  insertIntoactivity_uploaded_filesCollection?: Maybe<Activity_Uploaded_FilesInsertResponse>
   /** Adds one or more `invitations` records to the collection */
   insertIntoinvitationsCollection?: Maybe<InvitationsInsertResponse>
   /** Adds one or more `tags` records to the collection */
@@ -160,6 +164,8 @@ export type Mutation = {
   insertIntousersCollection?: Maybe<UsersInsertResponse>
   /** Updates zero or more records in the `activity` collection */
   updateactivityCollection: ActivityUpdateResponse
+  /** Updates zero or more records in the `activity_uploaded_files` collection */
+  updateactivity_uploaded_filesCollection: Activity_Uploaded_FilesUpdateResponse
   /** Updates zero or more records in the `invitations` collection */
   updateinvitationsCollection: InvitationsUpdateResponse
   /** Updates zero or more records in the `tags` collection */
@@ -178,6 +184,12 @@ export type Mutation = {
 export type MutationDeleteFromactivityCollectionArgs = {
   atMost?: Scalars['Int']['input']
   filter?: InputMaybe<ActivityFilter>
+}
+
+/** The root type for creating and mutating data */
+export type MutationDeleteFromactivity_Uploaded_FilesCollectionArgs = {
+  atMost?: Scalars['Int']['input']
+  filter?: InputMaybe<Activity_Uploaded_FilesFilter>
 }
 
 /** The root type for creating and mutating data */
@@ -222,6 +234,11 @@ export type MutationInsertIntoactivityCollectionArgs = {
 }
 
 /** The root type for creating and mutating data */
+export type MutationInsertIntoactivity_Uploaded_FilesCollectionArgs = {
+  objects: Array<Activity_Uploaded_FilesInsertInput>
+}
+
+/** The root type for creating and mutating data */
 export type MutationInsertIntoinvitationsCollectionArgs = {
   objects: Array<InvitationsInsertInput>
 }
@@ -256,6 +273,13 @@ export type MutationUpdateactivityCollectionArgs = {
   atMost?: Scalars['Int']['input']
   filter?: InputMaybe<ActivityFilter>
   set: ActivityUpdateInput
+}
+
+/** The root type for creating and mutating data */
+export type MutationUpdateactivity_Uploaded_FilesCollectionArgs = {
+  atMost?: Scalars['Int']['input']
+  filter?: InputMaybe<Activity_Uploaded_FilesFilter>
+  set: Activity_Uploaded_FilesUpdateInput
 }
 
 /** The root type for creating and mutating data */
@@ -336,6 +360,8 @@ export type Query = {
   __typename?: 'Query'
   /** A pagable collection of type `activity` */
   activityCollection?: Maybe<ActivityConnection>
+  /** A pagable collection of type `activity_uploaded_files` */
+  activity_uploaded_filesCollection?: Maybe<Activity_Uploaded_FilesConnection>
   /** A pagable collection of type `invitations` */
   invitationsCollection?: Maybe<InvitationsConnection>
   /** Retrieve a record by its `ID` */
@@ -360,6 +386,16 @@ export type QueryActivityCollectionArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   orderBy?: InputMaybe<Array<ActivityOrderBy>>
+}
+
+/** The root type for querying data */
+export type QueryActivity_Uploaded_FilesCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  filter?: InputMaybe<Activity_Uploaded_FilesFilter>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<Activity_Uploaded_FilesOrderBy>>
 }
 
 /** The root type for querying data */
@@ -466,11 +502,13 @@ export type UuidFilter = {
 
 export type Activity = Node & {
   __typename?: 'activity'
+  activity_uploaded_filesCollection?: Maybe<Activity_Uploaded_FilesConnection>
   address?: Maybe<Scalars['String']['output']>
   cost?: Maybe<Scalars['BigFloat']['output']>
   cost_unit?: Maybe<Scalars['String']['output']>
+  created_at: Scalars['Datetime']['output']
   id: Scalars['UUID']['output']
-  image_storage_object_id?: Maybe<Scalars['UUID']['output']>
+  image_url?: Maybe<Scalars['String']['output']>
   memo?: Maybe<Scalars['String']['output']>
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output']
@@ -480,6 +518,15 @@ export type Activity = Node & {
   trip_id?: Maybe<Scalars['UUID']['output']>
   trips?: Maybe<Trips>
   url?: Maybe<Scalars['String']['output']>
+}
+
+export type ActivityActivity_Uploaded_FilesCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>
+  before?: InputMaybe<Scalars['Cursor']['input']>
+  filter?: InputMaybe<Activity_Uploaded_FilesFilter>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  orderBy?: InputMaybe<Array<Activity_Uploaded_FilesOrderBy>>
 }
 
 export type ActivityConnection = {
@@ -506,8 +553,9 @@ export type ActivityFilter = {
   address?: InputMaybe<StringFilter>
   cost?: InputMaybe<BigFloatFilter>
   cost_unit?: InputMaybe<StringFilter>
+  created_at?: InputMaybe<DatetimeFilter>
   id?: InputMaybe<UuidFilter>
-  image_storage_object_id?: InputMaybe<UuidFilter>
+  image_url?: InputMaybe<StringFilter>
   memo?: InputMaybe<StringFilter>
   nodeId?: InputMaybe<IdFilter>
   time_from?: InputMaybe<DatetimeFilter>
@@ -521,8 +569,9 @@ export type ActivityInsertInput = {
   address?: InputMaybe<Scalars['String']['input']>
   cost?: InputMaybe<Scalars['BigFloat']['input']>
   cost_unit?: InputMaybe<Scalars['String']['input']>
+  created_at?: InputMaybe<Scalars['Datetime']['input']>
   id?: InputMaybe<Scalars['UUID']['input']>
-  image_storage_object_id?: InputMaybe<Scalars['UUID']['input']>
+  image_url?: InputMaybe<Scalars['String']['input']>
   memo?: InputMaybe<Scalars['String']['input']>
   time_from?: InputMaybe<Scalars['Datetime']['input']>
   time_to?: InputMaybe<Scalars['Datetime']['input']>
@@ -543,8 +592,9 @@ export type ActivityOrderBy = {
   address?: InputMaybe<OrderByDirection>
   cost?: InputMaybe<OrderByDirection>
   cost_unit?: InputMaybe<OrderByDirection>
+  created_at?: InputMaybe<OrderByDirection>
   id?: InputMaybe<OrderByDirection>
-  image_storage_object_id?: InputMaybe<OrderByDirection>
+  image_url?: InputMaybe<OrderByDirection>
   memo?: InputMaybe<OrderByDirection>
   time_from?: InputMaybe<OrderByDirection>
   time_to?: InputMaybe<OrderByDirection>
@@ -557,8 +607,9 @@ export type ActivityUpdateInput = {
   address?: InputMaybe<Scalars['String']['input']>
   cost?: InputMaybe<Scalars['BigFloat']['input']>
   cost_unit?: InputMaybe<Scalars['String']['input']>
+  created_at?: InputMaybe<Scalars['Datetime']['input']>
   id?: InputMaybe<Scalars['UUID']['input']>
-  image_storage_object_id?: InputMaybe<Scalars['UUID']['input']>
+  image_url?: InputMaybe<Scalars['String']['input']>
   memo?: InputMaybe<Scalars['String']['input']>
   time_from?: InputMaybe<Scalars['Datetime']['input']>
   time_to?: InputMaybe<Scalars['Datetime']['input']>
@@ -573,6 +624,95 @@ export type ActivityUpdateResponse = {
   affectedCount: Scalars['Int']['output']
   /** Array of records impacted by the mutation */
   records: Array<Activity>
+}
+
+export type Activity_Uploaded_Files = Node & {
+  __typename?: 'activity_uploaded_files'
+  activity?: Maybe<Activity>
+  activity_id?: Maybe<Scalars['UUID']['output']>
+  content_type: Scalars['String']['output']
+  created_at: Scalars['Datetime']['output']
+  file_data?: Maybe<Scalars['JSON']['output']>
+  file_name: Scalars['String']['output']
+  file_url: Scalars['String']['output']
+  id: Scalars['UUID']['output']
+  /** Globally Unique Record Identifier */
+  nodeId: Scalars['ID']['output']
+}
+
+export type Activity_Uploaded_FilesConnection = {
+  __typename?: 'activity_uploaded_filesConnection'
+  edges: Array<Activity_Uploaded_FilesEdge>
+  pageInfo: PageInfo
+}
+
+export type Activity_Uploaded_FilesDeleteResponse = {
+  __typename?: 'activity_uploaded_filesDeleteResponse'
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output']
+  /** Array of records impacted by the mutation */
+  records: Array<Activity_Uploaded_Files>
+}
+
+export type Activity_Uploaded_FilesEdge = {
+  __typename?: 'activity_uploaded_filesEdge'
+  cursor: Scalars['String']['output']
+  node: Activity_Uploaded_Files
+}
+
+export type Activity_Uploaded_FilesFilter = {
+  activity_id?: InputMaybe<UuidFilter>
+  content_type?: InputMaybe<StringFilter>
+  created_at?: InputMaybe<DatetimeFilter>
+  file_name?: InputMaybe<StringFilter>
+  file_url?: InputMaybe<StringFilter>
+  id?: InputMaybe<UuidFilter>
+  nodeId?: InputMaybe<IdFilter>
+}
+
+export type Activity_Uploaded_FilesInsertInput = {
+  activity_id?: InputMaybe<Scalars['UUID']['input']>
+  content_type?: InputMaybe<Scalars['String']['input']>
+  created_at?: InputMaybe<Scalars['Datetime']['input']>
+  file_data?: InputMaybe<Scalars['JSON']['input']>
+  file_name?: InputMaybe<Scalars['String']['input']>
+  file_url?: InputMaybe<Scalars['String']['input']>
+  id?: InputMaybe<Scalars['UUID']['input']>
+}
+
+export type Activity_Uploaded_FilesInsertResponse = {
+  __typename?: 'activity_uploaded_filesInsertResponse'
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output']
+  /** Array of records impacted by the mutation */
+  records: Array<Activity_Uploaded_Files>
+}
+
+export type Activity_Uploaded_FilesOrderBy = {
+  activity_id?: InputMaybe<OrderByDirection>
+  content_type?: InputMaybe<OrderByDirection>
+  created_at?: InputMaybe<OrderByDirection>
+  file_name?: InputMaybe<OrderByDirection>
+  file_url?: InputMaybe<OrderByDirection>
+  id?: InputMaybe<OrderByDirection>
+}
+
+export type Activity_Uploaded_FilesUpdateInput = {
+  activity_id?: InputMaybe<Scalars['UUID']['input']>
+  content_type?: InputMaybe<Scalars['String']['input']>
+  created_at?: InputMaybe<Scalars['Datetime']['input']>
+  file_data?: InputMaybe<Scalars['JSON']['input']>
+  file_name?: InputMaybe<Scalars['String']['input']>
+  file_url?: InputMaybe<Scalars['String']['input']>
+  id?: InputMaybe<Scalars['UUID']['input']>
+}
+
+export type Activity_Uploaded_FilesUpdateResponse = {
+  __typename?: 'activity_uploaded_filesUpdateResponse'
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output']
+  /** Array of records impacted by the mutation */
+  records: Array<Activity_Uploaded_Files>
 }
 
 export type Invitations = Node & {
@@ -911,7 +1051,7 @@ export type Trips = Node & {
   date_to?: Maybe<Scalars['Datetime']['output']>
   description?: Maybe<Scalars['String']['output']>
   id: Scalars['UUID']['output']
-  image_storage_object_id?: Maybe<Scalars['UUID']['output']>
+  image_url?: Maybe<Scalars['String']['output']>
   invitationsCollection?: Maybe<InvitationsConnection>
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output']
@@ -976,7 +1116,7 @@ export type TripsFilter = {
   date_to?: InputMaybe<DatetimeFilter>
   description?: InputMaybe<StringFilter>
   id?: InputMaybe<UuidFilter>
-  image_storage_object_id?: InputMaybe<UuidFilter>
+  image_url?: InputMaybe<StringFilter>
   nodeId?: InputMaybe<IdFilter>
   title?: InputMaybe<StringFilter>
   user_id?: InputMaybe<UuidFilter>
@@ -990,7 +1130,7 @@ export type TripsInsertInput = {
   date_to?: InputMaybe<Scalars['Datetime']['input']>
   description?: InputMaybe<Scalars['String']['input']>
   id?: InputMaybe<Scalars['UUID']['input']>
-  image_storage_object_id?: InputMaybe<Scalars['UUID']['input']>
+  image_url?: InputMaybe<Scalars['String']['input']>
   title?: InputMaybe<Scalars['String']['input']>
   user_id?: InputMaybe<Scalars['UUID']['input']>
 }
@@ -1011,7 +1151,7 @@ export type TripsOrderBy = {
   date_to?: InputMaybe<OrderByDirection>
   description?: InputMaybe<OrderByDirection>
   id?: InputMaybe<OrderByDirection>
-  image_storage_object_id?: InputMaybe<OrderByDirection>
+  image_url?: InputMaybe<OrderByDirection>
   title?: InputMaybe<OrderByDirection>
   user_id?: InputMaybe<OrderByDirection>
 }
@@ -1024,7 +1164,7 @@ export type TripsUpdateInput = {
   date_to?: InputMaybe<Scalars['Datetime']['input']>
   description?: InputMaybe<Scalars['String']['input']>
   id?: InputMaybe<Scalars['UUID']['input']>
-  image_storage_object_id?: InputMaybe<Scalars['UUID']['input']>
+  image_url?: InputMaybe<Scalars['String']['input']>
   title?: InputMaybe<Scalars['String']['input']>
   user_id?: InputMaybe<Scalars['UUID']['input']>
 }
@@ -1184,9 +1324,31 @@ export type ActivityCollectionQuery = {
         url?: string | null
         memo?: string | null
         cost?: string | null
-        image_storage_object_id?: string | null
+        cost_unit?: string | null
+        image_url?: string | null
       }
     }>
+  } | null
+}
+
+export type CreateActivityMutationVariables = Exact<{
+  trip_id: Scalars['UUID']['input']
+  title: Scalars['String']['input']
+  time_from?: InputMaybe<Scalars['Datetime']['input']>
+  time_to?: InputMaybe<Scalars['Datetime']['input']>
+  address?: InputMaybe<Scalars['String']['input']>
+  url?: InputMaybe<Scalars['String']['input']>
+  memo?: InputMaybe<Scalars['String']['input']>
+  cost?: InputMaybe<Scalars['BigFloat']['input']>
+  cost_unit?: InputMaybe<Scalars['String']['input']>
+  image_url?: InputMaybe<Scalars['String']['input']>
+}>
+
+export type CreateActivityMutation = {
+  __typename: 'Mutation'
+  insertIntoactivityCollection?: {
+    __typename: 'activityInsertResponse'
+    records: Array<{ __typename: 'activity'; id: string; title: string }>
   } | null
 }
 
@@ -1245,6 +1407,19 @@ export type DeleteTagMutation = {
   }
 }
 
+export type DeleteTripMutationVariables = Exact<{
+  id: Scalars['UUID']['input']
+  userId: Scalars['UUID']['input']
+}>
+
+export type DeleteTripMutation = {
+  __typename: 'Mutation'
+  deleteFromtripsCollection: {
+    __typename: 'tripsDeleteResponse'
+    records: Array<{ __typename: 'trips'; id: string; title: string }>
+  }
+}
+
 export type DeleteTripTagMutationVariables = Exact<{
   id: Scalars['UUID']['input']
 }>
@@ -1286,7 +1461,7 @@ export type TagsCollectionQuery = {
 }
 
 export type TripDetailsQueryVariables = Exact<{
-  id: Scalars['UUID']['input']
+  id?: InputMaybe<Scalars['UUID']['input']>
 }>
 
 export type TripDetailsQuery = {
@@ -1301,7 +1476,7 @@ export type TripDetailsQuery = {
         title: string
         date_from: string
         date_to?: string | null
-        image_storage_object_id?: string | null
+        image_url?: string | null
         cost?: string | null
         cost_unit?: string | null
         invitationsCollection?: {
@@ -1386,7 +1561,7 @@ export type TripsCollectionQuery = {
         title: string
         date_from: string
         date_to?: string | null
-        image_storage_object_id?: string | null
+        image_url?: string | null
         created_at: string
         invitationsCollection?: {
           __typename: 'invitationsConnection'
@@ -1516,7 +1691,8 @@ export const ActivityCollectionDocument = gql`
           url
           memo
           cost
-          image_storage_object_id
+          cost_unit
+          image_url
         }
       }
     }
@@ -1593,6 +1769,97 @@ export function refetchActivityCollectionQuery(
 ) {
   return { query: ActivityCollectionDocument, variables: variables }
 }
+export const CreateActivityDocument = gql`
+  mutation createActivity(
+    $trip_id: UUID!
+    $title: String!
+    $time_from: Datetime
+    $time_to: Datetime
+    $address: String
+    $url: String
+    $memo: String
+    $cost: BigFloat
+    $cost_unit: String
+    $image_url: String
+  ) {
+    __typename
+    insertIntoactivityCollection(
+      objects: [
+        {
+          trip_id: $trip_id
+          title: $title
+          time_from: $time_from
+          time_to: $time_to
+          address: $address
+          url: $url
+          memo: $memo
+          cost: $cost
+          cost_unit: $cost_unit
+          image_url: $image_url
+        }
+      ]
+    ) {
+      __typename
+      records {
+        __typename
+        id
+        title
+      }
+    }
+  }
+`
+export type CreateActivityMutationFn = Apollo.MutationFunction<
+  CreateActivityMutation,
+  CreateActivityMutationVariables
+>
+
+/**
+ * __useCreateActivityMutation__
+ *
+ * To run a mutation, you first call `useCreateActivityMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateActivityMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createActivityMutation, { data, loading, error }] = useCreateActivityMutation({
+ *   variables: {
+ *      trip_id: // value for 'trip_id'
+ *      title: // value for 'title'
+ *      time_from: // value for 'time_from'
+ *      time_to: // value for 'time_to'
+ *      address: // value for 'address'
+ *      url: // value for 'url'
+ *      memo: // value for 'memo'
+ *      cost: // value for 'cost'
+ *      cost_unit: // value for 'cost_unit'
+ *      image_url: // value for 'image_url'
+ *   },
+ * });
+ */
+export function useCreateActivityMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateActivityMutation,
+    CreateActivityMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    CreateActivityMutation,
+    CreateActivityMutationVariables
+  >(CreateActivityDocument, options)
+}
+export type CreateActivityMutationHookResult = ReturnType<
+  typeof useCreateActivityMutation
+>
+export type CreateActivityMutationResult =
+  Apollo.MutationResult<CreateActivityMutation>
+export type CreateActivityMutationOptions = Apollo.BaseMutationOptions<
+  CreateActivityMutation,
+  CreateActivityMutationVariables
+>
 export const CreateTagDocument = gql`
   mutation createTag($name: String!, $userId: UUID!) {
     __typename
@@ -1819,6 +2086,64 @@ export type DeleteTagMutationOptions = Apollo.BaseMutationOptions<
   DeleteTagMutation,
   DeleteTagMutationVariables
 >
+export const DeleteTripDocument = gql`
+  mutation deleteTrip($id: UUID!, $userId: UUID!) {
+    __typename
+    deleteFromtripsCollection(
+      filter: { id: { eq: $id }, user_id: { eq: $userId } }
+    ) {
+      __typename
+      records {
+        __typename
+        id
+        title
+      }
+    }
+  }
+`
+export type DeleteTripMutationFn = Apollo.MutationFunction<
+  DeleteTripMutation,
+  DeleteTripMutationVariables
+>
+
+/**
+ * __useDeleteTripMutation__
+ *
+ * To run a mutation, you first call `useDeleteTripMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteTripMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteTripMutation, { data, loading, error }] = useDeleteTripMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useDeleteTripMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteTripMutation,
+    DeleteTripMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<DeleteTripMutation, DeleteTripMutationVariables>(
+    DeleteTripDocument,
+    options
+  )
+}
+export type DeleteTripMutationHookResult = ReturnType<
+  typeof useDeleteTripMutation
+>
+export type DeleteTripMutationResult = Apollo.MutationResult<DeleteTripMutation>
+export type DeleteTripMutationOptions = Apollo.BaseMutationOptions<
+  DeleteTripMutation,
+  DeleteTripMutationVariables
+>
 export const DeleteTripTagDocument = gql`
   mutation deleteTripTag($id: UUID!) {
     __typename
@@ -2021,7 +2346,7 @@ export function refetchTagsCollectionQuery(
   return { query: TagsCollectionDocument, variables: variables }
 }
 export const TripDetailsDocument = gql`
-  query tripDetails($id: UUID!) {
+  query tripDetails($id: UUID) {
     __typename
     tripsCollection(filter: { id: { eq: $id } }) {
       __typename
@@ -2033,7 +2358,7 @@ export const TripDetailsDocument = gql`
           title
           date_from
           date_to
-          image_storage_object_id
+          image_url
           cost
           cost_unit
           invitationsCollection {
@@ -2101,7 +2426,7 @@ export const TripDetailsDocument = gql`
  * });
  */
 export function useTripDetailsQuery(
-  baseOptions: Apollo.QueryHookOptions<
+  baseOptions?: Apollo.QueryHookOptions<
     TripDetailsQuery,
     TripDetailsQueryVariables
   >
@@ -2147,7 +2472,7 @@ export type TripDetailsQueryResult = Apollo.QueryResult<
   TripDetailsQuery,
   TripDetailsQueryVariables
 >
-export function refetchTripDetailsQuery(variables: TripDetailsQueryVariables) {
+export function refetchTripDetailsQuery(variables?: TripDetailsQueryVariables) {
   return { query: TripDetailsDocument, variables: variables }
 }
 export const TripTagsCollectionDocument = gql`
@@ -2262,7 +2587,7 @@ export const TripsCollectionDocument = gql`
           title
           date_from
           date_to
-          image_storage_object_id
+          image_url
           created_at
           invitationsCollection {
             __typename

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { IconType } from 'react-icons'
 import {
   Input as ChakraFormInput,
@@ -7,40 +8,24 @@ import {
   forwardRef,
   useColorModeValue
 } from '@chakra-ui/react'
-
+import { FiEye, FiEyeOff } from 'react-icons/fi'
 type InputFormProps = {
   rightIcon?: IconType
-  forceLightMode?: boolean
+  hasEyeIcon?: boolean
 }
 export const InputForm = forwardRef<ChakraInputProps & InputFormProps, 'input'>(
-  ({ rightIcon: RightIcon, forceLightMode, ...props }, ref) => {
+  ({ rightIcon: RightIcon, hasEyeIcon, ...props }, ref) => {
     const bgColor = useColorModeValue('white', 'gray.700')
     const borderColor = useColorModeValue('gray.300', 'gray.500')
     const placeholdercolor = useColorModeValue('gray.400', 'gray.600')
+    const [show, setShow] = useState(false)
+    const handleClick = () => setShow(!show)
 
-    return forceLightMode ? (
+    return (
       <InputGroup minW={'100%'}>
         <ChakraFormInput
           {...props}
-          ref={ref}
-          color="black"
-          focusBorderColor={'primary.600'}
-          borderColor="gray.300"
-          bgColor="white"
-          _placeholder={{
-            color: 'gray.400'
-          }}
-        />
-        {RightIcon && (
-          <InputRightElement color="gray.500">
-            <RightIcon />
-          </InputRightElement>
-        )}
-      </InputGroup>
-    ) : (
-      <InputGroup minW={'100%'}>
-        <ChakraFormInput
-          {...props}
+          type={show ? 'text' : props.type}
           ref={ref}
           focusBorderColor={'primary.600'}
           borderColor={borderColor}
@@ -52,6 +37,16 @@ export const InputForm = forwardRef<ChakraInputProps & InputFormProps, 'input'>(
         {RightIcon && (
           <InputRightElement color="gray.500">
             <RightIcon />
+          </InputRightElement>
+        )}
+
+        {hasEyeIcon && (
+          <InputRightElement
+            color="gray.500"
+            onClick={handleClick}
+            style={{ cursor: 'pointer' }}
+          >
+            {show ? <FiEye /> : <FiEyeOff />}
           </InputRightElement>
         )}
       </InputGroup>

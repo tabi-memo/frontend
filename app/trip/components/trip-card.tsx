@@ -47,7 +47,7 @@ export const TripCard = ({ data }: TripCardProps) => {
     >
       <Box overflow="hidden" w={{ base: '', md: '100%' }}>
         <Image
-          src={data.node.image_storage_object_id || imageSrc}
+          src={data.node.image_url || imageSrc}
           alt={`Picture of ${data.node.title}`}
           w={{ base: '150px', md: '100%' }}
           h={{ base: '100px', md: '240px' }}

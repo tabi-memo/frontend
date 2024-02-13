@@ -1,4 +1,4 @@
-import { useDisclosure } from '@chakra-ui/react'
+import { useDisclosure, Text } from '@chakra-ui/react'
 import { ConfirmModal } from '@/components/modal'
 import type { Meta, StoryObj } from '@storybook/react'
 
@@ -11,7 +11,11 @@ const WrapperComponent = () => {
       <ConfirmModal
         isOpen={isOpen}
         onClose={onClose}
-        confirmText="delete this activity"
+        confirmBody={
+          <Text fontSize="lg" fontWeight="semibold">
+            Are you sure you want to delete this tag?
+          </Text>
+        }
         onClick={() => {}}
         submitLabel="Delete"
       />
