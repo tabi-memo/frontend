@@ -15,10 +15,14 @@ import type { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-
 const documents = {
   'query getUser($id: UUID!) {\n  usersCollection(filter: {id: {eq: $id}}) {\n    edges {\n      node {\n        id\n        email\n        name\n        profile_picture_url\n      }\n    }\n  }\n}':
     types.GetUserDocument,
+  'mutation createActivity($object: activityInsertInput!) {\n  insertIntoactivityCollection(objects: [$object]) {\n    records {\n      __typename\n      id\n      title\n    }\n  }\n}':
+    types.CreateActivityDocument,
+  'mutation createActivityUploadedFiles($objects: [activity_uploaded_filesInsertInput!]!) {\n  insertIntoactivity_uploaded_filesCollection(objects: $objects) {\n    records {\n      __typename\n      id\n      activity_id\n      file_name\n      file_url\n    }\n  }\n}':
+    types.CreateActivityUploadedFilesDocument,
+  'mutation updateActivity($id: UUID!, $set: activityUpdateInput!) {\n  updateactivityCollection(set: $set, filter: {id: {eq: $id}}) {\n    records {\n      id\n      title\n    }\n  }\n}':
+    types.UpdateActivityDocument,
   'query activityCollection($id: UUID!) {\n  activityCollection(filter: {id: {eq: $id}}) {\n    edges {\n      node {\n        id\n        trip_id\n        title\n        time_from\n        time_to\n        address\n        url\n        memo\n        cost\n        cost_unit\n        activity_uploaded_filesCollection {\n          edges {\n            node {\n              id\n              file_name\n              file_url\n            }\n          }\n        }\n      }\n    }\n  }\n}':
     types.ActivityCollectionDocument,
-  'mutation createActivity($trip_id: UUID!, $title: String!, $time_from: Datetime, $time_to: Datetime, $address: String, $url: String, $memo: String, $cost: BigFloat, $cost_unit: String, $image_url: String) {\n  insertIntoactivityCollection(\n    objects: [{trip_id: $trip_id, title: $title, time_from: $time_from, time_to: $time_to, address: $address, url: $url, memo: $memo, cost: $cost, cost_unit: $cost_unit, image_url: $image_url}]\n  ) {\n    records {\n      __typename\n      id\n      title\n    }\n  }\n}':
-    types.CreateActivityDocument,
   'mutation createTag($name: String!, $userId: UUID!) {\n  insertIntotagsCollection(objects: [{name: $name, user_id: $userId}]) {\n    records {\n      __typename\n      id\n      name\n    }\n  }\n}':
     types.CreateTagDocument,
   'mutation createTrip($object: tripsInsertInput!) {\n  insertIntotripsCollection(objects: [$object]) {\n    records {\n      __typename\n      id\n      title\n    }\n  }\n}':
@@ -67,14 +71,26 @@ export function graphql(
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: 'query activityCollection($id: UUID!) {\n  activityCollection(filter: {id: {eq: $id}}) {\n    edges {\n      node {\n        id\n        trip_id\n        title\n        time_from\n        time_to\n        address\n        url\n        memo\n        cost\n        cost_unit\n        activity_uploaded_filesCollection {\n          edges {\n            node {\n              id\n              file_name\n              file_url\n            }\n          }\n        }\n      }\n    }\n  }\n}'
-): (typeof documents)['query activityCollection($id: UUID!) {\n  activityCollection(filter: {id: {eq: $id}}) {\n    edges {\n      node {\n        id\n        trip_id\n        title\n        time_from\n        time_to\n        address\n        url\n        memo\n        cost\n        cost_unit\n        activity_uploaded_filesCollection {\n          edges {\n            node {\n              id\n              file_name\n              file_url\n            }\n          }\n        }\n      }\n    }\n  }\n}']
+  source: 'mutation createActivity($object: activityInsertInput!) {\n  insertIntoactivityCollection(objects: [$object]) {\n    records {\n      __typename\n      id\n      title\n    }\n  }\n}'
+): (typeof documents)['mutation createActivity($object: activityInsertInput!) {\n  insertIntoactivityCollection(objects: [$object]) {\n    records {\n      __typename\n      id\n      title\n    }\n  }\n}']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(
-  source: 'mutation createActivity($trip_id: UUID!, $title: String!, $time_from: Datetime, $time_to: Datetime, $address: String, $url: String, $memo: String, $cost: BigFloat, $cost_unit: String, $image_url: String) {\n  insertIntoactivityCollection(\n    objects: [{trip_id: $trip_id, title: $title, time_from: $time_from, time_to: $time_to, address: $address, url: $url, memo: $memo, cost: $cost, cost_unit: $cost_unit, image_url: $image_url}]\n  ) {\n    records {\n      __typename\n      id\n      title\n    }\n  }\n}'
-): (typeof documents)['mutation createActivity($trip_id: UUID!, $title: String!, $time_from: Datetime, $time_to: Datetime, $address: String, $url: String, $memo: String, $cost: BigFloat, $cost_unit: String, $image_url: String) {\n  insertIntoactivityCollection(\n    objects: [{trip_id: $trip_id, title: $title, time_from: $time_from, time_to: $time_to, address: $address, url: $url, memo: $memo, cost: $cost, cost_unit: $cost_unit, image_url: $image_url}]\n  ) {\n    records {\n      __typename\n      id\n      title\n    }\n  }\n}']
+  source: 'mutation createActivityUploadedFiles($objects: [activity_uploaded_filesInsertInput!]!) {\n  insertIntoactivity_uploaded_filesCollection(objects: $objects) {\n    records {\n      __typename\n      id\n      activity_id\n      file_name\n      file_url\n    }\n  }\n}'
+): (typeof documents)['mutation createActivityUploadedFiles($objects: [activity_uploaded_filesInsertInput!]!) {\n  insertIntoactivity_uploaded_filesCollection(objects: $objects) {\n    records {\n      __typename\n      id\n      activity_id\n      file_name\n      file_url\n    }\n  }\n}']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: 'mutation updateActivity($id: UUID!, $set: activityUpdateInput!) {\n  updateactivityCollection(set: $set, filter: {id: {eq: $id}}) {\n    records {\n      id\n      title\n    }\n  }\n}'
+): (typeof documents)['mutation updateActivity($id: UUID!, $set: activityUpdateInput!) {\n  updateactivityCollection(set: $set, filter: {id: {eq: $id}}) {\n    records {\n      id\n      title\n    }\n  }\n}']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: 'query activityCollection($id: UUID!) {\n  activityCollection(filter: {id: {eq: $id}}) {\n    edges {\n      node {\n        id\n        trip_id\n        title\n        time_from\n        time_to\n        address\n        url\n        memo\n        cost\n        cost_unit\n        activity_uploaded_filesCollection {\n          edges {\n            node {\n              id\n              file_name\n              file_url\n            }\n          }\n        }\n      }\n    }\n  }\n}'
+): (typeof documents)['query activityCollection($id: UUID!) {\n  activityCollection(filter: {id: {eq: $id}}) {\n    edges {\n      node {\n        id\n        trip_id\n        title\n        time_from\n        time_to\n        address\n        url\n        memo\n        cost\n        cost_unit\n        activity_uploaded_filesCollection {\n          edges {\n            node {\n              id\n              file_name\n              file_url\n            }\n          }\n        }\n      }\n    }\n  }\n}']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

@@ -515,8 +515,8 @@ export type Activity = Node & {
   time_from: Scalars['Datetime']['output']
   time_to?: Maybe<Scalars['Datetime']['output']>
   title: Scalars['String']['output']
-  trip_id?: Maybe<Scalars['UUID']['output']>
-  trips?: Maybe<Trips>
+  trip_id: Scalars['UUID']['output']
+  trips: Trips
   url?: Maybe<Scalars['String']['output']>
 }
 
@@ -628,9 +628,9 @@ export type ActivityUpdateResponse = {
 
 export type Activity_Uploaded_Files = Node & {
   __typename?: 'activity_uploaded_files'
-  activity?: Maybe<Activity>
-  activity_id?: Maybe<Scalars['UUID']['output']>
-  content_type: Scalars['String']['output']
+  activity: Activity
+  activity_id: Scalars['UUID']['output']
+  content_type?: Maybe<Scalars['String']['output']>
   created_at: Scalars['Datetime']['output']
   file_data?: Maybe<Scalars['JSON']['output']>
   file_name: Scalars['String']['output']
@@ -974,10 +974,10 @@ export type Trip_Tags = Node & {
   id: Scalars['UUID']['output']
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output']
-  tag_id?: Maybe<Scalars['UUID']['output']>
-  tags?: Maybe<Tags>
-  trip_id?: Maybe<Scalars['UUID']['output']>
-  trips?: Maybe<Trips>
+  tag_id: Scalars['UUID']['output']
+  tags: Tags
+  trip_id: Scalars['UUID']['output']
+  trips: Trips
 }
 
 export type Trip_TagsConnection = {
@@ -1057,8 +1057,8 @@ export type Trips = Node & {
   nodeId: Scalars['ID']['output']
   title: Scalars['String']['output']
   trip_tagsCollection?: Maybe<Trip_TagsConnection>
-  user_id?: Maybe<Scalars['UUID']['output']>
-  users?: Maybe<Users>
+  user_id: Scalars['UUID']['output']
+  users: Users
 }
 
 export type TripsActivityCollectionArgs = {
@@ -1303,6 +1303,51 @@ export type GetUserQuery = {
   } | null
 }
 
+export type CreateActivityMutationVariables = Exact<{
+  object: ActivityInsertInput
+}>
+
+export type CreateActivityMutation = {
+  __typename: 'Mutation'
+  insertIntoactivityCollection?: {
+    __typename: 'activityInsertResponse'
+    records: Array<{ __typename: 'activity'; id: string; title: string }>
+  } | null
+}
+
+export type CreateActivityUploadedFilesMutationVariables = Exact<{
+  objects:
+    | Array<Activity_Uploaded_FilesInsertInput>
+    | Activity_Uploaded_FilesInsertInput
+}>
+
+export type CreateActivityUploadedFilesMutation = {
+  __typename: 'Mutation'
+  insertIntoactivity_uploaded_filesCollection?: {
+    __typename: 'activity_uploaded_filesInsertResponse'
+    records: Array<{
+      __typename: 'activity_uploaded_files'
+      id: string
+      activity_id: string
+      file_name: string
+      file_url: string
+    }>
+  } | null
+}
+
+export type UpdateActivityMutationVariables = Exact<{
+  id: Scalars['UUID']['input']
+  set: ActivityUpdateInput
+}>
+
+export type UpdateActivityMutation = {
+  __typename: 'Mutation'
+  updateactivityCollection: {
+    __typename: 'activityUpdateResponse'
+    records: Array<{ __typename: 'activity'; id: string; title: string }>
+  }
+}
+
 export type ActivityCollectionQueryVariables = Exact<{
   id: Scalars['UUID']['input']
 }>
@@ -1316,7 +1361,7 @@ export type ActivityCollectionQuery = {
       node: {
         __typename: 'activity'
         id: string
-        trip_id?: string | null
+        trip_id: string
         title: string
         time_from: string
         time_to?: string | null
@@ -1339,27 +1384,6 @@ export type ActivityCollectionQuery = {
         } | null
       }
     }>
-  } | null
-}
-
-export type CreateActivityMutationVariables = Exact<{
-  trip_id: Scalars['UUID']['input']
-  title: Scalars['String']['input']
-  time_from?: InputMaybe<Scalars['Datetime']['input']>
-  time_to?: InputMaybe<Scalars['Datetime']['input']>
-  address?: InputMaybe<Scalars['String']['input']>
-  url?: InputMaybe<Scalars['String']['input']>
-  memo?: InputMaybe<Scalars['String']['input']>
-  cost?: InputMaybe<Scalars['BigFloat']['input']>
-  cost_unit?: InputMaybe<Scalars['String']['input']>
-  image_url?: InputMaybe<Scalars['String']['input']>
-}>
-
-export type CreateActivityMutation = {
-  __typename: 'Mutation'
-  insertIntoactivityCollection?: {
-    __typename: 'activityInsertResponse'
-    records: Array<{ __typename: 'activity'; id: string; title: string }>
   } | null
 }
 
@@ -1400,8 +1424,8 @@ export type CreateTripTagMutation = {
     records: Array<{
       __typename: 'trip_tags'
       id: string
-      tag_id?: string | null
-      trip_id?: string | null
+      tag_id: string
+      trip_id: string
     }>
   } | null
 }
@@ -1524,7 +1548,7 @@ export type TripDetailsQuery = {
             __typename: 'trip_tagsEdge'
             node: {
               __typename: 'trip_tags'
-              tags?: { __typename: 'tags'; id: string; name: string } | null
+              tags: { __typename: 'tags'; id: string; name: string }
             }
           }>
         } | null
@@ -1546,8 +1570,8 @@ export type TripTagsCollectionQuery = {
       node: {
         __typename: 'trip_tags'
         id: string
-        trip_id?: string | null
-        tag_id?: string | null
+        trip_id: string
+        tag_id: string
       }
     }>
   } | null
@@ -1684,6 +1708,180 @@ export type GetUserQueryResult = Apollo.QueryResult<
 export function refetchGetUserQuery(variables: GetUserQueryVariables) {
   return { query: GetUserDocument, variables: variables }
 }
+export const CreateActivityDocument = gql`
+  mutation createActivity($object: activityInsertInput!) {
+    __typename
+    insertIntoactivityCollection(objects: [$object]) {
+      __typename
+      records {
+        __typename
+        id
+        title
+      }
+    }
+  }
+`
+export type CreateActivityMutationFn = Apollo.MutationFunction<
+  CreateActivityMutation,
+  CreateActivityMutationVariables
+>
+
+/**
+ * __useCreateActivityMutation__
+ *
+ * To run a mutation, you first call `useCreateActivityMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateActivityMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createActivityMutation, { data, loading, error }] = useCreateActivityMutation({
+ *   variables: {
+ *      object: // value for 'object'
+ *   },
+ * });
+ */
+export function useCreateActivityMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateActivityMutation,
+    CreateActivityMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    CreateActivityMutation,
+    CreateActivityMutationVariables
+  >(CreateActivityDocument, options)
+}
+export type CreateActivityMutationHookResult = ReturnType<
+  typeof useCreateActivityMutation
+>
+export type CreateActivityMutationResult =
+  Apollo.MutationResult<CreateActivityMutation>
+export type CreateActivityMutationOptions = Apollo.BaseMutationOptions<
+  CreateActivityMutation,
+  CreateActivityMutationVariables
+>
+export const CreateActivityUploadedFilesDocument = gql`
+  mutation createActivityUploadedFiles(
+    $objects: [activity_uploaded_filesInsertInput!]!
+  ) {
+    __typename
+    insertIntoactivity_uploaded_filesCollection(objects: $objects) {
+      __typename
+      records {
+        __typename
+        id
+        activity_id
+        file_name
+        file_url
+      }
+    }
+  }
+`
+export type CreateActivityUploadedFilesMutationFn = Apollo.MutationFunction<
+  CreateActivityUploadedFilesMutation,
+  CreateActivityUploadedFilesMutationVariables
+>
+
+/**
+ * __useCreateActivityUploadedFilesMutation__
+ *
+ * To run a mutation, you first call `useCreateActivityUploadedFilesMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateActivityUploadedFilesMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createActivityUploadedFilesMutation, { data, loading, error }] = useCreateActivityUploadedFilesMutation({
+ *   variables: {
+ *      objects: // value for 'objects'
+ *   },
+ * });
+ */
+export function useCreateActivityUploadedFilesMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateActivityUploadedFilesMutation,
+    CreateActivityUploadedFilesMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    CreateActivityUploadedFilesMutation,
+    CreateActivityUploadedFilesMutationVariables
+  >(CreateActivityUploadedFilesDocument, options)
+}
+export type CreateActivityUploadedFilesMutationHookResult = ReturnType<
+  typeof useCreateActivityUploadedFilesMutation
+>
+export type CreateActivityUploadedFilesMutationResult =
+  Apollo.MutationResult<CreateActivityUploadedFilesMutation>
+export type CreateActivityUploadedFilesMutationOptions =
+  Apollo.BaseMutationOptions<
+    CreateActivityUploadedFilesMutation,
+    CreateActivityUploadedFilesMutationVariables
+  >
+export const UpdateActivityDocument = gql`
+  mutation updateActivity($id: UUID!, $set: activityUpdateInput!) {
+    __typename
+    updateactivityCollection(set: $set, filter: { id: { eq: $id } }) {
+      __typename
+      records {
+        __typename
+        id
+        title
+      }
+    }
+  }
+`
+export type UpdateActivityMutationFn = Apollo.MutationFunction<
+  UpdateActivityMutation,
+  UpdateActivityMutationVariables
+>
+
+/**
+ * __useUpdateActivityMutation__
+ *
+ * To run a mutation, you first call `useUpdateActivityMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateActivityMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateActivityMutation, { data, loading, error }] = useUpdateActivityMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      set: // value for 'set'
+ *   },
+ * });
+ */
+export function useUpdateActivityMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateActivityMutation,
+    UpdateActivityMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    UpdateActivityMutation,
+    UpdateActivityMutationVariables
+  >(UpdateActivityDocument, options)
+}
+export type UpdateActivityMutationHookResult = ReturnType<
+  typeof useUpdateActivityMutation
+>
+export type UpdateActivityMutationResult =
+  Apollo.MutationResult<UpdateActivityMutation>
+export type UpdateActivityMutationOptions = Apollo.BaseMutationOptions<
+  UpdateActivityMutation,
+  UpdateActivityMutationVariables
+>
 export const ActivityCollectionDocument = gql`
   query activityCollection($id: UUID!) {
     __typename
@@ -1791,97 +1989,6 @@ export function refetchActivityCollectionQuery(
 ) {
   return { query: ActivityCollectionDocument, variables: variables }
 }
-export const CreateActivityDocument = gql`
-  mutation createActivity(
-    $trip_id: UUID!
-    $title: String!
-    $time_from: Datetime
-    $time_to: Datetime
-    $address: String
-    $url: String
-    $memo: String
-    $cost: BigFloat
-    $cost_unit: String
-    $image_url: String
-  ) {
-    __typename
-    insertIntoactivityCollection(
-      objects: [
-        {
-          trip_id: $trip_id
-          title: $title
-          time_from: $time_from
-          time_to: $time_to
-          address: $address
-          url: $url
-          memo: $memo
-          cost: $cost
-          cost_unit: $cost_unit
-          image_url: $image_url
-        }
-      ]
-    ) {
-      __typename
-      records {
-        __typename
-        id
-        title
-      }
-    }
-  }
-`
-export type CreateActivityMutationFn = Apollo.MutationFunction<
-  CreateActivityMutation,
-  CreateActivityMutationVariables
->
-
-/**
- * __useCreateActivityMutation__
- *
- * To run a mutation, you first call `useCreateActivityMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateActivityMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createActivityMutation, { data, loading, error }] = useCreateActivityMutation({
- *   variables: {
- *      trip_id: // value for 'trip_id'
- *      title: // value for 'title'
- *      time_from: // value for 'time_from'
- *      time_to: // value for 'time_to'
- *      address: // value for 'address'
- *      url: // value for 'url'
- *      memo: // value for 'memo'
- *      cost: // value for 'cost'
- *      cost_unit: // value for 'cost_unit'
- *      image_url: // value for 'image_url'
- *   },
- * });
- */
-export function useCreateActivityMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CreateActivityMutation,
-    CreateActivityMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions }
-  return Apollo.useMutation<
-    CreateActivityMutation,
-    CreateActivityMutationVariables
-  >(CreateActivityDocument, options)
-}
-export type CreateActivityMutationHookResult = ReturnType<
-  typeof useCreateActivityMutation
->
-export type CreateActivityMutationResult =
-  Apollo.MutationResult<CreateActivityMutation>
-export type CreateActivityMutationOptions = Apollo.BaseMutationOptions<
-  CreateActivityMutation,
-  CreateActivityMutationVariables
->
 export const CreateTagDocument = gql`
   mutation createTag($name: String!, $userId: UUID!) {
     __typename

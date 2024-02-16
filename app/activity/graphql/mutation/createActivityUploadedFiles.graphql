@@ -1,0 +1,13 @@
+mutation createActivityUploadedFiles(
+  $objects: [activity_uploaded_filesInsertInput!]!
+) {
+  insertIntoactivity_uploaded_filesCollection(objects: $objects) {
+    records {
+      __typename
+      id
+      activity_id
+      file_name
+      file_url
+    }
+  }
+}
