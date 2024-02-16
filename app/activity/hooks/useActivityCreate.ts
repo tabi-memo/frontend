@@ -2,6 +2,7 @@ import { useToast } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 import { formatToISODate } from '@/libs/utils'
 import { ActivitySchema } from '../schema'
+import { useRefetchTrips } from './useRefetchTrips'
 import { useUploadFiles } from './useUploadFiles'
 import { useCreateActivityMutation } from '@generated/api'
 
@@ -11,6 +12,7 @@ export const useActivityCreate = (tripId: string) => {
   const [createActivityMutation, { loading: isActivityCreating }] =
     useCreateActivityMutation()
   const { uploadFiles } = useUploadFiles()
+  const { refetchTrips } = useRefetchTrips()
 
   const createActivity = async (activityData: ActivitySchema) => {
     try {
@@ -41,6 +43,7 @@ export const useActivityCreate = (tripId: string) => {
         await uploadFiles(activityData.newFiles, { id: createdActivityId, tripId })
       }
 
+      refetchTrips(tripId)
       router.push(`/activity/${createdActivityId}`)
       toast({
         title: 'Successfully created!',
