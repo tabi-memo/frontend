@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import {
   Box,
   FormControl,
@@ -10,39 +10,40 @@ import {
   Image,
   SimpleGrid,
   Text,
-  Flex
+  Flex,
+  VStack
 } from '@chakra-ui/react'
 import { PrimaryButton } from '@/components/button'
 import { CustomDateTimePicker } from '@/components/customDateTimePicker'
 import { InputForm, TextareaForm } from '@/components/input'
-import { extractTimeFromDate } from '@/libs/utils'
-import { activitySchema, activityResolver } from '../schema'
-
-type ValuePiece = Date | null
-type Value = ValuePiece | [ValuePiece, ValuePiece]
+import { getDateObj } from '@/libs/utils'
+import { useActivityCreate, useActivityUpdate } from '../hooks'
+import { ActivitySchema, activityResolver } from '../schema'
 
 export type ActivityDetails = {
   id: string
   title: string
-  time_from: string | null
-  time_to?: string | null
+  timeFrom?: string | null
+  timeTo?: string | null
   address?: string | null
   url?: string | null
   memo?: string | null
   cost?: string | null
-  cost_unit?: string | null
-  image_urls?: string[]
+  costUnit?: string | null
+  uploadedFileUrls?: string[] | null
   refetch: () => void
   refetchLoading: boolean
 }
 
 type ActivityFormProps = {
+  tripId: string
   activityDetails?: ActivityDetails
 }
 
-export const ActivityForm = ({ activityDetails }: ActivityFormProps) => {
-  const [timeTo, setDateTo] = useState<Value>(null)
-  const [timeFrom, setDateFrom] = useState<Value>(null)
+export const ActivityForm = ({
+  tripId,
+  activityDetails
+}: ActivityFormProps) => {
   const [selectedImages, setSelectedImages] = useState<File[]>([])
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setSelectedImages((prevImages) => [...prevImages, ...acceptedFiles])
@@ -58,34 +59,42 @@ export const ActivityForm = ({ activityDetails }: ActivityFormProps) => {
 
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors }
-  } = useForm<activitySchema>({
+  } = useForm<ActivitySchema>({
     defaultValues: {
       title: activityDetails?.title,
-      timeFrom: activityDetails?.time_from
-        ? extractTimeFromDate(activityDetails?.time_from)
+      timeFrom: activityDetails?.timeFrom
+        ? getDateObj(activityDetails?.timeFrom)
         : undefined,
-      timeTo: activityDetails?.time_to
-        ? extractTimeFromDate(activityDetails?.time_to)
+      timeTo: activityDetails?.timeTo
+        ? getDateObj(activityDetails?.timeTo)
         : undefined,
       address: activityDetails?.address || undefined,
       url: activityDetails?.url || undefined,
       memo: activityDetails?.memo || undefined,
       cost: activityDetails?.cost || undefined,
-      costUnit: activityDetails?.cost_unit || undefined,
-      imageUrls: activityDetails?.image_urls || undefined
+      costUnit: activityDetails?.costUnit || undefined,
+      uploadedFileUrls: activityDetails?.uploadedFileUrls || undefined,
+      newFiles: selectedImages
     },
     resolver: activityResolver
   })
 
-  const createHandler = handleSubmit(async (data: activitySchema) => {
-    console.log(data)
-    // TODO append 'images', 'date from', 'date to' to formData and send to backend
-  })
+  const { createActivity, isActivityCreating } = useActivityCreate(tripId)
+  const { updateActivity, isActivityUpdating } = useActivityUpdate(tripId)
+  const mutateFun = activityDetails
+    ? (data: ActivitySchema) => updateActivity(activityDetails.id, data)
+    : createActivity
+  const isMutating = isActivityCreating || isActivityUpdating
 
   return (
-    <Box as="form" onSubmit={createHandler} pt={{ base: '40px', md: '40px' }}>
+    <VStack
+      as="form"
+      onSubmit={handleSubmit(mutateFun)}
+      pt={{ base: '40px', md: '40px' }}
+    >
       <FormControl isRequired isInvalid={!!errors.title}>
         <FormLabel>Title</FormLabel>
         <InputForm
@@ -98,14 +107,33 @@ export const ActivityForm = ({ activityDetails }: ActivityFormProps) => {
         )}
       </FormControl>
 
-      <FormControl mt={{ base: '30px', md: '40px' }}>
+      <FormControl
+        isRequired
+        isInvalid={!!errors.timeFrom}
+        mt={{ base: '30px', md: '40px' }}
+      >
         <FormLabel>Time From</FormLabel>
-        <CustomDateTimePicker onChange={setDateFrom} value={timeFrom} />
+        <Controller
+          name="timeFrom"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <CustomDateTimePicker onChange={onChange} value={value} />
+          )}
+        />
+        {errors.timeFrom && (
+          <FormErrorMessage>{errors.timeFrom.message}</FormErrorMessage>
+        )}
       </FormControl>
 
       <FormControl mt={{ base: '30px', md: '40px' }}>
         <FormLabel>Time To</FormLabel>
-        <CustomDateTimePicker onChange={setDateTo} value={timeTo} />
+        <Controller
+          name="timeTo"
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <CustomDateTimePicker onChange={onChange} value={value} />
+          )}
+        />
       </FormControl>
 
       <FormControl
@@ -143,7 +171,7 @@ export const ActivityForm = ({ activityDetails }: ActivityFormProps) => {
         Image
       </Text>
       <SimpleGrid columns={{ base: 2, md: 3 }} spacing={4}>
-        {activityDetails?.image_urls?.map((url, index) => (
+        {activityDetails?.uploadedFileUrls?.map((url, index) => (
           <Image
             key={index}
             src={url}
@@ -174,7 +202,7 @@ export const ActivityForm = ({ activityDetails }: ActivityFormProps) => {
         mt={{
           base: 0,
           md:
-            (activityDetails?.image_urls?.length ?? 0) > 0 ||
+            (activityDetails?.uploadedFileUrls?.length ?? 0) > 0 ||
             selectedImages.length !== 0
               ? '40px'
               : '0'
@@ -198,19 +226,40 @@ export const ActivityForm = ({ activityDetails }: ActivityFormProps) => {
         )}
       </FormControl>
 
-      <FormControl isInvalid={!!errors.cost} mt={{ base: '30px', md: '40px' }}>
-        <FormLabel>Cost</FormLabel>
-        <InputForm {...register('cost')} type="text" placeholder="$200" />
-        {errors.cost && (
-          <FormErrorMessage>{errors.cost.message}</FormErrorMessage>
-        )}
-      </FormControl>
+      <Flex gap="20px" justify={'start'} width="100%">
+        <FormControl w={'180px'} isInvalid={!!errors.cost}>
+          <FormLabel>Cost</FormLabel>
+          <InputForm
+            type="text"
+            placeholder="10"
+            minW={'auto'}
+            {...register('cost')}
+          />
+          <FormErrorMessage>{errors?.cost?.message}</FormErrorMessage>
+        </FormControl>
+
+        <FormControl w={'90px'} isInvalid={!!errors.costUnit}>
+          <FormLabel>Unit</FormLabel>
+          <InputForm
+            type="text"
+            placeholder="$"
+            minW={'10px'}
+            {...register('costUnit')}
+          />
+          <FormErrorMessage>{errors?.costUnit?.message}</FormErrorMessage>
+        </FormControl>
+      </Flex>
 
       <Flex justifyContent="center" mt={{ base: '30px', md: '40px' }}>
-        <Button colorScheme="teal" type="submit" margin="auto">
+        <Button
+          colorScheme="teal"
+          type="submit"
+          margin="auto"
+          disabled={isMutating}
+        >
           Save Activity
         </Button>
       </Flex>
-    </Box>
+    </VStack>
   )
 }

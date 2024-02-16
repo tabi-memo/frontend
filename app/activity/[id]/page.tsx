@@ -63,7 +63,7 @@ export default function ActivityDetails({
           <ActivityInfo memo={activityData?.memo} cost={activityData?.cost} />
           <Box mt="60px" display="flex" alignItems="center">
             <FiChevronLeft />
-            <Link ml="2%" href="/">
+            <Link ml="2%" href={`/trip/${activityData.trip_id}`}>
               Got back to Trip Details
             </Link>
           </Box>

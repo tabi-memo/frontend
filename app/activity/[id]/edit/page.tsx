@@ -57,17 +57,18 @@ export default function ActivityEditPage({
           <Loading />
         ) : (
           <ActivityForm
+            tripId={activityDataCollection.trip_id}
             activityDetails={{
               id: activityDataCollection.id,
               title: activityDataCollection.title,
-              time_from: activityDataCollection.time_from,
-              time_to: activityDataCollection?.time_to,
+              timeFrom: activityDataCollection.time_from,
+              timeTo: activityDataCollection?.time_to,
               address: activityDataCollection?.address,
               url: activityDataCollection?.url,
               memo: activityDataCollection?.memo,
               cost: activityDataCollection?.cost,
-              cost_unit: activityDataCollection?.cost_unit,
-              image_urls: dummyUrls,
+              costUnit: activityDataCollection?.cost_unit,
+              uploadedFileUrls: dummyUrls,
               refetch: activityDetailsRefetch,
               refetchLoading: activityDetailsRefetchLoading
             }}
