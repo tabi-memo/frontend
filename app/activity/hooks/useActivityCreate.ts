@@ -22,7 +22,9 @@ export const useActivityCreate = (tripId: string) => {
             trip_id: tripId,
             title: activityData.title,
             time_from: formatToISODate(activityData.timeFrom),
-            time_to: activityData.timeTo ? formatToISODate(activityData.timeTo) : null,
+            time_to: activityData.timeTo
+              ? formatToISODate(activityData.timeTo)
+              : null,
             address: activityData.address,
             url: activityData.url,
             memo: activityData.memo,
@@ -35,12 +37,20 @@ export const useActivityCreate = (tripId: string) => {
 
       if (errors) throw new Error(errors[0].message)
 
-      const createdActivityId = data?.insertIntoactivityCollection?.records[0]?.id
+      const createdActivityId =
+        data?.insertIntoactivityCollection?.records[0]?.id
 
       if (!createdActivityId) throw new Error('Failed to create an activity')
 
-      if (createdActivityId && activityData.newFiles && activityData.newFiles.length > 0) {
-        await uploadFiles(activityData.newFiles, { id: createdActivityId, tripId })
+      if (
+        createdActivityId &&
+        activityData.newFiles &&
+        activityData.newFiles.length > 0
+      ) {
+        await uploadFiles(activityData.newFiles, {
+          id: createdActivityId,
+          tripId
+        })
       }
 
       refetchTrips(tripId)
@@ -64,6 +74,6 @@ export const useActivityCreate = (tripId: string) => {
 
   return {
     createActivity,
-    isActivityCreating,
+    isActivityCreating
   }
 }

@@ -2,7 +2,10 @@ import { createClient } from '@supabase/supabase-js'
 // import { useCreateActivityUploadedFilesMutation } from '@generated/api'
 
 export const useUploadFiles = () => {
-  const uploadFiles = async (files: File[], activityDetails: { id: string; tripId: string; }) => {
+  const uploadFiles = async (
+    files: File[],
+    activityDetails: { id: string; tripId: string }
+  ) => {
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_API_KEY!
@@ -11,7 +14,11 @@ export const useUploadFiles = () => {
     const uploadPromises = files.map(async (file) => {
       const { data, error } = await supabase.storage
         .from('tabi-memo-uploads')
-        .upload(`trips/${activityDetails.tripId}/activity/${activityDetails.id}/${file.name}`, file, { upsert: true })
+        .upload(
+          `trips/${activityDetails.tripId}/activity/${activityDetails.id}/${file.name}`,
+          file,
+          { upsert: true }
+        )
 
       return { data, fileName: file.name, error }
     })

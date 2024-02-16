@@ -14,7 +14,10 @@ export const useActivityUpdate = (tripId: string) => {
   const { uploadFiles } = useUploadFiles()
   const { refetchTrips } = useRefetchTrips()
 
-  const updateActivity = async (activityId: string, activityData: ActivitySchema) => {
+  const updateActivity = async (
+    activityId: string,
+    activityData: ActivitySchema
+  ) => {
     try {
       const { data, errors } = await updateActivityMutation({
         variables: {
@@ -22,7 +25,9 @@ export const useActivityUpdate = (tripId: string) => {
           set: {
             title: activityData.title,
             time_from: formatToISODate(activityData.timeFrom),
-            time_to: activityData.timeTo ? formatToISODate(activityData.timeTo) : null,
+            time_to: activityData.timeTo
+              ? formatToISODate(activityData.timeTo)
+              : null,
             address: activityData.address,
             url: activityData.url,
             memo: activityData.memo,
@@ -39,7 +44,11 @@ export const useActivityUpdate = (tripId: string) => {
 
       if (!updatedActivityId) throw new Error('Failed to create an activity')
 
-      if (updatedActivityId && activityData.newFiles && activityData.newFiles.length > 0) {
+      if (
+        updatedActivityId &&
+        activityData.newFiles &&
+        activityData.newFiles.length > 0
+      ) {
         await uploadFiles(activityData.newFiles, { id: activityId, tripId })
       }
 
@@ -64,6 +73,6 @@ export const useActivityUpdate = (tripId: string) => {
 
   return {
     updateActivity,
-    isActivityUpdating,
+    isActivityUpdating
   }
 }

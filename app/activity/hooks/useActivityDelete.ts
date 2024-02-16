@@ -16,7 +16,7 @@ export const useActivityDelete = () => {
         variables: {
           id: activityId
         },
-        refetchQueries: ['activityCollection'],
+        refetchQueries: ['activityCollection']
       })
 
       if (errors) throw new Error(errors[0].message)
