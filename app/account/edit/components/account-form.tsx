@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm, Controller } from 'react-hook-form'
 import {
   Box,
   FormControl,
@@ -9,77 +9,49 @@ import {
   VStack,
   HStack,
   Flex,
-  Heading,
-  useToast
+  Input
 } from '@chakra-ui/react'
-import { useRouter } from 'next/navigation'
+
 import { MdAccountCircle } from 'react-icons/md'
 import { AccountSchema, accountResolver } from '@/account/schema'
 import { PrimaryButton, SecondaryButton } from '@/components/button'
 import { InputForm } from '@/components/input'
 import { Loading } from '@/components/loading'
 import { useUserId } from '@/providers/session-provider'
-import { useUpdateUserMutation } from '@generated/api'
+import { useUploadFile, useUserUpdate } from '../../hooks'
 
 export const AccountEditForm = ({
   name,
   email,
   profile_picture_url
 }: AccountSchema) => {
-  const toast = useToast()
-  const router = useRouter()
   const userId = useUserId()
-  const [isLoading, setLoading] = useState(false)
-  const [updateUserMutation] = useUpdateUserMutation()
+  const { uploadFile } = useUploadFile()
+  const { updateUser, isLoading } = useUserUpdate()
+
+  const [selectedImage, setSelectedImage] = useState<File | null>(null)
 
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors }
   } = useForm<AccountSchema>({
     defaultValues: {
       name: name,
       email: email,
-      profile_picture_url: profile_picture_url
+      profile_picture_url: profile_picture_url,
+      uploaded_image_file: null
     },
     resolver: accountResolver
   })
 
   const createHandler = handleSubmit(async (data: AccountSchema) => {
-    setLoading(true)
-    try {
-      await updateUserMutation({
-        variables: {
-          id: userId,
-          set: {
-            name: data.name,
-            email: data.email,
-            profile_picture_url: data.profile_picture_url
-          }
-        }
-      })
-      setLoading(false)
-      toast({
-        title: 'Success!',
-        description: 'Your changes have been saved.',
-        status: 'success',
-        duration: 5000,
-        isClosable: true,
-        position: 'top'
-      })
-      router.push('/account')
-    } catch (error) {
-      console.log(error)
-      toast({
-        title: "We're sorry, but something went wrong.",
-        description:
-          error instanceof Error ? error.message : 'Please try again later.',
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-        position: 'top'
-      })
+    if (selectedImage) {
+      await uploadFile(profile_picture_url, selectedImage, userId)
     }
+
+    updateUser(data.name, data.email)
   })
 
   return (
@@ -114,24 +86,59 @@ export const AccountEditForm = ({
                 )}
               </FormControl>
 
-              <Heading fontSize="bold">Image</Heading>
-              <HStack justify="center" w="100%" spacing="50px">
-                {profile_picture_url ? (
-                  <Image
-                    borderRadius="full"
-                    boxSize="80px"
-                    src={profile_picture_url}
-                    alt="Profile Picture"
+              <FormControl isInvalid={!!errors.profile_picture_url}>
+                <FormLabel>Image</FormLabel>
+                <HStack gap={{ base: '20px', md: '34px' }}>
+                  {profile_picture_url && !selectedImage ? (
+                    <Image
+                      alt="Selected Image"
+                      src={profile_picture_url}
+                      width="80px"
+                      height="80px"
+                      objectFit="cover"
+                      borderRadius="50%"
+                    />
+                  ) : selectedImage ? (
+                    <Image
+                      alt="Selected Image"
+                      src={URL.createObjectURL(selectedImage)}
+                      width="80px"
+                      height="80px"
+                      objectFit="cover"
+                      borderRadius="50%"
+                    />
+                  ) : (
+                    <Box color="gray.400">
+                      <MdAccountCircle size="80px" />
+                    </Box>
+                  )}
+                  <Controller
+                    name="uploaded_image_file"
+                    control={control}
+                    render={({ field: { onChange } }) => (
+                      <SecondaryButton variant="outline" as="label">
+                        Select Image
+                        <Input
+                          type="file"
+                          accept="image/*"
+                          id="imageUpload"
+                          onChange={(event) => {
+                            const file = event.target.files?.[0]
+                            if (file) {
+                              setSelectedImage(file)
+                              onChange(file)
+                            }
+                          }}
+                          hidden
+                        />
+                      </SecondaryButton>
+                    )}
                   />
-                ) : (
-                  <Box color="gray.400">
-                    <MdAccountCircle size="80px" />
-                  </Box>
-                )}
-                <SecondaryButton variant="outline">
-                  Choose Image
-                </SecondaryButton>
-              </HStack>
+                </HStack>
+                <FormErrorMessage>
+                  {errors?.profile_picture_url?.message}
+                </FormErrorMessage>
+              </FormControl>
             </VStack>
             <Flex
               justify="center"

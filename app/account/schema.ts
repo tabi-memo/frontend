@@ -4,7 +4,8 @@ import * as z from 'zod'
 const accountSchema = z.object({
   email: z.string().email('This is not valid email address'),
   name: z.string(),
-  profile_picture_url: z.string().nullable()
+  profile_picture_url: z.string().nullable(),
+  uploaded_image_file: z.instanceof(File).nullable()
 })
 
 export type AccountSchema = z.infer<typeof accountSchema>
