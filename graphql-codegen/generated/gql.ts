@@ -19,6 +19,8 @@ const documents = {
     types.CreateActivityDocument,
   'mutation createActivityUploadedFiles($objects: [activity_uploaded_filesInsertInput!]!) {\n  insertIntoactivity_uploaded_filesCollection(objects: $objects) {\n    records {\n      __typename\n      id\n      activity_id\n      file_name\n      file_url\n    }\n  }\n}':
     types.CreateActivityUploadedFilesDocument,
+  'mutation DeleteActivity($id: UUID!) {\n  deleteFromactivityCollection(filter: {id: {eq: $id}}) {\n    records {\n      __typename\n      id\n      trip_id\n      title\n    }\n  }\n}':
+    types.DeleteActivityDocument,
   'mutation updateActivity($id: UUID!, $set: activityUpdateInput!) {\n  updateactivityCollection(set: $set, filter: {id: {eq: $id}}) {\n    records {\n      id\n      title\n    }\n  }\n}':
     types.UpdateActivityDocument,
   'query activityCollection($id: UUID!) {\n  activityCollection(filter: {id: {eq: $id}}) {\n    edges {\n      node {\n        id\n        trip_id\n        title\n        time_from\n        time_to\n        address\n        url\n        memo\n        cost\n        cost_unit\n        activity_uploaded_filesCollection {\n          edges {\n            node {\n              id\n              file_name\n              file_url\n            }\n          }\n        }\n      }\n    }\n  }\n}':
@@ -79,6 +81,12 @@ export function graphql(
 export function graphql(
   source: 'mutation createActivityUploadedFiles($objects: [activity_uploaded_filesInsertInput!]!) {\n  insertIntoactivity_uploaded_filesCollection(objects: $objects) {\n    records {\n      __typename\n      id\n      activity_id\n      file_name\n      file_url\n    }\n  }\n}'
 ): (typeof documents)['mutation createActivityUploadedFiles($objects: [activity_uploaded_filesInsertInput!]!) {\n  insertIntoactivity_uploaded_filesCollection(objects: $objects) {\n    records {\n      __typename\n      id\n      activity_id\n      file_name\n      file_url\n    }\n  }\n}']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: 'mutation DeleteActivity($id: UUID!) {\n  deleteFromactivityCollection(filter: {id: {eq: $id}}) {\n    records {\n      __typename\n      id\n      trip_id\n      title\n    }\n  }\n}'
+): (typeof documents)['mutation DeleteActivity($id: UUID!) {\n  deleteFromactivityCollection(filter: {id: {eq: $id}}) {\n    records {\n      __typename\n      id\n      trip_id\n      title\n    }\n  }\n}']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

@@ -1335,6 +1335,23 @@ export type CreateActivityUploadedFilesMutation = {
   } | null
 }
 
+export type DeleteActivityMutationVariables = Exact<{
+  id: Scalars['UUID']['input']
+}>
+
+export type DeleteActivityMutation = {
+  __typename: 'Mutation'
+  deleteFromactivityCollection: {
+    __typename: 'activityDeleteResponse'
+    records: Array<{
+      __typename: 'activity'
+      id: string
+      trip_id: string
+      title: string
+    }>
+  }
+}
+
 export type UpdateActivityMutationVariables = Exact<{
   id: Scalars['UUID']['input']
   set: ActivityUpdateInput
@@ -1825,6 +1842,63 @@ export type CreateActivityUploadedFilesMutationOptions =
     CreateActivityUploadedFilesMutation,
     CreateActivityUploadedFilesMutationVariables
   >
+export const DeleteActivityDocument = gql`
+  mutation DeleteActivity($id: UUID!) {
+    __typename
+    deleteFromactivityCollection(filter: { id: { eq: $id } }) {
+      __typename
+      records {
+        __typename
+        id
+        trip_id
+        title
+      }
+    }
+  }
+`
+export type DeleteActivityMutationFn = Apollo.MutationFunction<
+  DeleteActivityMutation,
+  DeleteActivityMutationVariables
+>
+
+/**
+ * __useDeleteActivityMutation__
+ *
+ * To run a mutation, you first call `useDeleteActivityMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteActivityMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteActivityMutation, { data, loading, error }] = useDeleteActivityMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteActivityMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteActivityMutation,
+    DeleteActivityMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    DeleteActivityMutation,
+    DeleteActivityMutationVariables
+  >(DeleteActivityDocument, options)
+}
+export type DeleteActivityMutationHookResult = ReturnType<
+  typeof useDeleteActivityMutation
+>
+export type DeleteActivityMutationResult =
+  Apollo.MutationResult<DeleteActivityMutation>
+export type DeleteActivityMutationOptions = Apollo.BaseMutationOptions<
+  DeleteActivityMutation,
+  DeleteActivityMutationVariables
+>
 export const UpdateActivityDocument = gql`
   mutation updateActivity($id: UUID!, $set: activityUpdateInput!) {
     __typename

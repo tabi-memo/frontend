@@ -1343,6 +1343,23 @@ export type CreateActivityUploadedFilesMutation = {
   } | null
 }
 
+export type DeleteActivityMutationVariables = Exact<{
+  id: Scalars['UUID']['input']
+}>
+
+export type DeleteActivityMutation = {
+  __typename: 'Mutation'
+  deleteFromactivityCollection: {
+    __typename: 'activityDeleteResponse'
+    records: Array<{
+      __typename: 'activity'
+      id: string
+      trip_id: string
+      title: string
+    }>
+  }
+}
+
 export type UpdateActivityMutationVariables = Exact<{
   id: Scalars['UUID']['input']
   set: ActivityUpdateInput
@@ -1918,6 +1935,93 @@ export const CreateActivityUploadedFilesDocument = {
 } as unknown as DocumentNode<
   CreateActivityUploadedFilesMutation,
   CreateActivityUploadedFilesMutationVariables
+>
+export const DeleteActivityDocument = {
+  __meta__: { hash: 'f86bef447c736e2937994ec37ca883ee109fa6c5' },
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteActivity' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteFromactivityCollection' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'filter' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'id' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'eq' },
+                            value: {
+                              kind: 'Variable',
+                              name: { kind: 'Name', value: 'id' }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'records' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: '__typename' }
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'trip_id' }
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'title' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  DeleteActivityMutation,
+  DeleteActivityMutationVariables
 >
 export const UpdateActivityDocument = {
   __meta__: { hash: 'd6d6be943e738534556ff6a112b8dea268daf1f6' },
