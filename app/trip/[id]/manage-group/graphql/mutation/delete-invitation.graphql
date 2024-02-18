@@ -1,0 +1,10 @@
+mutation deleteInvitation($id: UUID!) {
+  deleteFrominvitationsCollection(filter: { id: { eq: $id } }) {
+    records {
+      __typename
+      id
+      email
+      permission_level
+    }
+  }
+}

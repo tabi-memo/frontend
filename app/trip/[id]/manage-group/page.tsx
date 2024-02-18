@@ -9,19 +9,13 @@ import {
 } from '@chakra-ui/react'
 import { Loading } from '@/components/loading'
 import { OwnerCard, InvitedUserCard } from './components'
-import { useTripSharedUsersQuery } from '@generated/api'
+import { useGetTripSharedUsers } from './hooks'
 
 export default function ManageGroup({ params }: { params: { id: string } }) {
   const bg = useColorModeValue('white', 'gray.800')
   const color = useColorModeValue('black', 'gray.300')
 
-  const { data, loading } = useTripSharedUsersQuery({
-    variables: {
-      tripId: params.id
-    }
-  })
-
-  const tripSharedUsers = data?.tripsCollection?.edges[0].node
+  const { tripSharedUsers, loading } = useGetTripSharedUsers(params.id)
 
   return (
     <Box
@@ -58,6 +52,8 @@ export default function ManageGroup({ params }: { params: { id: string } }) {
                   return (
                     <InvitedUserCard
                       key={invitedUser.node.id}
+                      id={invitedUser.node.id}
+                      tripId={params.id}
                       image={invitedUser.node.users?.profile_picture_url}
                       name={invitedUser.node.users?.name || ''}
                       email={invitedUser.node.users?.email || ''}

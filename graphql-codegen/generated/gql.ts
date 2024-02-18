@@ -19,6 +19,10 @@ const documents = {
     types.ActivityCollectionDocument,
   'mutation createActivity($trip_id: UUID!, $title: String!, $time_from: Datetime, $time_to: Datetime, $address: String, $url: String, $memo: String, $cost: BigFloat, $cost_unit: String, $image_url: String) {\n  insertIntoactivityCollection(\n    objects: [{trip_id: $trip_id, title: $title, time_from: $time_from, time_to: $time_to, address: $address, url: $url, memo: $memo, cost: $cost, cost_unit: $cost_unit, image_url: $image_url}]\n  ) {\n    records {\n      __typename\n      id\n      title\n    }\n  }\n}':
     types.CreateActivityDocument,
+  'mutation deleteInvitation($id: UUID!) {\n  deleteFrominvitationsCollection(filter: {id: {eq: $id}}) {\n    records {\n      __typename\n      id\n      email\n      permission_level\n    }\n  }\n}':
+    types.DeleteInvitationDocument,
+  'mutation updateInvitation($id: UUID!, $set: invitationsUpdateInput!) {\n  updateinvitationsCollection(set: $set, filter: {id: {eq: $id}}) {\n    records {\n      id\n      email\n      permission_level\n    }\n  }\n}':
+    types.UpdateInvitationDocument,
   'query tripSharedUsers($tripId: UUID!) {\n  tripsCollection(filter: {id: {eq: $tripId}}) {\n    edges {\n      node {\n        id\n        title\n        users {\n          id\n          name\n          profile_picture_url\n          email\n        }\n        invitationsCollection {\n          edges {\n            node {\n              id\n              permission_level\n              users {\n                id\n                name\n                email\n                profile_picture_url\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n}':
     types.TripSharedUsersDocument,
   'mutation createTag($name: String!, $userId: UUID!) {\n  insertIntotagsCollection(objects: [{name: $name, user_id: $userId}]) {\n    records {\n      __typename\n      id\n      name\n    }\n  }\n}':
@@ -77,6 +81,18 @@ export function graphql(
 export function graphql(
   source: 'mutation createActivity($trip_id: UUID!, $title: String!, $time_from: Datetime, $time_to: Datetime, $address: String, $url: String, $memo: String, $cost: BigFloat, $cost_unit: String, $image_url: String) {\n  insertIntoactivityCollection(\n    objects: [{trip_id: $trip_id, title: $title, time_from: $time_from, time_to: $time_to, address: $address, url: $url, memo: $memo, cost: $cost, cost_unit: $cost_unit, image_url: $image_url}]\n  ) {\n    records {\n      __typename\n      id\n      title\n    }\n  }\n}'
 ): (typeof documents)['mutation createActivity($trip_id: UUID!, $title: String!, $time_from: Datetime, $time_to: Datetime, $address: String, $url: String, $memo: String, $cost: BigFloat, $cost_unit: String, $image_url: String) {\n  insertIntoactivityCollection(\n    objects: [{trip_id: $trip_id, title: $title, time_from: $time_from, time_to: $time_to, address: $address, url: $url, memo: $memo, cost: $cost, cost_unit: $cost_unit, image_url: $image_url}]\n  ) {\n    records {\n      __typename\n      id\n      title\n    }\n  }\n}']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: 'mutation deleteInvitation($id: UUID!) {\n  deleteFrominvitationsCollection(filter: {id: {eq: $id}}) {\n    records {\n      __typename\n      id\n      email\n      permission_level\n    }\n  }\n}'
+): (typeof documents)['mutation deleteInvitation($id: UUID!) {\n  deleteFrominvitationsCollection(filter: {id: {eq: $id}}) {\n    records {\n      __typename\n      id\n      email\n      permission_level\n    }\n  }\n}']
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(
+  source: 'mutation updateInvitation($id: UUID!, $set: invitationsUpdateInput!) {\n  updateinvitationsCollection(set: $set, filter: {id: {eq: $id}}) {\n    records {\n      id\n      email\n      permission_level\n    }\n  }\n}'
+): (typeof documents)['mutation updateInvitation($id: UUID!, $set: invitationsUpdateInput!) {\n  updateinvitationsCollection(set: $set, filter: {id: {eq: $id}}) {\n    records {\n      id\n      email\n      permission_level\n    }\n  }\n}']
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

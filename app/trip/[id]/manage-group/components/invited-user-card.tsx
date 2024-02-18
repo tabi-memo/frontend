@@ -11,25 +11,37 @@ import {
   Text
 } from '@chakra-ui/react'
 import { FiTrash2 } from 'react-icons/fi'
-import {
-  INVITATION_PERMISSION_LEVEL,
-  InvitationPermissionLevelType
-} from '@/const'
+import { useUpdateInvitation, useDeleteInvitation } from '../hooks'
+import { Permission_Level_Enum } from '@generated/api'
 
 type InvitedUserCardProps = {
+  id: string
+  tripId: string
   image: string | null | undefined
   name: string
   email: string
-  permissionLevel: InvitationPermissionLevelType
+  permissionLevel: Permission_Level_Enum
 }
 
 export const InvitedUserCard = ({
+  id,
+  tripId,
   image,
   name,
   email,
   permissionLevel
 }: InvitedUserCardProps) => {
   const borderColor = useColorModeValue('gray.300', 'gray.600')
+
+  const labelMap = {
+    [Permission_Level_Enum.Editable]: 'Can Edit',
+    [Permission_Level_Enum.ViewOnly]: 'View Only'
+  }
+
+  const { updatePermissionLevel, isInvitationUpdating } =
+    useUpdateInvitation(tripId)
+
+  const { deleteInvitation, isInvitationDeleting } = useDeleteInvitation(tripId)
 
   return (
     <Flex
@@ -56,15 +68,19 @@ export const InvitedUserCard = ({
         flexShrink={0}
         gap="10px"
       >
-        <RadioGroup value={permissionLevel}>
+        <RadioGroup
+          defaultValue={permissionLevel}
+          isDisabled={isInvitationUpdating}
+        >
           <VStack align="start" gap="4px">
-            {INVITATION_PERMISSION_LEVEL.map((level) => (
+            {Object.entries(Permission_Level_Enum).map(([key, value]) => (
               <Radio
-                key={level.value}
-                value={level.value}
+                key={key}
+                value={value}
                 size={{ base: 'sm', md: 'md' }}
+                onChange={() => updatePermissionLevel(id, value)}
               >
-                {level.label}
+                {labelMap[value]}
               </Radio>
             ))}
           </VStack>
@@ -72,7 +88,6 @@ export const InvitedUserCard = ({
 
         <IconButton
           aria-label="Delete the user"
-          onClick={() => {}}
           variant="unstyled"
           color={'gray.400'}
           _hover={{
@@ -80,6 +95,8 @@ export const InvitedUserCard = ({
           }}
           minW={{ base: '18px', md: '24px' }}
           h={{ base: '18px', md: '24px' }}
+          isLoading={isInvitationDeleting}
+          onClick={() => deleteInvitation(id)}
         >
           <FiTrash2 size="100%" />
         </IconButton>

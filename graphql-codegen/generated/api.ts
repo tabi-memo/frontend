@@ -1352,6 +1352,41 @@ export type CreateActivityMutation = {
   } | null
 }
 
+export type DeleteInvitationMutationVariables = Exact<{
+  id: Scalars['UUID']['input']
+}>
+
+export type DeleteInvitationMutation = {
+  __typename: 'Mutation'
+  deleteFrominvitationsCollection: {
+    __typename: 'invitationsDeleteResponse'
+    records: Array<{
+      __typename: 'invitations'
+      id: string
+      email: string
+      permission_level: Permission_Level_Enum
+    }>
+  }
+}
+
+export type UpdateInvitationMutationVariables = Exact<{
+  id: Scalars['UUID']['input']
+  set: InvitationsUpdateInput
+}>
+
+export type UpdateInvitationMutation = {
+  __typename: 'Mutation'
+  updateinvitationsCollection: {
+    __typename: 'invitationsUpdateResponse'
+    records: Array<{
+      __typename: 'invitations'
+      id: string
+      email: string
+      permission_level: Permission_Level_Enum
+    }>
+  }
+}
+
 export type TripSharedUsersQueryVariables = Exact<{
   tripId: Scalars['UUID']['input']
 }>
@@ -1903,6 +1938,121 @@ export type CreateActivityMutationResult =
 export type CreateActivityMutationOptions = Apollo.BaseMutationOptions<
   CreateActivityMutation,
   CreateActivityMutationVariables
+>
+export const DeleteInvitationDocument = gql`
+  mutation deleteInvitation($id: UUID!) {
+    __typename
+    deleteFrominvitationsCollection(filter: { id: { eq: $id } }) {
+      __typename
+      records {
+        __typename
+        id
+        email
+        permission_level
+      }
+    }
+  }
+`
+export type DeleteInvitationMutationFn = Apollo.MutationFunction<
+  DeleteInvitationMutation,
+  DeleteInvitationMutationVariables
+>
+
+/**
+ * __useDeleteInvitationMutation__
+ *
+ * To run a mutation, you first call `useDeleteInvitationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteInvitationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteInvitationMutation, { data, loading, error }] = useDeleteInvitationMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteInvitationMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteInvitationMutation,
+    DeleteInvitationMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    DeleteInvitationMutation,
+    DeleteInvitationMutationVariables
+  >(DeleteInvitationDocument, options)
+}
+export type DeleteInvitationMutationHookResult = ReturnType<
+  typeof useDeleteInvitationMutation
+>
+export type DeleteInvitationMutationResult =
+  Apollo.MutationResult<DeleteInvitationMutation>
+export type DeleteInvitationMutationOptions = Apollo.BaseMutationOptions<
+  DeleteInvitationMutation,
+  DeleteInvitationMutationVariables
+>
+export const UpdateInvitationDocument = gql`
+  mutation updateInvitation($id: UUID!, $set: invitationsUpdateInput!) {
+    __typename
+    updateinvitationsCollection(set: $set, filter: { id: { eq: $id } }) {
+      __typename
+      records {
+        __typename
+        id
+        email
+        permission_level
+      }
+    }
+  }
+`
+export type UpdateInvitationMutationFn = Apollo.MutationFunction<
+  UpdateInvitationMutation,
+  UpdateInvitationMutationVariables
+>
+
+/**
+ * __useUpdateInvitationMutation__
+ *
+ * To run a mutation, you first call `useUpdateInvitationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateInvitationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateInvitationMutation, { data, loading, error }] = useUpdateInvitationMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      set: // value for 'set'
+ *   },
+ * });
+ */
+export function useUpdateInvitationMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateInvitationMutation,
+    UpdateInvitationMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    UpdateInvitationMutation,
+    UpdateInvitationMutationVariables
+  >(UpdateInvitationDocument, options)
+}
+export type UpdateInvitationMutationHookResult = ReturnType<
+  typeof useUpdateInvitationMutation
+>
+export type UpdateInvitationMutationResult =
+  Apollo.MutationResult<UpdateInvitationMutation>
+export type UpdateInvitationMutationOptions = Apollo.BaseMutationOptions<
+  UpdateInvitationMutation,
+  UpdateInvitationMutationVariables
 >
 export const TripSharedUsersDocument = gql`
   query tripSharedUsers($tripId: UUID!) {
