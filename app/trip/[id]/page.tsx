@@ -4,8 +4,8 @@ import { Box, Container, useColorModeValue } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 import { PrimaryButton } from '@/components/button'
 import { Loading } from '@/components/loading'
+import { useTripDetailsGet } from '../hooks'
 import { TripDetailsHeader, TripDetailsTabs } from './components'
-import { useTripDetailsQuery } from '@generated/api'
 
 export default function TripDetailsPage({
   params
@@ -16,16 +16,12 @@ export default function TripDetailsPage({
   const color = useColorModeValue('black', 'gray.300')
 
   const router = useRouter()
+  const { tripDetailsData, tripDetailsLoading } = useTripDetailsGet(params.id)
 
-  const { data: tripData, loading: tripLoading } = useTripDetailsQuery({
-    variables: {
-      id: params.id
-    }
-  })
+  if (!tripDetailsData && !tripDetailsLoading)
+    throw new Error('No trip data found')
 
-  if (!tripData && !tripLoading) throw new Error('No trip data found')
-
-  const tripDataCollection = tripData?.tripsCollection
+  const tripData = tripDetailsData?.tripsCollection
 
   return (
     <Box as="main" minH="100svh" bg={bg} color={color}>
@@ -34,20 +30,20 @@ export default function TripDetailsPage({
         pt={{ base: '0px', md: '30px' }}
         pb={{ base: '40px', md: '80px' }}
       >
-        {!tripDataCollection || tripLoading ? (
+        {!tripData || tripDetailsLoading ? (
           <Loading />
         ) : (
           <>
             <TripDetailsHeader
-              id={tripDataCollection.edges[0].node.id}
-              image={tripDataCollection.edges[0].node.image_url}
-              title={tripDataCollection.edges[0].node.title}
-              dateFrom={tripDataCollection.edges[0].node.date_from}
-              dateTo={tripDataCollection.edges[0].node.date_to}
-              cost={tripDataCollection.edges[0].node.cost}
-              costUnit={tripDataCollection.edges[0].node.cost_unit}
+              id={tripData.edges[0].node.id}
+              image={tripData.edges[0].node.image_url}
+              title={tripData.edges[0].node.title}
+              dateFrom={tripData.edges[0].node.date_from}
+              dateTo={tripData.edges[0].node.date_to}
+              cost={tripData.edges[0].node.cost}
+              costUnit={tripData.edges[0].node.cost_unit}
               users={
-                tripDataCollection.edges[0].node.invitationsCollection?.edges.map(
+                tripData.edges[0].node.invitationsCollection?.edges.map(
                   (invitation) => ({
                     id: invitation.node.users?.id,
                     image: invitation.node.users?.profile_picture_url
@@ -55,7 +51,7 @@ export default function TripDetailsPage({
                 ) || []
               }
               tags={
-                tripDataCollection.edges[0].node.trip_tagsCollection?.edges.map(
+                tripData.edges[0].node.trip_tagsCollection?.edges.map(
                   (tag) => ({
                     id: tag.node.tags?.id,
                     name: tag.node.tags?.name
@@ -66,7 +62,7 @@ export default function TripDetailsPage({
 
             <TripDetailsTabs
               activities={
-                tripDataCollection.edges[0].node.activityCollection?.edges.map(
+                tripData.edges[0].node.activityCollection?.edges.map(
                   (activity) => ({
                     id: activity.node.id,
                     timeFrom: activity.node.time_from,

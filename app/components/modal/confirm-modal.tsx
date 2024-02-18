@@ -4,42 +4,41 @@ import {
   ModalContent,
   ModalFooter,
   ModalBody,
-  ModalCloseButton,
-  Text
+  ModalCloseButton
 } from '@chakra-ui/react'
 import { SecondaryButton, AlertButton } from '../button'
 
 type ConfirmModalProps = {
   isOpen: boolean
   onClose: () => void
-  confirmText: string
+  confirmBody: React.ReactNode
   submitLabel: string
   onClick: () => void
+  isMutating?: boolean
 }
 
 export const ConfirmModal = ({
   isOpen,
   onClose,
-  confirmText,
+  confirmBody,
   submitLabel,
-  onClick
+  onClick,
+  isMutating
 }: ConfirmModalProps) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
       <ModalContent maxW={'30rem'}>
         <ModalCloseButton />
-        <ModalBody pt="48px">
-          <Text fontSize="xl" fontWeight="semibold">
-            Are you sure you want to {confirmText}?
-          </Text>
-        </ModalBody>
+        <ModalBody pt="48px">{confirmBody}</ModalBody>
 
         <ModalFooter>
-          <SecondaryButton mr={3} onClick={onClose}>
+          <SecondaryButton mr={3} onClick={onClose} isDisabled={isMutating}>
             Close
           </SecondaryButton>
-          <AlertButton onClick={onClick}>{submitLabel}</AlertButton>
+          <AlertButton onClick={onClick} isLoading={isMutating}>
+            {submitLabel}
+          </AlertButton>
         </ModalFooter>
       </ModalContent>
     </Modal>

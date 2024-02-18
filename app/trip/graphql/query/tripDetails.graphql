@@ -1,4 +1,4 @@
-query tripDetails($id: UUID!) {
+query tripDetails($id: UUID) {
   tripsCollection(filter: { id: { eq: $id } }) {
     edges {
       node {
