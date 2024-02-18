@@ -1,7 +1,11 @@
 import { createClient } from '@supabase/supabase-js'
-import { updateImageMetadataAction } from '../action/update-image-metadata'
+import { useUpdateTripMutation } from '@generated/api'
+// import { updateImageMetadataAction } from '../action/update-image-metadata'
 
 export const useUploadFile = () => {
+  const [updateTripMutation, { loading: isTripUpdating }] =
+    useUpdateTripMutation()
+
   // Upload image to Supabase Storage & Update image_url by server action
   const uploadFile = async (file: File, tripId: string) => {
     const supabase = createClient(
@@ -16,9 +20,22 @@ export const useUploadFile = () => {
 
     if (uploadError) throw new Error(uploadError.message)
 
-    // NOTE: Server action doen't return result in Client Component. I don't know why.
-    await updateImageMetadataAction(tripId, uploadData.path)
+    const {
+      data: { publicUrl }
+    } = await supabase.storage
+      .from(process.env.NEXT_PUBLIC_BUCKET_NAME!)
+      .getPublicUrl(uploadData.path)
+
+    // Update image_url by mutation
+    await updateTripMutation({
+      variables: {
+        id: tripId,
+        set: {
+          image_url: publicUrl
+        }
+      }
+    })
   }
 
-  return { uploadFile }
+  return { uploadFile, isTripUpdating }
 }

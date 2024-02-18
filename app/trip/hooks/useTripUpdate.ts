@@ -33,7 +33,7 @@ export const useTripUpdate = (
 
     try {
       // Trip Update
-      await updateTripMutation({
+      const res = await updateTripMutation({
         variables: {
           id: tripDetails.id,
           set: {
@@ -46,6 +46,10 @@ export const useTripUpdate = (
           }
         }
       })
+
+      const updatedTripId = res.data?.updatetripsCollection?.records[0]?.id
+
+      if (!updatedTripId) throw new Error('Failed to update a trip')
 
       // TripTags Update
       const selectedTags = data.selectedTags
@@ -73,14 +77,14 @@ export const useTripUpdate = (
 
       await Promise.all([...deletePromises, ...createPromises])
 
-      if (data.uploaded_image_file && tripDetails) {
-        await uploadFile(data.uploaded_image_file, tripDetails.id)
+      if (data.uploaded_image_file && updatedTripId) {
+        await uploadFile(data.uploaded_image_file, updatedTripId)
       }
 
       tripDetails.refetch()
       tripTags?.refetch()
       tripsRefetch()
-      router.push(`/trip/${tripDetails.id}`)
+      router.push(`/trip/${updatedTripId}`)
 
       toast({
         title: 'Successfully updated!',
