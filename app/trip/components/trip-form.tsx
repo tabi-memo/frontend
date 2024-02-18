@@ -147,7 +147,6 @@ export const TripForm = ({ tripDetails, tags, tripTags }: TripFormProps) => {
           <FormErrorMessage>{errors?.date_to?.message}</FormErrorMessage>
         </FormControl>
 
-        {/* TODO Image Upload to storage & Send the URL string to DB */}
         <FormControl isInvalid={!!errors.uploaded_image_file}>
           <FormLabel>Image</FormLabel>
           <HStack gap={{ base: '20px', md: '34px' }}>
