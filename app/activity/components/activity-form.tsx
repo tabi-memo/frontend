@@ -1,6 +1,5 @@
-import React, { useCallback, useState } from 'react'
-import { useDropzone } from 'react-dropzone'
-import { Controller, useForm } from 'react-hook-form'
+import React, { useState } from 'react'
+import { Controller, useForm, useWatch } from 'react-hook-form'
 import {
   Box,
   FormControl,
@@ -11,7 +10,8 @@ import {
   SimpleGrid,
   Text,
   Flex,
-  VStack
+  VStack,
+  Input
 } from '@chakra-ui/react'
 import { PrimaryButton } from '@/components/button'
 import { CustomDateTimePicker } from '@/components/customDateTimePicker'
@@ -45,11 +45,7 @@ export const ActivityForm = ({
   activityDetails
 }: ActivityFormProps) => {
   const [selectedImages, setSelectedImages] = useState<File[]>([])
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    setSelectedImages((prevImages) => [...prevImages, ...acceptedFiles])
-  }, [])
-  const { getRootProps, getInputProps } = useDropzone({ onDrop })
-  function removeImage(index: number) {
+  const removeImage = (index: number) => {
     setSelectedImages((prevImages) => {
       const newImages = [...prevImages]
       newImages.splice(index, 1)
@@ -77,10 +73,11 @@ export const ActivityForm = ({
       cost: activityDetails?.cost || undefined,
       costUnit: activityDetails?.costUnit || undefined,
       uploadedFileUrls: activityDetails?.uploadedFileUrls || undefined,
-      newFiles: selectedImages
+      newFiles: []
     },
     resolver: activityResolver
   })
+  const newFiles = useWatch({ control, name: 'newFiles' })
 
   const { createActivity, isActivityCreating } = useActivityCreate(tripId)
   const { updateActivity, isActivityUpdating } = useActivityUpdate(tripId)
@@ -180,6 +177,7 @@ export const ActivityForm = ({
             width={{ base: '160px', md: '180px' }}
             height={{ base: '106px', md: '120px' }}
             margin="auto"
+            _hover={{ cursor: 'pointer' }}
           />
         ))}
         {selectedImages.map((image, index) => (
@@ -191,13 +189,13 @@ export const ActivityForm = ({
             width={{ base: '160px', md: '180px' }}
             height={{ base: '106px', md: '120px' }}
             margin="auto"
+            _hover={{ cursor: 'pointer' }}
             onClick={() => removeImage(index)}
           />
         ))}
       </SimpleGrid>
 
       <Box
-        {...getRootProps()}
         textAlign="center"
         mt={{
           base: 0,
@@ -208,10 +206,33 @@ export const ActivityForm = ({
               : '0'
         }}
       >
-        <PrimaryButton variant="outline">
-          <input {...getInputProps()} />
-          Add Image
-        </PrimaryButton>
+        <Controller
+          name="newFiles"
+          control={control}
+          render={({ field: { onChange } }) => (
+            <PrimaryButton variant="outline" as="label">
+              Add Image
+              <Input
+                type="file"
+                accept="image/*"
+                multiple
+                hidden
+                onChange={(event) => {
+                  const files = event.target.files
+                  if (files && newFiles) {
+                    const newFileList = Array.from(files)
+                    setSelectedImages((prevImages) => [
+                      ...prevImages,
+                      ...newFileList
+                    ])
+                    newFiles.push(...newFileList)
+                    onChange(newFiles)
+                  }
+                }}
+              />
+            </PrimaryButton>
+          )}
+        />
       </Box>
 
       <FormControl isInvalid={!!errors.memo} mt={{ base: '30px', md: '40px' }}>
