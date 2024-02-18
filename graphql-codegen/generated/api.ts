@@ -1352,6 +1352,50 @@ export type CreateActivityMutation = {
   } | null
 }
 
+export type TripSharedUsersQueryVariables = Exact<{
+  tripId: Scalars['UUID']['input']
+}>
+
+export type TripSharedUsersQuery = {
+  __typename: 'Query'
+  tripsCollection?: {
+    __typename: 'tripsConnection'
+    edges: Array<{
+      __typename: 'tripsEdge'
+      node: {
+        __typename: 'trips'
+        id: string
+        title: string
+        users?: {
+          __typename: 'users'
+          id: string
+          name: string
+          profile_picture_url?: string | null
+          email: string
+        } | null
+        invitationsCollection?: {
+          __typename: 'invitationsConnection'
+          edges: Array<{
+            __typename: 'invitationsEdge'
+            node: {
+              __typename: 'invitations'
+              id: string
+              permission_level: Permission_Level_Enum
+              users?: {
+                __typename: 'users'
+                id: string
+                name: string
+                email: string
+                profile_picture_url?: string | null
+              } | null
+            }
+          }>
+        } | null
+      }
+    }>
+  } | null
+}
+
 export type CreateTagMutationVariables = Exact<{
   name: Scalars['String']['input']
   userId: Scalars['UUID']['input']
@@ -1860,6 +1904,118 @@ export type CreateActivityMutationOptions = Apollo.BaseMutationOptions<
   CreateActivityMutation,
   CreateActivityMutationVariables
 >
+export const TripSharedUsersDocument = gql`
+  query tripSharedUsers($tripId: UUID!) {
+    __typename
+    tripsCollection(filter: { id: { eq: $tripId } }) {
+      __typename
+      edges {
+        __typename
+        node {
+          __typename
+          id
+          title
+          users {
+            __typename
+            id
+            name
+            profile_picture_url
+            email
+          }
+          invitationsCollection {
+            __typename
+            edges {
+              __typename
+              node {
+                __typename
+                id
+                permission_level
+                users {
+                  __typename
+                  id
+                  name
+                  email
+                  profile_picture_url
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`
+
+/**
+ * __useTripSharedUsersQuery__
+ *
+ * To run a query within a React component, call `useTripSharedUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTripSharedUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTripSharedUsersQuery({
+ *   variables: {
+ *      tripId: // value for 'tripId'
+ *   },
+ * });
+ */
+export function useTripSharedUsersQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    TripSharedUsersQuery,
+    TripSharedUsersQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<TripSharedUsersQuery, TripSharedUsersQueryVariables>(
+    TripSharedUsersDocument,
+    options
+  )
+}
+export function useTripSharedUsersLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    TripSharedUsersQuery,
+    TripSharedUsersQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<
+    TripSharedUsersQuery,
+    TripSharedUsersQueryVariables
+  >(TripSharedUsersDocument, options)
+}
+export function useTripSharedUsersSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    TripSharedUsersQuery,
+    TripSharedUsersQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<
+    TripSharedUsersQuery,
+    TripSharedUsersQueryVariables
+  >(TripSharedUsersDocument, options)
+}
+export type TripSharedUsersQueryHookResult = ReturnType<
+  typeof useTripSharedUsersQuery
+>
+export type TripSharedUsersLazyQueryHookResult = ReturnType<
+  typeof useTripSharedUsersLazyQuery
+>
+export type TripSharedUsersSuspenseQueryHookResult = ReturnType<
+  typeof useTripSharedUsersSuspenseQuery
+>
+export type TripSharedUsersQueryResult = Apollo.QueryResult<
+  TripSharedUsersQuery,
+  TripSharedUsersQueryVariables
+>
+export function refetchTripSharedUsersQuery(
+  variables: TripSharedUsersQueryVariables
+) {
+  return { query: TripSharedUsersDocument, variables: variables }
+}
 export const CreateTagDocument = gql`
   mutation createTag($name: String!, $userId: UUID!) {
     __typename
