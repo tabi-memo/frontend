@@ -1,6 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
 import { useUpdateTripMutation } from '@generated/api'
-// import { updateImageMetadataAction } from '../action/update-image-metadata'
 
 export const useUploadFile = () => {
   const [updateTripMutation, { loading: isMetadataUpdating }] =
