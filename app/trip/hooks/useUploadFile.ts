@@ -22,7 +22,7 @@ export const useUploadFile = () => {
 
     const {
       data: { publicUrl }
-    } = await supabase.storage
+    } = supabase.storage
       .from(process.env.NEXT_PUBLIC_BUCKET_NAME!)
       .getPublicUrl(uploadData.path)
 
