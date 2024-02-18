@@ -2,7 +2,8 @@ import { createClient } from '@supabase/supabase-js'
 import { useCreateActivityUploadedFilesMutation } from '@generated/api'
 
 export const useUploadFiles = () => {
-  const [createActivityUploadedFilesMutation] = useCreateActivityUploadedFilesMutation()
+  const [createActivityUploadedFilesMutation] =
+    useCreateActivityUploadedFilesMutation()
 
   const uploadFiles = async (
     files: File[],
@@ -36,7 +37,11 @@ export const useUploadFiles = () => {
     const results = uploadResults.map((result) => result)
     const dataWithPublicUrls = await Promise.all(
       results.map((result) => {
-        const { data: { publicUrl } } = supabase.storage.from(process.env.NEXT_PUBLIC_BUCKET_NAME!).getPublicUrl(result.data!.path!)
+        const {
+          data: { publicUrl }
+        } = supabase.storage
+          .from(process.env.NEXT_PUBLIC_BUCKET_NAME!)
+          .getPublicUrl(result.data!.path!)
 
         return { publicUrl, fileName: result.fileName }
       })
@@ -48,7 +53,7 @@ export const useUploadFiles = () => {
         objects: dataWithPublicUrls.map((data) => ({
           activity_id: activityDetails.id,
           file_name: data.fileName,
-          file_url: data.publicUrl,
+          file_url: data.publicUrl
         }))
       },
       refetchQueries: ['activityCollection']
