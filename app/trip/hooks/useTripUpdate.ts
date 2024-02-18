@@ -26,7 +26,7 @@ export const useTripUpdate = (
     useDeleteTripTagMutation()
 
   const { tripsRefetch } = useTripsGet()
-  const { uploadFile } = useUploadFile()
+  const { uploadFile, isMetadataUpdating } = useUploadFile()
 
   const updateTrip = async (data: TripSchema) => {
     if (!tripDetails) throw new Error('Trip details is not found')
@@ -114,6 +114,7 @@ export const useTripUpdate = (
   return {
     updateTrip,
     isTripUpdating,
-    isTripTagsUpdating: isTripTagCreating || isTripTagDeleting
+    isTripTagsUpdating:
+      isTripTagCreating || isTripTagDeleting || isMetadataUpdating
   }
 }

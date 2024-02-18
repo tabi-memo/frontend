@@ -3,7 +3,7 @@ import { useUpdateTripMutation } from '@generated/api'
 // import { updateImageMetadataAction } from '../action/update-image-metadata'
 
 export const useUploadFile = () => {
-  const [updateTripMutation, { loading: isTripUpdating }] =
+  const [updateTripMutation, { loading: isMetadataUpdating }] =
     useUpdateTripMutation()
 
   // Upload image to Supabase Storage & Update image_url by server action
@@ -37,5 +37,5 @@ export const useUploadFile = () => {
     })
   }
 
-  return { uploadFile, isTripUpdating }
+  return { uploadFile, isMetadataUpdating }
 }
