@@ -13,10 +13,10 @@ const tripSchema = z.object({
     .instanceof(File)
     .nullable()
     .refine((file) => file === null || file.size <= 10_000_000, {
-      message: "File size must be less than 10MB",
+      message: 'File size must be less than 10MB'
     })
     .refine((file) => file === null || file.type.startsWith('image/'), {
-      message: "Only image files are allowed",
+      message: 'Only image files are allowed'
     }),
   selectedTags: z.array(z.string()),
   cost: z.string().nullable(),
