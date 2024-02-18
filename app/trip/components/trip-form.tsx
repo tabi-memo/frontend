@@ -148,7 +148,7 @@ export const TripForm = ({ tripDetails, tags, tripTags }: TripFormProps) => {
         </FormControl>
 
         {/* TODO Image Upload to storage & Send the URL string to DB */}
-        <FormControl isInvalid={!!errors.image_url}>
+        <FormControl isInvalid={!!errors.uploaded_image_file}>
           <FormLabel>Image</FormLabel>
           <HStack gap={{ base: '20px', md: '34px' }}>
             {selectedImage ? (
@@ -170,12 +170,11 @@ export const TripForm = ({ tripDetails, tags, tripTags }: TripFormProps) => {
               name="uploaded_image_file"
               control={control}
               render={({ field: { onChange } }) => (
-                <PrimaryButton variant="outline" as="label">
+                <PrimaryButton variant="outline" as="label" cursor="pointer">
                   Select Image
                   <Input
                     type="file"
                     accept="image/*"
-                    id="imageUpload"
                     onChange={(event) => {
                       const file = event.target.files?.[0]
                       if (file) {
@@ -189,7 +188,9 @@ export const TripForm = ({ tripDetails, tags, tripTags }: TripFormProps) => {
               )}
             />
           </HStack>
-          <FormErrorMessage>{errors?.image_url?.message}</FormErrorMessage>
+          <FormErrorMessage>
+            {errors?.uploaded_image_file?.message}
+          </FormErrorMessage>
         </FormControl>
 
         <FormControl isInvalid={!!errors?.selectedTags}>
