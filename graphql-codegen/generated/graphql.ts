@@ -523,8 +523,8 @@ export type Activity = Node & {
   time_from: Scalars['Datetime']['output']
   time_to?: Maybe<Scalars['Datetime']['output']>
   title: Scalars['String']['output']
-  trip_id?: Maybe<Scalars['UUID']['output']>
-  trips?: Maybe<Trips>
+  trip_id: Scalars['UUID']['output']
+  trips: Trips
   url?: Maybe<Scalars['String']['output']>
 }
 
@@ -636,9 +636,9 @@ export type ActivityUpdateResponse = {
 
 export type Activity_Uploaded_Files = Node & {
   __typename?: 'activity_uploaded_files'
-  activity?: Maybe<Activity>
-  activity_id?: Maybe<Scalars['UUID']['output']>
-  content_type: Scalars['String']['output']
+  activity: Activity
+  activity_id: Scalars['UUID']['output']
+  content_type?: Maybe<Scalars['String']['output']>
   created_at: Scalars['Datetime']['output']
   file_data?: Maybe<Scalars['JSON']['output']>
   file_name: Scalars['String']['output']
@@ -982,10 +982,10 @@ export type Trip_Tags = Node & {
   id: Scalars['UUID']['output']
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output']
-  tag_id?: Maybe<Scalars['UUID']['output']>
-  tags?: Maybe<Tags>
-  trip_id?: Maybe<Scalars['UUID']['output']>
-  trips?: Maybe<Trips>
+  tag_id: Scalars['UUID']['output']
+  tags: Tags
+  trip_id: Scalars['UUID']['output']
+  trips: Trips
 }
 
 export type Trip_TagsConnection = {
@@ -1065,8 +1065,8 @@ export type Trips = Node & {
   nodeId: Scalars['ID']['output']
   title: Scalars['String']['output']
   trip_tagsCollection?: Maybe<Trip_TagsConnection>
-  user_id?: Maybe<Scalars['UUID']['output']>
-  users?: Maybe<Users>
+  user_id: Scalars['UUID']['output']
+  users: Users
 }
 
 export type TripsActivityCollectionArgs = {
@@ -1324,7 +1324,7 @@ export type ActivityCollectionQuery = {
       node: {
         __typename: 'activity'
         id: string
-        trip_id?: string | null
+        trip_id: string
         title: string
         time_from: string
         time_to?: string | null
@@ -1409,13 +1409,13 @@ export type TripSharedUsersQuery = {
         __typename: 'trips'
         id: string
         title: string
-        users?: {
+        users: {
           __typename: 'users'
           id: string
           name: string
           profile_picture_url?: string | null
           email: string
-        } | null
+        }
         invitationsCollection?: {
           __typename: 'invitationsConnection'
           edges: Array<{
@@ -1476,8 +1476,8 @@ export type CreateTripTagMutation = {
     records: Array<{
       __typename: 'trip_tags'
       id: string
-      tag_id?: string | null
-      trip_id?: string | null
+      tag_id: string
+      trip_id: string
     }>
   } | null
 }
@@ -1566,6 +1566,11 @@ export type TripDetailsQuery = {
         image_url?: string | null
         cost?: string | null
         cost_unit?: string | null
+        users: {
+          __typename: 'users'
+          id: string
+          profile_picture_url?: string | null
+        }
         invitationsCollection?: {
           __typename: 'invitationsConnection'
           edges: Array<{
@@ -1600,7 +1605,7 @@ export type TripDetailsQuery = {
             __typename: 'trip_tagsEdge'
             node: {
               __typename: 'trip_tags'
-              tags?: { __typename: 'tags'; id: string; name: string } | null
+              tags: { __typename: 'tags'; id: string; name: string }
             }
           }>
         } | null
@@ -1622,8 +1627,8 @@ export type TripTagsCollectionQuery = {
       node: {
         __typename: 'trip_tags'
         id: string
-        trip_id?: string | null
-        tag_id?: string | null
+        trip_id: string
+        tag_id: string
       }
     }>
   } | null
@@ -1650,6 +1655,12 @@ export type TripsCollectionQuery = {
         date_to?: string | null
         image_url?: string | null
         created_at: string
+        users: {
+          __typename: 'users'
+          id: string
+          name: string
+          profile_picture_url?: string | null
+        }
         invitationsCollection?: {
           __typename: 'invitationsConnection'
           edges: Array<{
@@ -3353,7 +3364,7 @@ export const TagsCollectionDocument = {
   ]
 } as unknown as DocumentNode<TagsCollectionQuery, TagsCollectionQueryVariables>
 export const TripDetailsDocument = {
-  __meta__: { hash: '1bc05beaca139a887f8c922c4de4dc6c86706670' },
+  __meta__: { hash: 'e40d7c2a09852d29b44908c4c24cbcfa2dbce660' },
   kind: 'Document',
   definitions: [
     {
@@ -3453,6 +3464,30 @@ export const TripDetailsDocument = {
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'cost_unit' }
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'users' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: '__typename' }
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' }
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'profile_picture_url'
+                                    }
+                                  }
+                                ]
+                              }
                             },
                             {
                               kind: 'Field',
@@ -3806,7 +3841,7 @@ export const TripTagsCollectionDocument = {
   TripTagsCollectionQueryVariables
 >
 export const TripsCollectionDocument = {
-  __meta__: { hash: '3256c7ff43134c13502c53f475e55fa91f55cabb' },
+  __meta__: { hash: '848b1879d86d9282d2bb3a3d1016f42dd7e5cc56' },
   kind: 'Document',
   definitions: [
     {
@@ -3954,6 +3989,34 @@ export const TripsCollectionDocument = {
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'created_at' }
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'users' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: '__typename' }
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' }
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'name' }
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'profile_picture_url'
+                                    }
+                                  }
+                                ]
+                              }
                             },
                             {
                               kind: 'Field',

@@ -11,6 +11,7 @@ import {
   Text
 } from '@chakra-ui/react'
 import { FiTrash2 } from 'react-icons/fi'
+import { useUserId } from '@/providers/session-provider'
 import { useUpdateInvitation, useDeleteInvitation } from '../hooks'
 import { Permission_Level_Enum } from '@generated/api'
 
@@ -21,6 +22,7 @@ type InvitedUserCardProps = {
   name: string
   email: string
   permissionLevel: Permission_Level_Enum
+  ownerId: string
 }
 
 export const InvitedUserCard = ({
@@ -29,7 +31,8 @@ export const InvitedUserCard = ({
   image,
   name,
   email,
-  permissionLevel
+  permissionLevel,
+  ownerId
 }: InvitedUserCardProps) => {
   const borderColor = useColorModeValue('gray.300', 'gray.600')
 
@@ -38,10 +41,14 @@ export const InvitedUserCard = ({
     [Permission_Level_Enum.ViewOnly]: 'View Only'
   }
 
+  const userId = useUserId()
+
   const { updatePermissionLevel, isInvitationUpdating } =
     useUpdateInvitation(tripId)
 
   const { deleteInvitation, isInvitationDeleting } = useDeleteInvitation(tripId)
+
+  const currentUserIsOwner = userId === ownerId
 
   return (
     <Flex
@@ -61,8 +68,9 @@ export const InvitedUserCard = ({
         </Box>
       </Flex>
 
+      {/* TODO If not owner, readme only */}
       <Flex
-        justifyContent="space-between"
+        justifyContent={currentUserIsOwner ? 'space-between' : 'center'}
         align="center"
         w={{ base: 'auto', md: '174px' }}
         flexShrink={0}
@@ -77,6 +85,7 @@ export const InvitedUserCard = ({
               <Radio
                 key={key}
                 value={value}
+                isReadOnly={!currentUserIsOwner}
                 size={{ base: 'sm', md: 'md' }}
                 onChange={() => updatePermissionLevel(id, value)}
               >
@@ -86,20 +95,22 @@ export const InvitedUserCard = ({
           </VStack>
         </RadioGroup>
 
-        <IconButton
-          aria-label="Delete the user"
-          variant="unstyled"
-          color={'gray.400'}
-          _hover={{
-            color: 'gray.500'
-          }}
-          minW={{ base: '18px', md: '24px' }}
-          h={{ base: '18px', md: '24px' }}
-          isLoading={isInvitationDeleting}
-          onClick={() => deleteInvitation(id)}
-        >
-          <FiTrash2 size="100%" />
-        </IconButton>
+        {currentUserIsOwner && (
+          <IconButton
+            aria-label="Delete the user"
+            variant="unstyled"
+            color={'gray.400'}
+            _hover={{
+              color: 'gray.500'
+            }}
+            minW={{ base: '18px', md: '24px' }}
+            h={{ base: '18px', md: '24px' }}
+            isLoading={isInvitationDeleting}
+            onClick={() => deleteInvitation(id)}
+          >
+            <FiTrash2 size="100%" />
+          </IconButton>
+        )}
       </Flex>
     </Flex>
   )

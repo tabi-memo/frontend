@@ -58,6 +58,7 @@ export default function ManageGroup({ params }: { params: { id: string } }) {
                       name={invitedUser.node.users?.name || ''}
                       email={invitedUser.node.users?.email || ''}
                       permissionLevel={invitedUser.node.permission_level}
+                      ownerId={tripSharedUsers.users?.id || ''}
                     />
                   )
                 }

@@ -36,7 +36,7 @@ export const OwnerCard = ({ image, name, email }: OwnerCardProps) => {
 
       <Box
         fontWeight="bold"
-        w={{ base: '138px', md: '174px' }}
+        minW={{ base: '82px', md: '174px' }}
         textAlign="center"
       >
         Owner
