@@ -68,7 +68,6 @@ export const InvitedUserCard = ({
         </Box>
       </Flex>
 
-      {/* TODO If not owner, readme only */}
       <Flex
         justifyContent={currentUserIsOwner ? 'space-between' : 'center'}
         align="center"
