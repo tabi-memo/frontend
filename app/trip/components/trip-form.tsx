@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import {
   FormControl,
@@ -11,7 +12,8 @@ import {
   Flex,
   Checkbox,
   Box,
-  useDisclosure
+  useDisclosure,
+  Input
 } from '@chakra-ui/react'
 import { PrimaryButton, SecondaryButton } from '@/components/button'
 import { CustomDatePicker } from '@/components/date'
@@ -57,6 +59,7 @@ export const TripForm = ({ tripDetails, tags, tripTags }: TripFormProps) => {
     '/images/no_image_light.jpg',
     '/images/no_image_dark.jpg'
   )
+  const [selectedImage, setSelectedImage] = useState<File | null>(null)
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const { createTrip, isTripCreating } = useTripCreate()
@@ -81,6 +84,7 @@ export const TripForm = ({ tripDetails, tags, tripTags }: TripFormProps) => {
         : undefined,
       date_to: tripDetails?.dateTo ? getDateObj(tripDetails.dateTo) : null,
       image_url: tripDetails?.image || null,
+      uploaded_image_file: null,
       selectedTags: tripTags ? tripTags.data.map((tag) => tag.tag_id) : [],
       cost: tripDetails?.cost ? tripDetails.cost.toString() : null,
       cost_unit: tripDetails?.costUnit
@@ -143,14 +147,49 @@ export const TripForm = ({ tripDetails, tags, tripTags }: TripFormProps) => {
           <FormErrorMessage>{errors?.date_to?.message}</FormErrorMessage>
         </FormControl>
 
-        {/* TODO Image Upload to storage & Send the URL string to DB */}
-        <FormControl isInvalid={!!errors.image_url}>
+        <FormControl isInvalid={!!errors.uploaded_image_file}>
           <FormLabel>Image</FormLabel>
           <HStack gap={{ base: '20px', md: '34px' }}>
-            <Image alt="" src={tripDetails?.image || imageSrc} width="50%" />
-            <PrimaryButton variant="outline">Select Image </PrimaryButton>
+            {selectedImage ? (
+              <Image
+                alt="Selected Image"
+                src={URL.createObjectURL(selectedImage)}
+                width="50%"
+                objectFit="cover"
+              />
+            ) : (
+              <Image
+                alt="Default Image"
+                src={tripDetails?.image || imageSrc}
+                width="50%"
+                objectFit="cover"
+              />
+            )}
+            <Controller
+              name="uploaded_image_file"
+              control={control}
+              render={({ field: { onChange } }) => (
+                <PrimaryButton variant="outline" as="label" cursor="pointer">
+                  Select Image
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    onChange={(event) => {
+                      const file = event.target.files?.[0]
+                      if (file) {
+                        setSelectedImage(file)
+                        onChange(file)
+                      }
+                    }}
+                    hidden
+                  />
+                </PrimaryButton>
+              )}
+            />
           </HStack>
-          <FormErrorMessage>{errors?.image_url?.message}</FormErrorMessage>
+          <FormErrorMessage>
+            {errors?.uploaded_image_file?.message}
+          </FormErrorMessage>
         </FormControl>
 
         <FormControl isInvalid={!!errors?.selectedTags}>
