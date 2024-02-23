@@ -63,13 +63,13 @@ export const SignUpForm = () => {
       sx={signUpInputStyle}
       as="form"
       onSubmit={signUpHandler}
-      mt={{ base: '38px', md: '42px' }}
+      mt={{ base: '38px', md: '32px' }}
       gap={{ base: '30px', md: '40px' }}
       p="0%"
       w={{ base: '90vw', md: 'unset' }}
       maxW="500px"
     >
-      <VStack gap="24px">
+      <VStack>
         <FormControl isInvalid={!!errors.email}>
           <FormLabel color="black">Email</FormLabel>
           <InputForm

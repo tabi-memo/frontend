@@ -4,7 +4,7 @@ import { Link } from '@/components/link'
 export const SignUpFooter = () => {
   return (
     <CardFooter
-      mt={{ base: '38px', md: '42px' }}
+      mt={{ base: '38px', md: '32px' }}
       display="flex"
       flexDirection="column"
       p="0"
@@ -27,7 +27,7 @@ export const SignUpFooter = () => {
         align="center"
         fontSize="xs"
         color="gray.600"
-        mt={{ base: '38px', md: '42px' }}
+        mt={{ base: '38px', md: '32px' }}
       >
         By signing up, you agree to{' '}
         <Link href="/signUp/email" color="primary.800" hasUnderLine={true}>

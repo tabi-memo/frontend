@@ -10,7 +10,7 @@ export const SignUpHeader = () => {
       </Center>
       <VStack
         w="100%"
-        mt={{ base: '28px', md: '40px' }}
+        mt={{ base: '28px', md: '5px' }}
         align={{ base: 'center', md: 'start' }}
       >
         <Heading as="h1" fontSize={{ base: '2xl', md: '4xl' }} color="gray.700">
