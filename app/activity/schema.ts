@@ -16,13 +16,18 @@ const activitySchema = z.object({
   uploadedFileUrls: z.array(z.string()).optional(),
   newFiles: z.array(z.instanceof(File)).optional()
 })
+  .refine(
+    args => {
+      if (!args.timeTo) return true
+
+      const { timeFrom, timeTo } = args
+      return timeFrom < timeTo
+    },
+    {
+      message: 'Time to must be later than time from',
+      path: ['timeTo']
+    }
+  )
 
 export type ActivitySchema = z.infer<typeof activitySchema>
 export const activityResolver = zodResolver(activitySchema)
-
-// const filesSchema = z.object({
-//   uploadedFiles: z.array(z.instanceof(File))
-// })
-
-// export type FilesSchema = z.infer<typeof filesSchema>
-// export const filesResolver = zodResolver(filesSchema)
