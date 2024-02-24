@@ -10,6 +10,7 @@ export const useRefetchTrips = () => {
         id: { eq: tripId }
       },
       first: 12,
+      // NOTE: This refetch hook function is designed to re-fetch only the single trip associated with an activity, so pagination considerations are unnecessary.
       after: null
     })
   }
