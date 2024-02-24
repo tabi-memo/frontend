@@ -14,7 +14,7 @@ import {
   Input
 } from '@chakra-ui/react'
 import { PrimaryButton } from '@/components/button'
-import { CustomDateTimePicker } from '@/components/customDateTimePicker'
+import { CustomDateTimePicker } from '@/components/date'
 import { InputForm, TextareaForm } from '@/components/input'
 import { getDateObj } from '@/libs/utils'
 import { useActivityCreate, useActivityUpdate } from '../hooks'
@@ -114,7 +114,12 @@ export const ActivityForm = ({
           name="timeFrom"
           control={control}
           render={({ field: { onChange, value } }) => (
-            <CustomDateTimePicker onChange={onChange} value={value} />
+            <CustomDateTimePicker
+              onChange={onChange}
+              selectedDate={value}
+              placeholderText="2024-01-01 10:00"
+              dateFormat="yyyy-MM-dd HH:mm"
+            />
           )}
         />
         {errors.timeFrom && (
@@ -122,15 +127,26 @@ export const ActivityForm = ({
         )}
       </FormControl>
 
-      <FormControl mt={{ base: '30px', md: '40px' }}>
+      <FormControl
+        isInvalid={!!errors.timeTo}
+        mt={{ base: '30px', md: '40px' }}
+      >
         <FormLabel>Time To</FormLabel>
         <Controller
           name="timeTo"
           control={control}
           render={({ field: { onChange, value } }) => (
-            <CustomDateTimePicker onChange={onChange} value={value} />
+            <CustomDateTimePicker
+              onChange={onChange}
+              selectedDate={value}
+              placeholderText="2024-01-01 12:00"
+              dateFormat="yyyy-MM-dd HH:mm"
+            />
           )}
         />
+        {errors.timeTo && (
+          <FormErrorMessage>{errors.timeTo.message}</FormErrorMessage>
+        )}
       </FormControl>
 
       <FormControl
