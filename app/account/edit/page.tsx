@@ -8,16 +8,14 @@ import {
   VStack,
   useColorModeValue
 } from '@chakra-ui/react'
-import { useSearchParams } from 'next/navigation'
+import { Loading } from '@/components/loading'
+import { useUserGet } from '../hooks'
 import { AccountEditForm } from './components'
 
 export default function AccountEditPage() {
-  const searchParams = useSearchParams()
-  const userInfoString = searchParams.get('userInfo')
-  const userInfo = userInfoString ? JSON.parse(userInfoString) : null
   const bg = useColorModeValue('white', 'gray.800')
   const color = useColorModeValue('black', 'gray.300')
-
+  const { userData, isUserLoading } = useUserGet()
   return (
     <Box as="main" minH="100svh" bg={bg} color={color}>
       <Container
@@ -54,7 +52,17 @@ export default function AccountEditPage() {
               align="space-between"
             >
               <Flex direction="column" gap="20px" mb="30px">
-                <AccountEditForm {...userInfo} />
+                {!userData || isUserLoading ? (
+                  <Loading />
+                ) : (
+                  <AccountEditForm
+                    userDetails={{
+                      name: userData.name,
+                      email: userData.email,
+                      profile_picture_url: userData.profile_picture_url
+                    }}
+                  />
+                )}
               </Flex>
             </Flex>
           </Flex>

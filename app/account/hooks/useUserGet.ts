@@ -4,7 +4,7 @@ import { useGetUserQuery } from '@generated/api'
 export const useUserGet = () => {
   const userId = useUserId()
 
-  const { data, loading, refetch } = useGetUserQuery({
+  const { data, loading, refetch, error } = useGetUserQuery({
     variables: { id: userId }
   })
 
@@ -15,8 +15,9 @@ export const useUserGet = () => {
   }
 
   return {
-    userData: data?.usersCollection,
+    userData: data?.usersCollection?.edges[0].node,
     userRefetch,
-    loading
+    isUserLoading: loading,
+    userError: error
   }
 }
