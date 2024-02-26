@@ -21,8 +21,8 @@ import { useUserId } from '@/providers/session-provider'
 import { useUploadFile, useUserUpdate, useUserGet } from '../../hooks'
 
 export type UserDetailsProps = {
-  name: string | undefined
-  email: string | undefined
+  name: string
+  email: string
   profile_picture_url: string | undefined | null
 }
 

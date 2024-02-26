@@ -17,7 +17,12 @@ export default function AccountEditPage() {
   const color = useColorModeValue('black', 'gray.300')
   const { userData, isUserLoading } = useUserGet()
   return (
-    <Box as="main" minH="100svh" bg={bg} color={color}>
+    <Box
+      as="main"
+      minH={{ base: 'calc(100vh - 120px)', md: 'calc(100vh - 170px)' }}
+      bg={bg}
+      color={color}
+    >
       <Container
         minW={{ base: '100%', lg: 'container.sm' }}
         display="flex"
