@@ -18,24 +18,18 @@ import { PrimaryButton, SecondaryButton } from '@/components/button'
 import { InputForm } from '@/components/input'
 import { Loading } from '@/components/loading'
 import { useUserId } from '@/providers/session-provider'
-import { useUploadFile, useUserUpdate, useUserGet } from '../../hooks'
-
-export type UserDetailsProps = {
-  name: string | undefined
-  email: string | undefined
-  profile_picture_url: string | undefined | null
-}
+import { useUploadFile, useUserUpdate } from '../../hooks'
 
 export const AccountEditForm = ({
-  userDetails
-}: {
-  userDetails: UserDetailsProps
-}) => {
+  name,
+  email,
+  profile_picture_url
+}: AccountSchema) => {
   const userId = useUserId()
   const { uploadFile } = useUploadFile()
-  const { updateUser, isUserUpdating } = useUserUpdate()
+  const { updateUser, isLoading } = useUserUpdate()
+
   const [selectedImage, setSelectedImage] = useState<File | null>(null)
-  const { isUserLoading } = useUserGet()
 
   const {
     register,
@@ -44,29 +38,25 @@ export const AccountEditForm = ({
     formState: { errors }
   } = useForm<AccountSchema>({
     defaultValues: {
-      name: userDetails?.name,
-      email: userDetails?.email,
-      profile_picture_url: userDetails?.profile_picture_url,
+      name: name,
+      email: email,
+      profile_picture_url: profile_picture_url,
       uploaded_image_file: null
     },
     resolver: accountResolver
   })
 
   const createHandler = handleSubmit(async (data: AccountSchema) => {
-    const { name, email } = data
-
-    if (name !== undefined && email !== undefined) {
-      if (selectedImage && userDetails?.profile_picture_url) {
-        await uploadFile(userDetails.profile_picture_url, selectedImage, userId)
-      }
-
-      updateUser(name, email)
+    if (selectedImage) {
+      await uploadFile(profile_picture_url, selectedImage, userId)
     }
+
+    updateUser(data.name, data.email)
   })
 
   return (
     <>
-      {isUserUpdating && isUserLoading ? (
+      {isLoading ? (
         <Loading />
       ) : (
         <Box as="form" onSubmit={createHandler}>
@@ -76,7 +66,7 @@ export const AccountEditForm = ({
                 <FormLabel>Email</FormLabel>
                 <InputForm
                   type="text"
-                  placeholder="tabimemo@exmaple.com"
+                  placeholder="John Doe"
                   {...register('email')}
                 />
                 {errors.email && (
@@ -99,10 +89,10 @@ export const AccountEditForm = ({
               <FormControl isInvalid={!!errors.profile_picture_url}>
                 <FormLabel>Image</FormLabel>
                 <HStack gap={{ base: '20px', md: '34px' }}>
-                  {userDetails.profile_picture_url && !selectedImage ? (
+                  {profile_picture_url && !selectedImage ? (
                     <Image
                       alt="Selected Image"
-                      src={userDetails.profile_picture_url}
+                      src={profile_picture_url}
                       width="80px"
                       height="80px"
                       objectFit="cover"

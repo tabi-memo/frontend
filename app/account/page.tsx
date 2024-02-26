@@ -16,24 +16,37 @@ import { MdAccountCircle } from 'react-icons/md'
 import { PrimaryButton, AlertButton } from '@/components/button'
 import { Link } from '@/components/link'
 import { Loading } from '@/components/loading'
-import { useUserGet } from './hooks'
+import { useUserId } from '@/providers/session-provider'
+import { useGetUserQuery } from '@generated/api'
 
 export default function AccountPage() {
   const bg = useColorModeValue('white', 'gray.800')
   const color = useColorModeValue('black', 'gray.300')
+  const userId = useUserId()
+  const { data, loading, error } = useGetUserQuery({
+    variables: { id: userId }
+  })
+  const user = data?.usersCollection?.edges[0].node
 
-  const { userData, userError, isUserLoading } = useUserGet()
-  const user = userData
   // TODO: Refactoring error handling using Apollo ErrorLink
   //       https://www.apollographql.com/docs/react/api/link/apollo-link-error/
-  if (userError) {
+  if (error) {
     // NOTE: If error is thrown, Next.js will render automatically account/error.tsx
-    throw new Error(userError.message)
+    throw new Error(error.message)
   }
+
+  const userInfoQuery = JSON.stringify({
+    name: user?.name,
+    email: user?.email,
+    profile_picture_url: user?.profile_picture_url ?? null
+  })
+
+  // Generate the URL with the query parameter
+  const href = `/account/edit?userInfo=${encodeURIComponent(userInfoQuery)}`
 
   return (
     <>
-      {isUserLoading || !userData ? (
+      {loading || !data?.usersCollection ? (
         <Flex minH="100vh" align="center" justify="center">
           <Loading />
         </Flex>
@@ -112,7 +125,7 @@ export default function AccountPage() {
                   </Flex>
                   <Flex direction="column" align="center">
                     <VStack justifyContent="center">
-                      <Link href="account/edit">
+                      <Link href={href}>
                         <PrimaryButton
                           variant="solid"
                           leftIcon={<CiEdit size="16px" />}

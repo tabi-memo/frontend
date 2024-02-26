@@ -21,7 +21,7 @@ export function SessionProvider({
   userId: string
 }) {
   const pathname = usePathname()
-
+  console.log(pathname)
   const AUTH_PATH_NAMES = ['/signin', '/signup']
   return AUTH_PATH_NAMES.includes(pathname) ? (
     <SessionContext.Provider value={userId}>{children}</SessionContext.Provider>

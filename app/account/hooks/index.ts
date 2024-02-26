@@ -1,3 +1,3 @@
 export { useUploadFile } from './useUploadFile'
-export { useUserGet } from './useUserGet'
-export { useUserUpdate } from './useUserUpdate'
+export { useUserGet } from './useUsersGet'
+export { useUserUpdate } from './useUsersUpdate'

@@ -10,8 +10,7 @@ export const useUserUpdate = () => {
   const toast = useToast()
   const { userRefetch } = useUserGet()
 
-  const [updateUserMutation, { loading: isUserUpdating }] =
-    useUpdateUserMutation()
+  const [updateUserMutation, { loading: isLoading }] = useUpdateUserMutation()
 
   const updateUser = async (name: string, email: string) => {
     try {
@@ -27,17 +26,6 @@ export const useUserUpdate = () => {
 
       userRefetch()
       router.push('/account')
-
-      const response = await fetch('/change-email/action', {
-        method: 'POST',
-        body: JSON.stringify({ email: email })
-      })
-      if (response.ok) {
-        console.log('email is updated')
-      } else {
-        const errorText = await response.text()
-        console.error('Error:', errorText)
-      }
 
       toast({
         title: 'Successfully updated!',
@@ -63,6 +51,6 @@ export const useUserUpdate = () => {
 
   return {
     updateUser,
-    isUserUpdating
+    isLoading
   }
 }
