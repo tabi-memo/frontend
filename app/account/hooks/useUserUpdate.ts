@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useToast } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 import { useUserId } from '@/providers/session-provider'
@@ -10,10 +11,14 @@ export const useUserUpdate = () => {
   const toast = useToast()
   const { userRefetch } = useUserGet()
 
-  const [updateUserMutation, { loading: isUserUpdating }] =
-    useUpdateUserMutation()
+  const [updateUserMutation] = useUpdateUserMutation()
+
+  const [isUserUpdating, setIsUserUpdating] = useState(false)
+  const [isUserUpdatingSuccessfull, setIsUserUpdateSuccessfull] =
+    useState(false)
 
   const updateUser = async (name: string, email: string) => {
+    setIsUserUpdating(true)
     try {
       await updateUserMutation({
         variables: {
@@ -25,27 +30,33 @@ export const useUserUpdate = () => {
         }
       })
 
-      userRefetch()
-      router.push('/account')
-
       const response = await fetch('/change-email/action', {
         method: 'POST',
         body: JSON.stringify({ email: email })
       })
       if (response.ok) {
         console.log('email is updated')
+        userRefetch()
+        router.push('/account')
+        toast({
+          title: 'Successfully updated!',
+          status: 'success',
+          duration: 2000,
+          isClosable: true,
+          position: 'top'
+        })
+        setIsUserUpdateSuccessfull(true)
       } else {
-        const errorText = await response.text()
-        console.error('Error:', errorText)
+        toast({
+          title: "We're sorry, but you failed to update your profile",
+          description: 'Plase try again later.',
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+          position: 'top'
+        })
+        setIsUserUpdateSuccessfull(false)
       }
-
-      toast({
-        title: 'Successfully updated!',
-        status: 'success',
-        duration: 2000,
-        isClosable: true,
-        position: 'top'
-      })
     } catch (error) {
       console.error(error)
 
@@ -58,11 +69,15 @@ export const useUserUpdate = () => {
         isClosable: true,
         position: 'top'
       })
+      setIsUserUpdateSuccessfull(false)
+    } finally {
+      setIsUserUpdating(false)
     }
   }
 
   return {
     updateUser,
-    isUserUpdating
+    isUserUpdating,
+    isUserUpdatingSuccessfull
   }
 }

@@ -18,7 +18,7 @@ import { PrimaryButton, SecondaryButton } from '@/components/button'
 import { InputForm } from '@/components/input'
 import { Loading } from '@/components/loading'
 import { useUserId } from '@/providers/session-provider'
-import { useUploadFile, useUserUpdate, useUserGet } from '../../hooks'
+import { useUploadFile, useUserUpdate } from '../../hooks'
 
 export type UserDetailsProps = {
   name: string
@@ -33,9 +33,9 @@ export const AccountEditForm = ({
 }) => {
   const userId = useUserId()
   const { uploadFile } = useUploadFile()
-  const { updateUser, isUserUpdating } = useUserUpdate()
+  const { updateUser, isUserUpdating, isUserUpdatingSuccessfull } =
+    useUserUpdate()
   const [selectedImage, setSelectedImage] = useState<File | null>(null)
-  const { isUserLoading } = useUserGet()
 
   const {
     register,
@@ -66,11 +66,9 @@ export const AccountEditForm = ({
 
   return (
     <>
-      {isUserUpdating && isUserLoading ? (
-        <Loading />
-      ) : (
+      {!isUserUpdatingSuccessfull && !isUserUpdating && (
         <Box as="form" onSubmit={createHandler}>
-          <Flex direction="column" mb="30px">
+          <Flex direction="column">
             <VStack align="start" gap="20px">
               <FormControl isRequired isInvalid={!!errors.email}>
                 <FormLabel>Email</FormLabel>
@@ -160,6 +158,7 @@ export const AccountEditForm = ({
           </Flex>
         </Box>
       )}
+      {isUserUpdating && <Loading />}
     </>
   )
 }

@@ -56,7 +56,7 @@ export default function AccountEditPage() {
               direction="column"
               align="space-between"
             >
-              <Flex direction="column" gap="20px" mb="30px">
+              <Flex direction="column" gap="20px">
                 {!userData || isUserLoading ? (
                   <Loading />
                 ) : (
