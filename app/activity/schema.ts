@@ -8,7 +8,7 @@ const activitySchema = z
       required_error: 'Please select a date from',
       invalid_type_error: "That's not a date"
     }),
-    timeTo: z.date().nullable(),
+    timeTo: z.date().nullable().optional(),
     address: z.string().min(0).max(50).nullable(),
     url: z.union([z.string().url().nullish(), z.literal('')]),
     memo: z.string().min(0).max(300).nullable(),
@@ -19,7 +19,7 @@ const activitySchema = z
   })
   .refine(
     (args) => {
-      if (!args.timeTo) return true
+      if (args.timeTo === null || args.timeTo === undefined) return true
 
       const { timeFrom, timeTo } = args
       return timeFrom < timeTo

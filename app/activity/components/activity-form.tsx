@@ -24,7 +24,7 @@ export type ActivityDetails = {
   id: string
   title: string
   timeFrom?: string | null
-  timeTo?: string | null
+  timeTo?: string | null | undefined
   address?: string | null
   url?: string | null
   memo?: string | null
@@ -66,7 +66,7 @@ export const ActivityForm = ({
         : undefined,
       timeTo: activityDetails?.timeTo
         ? getDateObj(activityDetails?.timeTo)
-        : undefined,
+        : null,
       address: activityDetails?.address || undefined,
       url: activityDetails?.url || undefined,
       memo: activityDetails?.memo || undefined,
@@ -92,7 +92,7 @@ export const ActivityForm = ({
       onSubmit={handleSubmit(mutateFun)}
       pt={{ base: '40px', md: '40px' }}
     >
-      <FormControl isRequired isInvalid={!!errors.title}>
+      <FormControl isInvalid={!!errors.title}>
         <FormLabel>Title</FormLabel>
         <InputForm
           type="text"
@@ -105,7 +105,6 @@ export const ActivityForm = ({
       </FormControl>
 
       <FormControl
-        isRequired
         isInvalid={!!errors.timeFrom}
         mt={{ base: '30px', md: '40px' }}
       >
@@ -138,7 +137,7 @@ export const ActivityForm = ({
           render={({ field: { onChange, value } }) => (
             <CustomDateTimePicker
               onChange={onChange}
-              selectedDate={value}
+              selectedDate={value ?? null}
               placeholderText="2024-01-01 12:00"
               dateFormat="yyyy-MM-dd HH:mm"
             />
