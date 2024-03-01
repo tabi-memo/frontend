@@ -31,7 +31,7 @@ export const useActivityUpdate = (tripId: string) => {
             address: activityData.address,
             url: activityData.url,
             memo: activityData.memo,
-            cost: activityData.cost,
+            cost: activityData.cost || null,
             cost_unit: activityData.costUnit
           }
         },
