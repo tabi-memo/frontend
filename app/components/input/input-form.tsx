@@ -9,6 +9,7 @@ import {
   useColorModeValue
 } from '@chakra-ui/react'
 import { FiEye, FiEyeOff } from 'react-icons/fi'
+
 type InputFormProps = {
   rightIcon?: IconType
   hasEyeIcon?: boolean

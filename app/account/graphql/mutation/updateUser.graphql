@@ -1,0 +1,8 @@
+mutation updateUser($id: UUID!, $set: usersUpdateInput!) {
+  updateusersCollection(set: $set, filter: { id: { eq: $id } }) {
+    records {
+      id
+      name
+    }
+  }
+}

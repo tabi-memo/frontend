@@ -16,28 +16,24 @@ import { MdAccountCircle } from 'react-icons/md'
 import { PrimaryButton, AlertButton } from '@/components/button'
 import { Link } from '@/components/link'
 import { Loading } from '@/components/loading'
-import { useUserId } from '@/providers/session-provider'
-import { useGetUserQuery } from '@generated/api'
+import { useUserGet } from './hooks'
 
 export default function AccountPage() {
   const bg = useColorModeValue('white', 'gray.800')
   const color = useColorModeValue('black', 'gray.300')
-  const userId = useUserId()
-  const { data, loading, error } = useGetUserQuery({
-    variables: { id: userId }
-  })
-  const user = data?.usersCollection?.edges[0].node
 
+  const { userData, userError, isUserLoading } = useUserGet()
+  const user = userData
   // TODO: Refactoring error handling using Apollo ErrorLink
   //       https://www.apollographql.com/docs/react/api/link/apollo-link-error/
-  if (error) {
+  if (userError) {
     // NOTE: If error is thrown, Next.js will render automatically account/error.tsx
-    throw new Error(error.message)
+    throw new Error(userError.message)
   }
 
   return (
     <>
-      {loading || !data?.usersCollection ? (
+      {isUserLoading || !userData ? (
         <Flex minH="100vh" align="center" justify="center">
           <Loading />
         </Flex>
@@ -45,6 +41,7 @@ export default function AccountPage() {
         <Box as="main" minH="100svh" bg={bg} color={color}>
           <Container
             minW={{ base: '100%', lg: 'container.sm' }}
+            maxW="480px"
             display="flex"
             flexDirection="column"
             alignItems={{ base: 'space-around', lg: 'flex-start' }}
@@ -70,7 +67,7 @@ export default function AccountPage() {
                   Account
                 </Heading>
                 <Flex
-                  minW={{ base: '100%', lg: '480px' }}
+                  w={{ base: '100%', md: '480px' }}
                   gap={{ base: '20px', lg: '30px' }}
                   padding="18px"
                   borderWidth="1px"
@@ -96,7 +93,9 @@ export default function AccountPage() {
                           alt="Profile Picture"
                         />
                       ) : (
-                        <MdAccountCircle size="30px" />
+                        <Box color="gray.400">
+                          <MdAccountCircle size="30px" />
+                        </Box>
                       )}
                     </VStack>
                     <VStack align="start">
@@ -113,7 +112,7 @@ export default function AccountPage() {
                   </Flex>
                   <Flex direction="column" align="center">
                     <VStack justifyContent="center">
-                      <Link href="/account/edit">
+                      <Link href="account/edit">
                         <PrimaryButton
                           variant="solid"
                           leftIcon={<CiEdit size="16px" />}
@@ -126,7 +125,7 @@ export default function AccountPage() {
                 </Flex>
               </Flex>
 
-              <Box mr="auto">
+              <Box ml="0px" w={{ base: '100%', md: '480px' }}>
                 <AlertButton
                   variant="outline"
                   leftIcon={<FaRegTrashAlt size="14px" />}

@@ -1290,6 +1290,19 @@ export type UsersUpdateResponse = {
   records: Array<Users>
 }
 
+export type UpdateUserMutationVariables = Exact<{
+  id: Scalars['UUID']['input']
+  set: UsersUpdateInput
+}>
+
+export type UpdateUserMutation = {
+  __typename: 'Mutation'
+  updateusersCollection: {
+    __typename: 'usersUpdateResponse'
+    records: Array<{ __typename: 'users'; id: string; name: string }>
+  }
+}
+
 export type GetUserQueryVariables = Exact<{
   id: Scalars['UUID']['input']
 }>
@@ -1694,6 +1707,105 @@ export type TripsCollectionQuery = {
   } | null
 }
 
+export const UpdateUserDocument = {
+  __meta__: { hash: '3bab834122fe381a85885b562eda0abbc3c5ec66' },
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'updateUser' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } }
+          }
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'set' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'usersUpdateInput' }
+            }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateusersCollection' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'set' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'set' }
+                }
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'filter' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'id' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'eq' },
+                            value: {
+                              kind: 'Variable',
+                              name: { kind: 'Name', value: 'id' }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'records' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: '__typename' }
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<UpdateUserMutation, UpdateUserMutationVariables>
 export const GetUserDocument = {
   __meta__: { hash: '00c528b2b1c851c06119aedb1fba6b5c885713cf' },
   kind: 'Document',
