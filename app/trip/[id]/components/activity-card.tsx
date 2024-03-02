@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 import { FiTrash2, FiMapPin, FiMoreHorizontal, FiEdit3 } from 'react-icons/fi'
+import { useActivityDelete } from '@/activity/hooks/useActivityDelete'
 import { Link } from '@/components/link'
 import { ConfirmModal } from '@/components/modal'
 import {
@@ -38,6 +39,8 @@ export const ActivityCard = ({ activity, selectedDate }: ActivityCardProps) => {
     onOpen: onDeleteModalOpen,
     onClose: onDeleteModalClose
   } = useDisclosure()
+
+  const { deleteActivity } = useActivityDelete()
 
   const differentDate = (displayPlace: 'timeFrom' | 'timeTo') => {
     if (!activity.timeTo) return null
@@ -166,7 +169,6 @@ export const ActivityCard = ({ activity, selectedDate }: ActivityCardProps) => {
         </Menu>
       </Box>
 
-      {/* TODO Delete activity */}
       <ConfirmModal
         isOpen={isDeleteModalOpen}
         onClose={onDeleteModalClose}
@@ -175,7 +177,10 @@ export const ActivityCard = ({ activity, selectedDate }: ActivityCardProps) => {
             Are you sure you want to delete this activity?
           </Text>
         }
-        onClick={() => {}}
+        onClick={async () => {
+          await deleteActivity(activity.id)
+          onDeleteModalClose()
+        }}
         submitLabel="Delete"
       />
     </>

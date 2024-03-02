@@ -29,7 +29,7 @@ export const useTripCreate = () => {
             date_from: formatToISODate(data.date_from),
             date_to: data.date_to ? formatToISODate(data.date_to) : null,
             image_url: data.image_url,
-            cost: data.cost,
+            cost: data.cost || null,
             cost_unit: data.cost_unit,
             user_id: userId
           }

@@ -80,7 +80,9 @@ export default function TripDetailsPage({
             <Box textAlign="center" mt="60px">
               <PrimaryButton
                 size="lg"
-                onClick={() => router.push('/activity/create')}
+                onClick={() =>
+                  router.push(`/activity/create?tripId=${params.id}`)
+                }
               >
                 Add Activity
               </PrimaryButton>

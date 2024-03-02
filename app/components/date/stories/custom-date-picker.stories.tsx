@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { Meta } from '@storybook/react'
-import { CustomDatePicker } from '@/components/date'
+import { Meta, StoryFn } from '@storybook/react'
+import { CustomDatePicker, CustomDateTimePicker } from '@/components/date'
 
 const meta: Meta<typeof CustomDatePicker> = {
   title: 'CustomDatePicker',
@@ -15,6 +15,18 @@ export const Default = () => {
       selectedDate={selectedDate}
       onChange={(date) => setSelectedDate(date)}
       placeholderText="Select Date"
+    />
+  )
+}
+
+export const DateTimePicker: StoryFn = () => {
+  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date())
+  return (
+    <CustomDateTimePicker
+      selectedDate={selectedDate}
+      onChange={(date) => setSelectedDate(date)}
+      placeholderText="Select Date"
+      dateFormat="yyyy/MM/dd HH:mm"
     />
   )
 }

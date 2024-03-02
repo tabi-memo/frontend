@@ -1,0 +1,10 @@
+mutation DeleteActivity($id: UUID!) {
+  deleteFromactivityCollection(filter: { id: { eq: $id } }) {
+    records {
+      __typename
+      id
+      trip_id
+      title
+    }
+  }
+}
