@@ -9,8 +9,8 @@ import {
   useToast,
   useBoolean
 } from '@chakra-ui/react'
-import { signUp } from '@/(auth)/signup/email/action'
-import { signUpResolver, SignUpSchema } from '@/(auth)/signup/email/schema'
+import { signUp } from '@/(auth)/signup/action'
+import { signUpResolver, SignUpSchema } from '@/(auth)/signup/schema'
 import { PrimaryButton } from '@/components/button'
 import { InputForm } from '@/components/input'
 

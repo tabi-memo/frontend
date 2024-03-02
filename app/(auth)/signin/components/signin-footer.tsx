@@ -17,7 +17,7 @@ export const SignInFooter = () => {
           fontSize="sm"
           color="primary.800"
           fontWeight="semibold"
-          href="/signup/email"
+          href="/signup"
         >
           Sign Up
         </Link>

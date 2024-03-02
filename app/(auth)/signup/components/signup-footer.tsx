@@ -29,12 +29,13 @@ export const SignUpFooter = () => {
         color="gray.600"
         mt={{ base: '38px', md: '32px' }}
       >
-        By signing up, you agree to{' '}
-        <Link href="/signUp/email" color="primary.800" hasUnderLine={true}>
+        By signing up, you agree to
+        {/* TODO Add terms of policy page */}
+        <Link href="/signUp" color="primary.800" hasUnderLine={true}>
           Terms of Service
         </Link>{' '}
-        and{' '}
-        <Link href="/signUp/email" color="primary.800" hasUnderLine={true}>
+        and {/* TODO Add terms of privacy policy page */}
+        <Link href="/signUp" color="primary.800" hasUnderLine={true}>
           Privacy Policy
         </Link>{' '}
         .
