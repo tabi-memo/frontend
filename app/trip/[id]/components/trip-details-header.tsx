@@ -175,9 +175,8 @@ export const TripDetailsHeader = ({
                 ))}
               </Flex>
             )}
-            {/* TODO Change URL */}
             <Link
-              href="/"
+              href={`/trip/${id}/manage-group`}
               display="flex"
               alignItems="center"
               borderBottom="1px"
