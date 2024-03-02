@@ -23,6 +23,17 @@ export default function TripDetailsPage({
 
   const tripData = tripDetailsData?.tripsCollection
 
+  const owner = {
+    id: tripData?.edges[0].node.users.id,
+    image: tripData?.edges[0].node.users.profile_picture_url
+  }
+
+  const sharedUsers =
+    tripData?.edges[0].node.invitationsCollection?.edges.map((invitation) => ({
+      id: invitation.node.users?.id,
+      image: invitation.node.users?.profile_picture_url
+    })) || []
+
   return (
     <Box as="main" minH="100svh" bg={bg} color={color}>
       <Container
@@ -42,14 +53,7 @@ export default function TripDetailsPage({
               dateTo={tripData.edges[0].node.date_to}
               cost={tripData.edges[0].node.cost}
               costUnit={tripData.edges[0].node.cost_unit}
-              users={
-                tripData.edges[0].node.invitationsCollection?.edges.map(
-                  (invitation) => ({
-                    id: invitation.node.users?.id,
-                    image: invitation.node.users?.profile_picture_url
-                  })
-                ) || []
-              }
+              users={[owner, ...sharedUsers]}
               tags={
                 tripData.edges[0].node.trip_tagsCollection?.edges.map(
                   (tag) => ({

@@ -5,6 +5,7 @@ import { useTripsCollectionQuery, TripsOrderBy } from '@generated/api'
 export const useTripsGet = (searchWord?: string) => {
   const userId = useUserId()
 
+  // TODO - need to change as currently just showing all trips user created. We also need to show invited trips
   const { data, loading, error, fetchMore, refetch, networkStatus } =
     useTripsCollectionQuery({
       variables: {

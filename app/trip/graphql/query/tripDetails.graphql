@@ -9,6 +9,10 @@ query tripDetails($id: UUID) {
         image_url
         cost
         cost_unit
+        users {
+          id
+          profile_picture_url
+        }
         invitationsCollection {
           edges {
             node {

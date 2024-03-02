@@ -515,8 +515,8 @@ export type Activity = Node & {
   time_from: Scalars['Datetime']['output']
   time_to?: Maybe<Scalars['Datetime']['output']>
   title: Scalars['String']['output']
-  trip_id?: Maybe<Scalars['UUID']['output']>
-  trips?: Maybe<Trips>
+  trip_id: Scalars['UUID']['output']
+  trips: Trips
   url?: Maybe<Scalars['String']['output']>
 }
 
@@ -628,9 +628,9 @@ export type ActivityUpdateResponse = {
 
 export type Activity_Uploaded_Files = Node & {
   __typename?: 'activity_uploaded_files'
-  activity?: Maybe<Activity>
-  activity_id?: Maybe<Scalars['UUID']['output']>
-  content_type: Scalars['String']['output']
+  activity: Activity
+  activity_id: Scalars['UUID']['output']
+  content_type?: Maybe<Scalars['String']['output']>
   created_at: Scalars['Datetime']['output']
   file_data?: Maybe<Scalars['JSON']['output']>
   file_name: Scalars['String']['output']
@@ -974,10 +974,10 @@ export type Trip_Tags = Node & {
   id: Scalars['UUID']['output']
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output']
-  tag_id?: Maybe<Scalars['UUID']['output']>
-  tags?: Maybe<Tags>
-  trip_id?: Maybe<Scalars['UUID']['output']>
-  trips?: Maybe<Trips>
+  tag_id: Scalars['UUID']['output']
+  tags: Tags
+  trip_id: Scalars['UUID']['output']
+  trips: Trips
 }
 
 export type Trip_TagsConnection = {
@@ -1057,8 +1057,8 @@ export type Trips = Node & {
   nodeId: Scalars['ID']['output']
   title: Scalars['String']['output']
   trip_tagsCollection?: Maybe<Trip_TagsConnection>
-  user_id?: Maybe<Scalars['UUID']['output']>
-  users?: Maybe<Users>
+  user_id: Scalars['UUID']['output']
+  users: Users
 }
 
 export type TripsActivityCollectionArgs = {
@@ -1316,7 +1316,7 @@ export type ActivityCollectionQuery = {
       node: {
         __typename: 'activity'
         id: string
-        trip_id?: string | null
+        trip_id: string
         title: string
         time_from: string
         time_to?: string | null
@@ -1349,6 +1349,85 @@ export type CreateActivityMutation = {
   insertIntoactivityCollection?: {
     __typename: 'activityInsertResponse'
     records: Array<{ __typename: 'activity'; id: string; title: string }>
+  } | null
+}
+
+export type DeleteInvitationMutationVariables = Exact<{
+  id: Scalars['UUID']['input']
+}>
+
+export type DeleteInvitationMutation = {
+  __typename: 'Mutation'
+  deleteFrominvitationsCollection: {
+    __typename: 'invitationsDeleteResponse'
+    records: Array<{
+      __typename: 'invitations'
+      id: string
+      email: string
+      permission_level: Permission_Level_Enum
+    }>
+  }
+}
+
+export type UpdateInvitationMutationVariables = Exact<{
+  id: Scalars['UUID']['input']
+  set: InvitationsUpdateInput
+}>
+
+export type UpdateInvitationMutation = {
+  __typename: 'Mutation'
+  updateinvitationsCollection: {
+    __typename: 'invitationsUpdateResponse'
+    records: Array<{
+      __typename: 'invitations'
+      id: string
+      email: string
+      permission_level: Permission_Level_Enum
+    }>
+  }
+}
+
+export type TripSharedUsersQueryVariables = Exact<{
+  tripId: Scalars['UUID']['input']
+}>
+
+export type TripSharedUsersQuery = {
+  __typename: 'Query'
+  tripsCollection?: {
+    __typename: 'tripsConnection'
+    edges: Array<{
+      __typename: 'tripsEdge'
+      node: {
+        __typename: 'trips'
+        id: string
+        title: string
+        users: {
+          __typename: 'users'
+          id: string
+          name: string
+          profile_picture_url?: string | null
+          email: string
+        }
+        invitationsCollection?: {
+          __typename: 'invitationsConnection'
+          edges: Array<{
+            __typename: 'invitationsEdge'
+            node: {
+              __typename: 'invitations'
+              id: string
+              permission_level: Permission_Level_Enum
+              users?: {
+                __typename: 'users'
+                id: string
+                name: string
+                email: string
+                profile_picture_url?: string | null
+              } | null
+            }
+          }>
+        } | null
+      }
+    }>
   } | null
 }
 
@@ -1389,8 +1468,8 @@ export type CreateTripTagMutation = {
     records: Array<{
       __typename: 'trip_tags'
       id: string
-      tag_id?: string | null
-      trip_id?: string | null
+      tag_id: string
+      trip_id: string
     }>
   } | null
 }
@@ -1479,6 +1558,11 @@ export type TripDetailsQuery = {
         image_url?: string | null
         cost?: string | null
         cost_unit?: string | null
+        users: {
+          __typename: 'users'
+          id: string
+          profile_picture_url?: string | null
+        }
         invitationsCollection?: {
           __typename: 'invitationsConnection'
           edges: Array<{
@@ -1513,7 +1597,7 @@ export type TripDetailsQuery = {
             __typename: 'trip_tagsEdge'
             node: {
               __typename: 'trip_tags'
-              tags?: { __typename: 'tags'; id: string; name: string } | null
+              tags: { __typename: 'tags'; id: string; name: string }
             }
           }>
         } | null
@@ -1535,8 +1619,8 @@ export type TripTagsCollectionQuery = {
       node: {
         __typename: 'trip_tags'
         id: string
-        trip_id?: string | null
-        tag_id?: string | null
+        trip_id: string
+        tag_id: string
       }
     }>
   } | null
@@ -1563,6 +1647,12 @@ export type TripsCollectionQuery = {
         date_to?: string | null
         image_url?: string | null
         created_at: string
+        users: {
+          __typename: 'users'
+          id: string
+          name: string
+          profile_picture_url?: string | null
+        }
         invitationsCollection?: {
           __typename: 'invitationsConnection'
           edges: Array<{
@@ -1860,6 +1950,233 @@ export type CreateActivityMutationOptions = Apollo.BaseMutationOptions<
   CreateActivityMutation,
   CreateActivityMutationVariables
 >
+export const DeleteInvitationDocument = gql`
+  mutation deleteInvitation($id: UUID!) {
+    __typename
+    deleteFrominvitationsCollection(filter: { id: { eq: $id } }) {
+      __typename
+      records {
+        __typename
+        id
+        email
+        permission_level
+      }
+    }
+  }
+`
+export type DeleteInvitationMutationFn = Apollo.MutationFunction<
+  DeleteInvitationMutation,
+  DeleteInvitationMutationVariables
+>
+
+/**
+ * __useDeleteInvitationMutation__
+ *
+ * To run a mutation, you first call `useDeleteInvitationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteInvitationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteInvitationMutation, { data, loading, error }] = useDeleteInvitationMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteInvitationMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteInvitationMutation,
+    DeleteInvitationMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    DeleteInvitationMutation,
+    DeleteInvitationMutationVariables
+  >(DeleteInvitationDocument, options)
+}
+export type DeleteInvitationMutationHookResult = ReturnType<
+  typeof useDeleteInvitationMutation
+>
+export type DeleteInvitationMutationResult =
+  Apollo.MutationResult<DeleteInvitationMutation>
+export type DeleteInvitationMutationOptions = Apollo.BaseMutationOptions<
+  DeleteInvitationMutation,
+  DeleteInvitationMutationVariables
+>
+export const UpdateInvitationDocument = gql`
+  mutation updateInvitation($id: UUID!, $set: invitationsUpdateInput!) {
+    __typename
+    updateinvitationsCollection(set: $set, filter: { id: { eq: $id } }) {
+      __typename
+      records {
+        __typename
+        id
+        email
+        permission_level
+      }
+    }
+  }
+`
+export type UpdateInvitationMutationFn = Apollo.MutationFunction<
+  UpdateInvitationMutation,
+  UpdateInvitationMutationVariables
+>
+
+/**
+ * __useUpdateInvitationMutation__
+ *
+ * To run a mutation, you first call `useUpdateInvitationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateInvitationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateInvitationMutation, { data, loading, error }] = useUpdateInvitationMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      set: // value for 'set'
+ *   },
+ * });
+ */
+export function useUpdateInvitationMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateInvitationMutation,
+    UpdateInvitationMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    UpdateInvitationMutation,
+    UpdateInvitationMutationVariables
+  >(UpdateInvitationDocument, options)
+}
+export type UpdateInvitationMutationHookResult = ReturnType<
+  typeof useUpdateInvitationMutation
+>
+export type UpdateInvitationMutationResult =
+  Apollo.MutationResult<UpdateInvitationMutation>
+export type UpdateInvitationMutationOptions = Apollo.BaseMutationOptions<
+  UpdateInvitationMutation,
+  UpdateInvitationMutationVariables
+>
+export const TripSharedUsersDocument = gql`
+  query tripSharedUsers($tripId: UUID!) {
+    __typename
+    tripsCollection(filter: { id: { eq: $tripId } }) {
+      __typename
+      edges {
+        __typename
+        node {
+          __typename
+          id
+          title
+          users {
+            __typename
+            id
+            name
+            profile_picture_url
+            email
+          }
+          invitationsCollection {
+            __typename
+            edges {
+              __typename
+              node {
+                __typename
+                id
+                permission_level
+                users {
+                  __typename
+                  id
+                  name
+                  email
+                  profile_picture_url
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`
+
+/**
+ * __useTripSharedUsersQuery__
+ *
+ * To run a query within a React component, call `useTripSharedUsersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTripSharedUsersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTripSharedUsersQuery({
+ *   variables: {
+ *      tripId: // value for 'tripId'
+ *   },
+ * });
+ */
+export function useTripSharedUsersQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    TripSharedUsersQuery,
+    TripSharedUsersQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<TripSharedUsersQuery, TripSharedUsersQueryVariables>(
+    TripSharedUsersDocument,
+    options
+  )
+}
+export function useTripSharedUsersLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    TripSharedUsersQuery,
+    TripSharedUsersQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<
+    TripSharedUsersQuery,
+    TripSharedUsersQueryVariables
+  >(TripSharedUsersDocument, options)
+}
+export function useTripSharedUsersSuspenseQuery(
+  baseOptions?: Apollo.SuspenseQueryHookOptions<
+    TripSharedUsersQuery,
+    TripSharedUsersQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useSuspenseQuery<
+    TripSharedUsersQuery,
+    TripSharedUsersQueryVariables
+  >(TripSharedUsersDocument, options)
+}
+export type TripSharedUsersQueryHookResult = ReturnType<
+  typeof useTripSharedUsersQuery
+>
+export type TripSharedUsersLazyQueryHookResult = ReturnType<
+  typeof useTripSharedUsersLazyQuery
+>
+export type TripSharedUsersSuspenseQueryHookResult = ReturnType<
+  typeof useTripSharedUsersSuspenseQuery
+>
+export type TripSharedUsersQueryResult = Apollo.QueryResult<
+  TripSharedUsersQuery,
+  TripSharedUsersQueryVariables
+>
+export function refetchTripSharedUsersQuery(
+  variables: TripSharedUsersQueryVariables
+) {
+  return { query: TripSharedUsersDocument, variables: variables }
+}
 export const CreateTagDocument = gql`
   mutation createTag($name: String!, $userId: UUID!) {
     __typename
@@ -2361,6 +2678,11 @@ export const TripDetailsDocument = gql`
           image_url
           cost
           cost_unit
+          users {
+            __typename
+            id
+            profile_picture_url
+          }
           invitationsCollection {
             __typename
             edges {
@@ -2589,6 +2911,12 @@ export const TripsCollectionDocument = gql`
           date_to
           image_url
           created_at
+          users {
+            __typename
+            id
+            name
+            profile_picture_url
+          }
           invitationsCollection {
             __typename
             edges {
