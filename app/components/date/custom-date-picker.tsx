@@ -124,7 +124,8 @@ export const CustomDateTimePicker = ({
       width: '100%',
       border: 'none',
       boxShadow: '0px 2px 16px 0px rgba(0,0,0,.25);',
-      fontSize: 'sm'
+      fontSize: 'sm',
+      backgroundColor: colorMode === 'dark' ? 'gray.700' : 'white'
     },
     '.react-datepicker__month-container': {
       backgroundColor: colorMode === 'dark' ? 'gray.700' : 'white',
@@ -144,8 +145,7 @@ export const CustomDateTimePicker = ({
     },
     '.react-datepicker__header--time': {
       backgroundColor: colorMode === 'dark' ? 'gray.700' : 'white',
-      borderBottomColor: colorMode === 'dark' ? 'gray.500' : 'gray.300',
-      width: { base: '85px' }
+      borderBottomColor: colorMode === 'dark' ? 'gray.500' : 'gray.300'
     },
     '.react-datepicker__current-month': {
       color: colorMode === 'dark' ? 'primary.700' : 'primary.800',
@@ -156,11 +156,12 @@ export const CustomDateTimePicker = ({
       top: '11px'
     },
     '.react-datepicker__navigation--previous': {
-      left: '32px'
+      left: { base: '16px', md: '32px' }
     },
-    '.react-datepicker__navigation--next': {
-      right: '32px'
-    },
+    '.react-datepicker__navigation--next--with-time:not(.react-datepicker__navigation--next--with-today-button)':
+      {
+        right: '24%'
+      },
     '.react-datepicker__navigation-icon': {
       '&::before': {
         borderColor: colorMode === 'dark' ? 'gray.500' : 'gray.400'
@@ -198,10 +199,21 @@ export const CustomDateTimePicker = ({
       borderBottomColor: colorMode === 'dark' ? 'gray.500' : 'gray.300',
       color: colorMode === 'dark' ? 'gray.300' : 'black'
     },
+
     '.react-datepicker__time-box': {
       backgroundColor: colorMode === 'dark' ? 'gray.700' : 'white',
       color: colorMode === 'dark' ? 'gray.300' : 'black'
-    }
+    },
+
+    '.react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box':
+      {
+        width: { base: '100%', md: '85px' }
+      },
+    '.react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item--selected':
+      {
+        color: 'white',
+        backgroundColor: colorMode === 'dark' ? 'primary.700' : 'primary.500'
+      }
   }
 
   return (
