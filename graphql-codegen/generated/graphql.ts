@@ -146,8 +146,6 @@ export type Mutation = {
   deleteFrominvitationsCollection: InvitationsDeleteResponse
   /** Deletes zero or more records from the `tags` collection */
   deleteFromtagsCollection: TagsDeleteResponse
-  /** Deletes zero or more records from the `test_tenant` collection */
-  deleteFromtest_tenantCollection: Test_TenantDeleteResponse
   /** Deletes zero or more records from the `trip_tags` collection */
   deleteFromtrip_tagsCollection: Trip_TagsDeleteResponse
   /** Deletes zero or more records from the `trips` collection */
@@ -162,8 +160,6 @@ export type Mutation = {
   insertIntoinvitationsCollection?: Maybe<InvitationsInsertResponse>
   /** Adds one or more `tags` records to the collection */
   insertIntotagsCollection?: Maybe<TagsInsertResponse>
-  /** Adds one or more `test_tenant` records to the collection */
-  insertIntotest_tenantCollection?: Maybe<Test_TenantInsertResponse>
   /** Adds one or more `trip_tags` records to the collection */
   insertIntotrip_tagsCollection?: Maybe<Trip_TagsInsertResponse>
   /** Adds one or more `trips` records to the collection */
@@ -178,8 +174,6 @@ export type Mutation = {
   updateinvitationsCollection: InvitationsUpdateResponse
   /** Updates zero or more records in the `tags` collection */
   updatetagsCollection: TagsUpdateResponse
-  /** Updates zero or more records in the `test_tenant` collection */
-  updatetest_tenantCollection: Test_TenantUpdateResponse
   /** Updates zero or more records in the `trip_tags` collection */
   updatetrip_tagsCollection: Trip_TagsUpdateResponse
   /** Updates zero or more records in the `trips` collection */
@@ -210,12 +204,6 @@ export type MutationDeleteFrominvitationsCollectionArgs = {
 export type MutationDeleteFromtagsCollectionArgs = {
   atMost?: Scalars['Int']['input']
   filter?: InputMaybe<TagsFilter>
-}
-
-/** The root type for creating and mutating data */
-export type MutationDeleteFromtest_TenantCollectionArgs = {
-  atMost?: Scalars['Int']['input']
-  filter?: InputMaybe<Test_TenantFilter>
 }
 
 /** The root type for creating and mutating data */
@@ -254,11 +242,6 @@ export type MutationInsertIntoinvitationsCollectionArgs = {
 /** The root type for creating and mutating data */
 export type MutationInsertIntotagsCollectionArgs = {
   objects: Array<TagsInsertInput>
-}
-
-/** The root type for creating and mutating data */
-export type MutationInsertIntotest_TenantCollectionArgs = {
-  objects: Array<Test_TenantInsertInput>
 }
 
 /** The root type for creating and mutating data */
@@ -302,13 +285,6 @@ export type MutationUpdatetagsCollectionArgs = {
   atMost?: Scalars['Int']['input']
   filter?: InputMaybe<TagsFilter>
   set: TagsUpdateInput
-}
-
-/** The root type for creating and mutating data */
-export type MutationUpdatetest_TenantCollectionArgs = {
-  atMost?: Scalars['Int']['input']
-  filter?: InputMaybe<Test_TenantFilter>
-  set: Test_TenantUpdateInput
 }
 
 /** The root type for creating and mutating data */
@@ -376,8 +352,6 @@ export type Query = {
   node?: Maybe<Node>
   /** A pagable collection of type `tags` */
   tagsCollection?: Maybe<TagsConnection>
-  /** A pagable collection of type `test_tenant` */
-  test_tenantCollection?: Maybe<Test_TenantConnection>
   /** A pagable collection of type `trip_tags` */
   trip_tagsCollection?: Maybe<Trip_TagsConnection>
   /** A pagable collection of type `trips` */
@@ -429,16 +403,6 @@ export type QueryTagsCollectionArgs = {
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
   orderBy?: InputMaybe<Array<TagsOrderBy>>
-}
-
-/** The root type for querying data */
-export type QueryTest_TenantCollectionArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>
-  before?: InputMaybe<Scalars['Cursor']['input']>
-  filter?: InputMaybe<Test_TenantFilter>
-  first?: InputMaybe<Scalars['Int']['input']>
-  last?: InputMaybe<Scalars['Int']['input']>
-  orderBy?: InputMaybe<Array<Test_TenantOrderBy>>
 }
 
 /** The root type for querying data */
@@ -523,8 +487,8 @@ export type Activity = Node & {
   time_from: Scalars['Datetime']['output']
   time_to?: Maybe<Scalars['Datetime']['output']>
   title: Scalars['String']['output']
-  trip_id?: Maybe<Scalars['UUID']['output']>
-  trips?: Maybe<Trips>
+  trip_id: Scalars['UUID']['output']
+  trips: Trips
   url?: Maybe<Scalars['String']['output']>
 }
 
@@ -559,6 +523,8 @@ export type ActivityEdge = {
 
 export type ActivityFilter = {
   address?: InputMaybe<StringFilter>
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<ActivityFilter>>
   cost?: InputMaybe<BigFloatFilter>
   cost_unit?: InputMaybe<StringFilter>
   created_at?: InputMaybe<DatetimeFilter>
@@ -566,6 +532,10 @@ export type ActivityFilter = {
   image_url?: InputMaybe<StringFilter>
   memo?: InputMaybe<StringFilter>
   nodeId?: InputMaybe<IdFilter>
+  /** Negates a filter */
+  not?: InputMaybe<ActivityFilter>
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<ActivityFilter>>
   time_from?: InputMaybe<DatetimeFilter>
   time_to?: InputMaybe<DatetimeFilter>
   title?: InputMaybe<StringFilter>
@@ -636,9 +606,9 @@ export type ActivityUpdateResponse = {
 
 export type Activity_Uploaded_Files = Node & {
   __typename?: 'activity_uploaded_files'
-  activity?: Maybe<Activity>
-  activity_id?: Maybe<Scalars['UUID']['output']>
-  content_type: Scalars['String']['output']
+  activity: Activity
+  activity_id: Scalars['UUID']['output']
+  content_type?: Maybe<Scalars['String']['output']>
   created_at: Scalars['Datetime']['output']
   file_data?: Maybe<Scalars['JSON']['output']>
   file_name: Scalars['String']['output']
@@ -670,12 +640,18 @@ export type Activity_Uploaded_FilesEdge = {
 
 export type Activity_Uploaded_FilesFilter = {
   activity_id?: InputMaybe<UuidFilter>
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<Activity_Uploaded_FilesFilter>>
   content_type?: InputMaybe<StringFilter>
   created_at?: InputMaybe<DatetimeFilter>
   file_name?: InputMaybe<StringFilter>
   file_url?: InputMaybe<StringFilter>
   id?: InputMaybe<UuidFilter>
   nodeId?: InputMaybe<IdFilter>
+  /** Negates a filter */
+  not?: InputMaybe<Activity_Uploaded_FilesFilter>
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<Activity_Uploaded_FilesFilter>>
 }
 
 export type Activity_Uploaded_FilesInsertInput = {
@@ -759,12 +735,18 @@ export type InvitationsEdge = {
 }
 
 export type InvitationsFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<InvitationsFilter>>
   email?: InputMaybe<StringFilter>
   id?: InputMaybe<UuidFilter>
   invitation_url?: InputMaybe<StringFilter>
   invited_by_user_id?: InputMaybe<UuidFilter>
   invitee_user_id?: InputMaybe<UuidFilter>
   nodeId?: InputMaybe<IdFilter>
+  /** Negates a filter */
+  not?: InputMaybe<InvitationsFilter>
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<InvitationsFilter>>
   permission_level?: InputMaybe<Permission_Level_EnumFilter>
   trip_id?: InputMaybe<UuidFilter>
 }
@@ -870,10 +852,16 @@ export type TagsEdge = {
 }
 
 export type TagsFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<TagsFilter>>
   created_at?: InputMaybe<DatetimeFilter>
   id?: InputMaybe<UuidFilter>
   name?: InputMaybe<StringFilter>
   nodeId?: InputMaybe<IdFilter>
+  /** Negates a filter */
+  not?: InputMaybe<TagsFilter>
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<TagsFilter>>
   user_id?: InputMaybe<UuidFilter>
 }
 
@@ -914,78 +902,15 @@ export type TagsUpdateResponse = {
   records: Array<Tags>
 }
 
-export type Test_Tenant = Node & {
-  __typename?: 'test_tenant'
-  details?: Maybe<Scalars['String']['output']>
-  id: Scalars['Int']['output']
-  /** Globally Unique Record Identifier */
-  nodeId: Scalars['ID']['output']
-}
-
-export type Test_TenantConnection = {
-  __typename?: 'test_tenantConnection'
-  edges: Array<Test_TenantEdge>
-  pageInfo: PageInfo
-}
-
-export type Test_TenantDeleteResponse = {
-  __typename?: 'test_tenantDeleteResponse'
-  /** Count of the records impacted by the mutation */
-  affectedCount: Scalars['Int']['output']
-  /** Array of records impacted by the mutation */
-  records: Array<Test_Tenant>
-}
-
-export type Test_TenantEdge = {
-  __typename?: 'test_tenantEdge'
-  cursor: Scalars['String']['output']
-  node: Test_Tenant
-}
-
-export type Test_TenantFilter = {
-  details?: InputMaybe<StringFilter>
-  id?: InputMaybe<IntFilter>
-  nodeId?: InputMaybe<IdFilter>
-}
-
-export type Test_TenantInsertInput = {
-  details?: InputMaybe<Scalars['String']['input']>
-}
-
-export type Test_TenantInsertResponse = {
-  __typename?: 'test_tenantInsertResponse'
-  /** Count of the records impacted by the mutation */
-  affectedCount: Scalars['Int']['output']
-  /** Array of records impacted by the mutation */
-  records: Array<Test_Tenant>
-}
-
-export type Test_TenantOrderBy = {
-  details?: InputMaybe<OrderByDirection>
-  id?: InputMaybe<OrderByDirection>
-}
-
-export type Test_TenantUpdateInput = {
-  details?: InputMaybe<Scalars['String']['input']>
-}
-
-export type Test_TenantUpdateResponse = {
-  __typename?: 'test_tenantUpdateResponse'
-  /** Count of the records impacted by the mutation */
-  affectedCount: Scalars['Int']['output']
-  /** Array of records impacted by the mutation */
-  records: Array<Test_Tenant>
-}
-
 export type Trip_Tags = Node & {
   __typename?: 'trip_tags'
   id: Scalars['UUID']['output']
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output']
-  tag_id?: Maybe<Scalars['UUID']['output']>
-  tags?: Maybe<Tags>
-  trip_id?: Maybe<Scalars['UUID']['output']>
-  trips?: Maybe<Trips>
+  tag_id: Scalars['UUID']['output']
+  tags: Tags
+  trip_id: Scalars['UUID']['output']
+  trips: Trips
 }
 
 export type Trip_TagsConnection = {
@@ -1009,8 +934,14 @@ export type Trip_TagsEdge = {
 }
 
 export type Trip_TagsFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<Trip_TagsFilter>>
   id?: InputMaybe<UuidFilter>
   nodeId?: InputMaybe<IdFilter>
+  /** Negates a filter */
+  not?: InputMaybe<Trip_TagsFilter>
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<Trip_TagsFilter>>
   tag_id?: InputMaybe<UuidFilter>
   trip_id?: InputMaybe<UuidFilter>
 }
@@ -1065,8 +996,8 @@ export type Trips = Node & {
   nodeId: Scalars['ID']['output']
   title: Scalars['String']['output']
   trip_tagsCollection?: Maybe<Trip_TagsConnection>
-  user_id?: Maybe<Scalars['UUID']['output']>
-  users?: Maybe<Users>
+  user_id: Scalars['UUID']['output']
+  users: Users
 }
 
 export type TripsActivityCollectionArgs = {
@@ -1117,6 +1048,8 @@ export type TripsEdge = {
 }
 
 export type TripsFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<TripsFilter>>
   cost?: InputMaybe<BigFloatFilter>
   cost_unit?: InputMaybe<StringFilter>
   created_at?: InputMaybe<DatetimeFilter>
@@ -1126,6 +1059,10 @@ export type TripsFilter = {
   id?: InputMaybe<UuidFilter>
   image_url?: InputMaybe<StringFilter>
   nodeId?: InputMaybe<IdFilter>
+  /** Negates a filter */
+  not?: InputMaybe<TripsFilter>
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<TripsFilter>>
   title?: InputMaybe<StringFilter>
   user_id?: InputMaybe<UuidFilter>
 }
@@ -1246,10 +1183,16 @@ export type UsersEdge = {
 }
 
 export type UsersFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<UsersFilter>>
   email?: InputMaybe<StringFilter>
   id?: InputMaybe<UuidFilter>
   name?: InputMaybe<StringFilter>
   nodeId?: InputMaybe<IdFilter>
+  /** Negates a filter */
+  not?: InputMaybe<UsersFilter>
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<UsersFilter>>
   profile_picture_url?: InputMaybe<StringFilter>
 }
 
@@ -1311,6 +1254,68 @@ export type GetUserQuery = {
   } | null
 }
 
+export type CreateActivityMutationVariables = Exact<{
+  object: ActivityInsertInput
+}>
+
+export type CreateActivityMutation = {
+  __typename: 'Mutation'
+  insertIntoactivityCollection?: {
+    __typename: 'activityInsertResponse'
+    records: Array<{ __typename: 'activity'; id: string; title: string }>
+  } | null
+}
+
+export type CreateActivityUploadedFilesMutationVariables = Exact<{
+  objects:
+    | Array<Activity_Uploaded_FilesInsertInput>
+    | Activity_Uploaded_FilesInsertInput
+}>
+
+export type CreateActivityUploadedFilesMutation = {
+  __typename: 'Mutation'
+  insertIntoactivity_uploaded_filesCollection?: {
+    __typename: 'activity_uploaded_filesInsertResponse'
+    records: Array<{
+      __typename: 'activity_uploaded_files'
+      id: string
+      activity_id: string
+      file_name: string
+      file_url: string
+    }>
+  } | null
+}
+
+export type DeleteActivityMutationVariables = Exact<{
+  id: Scalars['UUID']['input']
+}>
+
+export type DeleteActivityMutation = {
+  __typename: 'Mutation'
+  deleteFromactivityCollection: {
+    __typename: 'activityDeleteResponse'
+    records: Array<{
+      __typename: 'activity'
+      id: string
+      trip_id: string
+      title: string
+    }>
+  }
+}
+
+export type UpdateActivityMutationVariables = Exact<{
+  id: Scalars['UUID']['input']
+  set: ActivityUpdateInput
+}>
+
+export type UpdateActivityMutation = {
+  __typename: 'Mutation'
+  updateactivityCollection: {
+    __typename: 'activityUpdateResponse'
+    records: Array<{ __typename: 'activity'; id: string; title: string }>
+  }
+}
+
 export type ActivityCollectionQueryVariables = Exact<{
   id: Scalars['UUID']['input']
 }>
@@ -1324,7 +1329,7 @@ export type ActivityCollectionQuery = {
       node: {
         __typename: 'activity'
         id: string
-        trip_id?: string | null
+        trip_id: string
         title: string
         time_from: string
         time_to?: string | null
@@ -1333,30 +1338,99 @@ export type ActivityCollectionQuery = {
         memo?: string | null
         cost?: string | null
         cost_unit?: string | null
-        image_url?: string | null
+        activity_uploaded_filesCollection?: {
+          __typename: 'activity_uploaded_filesConnection'
+          edges: Array<{
+            __typename: 'activity_uploaded_filesEdge'
+            node: {
+              __typename: 'activity_uploaded_files'
+              id: string
+              file_name: string
+              file_url: string
+            }
+          }>
+        } | null
       }
     }>
   } | null
 }
 
-export type CreateActivityMutationVariables = Exact<{
-  trip_id: Scalars['UUID']['input']
-  title: Scalars['String']['input']
-  time_from?: InputMaybe<Scalars['Datetime']['input']>
-  time_to?: InputMaybe<Scalars['Datetime']['input']>
-  address?: InputMaybe<Scalars['String']['input']>
-  url?: InputMaybe<Scalars['String']['input']>
-  memo?: InputMaybe<Scalars['String']['input']>
-  cost?: InputMaybe<Scalars['BigFloat']['input']>
-  cost_unit?: InputMaybe<Scalars['String']['input']>
-  image_url?: InputMaybe<Scalars['String']['input']>
+export type DeleteInvitationMutationVariables = Exact<{
+  id: Scalars['UUID']['input']
 }>
 
-export type CreateActivityMutation = {
+export type DeleteInvitationMutation = {
   __typename: 'Mutation'
-  insertIntoactivityCollection?: {
-    __typename: 'activityInsertResponse'
-    records: Array<{ __typename: 'activity'; id: string; title: string }>
+  deleteFrominvitationsCollection: {
+    __typename: 'invitationsDeleteResponse'
+    records: Array<{
+      __typename: 'invitations'
+      id: string
+      email: string
+      permission_level: Permission_Level_Enum
+    }>
+  }
+}
+
+export type UpdateInvitationMutationVariables = Exact<{
+  id: Scalars['UUID']['input']
+  set: InvitationsUpdateInput
+}>
+
+export type UpdateInvitationMutation = {
+  __typename: 'Mutation'
+  updateinvitationsCollection: {
+    __typename: 'invitationsUpdateResponse'
+    records: Array<{
+      __typename: 'invitations'
+      id: string
+      email: string
+      permission_level: Permission_Level_Enum
+    }>
+  }
+}
+
+export type TripSharedUsersQueryVariables = Exact<{
+  tripId: Scalars['UUID']['input']
+}>
+
+export type TripSharedUsersQuery = {
+  __typename: 'Query'
+  tripsCollection?: {
+    __typename: 'tripsConnection'
+    edges: Array<{
+      __typename: 'tripsEdge'
+      node: {
+        __typename: 'trips'
+        id: string
+        title: string
+        users: {
+          __typename: 'users'
+          id: string
+          name: string
+          profile_picture_url?: string | null
+          email: string
+        }
+        invitationsCollection?: {
+          __typename: 'invitationsConnection'
+          edges: Array<{
+            __typename: 'invitationsEdge'
+            node: {
+              __typename: 'invitations'
+              id: string
+              permission_level: Permission_Level_Enum
+              users?: {
+                __typename: 'users'
+                id: string
+                name: string
+                email: string
+                profile_picture_url?: string | null
+              } | null
+            }
+          }>
+        } | null
+      }
+    }>
   } | null
 }
 
@@ -1397,8 +1471,8 @@ export type CreateTripTagMutation = {
     records: Array<{
       __typename: 'trip_tags'
       id: string
-      tag_id?: string | null
-      trip_id?: string | null
+      tag_id: string
+      trip_id: string
     }>
   } | null
 }
@@ -1487,6 +1561,11 @@ export type TripDetailsQuery = {
         image_url?: string | null
         cost?: string | null
         cost_unit?: string | null
+        users: {
+          __typename: 'users'
+          id: string
+          profile_picture_url?: string | null
+        }
         invitationsCollection?: {
           __typename: 'invitationsConnection'
           edges: Array<{
@@ -1521,7 +1600,7 @@ export type TripDetailsQuery = {
             __typename: 'trip_tagsEdge'
             node: {
               __typename: 'trip_tags'
-              tags?: { __typename: 'tags'; id: string; name: string } | null
+              tags: { __typename: 'tags'; id: string; name: string }
             }
           }>
         } | null
@@ -1543,8 +1622,8 @@ export type TripTagsCollectionQuery = {
       node: {
         __typename: 'trip_tags'
         id: string
-        trip_id?: string | null
-        tag_id?: string | null
+        trip_id: string
+        tag_id: string
       }
     }>
   } | null
@@ -1571,6 +1650,12 @@ export type TripsCollectionQuery = {
         date_to?: string | null
         image_url?: string | null
         created_at: string
+        users: {
+          __typename: 'users'
+          id: string
+          name: string
+          profile_picture_url?: string | null
+        }
         invitationsCollection?: {
           __typename: 'invitationsConnection'
           edges: Array<{
@@ -1714,8 +1799,367 @@ export const GetUserDocument = {
     }
   ]
 } as unknown as DocumentNode<GetUserQuery, GetUserQueryVariables>
+export const CreateActivityDocument = {
+  __meta__: { hash: '374de4fe4f2de1741f44619ae25c008fee655937' },
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'createActivity' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'object' }
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'activityInsertInput' }
+            }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'insertIntoactivityCollection' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'objects' },
+                value: {
+                  kind: 'ListValue',
+                  values: [
+                    {
+                      kind: 'Variable',
+                      name: { kind: 'Name', value: 'object' }
+                    }
+                  ]
+                }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'records' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: '__typename' }
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'title' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  CreateActivityMutation,
+  CreateActivityMutationVariables
+>
+export const CreateActivityUploadedFilesDocument = {
+  __meta__: { hash: '9b12c83c4bb7cae7ead1221919c3842b1d446e35' },
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'createActivityUploadedFiles' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'objects' }
+          },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'ListType',
+              type: {
+                kind: 'NonNullType',
+                type: {
+                  kind: 'NamedType',
+                  name: {
+                    kind: 'Name',
+                    value: 'activity_uploaded_filesInsertInput'
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+          {
+            kind: 'Field',
+            name: {
+              kind: 'Name',
+              value: 'insertIntoactivity_uploaded_filesCollection'
+            },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'objects' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'objects' }
+                }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'records' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: '__typename' }
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'activity_id' }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'file_name' }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'file_url' }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  CreateActivityUploadedFilesMutation,
+  CreateActivityUploadedFilesMutationVariables
+>
+export const DeleteActivityDocument = {
+  __meta__: { hash: 'f86bef447c736e2937994ec37ca883ee109fa6c5' },
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteActivity' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteFromactivityCollection' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'filter' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'id' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'eq' },
+                            value: {
+                              kind: 'Variable',
+                              name: { kind: 'Name', value: 'id' }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'records' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: '__typename' }
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'trip_id' }
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'title' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  DeleteActivityMutation,
+  DeleteActivityMutationVariables
+>
+export const UpdateActivityDocument = {
+  __meta__: { hash: 'd6d6be943e738534556ff6a112b8dea268daf1f6' },
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'updateActivity' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } }
+          }
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'set' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'activityUpdateInput' }
+            }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateactivityCollection' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'set' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'set' }
+                }
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'filter' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'id' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'eq' },
+                            value: {
+                              kind: 'Variable',
+                              name: { kind: 'Name', value: 'id' }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'records' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: '__typename' }
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'title' } }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  UpdateActivityMutation,
+  UpdateActivityMutationVariables
+>
 export const ActivityCollectionDocument = {
-  __meta__: { hash: '5ba311a19d53ac42096cb55d1830aaf08f96fccf' },
+  __meta__: { hash: '3e04fac286fc4b6bc6c6d91483ca2b248b25bad6' },
   kind: 'Document',
   definitions: [
     {
@@ -1833,7 +2277,72 @@ export const ActivityCollectionDocument = {
                             },
                             {
                               kind: 'Field',
-                              name: { kind: 'Name', value: 'image_url' }
+                              name: {
+                                kind: 'Name',
+                                value: 'activity_uploaded_filesCollection'
+                              },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: '__typename' }
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'edges' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: '__typename'
+                                          }
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'node' },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: '__typename'
+                                                }
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'id'
+                                                }
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'file_name'
+                                                }
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'file_url'
+                                                }
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ]
+                              }
                             }
                           ]
                         }
@@ -1852,91 +2361,22 @@ export const ActivityCollectionDocument = {
   ActivityCollectionQuery,
   ActivityCollectionQueryVariables
 >
-export const CreateActivityDocument = {
-  __meta__: { hash: '22e6378e9a0ec7a9c28a6430981dcfebf7820216' },
+export const DeleteInvitationDocument = {
+  __meta__: { hash: 'f83929f3ffa8a8ea910e5e66156925ab379aa04d' },
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'createActivity' },
+      name: { kind: 'Name', value: 'deleteInvitation' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'trip_id' }
-          },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
           type: {
             kind: 'NonNullType',
             type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } }
           }
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'title' }
-          },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-          }
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'time_from' }
-          },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Datetime' } }
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'time_to' }
-          },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Datetime' } }
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'address' }
-          },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'url' } },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'memo' } },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'cost' } },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'BigFloat' } }
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'cost_unit' }
-          },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
-        },
-        {
-          kind: 'VariableDefinition',
-          variable: {
-            kind: 'Variable',
-            name: { kind: 'Name', value: 'image_url' }
-          },
-          type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
         }
       ],
       selectionSet: {
@@ -1945,98 +2385,30 @@ export const CreateActivityDocument = {
           { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'insertIntoactivityCollection' },
+            name: { kind: 'Name', value: 'deleteFrominvitationsCollection' },
             arguments: [
               {
                 kind: 'Argument',
-                name: { kind: 'Name', value: 'objects' },
+                name: { kind: 'Name', value: 'filter' },
                 value: {
-                  kind: 'ListValue',
-                  values: [
+                  kind: 'ObjectValue',
+                  fields: [
                     {
-                      kind: 'ObjectValue',
-                      fields: [
-                        {
-                          kind: 'ObjectField',
-                          name: { kind: 'Name', value: 'trip_id' },
-                          value: {
-                            kind: 'Variable',
-                            name: { kind: 'Name', value: 'trip_id' }
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'id' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'eq' },
+                            value: {
+                              kind: 'Variable',
+                              name: { kind: 'Name', value: 'id' }
+                            }
                           }
-                        },
-                        {
-                          kind: 'ObjectField',
-                          name: { kind: 'Name', value: 'title' },
-                          value: {
-                            kind: 'Variable',
-                            name: { kind: 'Name', value: 'title' }
-                          }
-                        },
-                        {
-                          kind: 'ObjectField',
-                          name: { kind: 'Name', value: 'time_from' },
-                          value: {
-                            kind: 'Variable',
-                            name: { kind: 'Name', value: 'time_from' }
-                          }
-                        },
-                        {
-                          kind: 'ObjectField',
-                          name: { kind: 'Name', value: 'time_to' },
-                          value: {
-                            kind: 'Variable',
-                            name: { kind: 'Name', value: 'time_to' }
-                          }
-                        },
-                        {
-                          kind: 'ObjectField',
-                          name: { kind: 'Name', value: 'address' },
-                          value: {
-                            kind: 'Variable',
-                            name: { kind: 'Name', value: 'address' }
-                          }
-                        },
-                        {
-                          kind: 'ObjectField',
-                          name: { kind: 'Name', value: 'url' },
-                          value: {
-                            kind: 'Variable',
-                            name: { kind: 'Name', value: 'url' }
-                          }
-                        },
-                        {
-                          kind: 'ObjectField',
-                          name: { kind: 'Name', value: 'memo' },
-                          value: {
-                            kind: 'Variable',
-                            name: { kind: 'Name', value: 'memo' }
-                          }
-                        },
-                        {
-                          kind: 'ObjectField',
-                          name: { kind: 'Name', value: 'cost' },
-                          value: {
-                            kind: 'Variable',
-                            name: { kind: 'Name', value: 'cost' }
-                          }
-                        },
-                        {
-                          kind: 'ObjectField',
-                          name: { kind: 'Name', value: 'cost_unit' },
-                          value: {
-                            kind: 'Variable',
-                            name: { kind: 'Name', value: 'cost_unit' }
-                          }
-                        },
-                        {
-                          kind: 'ObjectField',
-                          name: { kind: 'Name', value: 'image_url' },
-                          value: {
-                            kind: 'Variable',
-                            name: { kind: 'Name', value: 'image_url' }
-                          }
-                        }
-                      ]
+                        ]
+                      }
                     }
                   ]
                 }
@@ -2057,7 +2429,11 @@ export const CreateActivityDocument = {
                         name: { kind: 'Name', value: '__typename' }
                       },
                       { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                      { kind: 'Field', name: { kind: 'Name', value: 'title' } }
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'permission_level' }
+                      }
                     ]
                   }
                 }
@@ -2069,8 +2445,361 @@ export const CreateActivityDocument = {
     }
   ]
 } as unknown as DocumentNode<
-  CreateActivityMutation,
-  CreateActivityMutationVariables
+  DeleteInvitationMutation,
+  DeleteInvitationMutationVariables
+>
+export const UpdateInvitationDocument = {
+  __meta__: { hash: '173d22f901d3e0b557eb5eb4ce5ab0adededf9e7' },
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'updateInvitation' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } }
+          }
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'set' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'NamedType',
+              name: { kind: 'Name', value: 'invitationsUpdateInput' }
+            }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateinvitationsCollection' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'set' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'set' }
+                }
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'filter' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'id' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'eq' },
+                            value: {
+                              kind: 'Variable',
+                              name: { kind: 'Name', value: 'id' }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'records' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: '__typename' }
+                      },
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'permission_level' }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  UpdateInvitationMutation,
+  UpdateInvitationMutationVariables
+>
+export const TripSharedUsersDocument = {
+  __meta__: { hash: '16ece6918ea030b3bf8bcf763c1a296e90d6dcf9' },
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'tripSharedUsers' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'tripId' }
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'UUID' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'tripsCollection' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'filter' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'id' },
+                      value: {
+                        kind: 'ObjectValue',
+                        fields: [
+                          {
+                            kind: 'ObjectField',
+                            name: { kind: 'Name', value: 'eq' },
+                            value: {
+                              kind: 'Variable',
+                              name: { kind: 'Name', value: 'tripId' }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'edges' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: '__typename' }
+                      },
+                      {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'node' },
+                        selectionSet: {
+                          kind: 'SelectionSet',
+                          selections: [
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: '__typename' }
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'id' }
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'title' }
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'users' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: '__typename' }
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' }
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'name' }
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'profile_picture_url'
+                                    }
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'email' }
+                                  }
+                                ]
+                              }
+                            },
+                            {
+                              kind: 'Field',
+                              name: {
+                                kind: 'Name',
+                                value: 'invitationsCollection'
+                              },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: '__typename' }
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'edges' },
+                                    selectionSet: {
+                                      kind: 'SelectionSet',
+                                      selections: [
+                                        {
+                                          kind: 'Field',
+                                          name: {
+                                            kind: 'Name',
+                                            value: '__typename'
+                                          }
+                                        },
+                                        {
+                                          kind: 'Field',
+                                          name: { kind: 'Name', value: 'node' },
+                                          selectionSet: {
+                                            kind: 'SelectionSet',
+                                            selections: [
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: '__typename'
+                                                }
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'id'
+                                                }
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'permission_level'
+                                                }
+                                              },
+                                              {
+                                                kind: 'Field',
+                                                name: {
+                                                  kind: 'Name',
+                                                  value: 'users'
+                                                },
+                                                selectionSet: {
+                                                  kind: 'SelectionSet',
+                                                  selections: [
+                                                    {
+                                                      kind: 'Field',
+                                                      name: {
+                                                        kind: 'Name',
+                                                        value: '__typename'
+                                                      }
+                                                    },
+                                                    {
+                                                      kind: 'Field',
+                                                      name: {
+                                                        kind: 'Name',
+                                                        value: 'id'
+                                                      }
+                                                    },
+                                                    {
+                                                      kind: 'Field',
+                                                      name: {
+                                                        kind: 'Name',
+                                                        value: 'name'
+                                                      }
+                                                    },
+                                                    {
+                                                      kind: 'Field',
+                                                      name: {
+                                                        kind: 'Name',
+                                                        value: 'email'
+                                                      }
+                                                    },
+                                                    {
+                                                      kind: 'Field',
+                                                      name: {
+                                                        kind: 'Name',
+                                                        value:
+                                                          'profile_picture_url'
+                                                      }
+                                                    }
+                                                  ]
+                                                }
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<
+  TripSharedUsersQuery,
+  TripSharedUsersQueryVariables
 >
 export const CreateTagDocument = {
   __meta__: { hash: '9ecd6081f83febe06337ebd01345eef596b81cf9' },
@@ -2834,7 +3563,7 @@ export const TagsCollectionDocument = {
   ]
 } as unknown as DocumentNode<TagsCollectionQuery, TagsCollectionQueryVariables>
 export const TripDetailsDocument = {
-  __meta__: { hash: '1bc05beaca139a887f8c922c4de4dc6c86706670' },
+  __meta__: { hash: 'e40d7c2a09852d29b44908c4c24cbcfa2dbce660' },
   kind: 'Document',
   definitions: [
     {
@@ -2934,6 +3663,30 @@ export const TripDetailsDocument = {
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'cost_unit' }
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'users' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: '__typename' }
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' }
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'profile_picture_url'
+                                    }
+                                  }
+                                ]
+                              }
                             },
                             {
                               kind: 'Field',
@@ -3287,7 +4040,7 @@ export const TripTagsCollectionDocument = {
   TripTagsCollectionQueryVariables
 >
 export const TripsCollectionDocument = {
-  __meta__: { hash: '3256c7ff43134c13502c53f475e55fa91f55cabb' },
+  __meta__: { hash: '848b1879d86d9282d2bb3a3d1016f42dd7e5cc56' },
   kind: 'Document',
   definitions: [
     {
@@ -3435,6 +4188,34 @@ export const TripsCollectionDocument = {
                             {
                               kind: 'Field',
                               name: { kind: 'Name', value: 'created_at' }
+                            },
+                            {
+                              kind: 'Field',
+                              name: { kind: 'Name', value: 'users' },
+                              selectionSet: {
+                                kind: 'SelectionSet',
+                                selections: [
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: '__typename' }
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'id' }
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'name' }
+                                  },
+                                  {
+                                    kind: 'Field',
+                                    name: {
+                                      kind: 'Name',
+                                      value: 'profile_picture_url'
+                                    }
+                                  }
+                                ]
+                              }
                             },
                             {
                               kind: 'Field',

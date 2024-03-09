@@ -9,6 +9,15 @@ const tripSchema = z.object({
   }),
   date_to: z.date().nullable(),
   image_url: z.string().nullable(),
+  uploaded_image_file: z
+    .instanceof(File)
+    .nullable()
+    .refine((file) => file === null || file.size <= 10_000_000, {
+      message: 'File size must be less than 10MB'
+    })
+    .refine((file) => file === null || file.type.startsWith('image/'), {
+      message: 'Only image files are allowed'
+    }),
   selectedTags: z.array(z.string()),
   cost: z.string().nullable(),
   cost_unit: z.string().nullable()

@@ -1,0 +1,8 @@
+mutation updateActivity($id: UUID!, $set: activityUpdateInput!) {
+  updateactivityCollection(set: $set, filter: { id: { eq: $id } }) {
+    records {
+      id
+      title
+    }
+  }
+}

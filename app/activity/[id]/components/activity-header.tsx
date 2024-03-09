@@ -1,12 +1,15 @@
 'use client'
 
 import { Heading, Box, Flex, Spacer, Text, IconButton } from '@chakra-ui/react'
+import { useRouter } from 'next/navigation'
 import { FiClock, FiMapPin, FiLink2, FiEdit3, FiTrash2 } from 'react-icons/fi'
+import { useActivityDelete } from '@/activity/hooks/useActivityDelete'
 import { Link } from '@/components/link'
 import { formatToDateTime } from '@/libs/utils'
 import { customColors } from '@/theme/color'
 
 type ActivityHeaderProps = {
+  id: string
   title: string
   time_from: string | null
   time_to?: string | null
@@ -15,12 +18,16 @@ type ActivityHeaderProps = {
 }
 
 export const ActivityHeader = ({
+  id,
   title,
   time_from,
   time_to,
   address,
   url
 }: ActivityHeaderProps) => {
+  const router = useRouter()
+  const { deleteActivity, isActivityDeleting } = useActivityDelete()
+
   return (
     <>
       <Flex pb={{ base: '30px', md: '40px' }} align="center">
@@ -31,7 +38,7 @@ export const ActivityHeader = ({
           <IconButton
             aria-label="Edit this trip"
             variant="roundIcon"
-            onClick={() => {}}
+            onClick={() => router.push(`/activity/${id}/edit`)}
             p={{ base: '6px', md: '10px' }}
           >
             <FiEdit3 size="100%" />
@@ -40,6 +47,8 @@ export const ActivityHeader = ({
             aria-label="Delete this trip"
             variant="roundIcon"
             p={{ base: '6px', md: '10px' }}
+            onClick={() => deleteActivity(id)}
+            isLoading={isActivityDeleting}
           >
             <FiTrash2 size="100%" />
           </IconButton>

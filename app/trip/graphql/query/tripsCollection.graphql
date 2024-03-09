@@ -19,6 +19,11 @@ query tripsCollection(
         date_to
         image_url
         created_at
+        users {
+          id
+          name
+          profile_picture_url
+        }
         invitationsCollection {
           edges {
             node {

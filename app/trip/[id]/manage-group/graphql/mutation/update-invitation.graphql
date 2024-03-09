@@ -1,0 +1,9 @@
+mutation updateInvitation($id: UUID!, $set: invitationsUpdateInput!) {
+  updateinvitationsCollection(set: $set, filter: { id: { eq: $id } }) {
+    records {
+      id
+      email
+      permission_level
+    }
+  }
+}

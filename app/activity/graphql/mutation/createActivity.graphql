@@ -1,0 +1,9 @@
+mutation createActivity($object: activityInsertInput!) {
+  insertIntoactivityCollection(objects: [$object]) {
+    records {
+      __typename
+      id
+      title
+    }
+  }
+}

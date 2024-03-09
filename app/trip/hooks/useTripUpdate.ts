@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation'
 import { formatToISODate } from '@/libs/utils'
 import { TripDetailsArgs, TripTagsArgs } from '../components/trip-form'
 import { TripSchema } from '../schema'
+import { useUploadFile } from './useUploadFile'
 import { useTripsGet } from '.'
 import {
   useUpdateTripMutation,
@@ -25,13 +26,14 @@ export const useTripUpdate = (
     useDeleteTripTagMutation()
 
   const { tripsRefetch } = useTripsGet()
+  const { uploadFile, isMetadataUpdating } = useUploadFile()
 
   const updateTrip = async (data: TripSchema) => {
     if (!tripDetails) throw new Error('Trip details is not found')
 
     try {
       // Trip Update
-      await updateTripMutation({
+      const res = await updateTripMutation({
         variables: {
           id: tripDetails.id,
           set: {
@@ -39,11 +41,15 @@ export const useTripUpdate = (
             date_from: formatToISODate(data.date_from),
             date_to: data.date_to ? formatToISODate(data.date_to) : null,
             image_url: data.image_url,
-            cost: data.cost,
+            cost: data.cost || null,
             cost_unit: data.cost_unit
           }
         }
       })
+
+      const updatedTripId = res.data?.updatetripsCollection?.records[0]?.id
+
+      if (!updatedTripId) throw new Error('Failed to update a trip')
 
       // TripTags Update
       const selectedTags = data.selectedTags
@@ -71,10 +77,14 @@ export const useTripUpdate = (
 
       await Promise.all([...deletePromises, ...createPromises])
 
+      if (data.uploaded_image_file && updatedTripId) {
+        await uploadFile(data.uploaded_image_file, updatedTripId)
+      }
+
       tripDetails.refetch()
       tripTags?.refetch()
       tripsRefetch()
-      router.push(`/trip/${tripDetails.id}`)
+      router.push(`/trip/${updatedTripId}`)
 
       toast({
         title: 'Successfully updated!',
@@ -104,6 +114,7 @@ export const useTripUpdate = (
   return {
     updateTrip,
     isTripUpdating,
-    isTripTagsUpdating: isTripTagCreating || isTripTagDeleting
+    isTripTagsUpdating:
+      isTripTagCreating || isTripTagDeleting || isMetadataUpdating
   }
 }

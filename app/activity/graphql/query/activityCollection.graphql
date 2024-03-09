@@ -12,7 +12,15 @@ query activityCollection($id: UUID!) {
         memo
         cost
         cost_unit
-        image_url
+        activity_uploaded_filesCollection {
+          edges {
+            node {
+              id
+              file_name
+              file_url
+            }
+          }
+        }
       }
     }
   }

@@ -83,29 +83,47 @@ export const TripCard = ({ data }: TripCardProps) => {
         >
           {data.node.title}
         </Heading>
-        {data.node.invitationsCollection?.edges &&
-          data.node.invitationsCollection.edges.length > 0 && (
-            <Flex gap="8px" color="gray.400">
-              {data.node.invitationsCollection?.edges.map((invitation) => (
-                <Box
-                  key={invitation.node.users?.id}
-                  w={{ base: '26px', md: '38px' }}
-                  h={{ base: '26px', md: '38px' }}
-                >
-                  {invitation.node.users?.profile_picture_url ? (
-                    <Image
-                      src={invitation.node.users?.profile_picture_url}
-                      alt=""
-                      borderRadius="full"
-                      objectFit="cover"
-                    />
-                  ) : (
-                    <MdAccountCircle size="100%" />
-                  )}
-                </Box>
-              ))}
-            </Flex>
-          )}
+        <Flex gap="8px" color="gray.400">
+          <Box
+            w={{ base: '26px', md: '38px' }}
+            h={{ base: '26px', md: '38px' }}
+          >
+            {data.node.users.profile_picture_url ? (
+              <Image
+                src={data.node.users.profile_picture_url}
+                alt=""
+                borderRadius="full"
+                objectFit="cover"
+              />
+            ) : (
+              <MdAccountCircle size="100%" />
+            )}
+          </Box>
+
+          {data.node.invitationsCollection?.edges &&
+            data.node.invitationsCollection.edges.length > 0 && (
+              <>
+                {data.node.invitationsCollection?.edges.map((invitation) => (
+                  <Box
+                    key={invitation.node.users?.id}
+                    w={{ base: '26px', md: '38px' }}
+                    h={{ base: '26px', md: '38px' }}
+                  >
+                    {invitation.node.users?.profile_picture_url ? (
+                      <Image
+                        src={invitation.node.users?.profile_picture_url}
+                        alt=""
+                        borderRadius="full"
+                        objectFit="cover"
+                      />
+                    ) : (
+                      <MdAccountCircle size="100%" />
+                    )}
+                  </Box>
+                ))}
+              </>
+            )}
+        </Flex>
         <Flex fontSize={{ base: 'sm', md: 'md' }}>
           {formatDateToSlash(data.node.date_from, 'dayMonthYear')} -{' '}
           {formatDateToSlash(data.node.date_to, 'dayMonthYear')}

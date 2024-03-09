@@ -1,0 +1,30 @@
+query tripSharedUsers($tripId: UUID!) {
+  tripsCollection(filter: { id: { eq: $tripId } }) {
+    edges {
+      node {
+        id
+        title
+        users {
+          id
+          name
+          profile_picture_url
+          email
+        }
+        invitationsCollection {
+          edges {
+            node {
+              id
+              permission_level
+              users {
+                id
+                name
+                email
+                profile_picture_url
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
