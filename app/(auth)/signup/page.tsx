@@ -1,23 +1,41 @@
-import { Heading, List, ListItem } from '@chakra-ui/react'
-import Link from 'next/link'
-import { SecondaryButton } from '@/components/button'
+'use client'
+
+import { Box, Card, LightMode } from '@chakra-ui/react'
+import {
+  SignUpHeader,
+  SignUpForm,
+  SignUpFooter
+} from '@/(auth)/signup/components'
 
 export default function SignUp() {
   return (
-    <>
-      <Heading>Welcome!</Heading>
-      <Heading>Create an Account</Heading>
-      <List spacing={3}>
-        <ListItem>
-          <Link href="/signup/email">
-            <SecondaryButton>Sign up with Email</SecondaryButton>
-          </Link>
-        </ListItem>
-      </List>
-      <Heading>Already have an account?</Heading>
-      <Link href="/signin/email">
-        <SecondaryButton>Sign in to your account?</SecondaryButton>
-      </Link>
-    </>
+    <LightMode>
+      <Box
+        as="main"
+        minH="100vh"
+        height="100%"
+        display="flex"
+        overflowX="hidden"
+        p={{ base: '0', md: '40px' }}
+        justifyContent="center"
+        alignItems="center"
+        bg={{
+          base: 'white',
+          md: 'linear-gradient(242.77deg, #C4E6E6 1.15%, #085783 100%)'
+        }}
+      >
+        <Card
+          bg="white"
+          boxShadow={{ base: '0', md: '0 4px 16px rgba(0, 0, 0, 0.1)' }}
+          maxW={{ base: '100%', md: '542px' }}
+          py="30px"
+          px={{ base: '16px', md: '80px' }}
+        >
+          <SignUpHeader />
+          <SignUpForm />
+          <SignUpFooter />
+        </Card>
+      </Box>
+    </LightMode>
   )
 }

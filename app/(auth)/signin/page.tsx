@@ -14,6 +14,7 @@ export default function SignIn() {
       <Box
         as="main"
         h="100vh"
+        minH="600px"
         w="100vw"
         bg={{
           base: 'white',
