@@ -3,6 +3,10 @@ import { render, screen } from '@testing-library/react'
 import user from '@testing-library/user-event'
 import { TripDetailsTabs } from '../components'
 import { tripDetailsMock1, tripDetailsMock2 } from './mock'
+import {
+  useDeleteActivityMutation,
+  useTripsCollectionQuery
+} from '@generated/api'
 
 const mockedUseRouter = jest.fn()
 
@@ -11,21 +15,38 @@ jest.mock('next/navigation', () => ({
   usePathname: jest.fn().mockReturnValue('/some-route')
 }))
 
+jest.mock('@apollo/client', () => ({
+  ...jest.requireActual('@apollo/client'),
+  useQuery: jest.fn(),
+  useMutation: jest.fn()
+}))
+
+jest.mock('../../../../graphql-codegen/generated/api')
+
 describe('TripDetails Tabs', () => {
   describe('Activities without spanning across multiple days', () => {
     beforeEach(() => {
+      ;(useDeleteActivityMutation as jest.Mock).mockReturnValue([
+        jest.fn(), // mock mutation function
+        { loading: false, error: null } // mock result object
+      ])
+      ;(useTripsCollectionQuery as jest.Mock).mockReturnValue({
+        refetch: jest.fn(), // mock refetch function
+        loading: false,
+        error: null,
+        data: undefined
+      })
+
       render(
         <TripDetailsTabs
           activities={
-            tripDetailsMock1[0].result.data.tripsCollection.edges[0].node.activityCollection?.edges.map(
-              (activity) => ({
-                id: activity.node.id,
-                timeFrom: activity.node.time_from,
-                timeTo: activity.node.time_to,
-                title: activity.node.title,
-                address: activity.node.address
-              })
-            ) || []
+            tripDetailsMock1.map((activity) => ({
+              id: activity.id,
+              timeFrom: activity.time_from,
+              timeTo: activity.time_to,
+              title: activity.title,
+              address: activity.address
+            })) || []
           }
         />
       )
@@ -60,18 +81,27 @@ describe('TripDetails Tabs', () => {
 
   describe('Activities spanning across multiple days', () => {
     beforeEach(() => {
+      ;(useDeleteActivityMutation as jest.Mock).mockReturnValue([
+        jest.fn(), // mock mutation function
+        { loading: false, error: null } // mock result object
+      ])
+      ;(useTripsCollectionQuery as jest.Mock).mockReturnValue({
+        refetch: jest.fn(), // mock refetch function
+        loading: false,
+        error: null,
+        data: undefined
+      })
+
       render(
         <TripDetailsTabs
           activities={
-            tripDetailsMock2[0].result.data.tripsCollection.edges[0].node.activityCollection?.edges.map(
-              (activity) => ({
-                id: activity.node.id,
-                timeFrom: activity.node.time_from,
-                timeTo: activity.node.time_to,
-                title: activity.node.title,
-                address: activity.node.address
-              })
-            ) || []
+            tripDetailsMock2.map((activity) => ({
+              id: activity.id,
+              timeFrom: activity.time_from,
+              timeTo: activity.time_to,
+              title: activity.title,
+              address: activity.address
+            })) || []
           }
         />
       )
